@@ -1,0 +1,498 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/soft-margin-classification-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:33:54 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Soft margin classification</TITLE>
+<META NAME="description" CONTENT="Soft margin classification">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="multiclass-svms-1.html">
+<LINK REL="previous" HREF="extensions-to-the-svm-model-1.html">
+<LINK REL="up" HREF="extensions-to-the-svm-model-1.html">
+<LINK REL="next" HREF="multiclass-svms-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3877"
+  HREF="multiclass-svms-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3871"
+  HREF="extensions-to-the-svm-model-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3865"
+  HREF="extensions-to-the-svm-model-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3873"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3875"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3878"
+  HREF="multiclass-svms-1.html">Multiclass SVMs</A>
+<B> Up:</B> <A NAME="tex2html3872"
+  HREF="extensions-to-the-svm-model-1.html">Extensions to the SVM</A>
+<B> Previous:</B> <A NAME="tex2html3866"
+  HREF="extensions-to-the-svm-model-1.html">Extensions to the SVM</A>
+ &nbsp; <B>  <A NAME="tex2html3874"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3876"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION002021000000000000000"></A><A NAME="sec:svm-nonseparable"></A> <A NAME="p:svm-nonseparable"></A>
+<BR>
+Soft margin classification
+</H2> 
+
+<P>
+For the very high dimensional problems common in text classification,
+sometimes the data are linearly separable.  But in the general case
+they are
+not, and even if they are, we might prefer a solution that better separates
+the bulk of the data while ignoring a few weird noise documents.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:slack-variables"></A><A NAME="p:slack-variables"></A><A NAME="22620"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 15.5:</STRONG>
+Large margin classification with slack 
+variables.</CAPTION>
+<TR><TD><IMG
+ WIDTH="112" HEIGHT="214" BORDER="0"
+ SRC="img1314.png"
+ ALT="\begin{figure}\begin{pspicture}(0.5,1.5)(8.5,8.25)
+\psset{arrowscale=2,dotsize=6...
+...ale=2]{-&gt;}(5.3,2.3)(7.5,4.5)
+\rput(6.3,2.8){$\xi_j$}
+\end{pspicture}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+If the training set <!-- MATH
+ $\docsetlabeled$
+ -->
+<IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img856.png"
+ ALT="$\docsetlabeled$"> is not linearly separable, the
+standard approach is to allow the
+fat decision margin to make a few mistakes (some points - outliers
+or noisy examples - are inside or on
+the wrong side of the margin).  We then pay a cost
+for each misclassified example, which depends on how far it is from
+meeting the margin requirement given in Equation&nbsp;<A HREF="support-vector-machines-the-linearly-separable-case-1.html#margin-requirement">169</A>.
+To implement this, we introduce <A NAME="22625"></A> <I>slack variables</I>  <IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1315.png"
+ ALT="$\xi_i$">.  A
+non-zero value for <IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1315.png"
+ ALT="$\xi_i$"> allows <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1264.png"
+ ALT="$\vec{x}_i$"> to not meet the margin
+requirement at a cost proportional to the value of <IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1315.png"
+ ALT="$\xi_i$">. 
+See Figure <A HREF="#fig:slack-variables">15.5</A> .
+
+<P>
+The formulation of the SVM optimization problem with slack variables is:
+<BR>
+<IMG
+ WIDTH="364" HEIGHT="76" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1316.png"
+ ALT="\begin{example}
+Find $\vec{w}$, $b$, and $\xi_i \ge 0$\ such that:
+\begin{itemiz...
+...y_i)\}$, $y_i(\vec{w}^{T}\vec{x}_i + b) \ge 1- \xi_i$
+\end{itemize}\end{example}">
+<BR>
+The optimization problem is then
+trading off how fat it can make the margin versus how many points have
+to be moved around to allow this margin.  The margin can be less than 1
+for a point <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1264.png"
+ ALT="$\vec{x}_i$"> by setting <IMG
+ WIDTH="47" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1317.png"
+ ALT="$\xi_i &gt; 0$">, but then one pays a penalty of
+<IMG
+ WIDTH="27" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1318.png"
+ ALT="$C\xi_i$"> in 
+the minimization for having done that.  
+The sum of the <IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1315.png"
+ ALT="$\xi_i$"> gives an upper bound on the number of training errors. Soft-margin SVMs minimize training error traded off against margin.
+The parameter <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img616.png"
+ ALT="$C$"> is a
+<A NAME="22644"></A> <I>regularization</I>  term, which provides
+a way to control overfitting: as <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img616.png"
+ ALT="$C$"> becomes large, it
+is unattractive to not respect the data at the cost of reducing the
+geometric margin; when it is small, it is easy to account for some
+data points with the use of slack variables and to have a fat
+margin placed so it models the bulk of the data.
+
+<P>
+The dual problem for soft margin classification becomes:
+<BR>
+<IMG
+ WIDTH="536" HEIGHT="75" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1319.png"
+ ALT="\begin{example}
+Find $\alpha_1, \ldots \alpha_N$\ such that
+$
+\sum \alpha_i - \f...
+...\item $0 \le \alpha_i \le C$\ for all $1 \le i \le N$
+\end{itemize}\end{example}">
+<BR>
+Neither the slack variables <IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1315.png"
+ ALT="$\xi_i$"> nor Lagrange multipliers
+for them appear in the dual problem.  All we are left with is the
+constant <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img616.png"
+ ALT="$C$"> bounding the possible size of the Lagrange multipliers for
+the support vector data points.  As before, the <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1264.png"
+ ALT="$\vec{x}_i$"> with non-zero
+<IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1292.png"
+ ALT="$\alpha_i$"> will be the support vectors.  The solution of the dual problem is of
+the form: 
+<BR>
+<IMG
+ WIDTH="337" HEIGHT="36" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1320.png"
+ ALT="\begin{example}
+$\vec{w} = \sum \alpha y_i \vec{x}_i$\ \\
+$b = y_k(1-\xi_k) - \vec{w}^{T}\vec{x}_k$\ for
+$k = \argmax_k \alpha_k$
+\end{example}">
+<BR>
+Again <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1099.png"
+ ALT="$\vec{w}$"> is not needed explicitly for classification, which can be
+done in terms of dot products with data points, as in Equation&nbsp;<A HREF="support-vector-machines-the-linearly-separable-case-1.html#svm-sv-classifier">170</A>.
+
+<P>
+Typically, the support vectors will be a small proportion of the
+training data.  However, if the problem is non-separable or with small
+margin, then every data point which is misclassified or within
+the margin will have a non-zero <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1292.png"
+ ALT="$\alpha_i$">. If this set of points
+becomes large, then, for the nonlinear case which we turn to in
+Section <A HREF="nonlinear-svms-1.html#sec:svm-nonlinear">15.2.3</A> , this can be a major slowdown for using SVMs at
+test time.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Classifier</TD>
+<TD ALIGN="LEFT">Mode</TD>
+<TD ALIGN="LEFT">Method</TD>
+<TD ALIGN="LEFT">Time complexity</TD>
+</TR>
+<TR><TD ALIGN="LEFT">NB</TD>
+<TD ALIGN="LEFT">training</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $\Theta(|\docsetlabeled| L_{ave}+|\mathbb{C}||V|)$
+ -->
+<IMG
+ WIDTH="147" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img909.png"
+ ALT="$\Theta(\vert\docsetlabeled\vert L_{ave}+\vert\mathbb{C}\vert\vert V\vert)$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT">NB</TD>
+<TD ALIGN="LEFT">testing</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $\Theta(|\mathbb{C}| M_{a})$
+ -->
+<IMG
+ WIDTH="74" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1132.png"
+ ALT="$\Theta(\vert\mathbb{C}\vert M_{a}) $"></TD>
+</TR>
+<TR><TD ALIGN="LEFT">Rocchio</TD>
+<TD ALIGN="LEFT">training</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $\Theta(|\docsetlabeled|  L_{ave}+|\mathbb{C}||V| )$
+ -->
+<IMG
+ WIDTH="147" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img909.png"
+ ALT="$\Theta(\vert\docsetlabeled\vert L_{ave}+\vert\mathbb{C}\vert\vert V\vert)$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT">Rocchio</TD>
+<TD ALIGN="LEFT">testing</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $\Theta(|\mathbb{C}|  M_{a})$
+ -->
+<IMG
+ WIDTH="74" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1132.png"
+ ALT="$\Theta(\vert\mathbb{C}\vert M_{a}) $"></TD>
+</TR>
+<TR><TD ALIGN="LEFT">kNN</TD>
+<TD ALIGN="LEFT">training</TD>
+<TD ALIGN="LEFT">preprocessing</TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $\Theta(|\docsetlabeled| L_{ave})$
+ -->
+<IMG
+ WIDTH="83" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img914.png"
+ ALT="$\Theta(\vert\docsetlabeled\vert L_{ave})$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT">kNN</TD>
+<TD ALIGN="LEFT">testing</TD>
+<TD ALIGN="LEFT">preprocessing</TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $\Theta(|\docsetlabeled|  M_{ave} M_{a})$
+ -->
+<IMG
+ WIDTH="112" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1157.png"
+ ALT="$\Theta(\vert\docsetlabeled\vert M_{ave} M_{a})$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT">kNN</TD>
+<TD ALIGN="LEFT">training</TD>
+<TD ALIGN="LEFT">no preprocessing</TD>
+<TD ALIGN="LEFT"><IMG
+ WIDTH="39" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1155.png"
+ ALT="$\Theta(1)$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT">kNN</TD>
+<TD ALIGN="LEFT">testing</TD>
+<TD ALIGN="LEFT">no preprocessing</TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $\Theta(|\docsetlabeled|  L_{ave} M_{a})$
+ -->
+<IMG
+ WIDTH="106" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1321.png"
+ ALT="$\Theta(\vert\docsetlabeled\vert L_{ave} M_{a})$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT">SVM</TD>
+<TD ALIGN="LEFT">training</TD>
+<TD ALIGN="LEFT">conventional</TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $O(|\mathbb{C}||\docsetlabeled|^3 M_{ave})$
+ -->
+<IMG
+ WIDTH="117" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1322.png"
+ ALT="$O(\vert\mathbb{C}\vert\vert\docsetlabeled\vert^3 M_{ave})$">;</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $\approx O(|\mathbb{C}||\docsetlabeled|^{1.7} M_{ave})$
+ -->
+<IMG
+ WIDTH="144" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1323.png"
+ ALT="$\approx O(\vert\mathbb{C}\vert\vert\docsetlabeled\vert^{1.7} M_{ave})$">, empirically</TD>
+</TR>
+<TR><TD ALIGN="LEFT">SVM</TD>
+<TD ALIGN="LEFT">training</TD>
+<TD ALIGN="LEFT">cutting planes</TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $O(|\mathbb{C}||\docsetlabeled| M_{ave})$
+ -->
+<IMG
+ WIDTH="110" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1324.png"
+ ALT="$O(\vert\mathbb{C}\vert\vert\docsetlabeled\vert M_{ave})$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT">SVM</TD>
+<TD ALIGN="LEFT">testing</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $O(|\mathbb{C}| M_{a})$
+ -->
+<IMG
+ WIDTH="74" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1325.png"
+ ALT="$O(\vert\mathbb{C}\vert M_{a})$"></TD>
+</TR>
+</TABLE>
+Training and testing complexity of various classifiers including SVMs.
+Training is the time the learning method takes to learn a
+classifier over <!-- MATH
+ $\docsetlabeled$
+ -->
+<IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img856.png"
+ ALT="$\docsetlabeled$">, while testing is the time it takes a classifier to
+classify one document.  For SVMs, multiclass classification is assumed to be done by a set of <IMG
+ WIDTH="26" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img913.png"
+ ALT="$\vert\mathbb{C}\vert$"> one-versus-rest classifiers.  <IMG
+ WIDTH="32" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img185.png"
+ ALT="$ L_{ave}$"> is the average number of
+tokens  per document, while <IMG
+ WIDTH="38" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img203.png"
+ ALT="$ M_{ave}$"> is the average vocabulary (number of non-zero features) of a document.
+<IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img918.png"
+ ALT="$ L_{a}$"> and <IMG
+ WIDTH="27" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img919.png"
+ ALT="$ M_{a}$"> are the numbers of
+tokens and types, respectively, in the test document. <A NAME="tab:svm-complexity"></A> <A NAME="p:svm-complexity"></A> 
+
+</DIV>
+<BR>
+
+<P>
+The complexity of training and testing with linear SVMs is shown in
+Table <A HREF="#tab:svm-complexity">15.1</A> .<A NAME="tex2html169"
+  HREF="footnode.html#foot23220"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A>  
+The time for training an SVM is dominated by
+the time for solving the underlying QP, and so the theoretical and
+empirical complexity 
+varies depending on the method used to solve it.
+The standard result for solving QPs is that it takes time cubic
+in the size of the data set (<A
+ HREF="bibliography-1.html#kozlov79polynomial">Kozlov et&nbsp;al., 1979</A>).  All the
+recent work on SVM training has worked to reduce that complexity,
+often by being satisfied with approximate solutions.  Standardly, empirical
+complexity is about <!-- MATH
+ $O(|\docsetlabeled|^{1.7})$
+ -->
+<IMG
+ WIDTH="70" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1326.png"
+ ALT="$O(\vert\docsetlabeled\vert^{1.7})$">
+(<A
+ HREF="bibliography-1.html#joachims06training">Joachims, 2006a</A>). 
+Nevertheless, the super-linear training time
+of traditional SVM algorithms makes them difficult or impossible to use on
+very large training data sets.  Alternative traditional SVM solution
+algorithms which are 
+linear in the number of training examples scale badly with a large
+number of features, which is another standard attribute of text problems.
+However, a new training algorithm based on cutting plane techniques
+gives a promising answer to this issue 
+by having running time linear in the number of training examples and the number of
+non-zero features in examples (<A
+ HREF="bibliography-1.html#joachims06training">Joachims, 2006a</A>).  
+Nevertheless, the actual speed of doing quadratic optimization remains
+much slower than simply counting terms as is done in a Naive Bayes
+model. Extending SVM
+algorithms to nonlinear SVMs, as in the next section, standardly increases
+training complexity by a factor of <!-- MATH
+ $|\docsetlabeled|$
+ -->
+<IMG
+ WIDTH="29" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img915.png"
+ ALT="$\vert\docsetlabeled\vert$"> (since dot
+products between 
+examples need to be calculated), making them impractical.
+In practice it can often be cheaper to
+materialize the higher-order features and to train a linear
+SVM.<A NAME="tex2html170"
+  HREF="footnode.html#foot22709"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A>
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3877"
+  HREF="multiclass-svms-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3871"
+  HREF="extensions-to-the-svm-model-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3865"
+  HREF="extensions-to-the-svm-model-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3873"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3875"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3878"
+  HREF="multiclass-svms-1.html">Multiclass SVMs</A>
+<B> Up:</B> <A NAME="tex2html3872"
+  HREF="extensions-to-the-svm-model-1.html">Extensions to the SVM</A>
+<B> Previous:</B> <A NAME="tex2html3866"
+  HREF="extensions-to-the-svm-model-1.html">Extensions to the SVM</A>
+ &nbsp; <B>  <A NAME="tex2html3874"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3876"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/soft-margin-classification-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:34:01 GMT -->
+</HTML>

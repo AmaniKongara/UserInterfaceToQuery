@@ -1,0 +1,157 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/capitalizationcase-folding-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:40:24 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Capitalization/case-folding.</TITLE>
+<META NAME="description" CONTENT="Capitalization/case-folding.">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="other-issues-in-english-1.html">
+<LINK REL="previous" HREF="accents-and-diacritics-1.html">
+<LINK REL="up" HREF="normalization-equivalence-classing-of-terms-1.html">
+<LINK REL="next" HREF="other-issues-in-english-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1163"
+  HREF="other-issues-in-english-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1157"
+  HREF="normalization-equivalence-classing-of-terms-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1151"
+  HREF="accents-and-diacritics-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1159"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1161"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1164"
+  HREF="other-issues-in-english-1.html">Other issues in English.</A>
+<B> Up:</B> <A NAME="tex2html1158"
+  HREF="normalization-equivalence-classing-of-terms-1.html">Normalization (equivalence classing of</A>
+<B> Previous:</B> <A NAME="tex2html1152"
+  HREF="accents-and-diacritics-1.html">Accents and diacritics.</A>
+ &nbsp; <B>  <A NAME="tex2html1160"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1162"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H4><A NAME="SECTION00723020000000000000">
+Capitalization/case-folding.</A>
+</H4>
+
+<P>
+A common strategy is to do <A NAME="2309"></A> <I>case-folding</I>  by reducing all letters to lower
+case.
+Often this is a good idea: it will allow
+instances of <I>Automobile</I> at the beginning of a sentence to match
+with a query of <I>automobile</I>.  It will also help on a web search
+engine when most of your users type in <I>ferrari</I> when they are
+interested in a <I>Ferrari</I> car.  On the other hand, such case
+folding can equate words that might better be kept apart.
+Many proper nouns are derived from common nouns and so are distinguished
+only by case, including companies (<I>General Motors</I>, <I>The
+  Associated Press</I>), government
+organizations (<I>the Fed</I> vs. <I>fed</I>) and person names
+(<I>Bush</I>, <I>Black</I>).  We already mentioned an example of
+unintended query expansion with acronyms, which involved
+not only acronym normalization 
+(<I>C.A.T.</I> <IMG
+ WIDTH="21" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img97.png"
+ ALT="$\rightarrow$"> <I>CAT</I>) but also case-folding
+(<I>CAT</I> <IMG
+ WIDTH="21" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img97.png"
+ ALT="$\rightarrow$"> <I>cat</I>).
+
+<P>
+For English, an alternative to making every token lowercase is to just
+make some tokens lowercase.
+The simplest heuristic is to convert to lowercase words at the beginning of
+a sentence and all words occurring in a title that is all uppercase or in
+which most or all words are capitalized.
+These words are usually ordinary words that have been
+capitalized.  Mid-sentence capitalized words are left as capitalized
+(which is usually 
+correct).  This will mostly avoid case-folding in cases where
+distinctions should be kept apart.  The same task can be done more
+accurately by a machine learning sequence model which uses more features
+to make the decision of when to case-fold. This is known as
+<A NAME="p:truecasing"></A> <A NAME="2326"></A> <I>truecasing</I> .  However, trying to
+get capitalization right in this way probably doesn't help if your users usually
+use lowercase regardless of the correct case of words. Thus, lowercasing
+everything often remains the most practical solution.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1163"
+  HREF="other-issues-in-english-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1157"
+  HREF="normalization-equivalence-classing-of-terms-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1151"
+  HREF="accents-and-diacritics-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1159"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1161"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1164"
+  HREF="other-issues-in-english-1.html">Other issues in English.</A>
+<B> Up:</B> <A NAME="tex2html1158"
+  HREF="normalization-equivalence-classing-of-terms-1.html">Normalization (equivalence classing of</A>
+<B> Previous:</B> <A NAME="tex2html1152"
+  HREF="accents-and-diacritics-1.html">Accents and diacritics.</A>
+ &nbsp; <B>  <A NAME="tex2html1160"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1162"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/capitalizationcase-folding-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:40:24 GMT -->
+</HTML>

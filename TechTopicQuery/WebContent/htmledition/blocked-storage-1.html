@@ -1,0 +1,368 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/blocked-storage-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:24:15 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Blocked storage</TITLE>
+<META NAME="description" CONTENT="Blocked storage">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="dictionary-as-a-string-1.html">
+<LINK REL="up" HREF="dictionary-compression-1.html">
+<LINK REL="next" HREF="postings-file-compression-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1749"
+  HREF="postings-file-compression-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1743"
+  HREF="dictionary-compression-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1739"
+  HREF="dictionary-as-a-string-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1745"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1747"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1750"
+  HREF="postings-file-compression-1.html">Postings file compression</A>
+<B> Up:</B> <A NAME="tex2html1744"
+  HREF="dictionary-compression-1.html">Dictionary compression</A>
+<B> Previous:</B> <A NAME="tex2html1740"
+  HREF="dictionary-as-a-string-1.html">Dictionary as a string</A>
+ &nbsp; <B>  <A NAME="tex2html1746"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1748"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001022000000000000000">
+Blocked storage</A>
+</H2>
+We can further compress the dictionary by grouping terms
+in the string into <A NAME="6067"></A>   of size <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> and
+keeping a term 
+pointer only for the first term of each block (Figure <A HREF="dictionary-as-a-string-1.html#fig:icompressfg7">5.5</A> ). We store the length of
+the term in the string as an additional byte at
+the beginning of the term. We thus eliminate <IMG
+ WIDTH="39" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img265.png"
+ ALT="$k-1$"> term
+pointers, but need an additional <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> bytes for storing the
+length of each term. For <IMG
+ WIDTH="42" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img11.png"
+ ALT="$k=4$">, we save
+<!-- MATH
+ $(k-1) \times 3 = 9$
+ -->
+<IMG
+ WIDTH="110" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img266.png"
+ ALT="$(k-1) \times 3 = 9$"> bytes for term pointers, but need an
+additional <IMG
+ WIDTH="42" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img11.png"
+ ALT="$k=4$"> bytes for term lengths. So the total space
+requirements for the dictionary of Reuters-RCV1 are reduced by 5 bytes per
+four-term block, or a total of <!-- MATH
+ $400{,}000 \times 1/4 \times
+5 = 0.5 \ \mbox{MB}$
+ -->
+<IMG
+ WIDTH="199" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img267.png"
+ ALT="$400{,}000 \times 1/4 \times
+5 = 0.5 \ \mbox{MB}$">, bringing us down to 10.37.1 MB. 
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:icompressfg8"></A><A NAME="p:icompressfg8"></A><A NAME="6175"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 5.6:</STRONG>
+
+Search of the uncompressed dictionary (a) and a
+dictionary compressed by blocking with <IMG
+ WIDTH="42" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img11.png"
+ ALT="$k=4$"> (b).</CAPTION>
+<TR><TD><IMG
+ WIDTH="325" HEIGHT="398" BORDER="0"
+ SRC="img268.png"
+ ALT="\begin{figure}\begin{tabular}{@{}ll}
+(a) &amp;\\
+&amp; \begin{pspicture}(0,-4)(2,2.5)
+\...
+...0,arm=0.5,linearc=.4]{-&gt;}{N7}{N8}
+\end{pspicture}\end{tabular}\par\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+By increasing the block size <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">, we get better compression.
+However, there is a tradeoff between compression and the speed of term lookup.  For the eight-term dictionary in
+Figure <A HREF="#fig:icompressfg8">5.6</A> , steps in binary search are shown as
+double lines and steps in list search as simple lines. We
+search for terms in the uncompressed dictionary by binary
+search (a). In the compressed dictionary, we first locate
+the term's block by binary search and then its position
+within the list by linear search through the block (b).
+Searching the uncompressed dictionary in (a) takes on
+average <!-- MATH
+ $(0+1+2+3+2+1+2+2)/8 \approx 1.6$
+ -->
+<IMG
+ WIDTH="278" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img269.png"
+ ALT="$(0+1+2+3+2+1+2+2)/8 \approx 1.6$"> steps, assuming
+each term is equally likely to come up in a query.  For
+example, finding the two terms, aid and
+box, takes three and two steps, respectively.  With blocks
+of size <IMG
+ WIDTH="42" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img11.png"
+ ALT="$k=4$"> in (b), we need <!-- MATH
+ $(0+1+2+3+4+1+2+3)/8 =2$
+ -->
+<IMG
+ WIDTH="265" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img270.png"
+ ALT="$(0+1+2+3+4+1+2+3)/8 =2$"> steps
+on average, 
+<IMG
+ WIDTH="48" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img271.png"
+ ALT="$\approx\!25\%$"> more.  For example, finding
+den takes one binary search step and two steps
+through the block.  By increasing <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">, we can get the size of
+the compressed dictionary arbitrarily close to the minimum
+of <!-- MATH
+ $400{,}000 \times (4+4+1+\unicode{2 \times}{} 8) =
+\unicode{10}{6.8} \ \mbox{MB}$
+ -->
+<IMG
+ WIDTH="249" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img272.png"
+ ALT="$400{,}000 \times (4+4+1+\unicode{2 \times}{} 8) =
+\unicode{10}{6.8} \ \mbox{MB}$">, but term lookup becomes
+prohibitively slow for large values of <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">.
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:icompressfg10"></A><A NAME="p:icompressfg10"></A></P><IMG
+ WIDTH="556" HEIGHT="200" BORDER="0"
+ SRC="img273.png"
+ ALT="\begin{figure}
+% latex2html id marker 6189
+\par\setlength{\tabcolsep}{0pt}
+\p...
+...re, the first byte of
+each entry encodes the number of characters.}
+\end{figure}">
+</DIV>
+
+<P>
+One source of redundancy in the dictionary we have not
+exploited yet is the fact that consecutive entries in an
+alphabetically sorted list share common prefixes.
+This observation 
+leads to <A NAME="6273"></A> 
+<A NAME="6274"></A> <I>front coding</I> 
+(Figure <A HREF="#fig:icompressfg10">5.7</A> ). A common prefix is identified for a
+subsequence of the term list and then referred to with a special
+character. In the case of Reuters,
+front coding saves another 2.41.2 MB, as we found
+in an experiment.
+
+<P>
+<A NAME="6279"></A>Other schemes with even greater compression rely on minimal perfect
+hashing, that is, a hash function that maps <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img186.png"
+ ALT="$M$"> terms onto
+<IMG
+ WIDTH="72" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img274.png"
+ ALT="$[1,\ldots,M]$"> without collisions.  However, we cannot adapt
+perfect hashes incrementally because each new term causes a
+collision and therefore requires the creation of a new
+perfect hash function. Therefore, they cannot be used
+in a dynamic environment.
+
+<P>
+<A NAME="6280"></A> Even with the best compression scheme, it may not be
+feasible to store the entire dictionary in main memory for
+very large text collections and for hardware with limited
+memory. If we have to partition the dictionary onto pages
+that are stored on disk, then we can index the first term of
+each page using a B-tree.  For processing most queries, the
+search system has to go to disk anyway to fetch the
+postings. One additional seek for retrieving the term's
+dictionary page from disk is a significant, but tolerable
+increase in the time it takes to process a query.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+
+<P>
+
+<A NAME="6282"></A>
+<TABLE CELLPADDING=3 BORDER="1">
+<CAPTION><STRONG>Table 5.2:</STRONG>
+Dictionary compression for Reuters-RCV1.</CAPTION>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">data structure</TD>
+<TD ALIGN="LEFT">size in MB</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">dictionary, fixed-width</TD>
+<TD ALIGN="LEFT">19.211.2</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">dictionary, term pointers into string</TD>
+<TD ALIGN="LEFT">10.8 7.6</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><IMG
+ WIDTH="17" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img275.png"
+ ALT="$\sim$">, with blocking, <IMG
+ WIDTH="42" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img11.png"
+ ALT="$k=4$"></TD>
+<TD ALIGN="LEFT">10.3 7.1</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><IMG
+ WIDTH="17" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img275.png"
+ ALT="$\sim$">, with blocking &amp; front coding</TD>
+<TD ALIGN="LEFT">7.9 5.9</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+</TABLE>
+<A NAME="tab:icompresstb4"></A> <A NAME="p:icompresstb4"></A>  
+
+</DIV>
+<BR>
+Table <A HREF="#tab:icompresstb4">5.2</A>  summarizes the
+compression achieved by the four dictionary data structures.
+<A NAME="6299"></A> 
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI>Estimate the space usage of the Reuters-RCV1 dictionary
+with blocks of size <IMG
+ WIDTH="41" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img276.png"
+ ALT="$k=8$"> and <IMG
+ WIDTH="50" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img277.png"
+ ALT="$k=16$"> in blocked dictionary
+storage.
+
+<P>
+</LI>
+<LI>Estimate the time needed for term lookup in
+the compressed dictionary of Reuters-RCV1 with block sizes of <IMG
+ WIDTH="42" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img11.png"
+ ALT="$k=4$"> (Figure <A HREF="#fig:icompressfg8">5.6</A> , b), <IMG
+ WIDTH="41" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img276.png"
+ ALT="$k=8$">, and <IMG
+ WIDTH="50" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img277.png"
+ ALT="$k=16$">.
+What is the slowdown compared with <IMG
+ WIDTH="41" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img126.png"
+ ALT="$k = 1$"> (Figure <A HREF="#fig:icompressfg8">5.6</A> , a)?
+<A NAME="6304"></A> 
+
+<P>
+</LI>
+</UL>
+<A NAME="6306"></A><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1749"
+  HREF="postings-file-compression-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1743"
+  HREF="dictionary-compression-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1739"
+  HREF="dictionary-as-a-string-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1745"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1747"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1750"
+  HREF="postings-file-compression-1.html">Postings file compression</A>
+<B> Up:</B> <A NAME="tex2html1744"
+  HREF="dictionary-compression-1.html">Dictionary compression</A>
+<B> Previous:</B> <A NAME="tex2html1740"
+  HREF="dictionary-as-a-string-1.html">Dictionary as a string</A>
+ &nbsp; <B>  <A NAME="tex2html1746"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1748"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/blocked-storage-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:24:22 GMT -->
+</HTML>

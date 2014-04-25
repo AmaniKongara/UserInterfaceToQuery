@@ -1,0 +1,359 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/exercises-2.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:33:16 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Exercises</TITLE>
+<META NAME="description" CONTENT="Exercises">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="references-and-further-reading-14.html">
+<LINK REL="up" HREF="vector-space-classification-1.html">
+<LINK REL="next" HREF="support-vector-machines-and-machine-learning-on-documents-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3798"
+  HREF="support-vector-machines-and-machine-learning-on-documents-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3792"
+  HREF="vector-space-classification-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3788"
+  HREF="references-and-further-reading-14.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3794"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3796"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3799"
+  HREF="support-vector-machines-and-machine-learning-on-documents-1.html">Support vector machines and</A>
+<B> Up:</B> <A NAME="tex2html3793"
+  HREF="vector-space-classification-1.html">Vector space classification</A>
+<B> Previous:</B> <A NAME="tex2html3789"
+  HREF="references-and-further-reading-14.html">References and further reading</A>
+ &nbsp; <B>  <A NAME="tex2html3795"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3797"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001980000000000000000">
+Exercises</A>
+</H1>
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:diffsimilarities"></A><A NAME="p:diffsimilarities"></A></P><IMG
+ WIDTH="556" HEIGHT="245" BORDER="0"
+ SRC="img1247.png"
+ ALT="\begin{figure}
+% latex2html id marker 20737
+\psset{unit=0.4cm}
+\begin{pspicture}...
+...2 \ \ 2)^T$, $\vec{b} = (4 \ \ 4)^T$, and $\vec{c} = (8
+\ \ 6)^T$.}
+\end{figure}">
+</DIV>
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI><A NAME="ex:diffsimex"></A> <A NAME="p:diffsimex"></A>  In Figure <A HREF="#fig:diffsimilarities">14.13</A> , which of the three
+vectors <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1248.png"
+ ALT="$\vec{a}$">, <IMG
+ WIDTH="12" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1249.png"
+ ALT="$\vec{b}$">, and <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1250.png"
+ ALT="$\vec{c}$"> is (i)
+most similar to <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img701.png"
+ ALT="$\vec{x}$"> according to dot product similarity,
+(ii) most similar to <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img701.png"
+ ALT="$\vec{x}$"> according to cosine similarity,
+(iii) closest to <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img701.png"
+ ALT="$\vec{x}$"> according to Euclidean distance?
+
+<P>
+</LI>
+<LI><A NAME="ex:reutersvcat"></A> <A NAME="p:reutersvcat"></A> 
+Download Reuters-21578 and train and test Rocchio
+and kNN classifiers for the classes
+acquisitions,
+corn,
+crude,
+earn,
+grain,
+interest,
+money-fx,
+ship,
+trade, and
+wheat.
+Use the ModApte split.
+You may want to use one of a number of software packages that
+implement Rocchio classification and kNN classification, for
+example, the Bow toolkit (<A
+ HREF="bibliography-1.html#mccallum96bow">McCallum, 1996</A>).
+
+<P>
+</LI>
+<LI>Download 20 Newgroups (page <A HREF="standard-test-collections-1.html#p:20newsgroups">8.2</A> ) and train and test Rocchio
+and kNN classifiers for its 20 classes.
+
+<P>
+</LI>
+<LI>Show that the decision boundaries in Rocchio
+classification are, as in kNN, given by the Voronoi tessellation.
+
+<P>
+</LI>
+<LI><A NAME="ex:cheapeuclidean"></A> Computing the distance between a dense centroid
+and a sparse vector is <IMG
+ WIDTH="47" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1251.png"
+ ALT="$\Theta(M)$"> for a naive implementation
+that iterates over all <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img186.png"
+ ALT="$M$"> dimensions. Based on the equality
+<!-- MATH
+ $\sum (x_i-\mu_i)^2 = 1.0+\sum \mu_i^2 - 2\sum x_i \mu_i$
+ -->
+<IMG
+ WIDTH="249" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1252.png"
+ ALT="$\sum (x_i-\mu_i)^2 = 1.0+\sum \mu_i^2 - 2\sum x_i \mu_i$">
+and assuming that <IMG
+ WIDTH="36" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1253.png"
+ ALT="$\sum \mu_i^2$"> has been precomputed,
+write down an algorithm that is <!-- MATH
+ $\Theta( M_{a})$
+ -->
+<IMG
+ WIDTH="53" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1254.png"
+ ALT="$\Theta( M_{a})$"> instead, where
+<IMG
+ WIDTH="27" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img919.png"
+ ALT="$ M_{a}$"> is the number of distinct terms in the test document.
+
+<P>
+</LI>
+<LI><A NAME="ex:tessellatelargek"></A>Prove that the region of the plane consisting of all points
+with the same <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> nearest neighbors is a convex polygon.
+
+<P>
+</LI>
+<LI><A NAME="ex:knndim2dim3"></A> <A NAME="p:knndim2dim3"></A> 
+Design an algorithm that performs an efficient 1NN search in
+1 dimension (where efficiency is with respect to the number
+of documents <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$N$">). What is the time complexity of the algorithm?
+
+<P>
+</LI>
+<LI><A NAME="ex:knndim2"></A>Design an algorithm that performs an efficient 1NN search in
+2 dimensions with at most polynomial (in <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$N$">) preprocessing time.
+
+<P>
+</LI>
+<LI><A NAME="ex:knndimtmplabel"></A> Can one design an exact efficient algorithm for
+1NN for very large <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img186.png"
+ ALT="$M$"> along the ideas you used to solve the
+last exercise? 
+
+<P>
+</LI>
+<LI><A NAME="ex:exrocchiolinear"></A> <A NAME="p:exrocchiolinear"></A> 
+Show that 
+Equation&nbsp;<A HREF="linear-versus-nonlinear-classifiers-1.html#rocchiolinear">145</A> defines a hyperplane
+with <!-- MATH
+ $\vec{w}=
+\vec{\mu}(c_1)-\vec{\mu}(c_2)$
+ -->
+<IMG
+ WIDTH="132" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1171.png"
+ ALT="$\vec{w}=
+\vec{\mu}(c_1)-\vec{\mu}(c_2)$"> and <!-- MATH
+ $b=0.5*(|\vec{\mu}(c_1)
+|^2-|\vec{\mu}(c_2) |^2)$
+ -->
+<IMG
+ WIDTH="209" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1172.png"
+ ALT="$b=0.5*(\vert\vec{\mu}(c_1)
+\vert^2-\vert\vec{\mu}(c_2) \vert^2)$">.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:simplenonsep"></A><A NAME="p:simplenonsep"></A><A NAME="20798"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 14.14:</STRONG>
+A simple non-separable set of points.</CAPTION>
+<TR><TD></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+</LI>
+<LI>We can easily construct non-separable data sets in high
+dimensions by embedding a non-separable set like the one
+shown in Figure <A HREF="#fig:simplenonsep">14.14</A> . 
+Consider  embedding Figure <A HREF="#fig:simplenonsep">14.14</A>  in 3D and then  perturbing the
+4 points slightly (i.e., moving them a small
+distance in a random direction).
+Why would you expect the resulting
+configuration to
+be linearly separable?
+How likely is then a non-separable set of <IMG
+ WIDTH="58" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1256.png"
+ ALT="$m \ll M$"> points
+in <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img186.png"
+ ALT="$M$">-dimensional space?
+
+<P>
+</LI>
+<LI><A NAME="ex:separablehigh"></A> <A NAME="p:separablehigh"></A>  
+Assuming two classes, show that the percentage of
+non-separable assignments of the vertices of a hypercube
+decreases with dimensionality <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img186.png"
+ ALT="$M$"> for <IMG
+ WIDTH="50" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1257.png"
+ ALT="$M&gt;1$">. For example,
+for <IMG
+ WIDTH="50" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1258.png"
+ ALT="$M=1$"> the proportion of non-separable assignments is 0,
+for <IMG
+ WIDTH="50" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1138.png"
+ ALT="$M=2$">, it is <IMG
+ WIDTH="38" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1259.png"
+ ALT="$2/16$">. One of the two non-separable cases
+for <IMG
+ WIDTH="50" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1138.png"
+ ALT="$M=2$"> is shown in
+Figure <A HREF="#fig:simplenonsep">14.14</A> , the other is its mirror image. Solve
+the exercise either analytically or by simulation. 
+
+<P>
+</LI>
+<LI>Although we point out the similarities of Naive Bayes
+with linear vector space classifiers, it does not make
+sense to represent count vectors (the document
+representations in NB) in a continuous vector
+space. There is however a formalization of NB that is
+analogous to Rocchio. Show that NB assigns a document to the
+class (represented as a parameter vector) whose
+<A NAME="20807"></A>Kullback-Leibler (KL) divergence
+(Section <A HREF="extended-language-modeling-approaches-1.html#sec:extended-lm">12.4</A> , page <A HREF="extended-language-modeling-approaches-1.html#p:kullback">12.4</A> )
+to the document (represented as a count
+vector as in Section&nbsp;<A HREF="a-variant-of-the-multinomial-model-1.html#sec:variantmultinomial">13.4.1</A> (page&nbsp;<A HREF="a-variant-of-the-multinomial-model-1.html#p:variantmultinomial"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>), normalized to sum to 1) is
+smallest.
+
+<P>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3798"
+  HREF="support-vector-machines-and-machine-learning-on-documents-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3792"
+  HREF="vector-space-classification-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3788"
+  HREF="references-and-further-reading-14.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3794"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3796"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3799"
+  HREF="support-vector-machines-and-machine-learning-on-documents-1.html">Support vector machines and</A>
+<B> Up:</B> <A NAME="tex2html3793"
+  HREF="vector-space-classification-1.html">Vector space classification</A>
+<B> Previous:</B> <A NAME="tex2html3789"
+  HREF="references-and-further-reading-14.html">References and further reading</A>
+ &nbsp; <B>  <A NAME="tex2html3795"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3797"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/exercises-2.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:33:23 GMT -->
+</HTML>

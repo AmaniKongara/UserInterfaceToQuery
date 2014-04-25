@@ -1,0 +1,861 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/evaluation-of-clustering-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:34:37 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Evaluation of clustering</TITLE>
+<META NAME="description" CONTENT="Evaluation of clustering">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="k-means-1.html">
+<LINK REL="previous" HREF="problem-statement-1.html">
+<LINK REL="up" HREF="flat-clustering-1.html">
+<LINK REL="next" HREF="k-means-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4211"
+  HREF="k-means-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4205"
+  HREF="flat-clustering-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4199"
+  HREF="cardinality---the-number-of-clusters-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4207"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4209"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4212"
+  HREF="k-means-1.html">K-means</A>
+<B> Up:</B> <A NAME="tex2html4206"
+  HREF="flat-clustering-1.html">Flat clustering</A>
+<B> Previous:</B> <A NAME="tex2html4200"
+  HREF="cardinality---the-number-of-clusters-1.html">Cardinality - the number</A>
+ &nbsp; <B>  <A NAME="tex2html4208"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4210"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION002130000000000000000"></A>
+<A NAME="sec:clustereval"></A> <A NAME="p:clustereval"></A>
+<BR>
+Evaluation of clustering
+</H1> 
+
+<P>
+Typical objective functions in clustering formalize the goal
+of attaining high intra-cluster similarity (documents within
+a cluster are similar) and low inter-cluster similarity
+(documents from different clusters are dissimilar). This is
+an <A NAME="24251"></A> <I>internal criterion</I>  for the quality of a
+clustering. But good scores on an internal criterion do not
+necessarily translate into good effectiveness in an
+application. An alternative to internal criteria is direct
+evaluation in the application of interest. For search result
+clustering, we may want to measure the time it takes users
+to find an answer with different clustering algorithms. This
+is the most direct evaluation, but it is expensive,
+especially if large user studies are necessary.
+
+<P>
+As a surrogate for user judgments, we can use a set of classes
+in an
+evaluation benchmark or gold standard
+(see Section <A HREF="assessing-relevance-1.html#sec:test-collections">8.5</A> ,
+page <A HREF="assessing-relevance-1.html#p:test-collections">8.5</A> , and Section <A HREF="evaluation-of-text-classification-1.html#sec:evalclass">13.6</A> ,
+page <A HREF="evaluation-of-text-classification-1.html#p:evalclass">13.6</A> ).
+The gold
+standard is ideally produced by human judges with a good
+level of inter-judge agreement
+(see Chapter <A HREF="evaluation-in-information-retrieval-1.html#ch:evaluation">8</A> , page <A HREF="information-retrieval-system-evaluation-1.html#p:goldstandard">8.1</A> ).
+We can then
+compute an <A NAME="24259"></A> <I>external criterion</I> 
+that evaluates
+how well the clustering matches the gold standard classes.
+For example, we may want to say
+that the optimal
+clustering of the search results for jaguar in
+Figure <A HREF="clustering-in-information-retrieval-1.html#fig:clustfg1">16.2</A>  consists of three classes
+corresponding to the three senses car, animal, and
+operating system.  In this type of evaluation, we
+only use the partition provided by the gold standard, not
+the class labels.
+
+<P>
+This section introduces four external criteria of clustering
+quality.  <I>Purity</I> is a simple and transparent
+evaluation measure. <I>Normalized mutual information</I> can be
+information-theoretically 
+interpreted.  The <I>Rand
+index</I> penalizes both false positive and false negative
+decisions during clustering.  The <I>F&nbsp;measure</I> in
+addition supports differential weighting of these two types
+of errors.
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:clustfg3"></A><A NAME="p:clustfg3"></A></P><IMG
+ WIDTH="556" HEIGHT="231" BORDER="0"
+ SRC="img1393.png"
+ ALT="\begin{figure}
+% latex2html id marker 24270
+\par
+\psset{unit=0.75cm}
+\par
+\begin...
+...$,
+3
+(cluster 3).
+Purity is $(1/17) \times (5+4+3)
+\approx 0.71$.
+}
+\end{figure}">
+</DIV>
+
+<P>
+To compute <A NAME="24299"></A> <I>purity</I> ,
+each cluster is assigned to the class which is most
+frequent in the cluster, and then the accuracy of this
+assignment is measured by counting the number of correctly
+assigned documents and dividing by <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$N$">. Formally:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\mbox{purity}(
+\Omega,\mathbb{C}
+) = 
+\frac{1}{N}
+\sum_k \max_j
+|\omega_k \cap
+c_j|
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eqn:purity"></A><IMG
+ WIDTH="242" HEIGHT="48" BORDER="0"
+ SRC="img1394.png"
+ ALT="\begin{displaymath}
+\mbox{purity}(
+\Omega,\mathbb{C}
+) =
+\frac{1}{N}
+\sum_k \max_j
+\vert\omega_k \cap
+c_j\vert
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(182)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+where
+<!-- MATH
+ $\Omega = \{ \omega_1, \omega_2, \ldots, \omega_K \}$
+ -->
+<IMG
+ WIDTH="158" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1395.png"
+ ALT="$\Omega = \{ \omega_1, \omega_2, \ldots, \omega_K \}$"><A NAME="Omega-notation"></A><A NAME="omega-notation"></A>is the set of clusters and
+<!-- MATH
+ $\mathbb{C} = \{ c_1, c_2, \ldots,
+c_J \}$
+ -->
+<IMG
+ WIDTH="137" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img855.png"
+ ALT="$\mathbb{C} = \{ c_1,c_2,\ldots,c_J \}$"> is the set of classes. We interpret
+<IMG
+ WIDTH="22" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1396.png"
+ ALT="$\omega_k$"> as the set of documents in 
+<IMG
+ WIDTH="22" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1396.png"
+ ALT="$\omega_k$"> and
+<IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1191.png"
+ ALT="$c_j$"> as the set
+of documents in <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1191.png"
+ ALT="$c_j$"> in Equation&nbsp;<A HREF="#eqn:purity">182</A>.
+
+<P>
+We present an example of how to compute purity in
+Figure <A HREF="#fig:clustfg3">16.4</A> .<A NAME="tex2html182"
+  HREF="footnode.html#foot25225"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A> Bad
+clusterings have purity values close to 0, a perfect
+clustering has a purity of  1 . Purity is compared with the other three
+measures discussed in this chapter in Table <A HREF="#tab:clmeascomp">16.2</A> .
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="25226"></A>
+<TABLE>
+<CAPTION><STRONG>Table 16.2:</STRONG>
+The four external evaluation measures applied to
+the clustering in Figure <A HREF="#fig:clustfg3">16.4</A> .</CAPTION>
+<TR><TD><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">purity</TD>
+<TD ALIGN="LEFT">NMI</TD>
+<TD ALIGN="LEFT">RI</TD>
+<TD ALIGN="LEFT"><IMG
+ WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1397.png"
+ ALT="$F_5$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT">lower bound</TD>
+<TD ALIGN="LEFT">0.0</TD>
+<TD ALIGN="LEFT">0.0</TD>
+<TD ALIGN="LEFT">0.0</TD>
+<TD ALIGN="LEFT">0.0</TD>
+</TR>
+<TR><TD ALIGN="LEFT">maximum</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">1</TD>
+</TR>
+<TR><TD ALIGN="LEFT">value for Figure <A HREF="#fig:clustfg3">16.4</A></TD>
+<TD ALIGN="LEFT">0.71</TD>
+<TD ALIGN="LEFT">0.36</TD>
+<TD ALIGN="LEFT">0.68</TD>
+<TD ALIGN="LEFT">0.46</TD>
+</TR>
+</TABLE>
+
+<A NAME="tab:clmeascomp"></A> <A NAME="p:clmeascomp"></A> 
+</TD></TR>
+</TABLE>
+</DIV><P></P>
+<BR>
+
+<P>
+High purity is easy to achieve when the number of
+clusters is large - in particular, purity is  1  if each document gets
+its own cluster. 
+Thus, we cannot use purity to
+trade off 
+the quality of the clustering against the
+number of clusters.
+
+<P>
+A measure that allows us to make this tradeoff is
+<A NAME="24325"></A> <I>normalized mutual
+information</I>  or <A NAME="24327"></A> <I>NMI</I> :
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\mbox{NMI}(\Omega , \mathbb{C})
+= 
+\frac{
+I(\Omega ; \mathbb{C})
+}
+{
+[H(\Omega)+ H(\mathbb{C} )]/2
+}
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="nmidef"></A><IMG
+ WIDTH="232" HEIGHT="45" BORDER="0"
+ SRC="img1398.png"
+ ALT="\begin{displaymath}
+\mbox{NMI}(\Omega , \mathbb{C})
+=
+\frac{
+I(\Omega ; \mathbb{C})
+}
+{
+[H(\Omega)+ H(\mathbb{C} )]/2
+}
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(183)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+<IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1399.png"
+ ALT="$I$"> is <A NAME="24336"></A>mutual information (cf. Chapter <A HREF="text-classification-and-naive-bayes-1.html#ch:nbayes">13</A> ,
+page <A HREF="mutual-information-1.html#p:mutualinfo">13.5.1</A> ):
+<BR>
+<DIV ALIGN="CENTER"><A NAME="midef2"></A><A NAME="midef2ml"></A>
+<!-- MATH
+ \begin{eqnarray}
+I( \Omega ; \mathbb{C} )
+&=&
+\sum_k \sum_j     P(\omega_k \cap c_j) \log
+\frac{P(\omega_k \cap c_j)}{P(\omega_k)P(c_j)}\\
+&=&
+\sum_k \sum_j     \frac{|\omega_k \cap c_j|}{N} \log
+\frac{N|\omega_k \cap c_j|}{|\omega_k||c_j|}
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="56" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1400.png"
+ ALT="$\displaystyle I( \Omega ; \mathbb{C} )$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="226" HEIGHT="60" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1401.png"
+ ALT="$\displaystyle \sum_k \sum_j P(\omega_k \cap c_j) \log
+\frac{P(\omega_k \cap c_j)}{P(\omega_k)P(c_j)}$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(184)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT">&nbsp;</TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="209" HEIGHT="60" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1402.png"
+ ALT="$\displaystyle \sum_k \sum_j \frac{\vert\omega_k \cap c_j\vert}{N} \log
+\frac{N\vert\omega_k \cap c_j\vert}{\vert\omega_k\vert\vert c_j\vert}$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(185)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+where 
+<IMG
+ WIDTH="47" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1403.png"
+ ALT="$P(\omega_k)$">, <IMG
+ WIDTH="39" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1404.png"
+ ALT="$P(c_j)$">, and <!-- MATH
+ $P(\omega_k
+\cap c_j)$
+ -->
+<IMG
+ WIDTH="76" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1405.png"
+ ALT="$P(\omega_k
+\cap c_j)$"> are the
+probabilities of a document being
+in cluster <IMG
+ WIDTH="22" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1396.png"
+ ALT="$\omega_k$">, class <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1191.png"
+ ALT="$c_j$">, and in the intersection of <IMG
+ WIDTH="22" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1396.png"
+ ALT="$\omega_k$">
+and <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1191.png"
+ ALT="$c_j$">, respectively. 
+Equation <A HREF="#midef2ml">185</A>  is equivalent to
+Equation&nbsp;<A HREF="#midef2">184</A> for maximum likelihood estimates of the
+probabilities (i.e., the estimate of each probability is the
+corresponding relative frequency).
+
+<P>
+<IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img317.png"
+ ALT="$H$"> is <A NAME="24352"></A>entropy as defined in Chapter <A HREF="index-compression-1.html#ch:icompress">5</A> 
+(page <A HREF="gamma-codes-1.html#p:entropy">5.3.2</A> ):
+<BR>
+<DIV ALIGN="CENTER">
+
+<!-- MATH
+ \begin{eqnarray}
+H(\Omega) &=& -\sum_k P(\omega_k) \log P(\omega_k)\\
+&=& -\sum_k \frac{|\omega_k|}{N} \log \frac{|\omega_k|}{N}
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1406.png"
+ ALT="$\displaystyle H(\Omega)$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="153" HEIGHT="48" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1407.png"
+ ALT="$\displaystyle -\sum_k P(\omega_k) \log P(\omega_k)$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(186)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT">&nbsp;</TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="132" HEIGHT="56" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1408.png"
+ ALT="$\displaystyle -\sum_k \frac{\vert\omega_k\vert}{N} \log \frac{\vert\omega_k\vert}{N}$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(187)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+where, again, the second equation is based on maximum
+likelihood estimates of the probabilities.
+
+<P>
+<!-- MATH
+ $I( \Omega ; \mathbb{C} )$
+ -->
+<IMG
+ WIDTH="57" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1409.png"
+ ALT="$I( \Omega ; \mathbb{C} )$"> in Equation&nbsp;<A HREF="#midef2">184</A> measures the
+amount of information by which our knowledge about the
+classes increases when we are told what the clusters are.
+The minimum of <!-- MATH
+ $I( \Omega ; \mathbb{C} )$
+ -->
+<IMG
+ WIDTH="57" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1409.png"
+ ALT="$I( \Omega ; \mathbb{C} )$"> is 0 if the
+clustering is random with respect to class membership. In that
+case, knowing that a document is in a particular cluster
+does not give us any new information about what its class
+might be. Maximum mutual information is reached for a
+clustering <!-- MATH
+ $\Omega_{exact}$
+ -->
+<IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1410.png"
+ ALT="$\Omega_{exact}$"> that perfectly recreates the
+classes - but also if clusters in <!-- MATH
+ $\Omega_{exact}$
+ -->
+<IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1410.png"
+ ALT="$\Omega_{exact}$"> are
+further subdivided into smaller clusters
+(Exercise <A HREF="exercises-3.html#ex:miclustering">16.7</A> ).  In particular, a clustering
+with <IMG
+ WIDTH="51" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1411.png"
+ ALT="$K=N$"> one-document clusters has maximum MI.  So MI has
+the same problem as purity: it does not penalize large
+cardinalities and thus does not formalize our bias that,
+other things being equal, fewer clusters are better.
+
+<P>
+The normalization by the denominator <!-- MATH
+ $[H(\Omega )+H(\mathbb{C}
+)]/2$
+ -->
+<IMG
+ WIDTH="131" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1412.png"
+ ALT="$[H(\Omega )+H(\mathbb{C}
+)]/2$"> in Equation&nbsp;<A HREF="#nmidef">183</A> fixes this problem since entropy
+tends to increase with the number of clusters.  For example,
+<IMG
+ WIDTH="45" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1413.png"
+ ALT="$H(\Omega)$"> reaches its maximum <IMG
+ WIDTH="42" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1414.png"
+ ALT="$\log N$"> for <IMG
+ WIDTH="51" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1411.png"
+ ALT="$K=N$">, which
+
+<P>
+ensures that NMI is low for <IMG
+ WIDTH="51" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1411.png"
+ ALT="$K=N$">.  Because NMI is
+normalized, we can use it to compare clusterings with
+different numbers of clusters. The particular form of the
+denominator is chosen because  <!-- MATH
+ $[H(\Omega )+H(\mathbb{C}
+)]/2$
+ -->
+<IMG
+ WIDTH="131" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1412.png"
+ ALT="$[H(\Omega )+H(\mathbb{C}
+)]/2$"> is a tight upper bound on <!-- MATH
+ $I(\Omega; \mathbb{C})$
+ -->
+<IMG
+ WIDTH="57" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1409.png"
+ ALT="$I( \Omega ; \mathbb{C} )$"> (Exercise <A HREF="exercises-3.html#ex:nmibound">16.7</A> ). Thus,
+NMI is always a number between 0 and 1.
+
+<P>
+An alternative to this information-theoretic interpretation
+of clustering
+is to view it as a series of decisions, one for each of
+the 
+<IMG
+ WIDTH="91" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1415.png"
+ ALT="$N(N-1)/2$">
+pairs of documents in the collection. We
+want to assign 
+two
+documents to the same cluster if and only if they are similar.
+A true positive (TP) decision assigns two similar documents to
+the same cluster, a true negative (TN) decision assigns two
+dissimilar documents to different clusters.
+There are two types of errors we can commit.
+A <A NAME="24372"></A>  
+(FP) decision
+assigns two dissimilar documents to the same cluster. A
+<A NAME="24374"></A>   
+(FN) decision assigns two similar documents to
+different clusters. 
+The <A NAME="24376"></A> <I>Rand index</I>  
+(<A NAME="24378"></A>  ) measures the percentage of decisions that
+are correct.  That is, it is simply accuracy (Section <A HREF="evaluation-of-unranked-retrieval-sets-1.html#sec:measuresperf">8.3</A> ,
+page <A HREF="evaluation-of-unranked-retrieval-sets-1.html#p:accuracy">8.3</A> ). 
+<P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{eqnarray*}
+\mbox{RI} = \frac{\mbox{TP}+\mbox{TN}}{\mbox{TP}+\mbox{FP}+\mbox{FN}+\mbox{TN}}
+\end{eqnarray*}
+ -->
+<IMG
+ WIDTH="182" HEIGHT="41" BORDER="0"
+ SRC="img1416.png"
+ ALT="\begin{eqnarray*}
+\mbox{RI} = \frac{\mbox{TP}+\mbox{TN}}{\mbox{TP}+\mbox{FP}+\mbox{FN}+\mbox{TN}}
+\end{eqnarray*}"></DIV>
+<BR CLEAR="ALL"><P></P> 
+
+<P>
+As an example, we compute RI for
+Figure <A HREF="#fig:clustfg3">16.4</A> . We first compute <!-- MATH
+ $\mbox{TP}+\mbox{FP}$
+ -->
+<IMG
+ WIDTH="61" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1417.png"
+ ALT="$\mbox{TP}+\mbox{FP}$">.
+The three clusters
+contain 6, 6, and 5 points, respectively, so the total
+number of ``positives'' or pairs of documents
+that are in the same cluster is:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\mbox{TP}+\mbox{FP} = \left( \begin{array}{c} 6 \\2 \end{array} \right) +
+\left( \begin{array}{c} 6 \\2 \end{array} \right) +
+\left( \begin{array}{c} 5 \\2 \end{array} \right) = 40
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="300" HEIGHT="45" BORDER="0"
+ SRC="img1418.png"
+ ALT="\begin{displaymath}
+\mbox{TP}+\mbox{FP} = \left( \begin{array}{c} 6 \\ 2 \end{ar...
+...ght) +
+\left( \begin{array}{c} 5 \\ 2 \end{array} \right) = 40
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(188)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+Of these, the x pairs in cluster&nbsp;1, the o pairs in
+cluster&nbsp;2, the <IMG
+ WIDTH="13" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1419.png"
+ ALT="$\diamond$"> pairs in cluster&nbsp;3, and the x pair in
+cluster&nbsp;3 are true positives:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\mbox{TP}= \left( \begin{array}{c} 5 \\2 \end{array} \right) +
+\left( \begin{array}{c} 4 \\2 \end{array} \right) +
+\left( \begin{array}{c} 3 \\2 \end{array} \right) +
+\left( \begin{array}{c} 2 \\2 \end{array} \right) = 20
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="330" HEIGHT="45" BORDER="0"
+ SRC="img1420.png"
+ ALT="\begin{displaymath}
+\mbox{TP}= \left( \begin{array}{c} 5 \\ 2 \end{array} \right...
+...ght) +
+\left( \begin{array}{c} 2 \\ 2 \end{array} \right) = 20
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(189)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+Thus, <!-- MATH
+ $\mbox{FP}=40-20=20$
+ -->
+<IMG
+ WIDTH="134" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1421.png"
+ ALT="$\mbox{FP}=40-20=20$">. 
+
+<P>
+<IMG
+ WIDTH="26" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1422.png"
+ ALT="$\mbox{FN}$"> and <IMG
+ WIDTH="27" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1423.png"
+ ALT="$\mbox{TN}$"> are computed similarly,
+resulting in the following contingency table:
+<BLOCKQUOTE>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>&nbsp;</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Same cluster</TD>
+<TD ALIGN="CENTER" COLSPAN=1>Different clusters</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Same class</TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $\mbox{TP} = 20$
+ -->
+<IMG
+ WIDTH="61" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1424.png"
+ ALT="$\mbox{TP} = 20 $"></TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $\mbox{FN} = 24$
+ -->
+<IMG
+ WIDTH="64" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1425.png"
+ ALT="$\mbox{FN} = 24$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT">Different classes</TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $\mbox{FP} = 20$
+ -->
+<IMG
+ WIDTH="60" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1426.png"
+ ALT="$\mbox{FP} = 20$"></TD>
+<TD ALIGN="CENTER"><!-- MATH
+ $\mbox{TN} = 72$
+ -->
+<IMG
+ WIDTH="65" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1427.png"
+ ALT="$\mbox{TN} = 72$"></TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+<IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1428.png"
+ ALT="$\mbox{RI}$"> is then <!-- MATH
+ $(20+72)/(20+20+24+72) \approx 0.68$
+ -->
+<IMG
+ WIDTH="265" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1429.png"
+ ALT="$(20+72)/(20+20+24+72) \approx 0.68$">.
+
+<P>
+The Rand index gives equal weight to false positives and false
+negatives. Separating similar documents
+is sometimes worse than putting pairs of dissimilar
+documents in the same cluster. We can use the
+<A NAME="24446"></A> <I>F&nbsp;measure</I> 
+measuresperf to
+penalize false negatives more strongly than false positives by selecting a value <IMG
+ WIDTH="44" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img527.png"
+ ALT="$\beta &gt; 1$">, thus
+giving more weight to recall.
+<P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{eqnarray*}
+P = \frac{\mbox{TP}}{\mbox{TP}+\mbox{FP}} \qquad
+R = \frac{\mbox{TP}}{\mbox{TP}+\mbox{FN}} \qquad
+F_{\beta} = \frac{(\beta^2+1)PR}{\beta^2 P+R}
+\end{eqnarray*}
+ -->
+<IMG
+ WIDTH="375" HEIGHT="47" BORDER="0"
+ SRC="img1430.png"
+ ALT="\begin{eqnarray*}
+P = \frac{\mbox{TP}}{\mbox{TP}+\mbox{FP}} \qquad
+R = \frac{\mb...
+...+\mbox{FN}} \qquad
+F_{\beta} = \frac{(\beta^2+1)PR}{\beta^2 P+R}
+\end{eqnarray*}"></DIV>
+<BR CLEAR="ALL"><P></P>
+Based on the numbers in the contingency table,
+<!-- MATH
+ $P= 20/40
+= 0.5$
+ -->
+<IMG
+ WIDTH="120" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1431.png"
+ ALT="$P= 20/40
+= 0.5$"> and <!-- MATH
+ $R= 20/44 \approx 0.455$
+ -->
+<IMG
+ WIDTH="137" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1432.png"
+ ALT="$R= 20/44 \approx 0.455$">. 
+This gives us <!-- MATH
+ $F_1
+\approx 0.48$
+ -->
+<IMG
+ WIDTH="69" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1433.png"
+ ALT="$F_1
+\approx 0.48$"> for <IMG
+ WIDTH="44" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img521.png"
+ ALT="$\beta = 1$"> and <!-- MATH
+ $F_5 \approx 0.456$
+ -->
+<IMG
+ WIDTH="76" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1434.png"
+ ALT="$F_5 \approx 0.456$"> for <IMG
+ WIDTH="44" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img529.png"
+ ALT="$\beta=5$">.
+In information retrieval,
+evaluating clustering with <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1435.png"
+ ALT="$F$"> has the
+advantage that the measure is already familiar to the
+research community.
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI>Replace every point <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$"> in Figure <A HREF="#fig:clustfg3">16.4</A>  with
+two identical copies of <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$"> in the same class.
+(i) Is it less difficult, equally difficult or more
+difficult to cluster this set of 34 points as opposed to the
+17 points in Figure <A HREF="#fig:clustfg3">16.4</A> ? (ii)
+Compute purity, NMI,
+RI, and <IMG
+ WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1397.png"
+ ALT="$F_5$"> for the clustering with 34 points.
+Which  measures increase and which stay the same after doubling the number of
+points? 
+(iii) Given your assessment in (i) and the results in (ii),
+which measures are best suited to compare the quality of the
+two clusterings?
+
+<P>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4211"
+  HREF="k-means-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4205"
+  HREF="flat-clustering-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4199"
+  HREF="cardinality---the-number-of-clusters-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4207"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4209"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4212"
+  HREF="k-means-1.html">K-means</A>
+<B> Up:</B> <A NAME="tex2html4206"
+  HREF="flat-clustering-1.html">Flat clustering</A>
+<B> Previous:</B> <A NAME="tex2html4200"
+  HREF="cardinality---the-number-of-clusters-1.html">Cardinality - the number</A>
+ &nbsp; <B>  <A NAME="tex2html4208"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4210"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/evaluation-of-clustering-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:35:01 GMT -->
+</HTML>

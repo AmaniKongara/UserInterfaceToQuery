@@ -1,0 +1,134 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/separate-feature-spaces-for-document-zones-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:40:34 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Separate feature spaces for document zones.</TITLE>
+<META NAME="description" CONTENT="Separate feature spaces for document zones.">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="connections-to-text-summarization-1.html">
+<LINK REL="previous" HREF="upweighting-document-zones-1.html">
+<LINK REL="up" HREF="document-zones-in-text-classification-1.html">
+<LINK REL="next" HREF="connections-to-text-summarization-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4044"
+  HREF="connections-to-text-summarization-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4038"
+  HREF="document-zones-in-text-classification-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4032"
+  HREF="upweighting-document-zones-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4040"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4042"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4045"
+  HREF="connections-to-text-summarization-1.html">Connections to text summarization.</A>
+<B> Up:</B> <A NAME="tex2html4039"
+  HREF="document-zones-in-text-classification-1.html">Document zones in text</A>
+<B> Previous:</B> <A NAME="tex2html4033"
+  HREF="upweighting-document-zones-1.html">Upweighting document zones.</A>
+ &nbsp; <B>  <A NAME="tex2html4041"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4043"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H4><A NAME="SECTION002032320000000000000">
+Separate feature spaces for document zones.</A>
+</H4> There are two
+strategies that can be used for document zones.  Above we upweighted
+words that appear in certain zones.  This means that we are using the
+same features (that is, parameters are 
+<A NAME="22984"></A>   
+across
+different zones), but we pay more attention to the occurrence of terms
+in particular zones.  An alternative strategy is to have a completely
+separate set of features and corresponding parameters for words
+occurring in different zones.  This is in principle more powerful: a
+word could usually indicate the topic <I>Middle East</I> when in the
+title but <I>Commodities</I> when in the body of a document.  But, in
+practice, tying parameters is usually more successful.  Having
+separate feature sets means having two or more times as many
+parameters, many of which will be much more sparsely seen in the
+training data, and hence with worse estimates, whereas upweighting has
+no bad effects of this sort.  Moreover, it is quite uncommon for words
+to have different preferences when appearing in different zones; it is
+mainly the strength of their vote that should be adjusted.
+Nevertheless, ultimately this is a contingent result, depending on the
+nature and quantity of the training data.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4044"
+  HREF="connections-to-text-summarization-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4038"
+  HREF="document-zones-in-text-classification-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4032"
+  HREF="upweighting-document-zones-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4040"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4042"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4045"
+  HREF="connections-to-text-summarization-1.html">Connections to text summarization.</A>
+<B> Up:</B> <A NAME="tex2html4039"
+  HREF="document-zones-in-text-classification-1.html">Document zones in text</A>
+<B> Previous:</B> <A NAME="tex2html4033"
+  HREF="upweighting-document-zones-1.html">Upweighting document zones.</A>
+ &nbsp; <B>  <A NAME="tex2html4041"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4043"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/separate-feature-spaces-for-document-zones-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:40:34 GMT -->
+</HTML>

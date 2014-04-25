@@ -1,0 +1,338 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/a-first-take-at-building-an-inverted-index-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:22:10 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>A first take at building an inverted index</TITLE>
+<META NAME="description" CONTENT="A first take at building an inverted index">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="processing-boolean-queries-1.html">
+<LINK REL="previous" HREF="an-example-information-retrieval-problem-1.html">
+<LINK REL="up" HREF="boolean-retrieval-1.html">
+<LINK REL="next" HREF="processing-boolean-queries-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html950"
+  HREF="processing-boolean-queries-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html944"
+  HREF="boolean-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html938"
+  HREF="an-example-information-retrieval-problem-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html946"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html948"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html951"
+  HREF="processing-boolean-queries-1.html">Processing Boolean queries</A>
+<B> Up:</B> <A NAME="tex2html945"
+  HREF="boolean-retrieval-1.html">Boolean retrieval</A>
+<B> Previous:</B> <A NAME="tex2html939"
+  HREF="an-example-information-retrieval-problem-1.html">An example information retrieval</A>
+ &nbsp; <B>  <A NAME="tex2html947"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html949"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00620000000000000000"></A><A NAME="sec:indexfirsttake"></A> <A NAME="p:indexfirsttake"></A>
+<BR>
+A first take at building an inverted index
+</H1> 
+
+<P>
+To gain the speed benefits of indexing at retrieval time, we
+have to build the index in advance.  The major steps in this are:
+
+<OL>
+<LI>Collect the documents to be indexed:
+<BR><!-- MATH
+ $\framebox{\weestrut Friends, Romans, countrymen.}$
+ -->
+<IMG
+ WIDTH="228" HEIGHT="27" ALIGN="BOTTOM" BORDER="0"
+ SRC="img44.png"
+ ALT="\framebox{\weestrut Friends, Romans, countrymen.}">
+<!-- MATH
+ $\framebox{\weestrut So let it be with Caesar}$
+ -->
+<IMG
+ WIDTH="172" HEIGHT="27" ALIGN="BOTTOM" BORDER="0"
+ SRC="img45.png"
+ ALT="\framebox{\weestrut So let it be with Caesar}"> ...
+</LI>
+<LI>Tokenize the text, turning each document into a list of tokens:
+<BR><!-- MATH
+ $\framebox{\weestrut Friends}$
+ -->
+<IMG
+ WIDTH="65" HEIGHT="27" ALIGN="BOTTOM" BORDER="0"
+ SRC="img46.png"
+ ALT="\framebox{\weestrut Friends}"> <!-- MATH
+ $\framebox{\weestrut Romans}$
+ -->
+<IMG
+ WIDTH="69" HEIGHT="27" ALIGN="BOTTOM" BORDER="0"
+ SRC="img47.png"
+ ALT="\framebox{\weestrut Romans}">
+<!-- MATH
+ $\framebox{\weestrut countrymen}$
+ -->
+<IMG
+ WIDTH="97" HEIGHT="27" ALIGN="BOTTOM" BORDER="0"
+ SRC="img48.png"
+ ALT="\framebox{\weestrut countrymen}"> <!-- MATH
+ $\framebox{\weestrut So}$
+ -->
+<IMG
+ WIDTH="29" HEIGHT="27" ALIGN="BOTTOM" BORDER="0"
+ SRC="img49.png"
+ ALT="\framebox{\weestrut So}"> ...
+</LI>
+<LI>Do linguistic preprocessing, producing a
+  list of normalized tokens, which are the indexing terms:
+<!-- MATH
+ $\framebox{\weestrut friend}$
+ -->
+<IMG
+ WIDTH="55" HEIGHT="27" ALIGN="BOTTOM" BORDER="0"
+ SRC="img50.png"
+ ALT="\framebox{\weestrut friend}"> <!-- MATH
+ $\framebox{\weestrut roman}$
+ -->
+<IMG
+ WIDTH="58" HEIGHT="27" ALIGN="BOTTOM" BORDER="0"
+ SRC="img51.png"
+ ALT="\framebox{\weestrut roman}">
+  <!-- MATH
+ $\framebox{\weestrut countryman}$
+ -->
+<IMG
+ WIDTH="98" HEIGHT="27" ALIGN="BOTTOM" BORDER="0"
+ SRC="img52.png"
+ ALT="\framebox{\weestrut countryman}"> <!-- MATH
+ $\framebox{\weestrut so}$
+ -->
+<IMG
+ WIDTH="27" HEIGHT="27" ALIGN="BOTTOM" BORDER="0"
+ SRC="img53.png"
+ ALT="\framebox{\weestrut so}"> ...
+</LI>
+<LI>Index the documents that each term occurs in by creating an inverted index,
+  consisting of a dictionary and postings.
+</LI>
+</OL>
+We will define and discuss the earlier stages of processing, that is,
+steps 1-3,
+in Section&nbsp;<A HREF="determining-the-vocabulary-of-terms-1.html#sec:dictionary-terms">2.2</A> (page&nbsp;<A HREF="determining-the-vocabulary-of-terms-1.html#p:dictionary-terms"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>).  Until then you can
+think of <I>tokens</I> and <I>normalized tokens</I> as also loosely equivalent to
+<I>words</I>.
+Here, we assume that the first 3 steps have already been done, and we
+examine building a basic inverted index by
+<A NAME="1066"></A> <I>sort-based indexing</I> .
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:indexstart"></A><A NAME="p:indexstart"></A></P><IMG
+ WIDTH="647" HEIGHT="834" BORDER="0"
+ SRC="img54.png"
+ ALT="\begin{figure}
+% latex2html id marker 1068
+\begin{tabular}{p{2.3in}p{2.6in}}
+\te...
+...n each document) or the position(s) of the term in each
+document.}
+\end{figure}">
+</DIV>
+
+<P>
+Within a document collection, we assume that each document
+has a
+unique serial number, known as the document identifier
+<A NAME="p:docid"></A> (<A NAME="1190"></A> <I>docID</I> ). During index construction, we can simply
+assign successive integers to each new document
+when it is first encountered.
+The input to indexing is a list of normalized
+tokens for each document, which we can equally think of as a list of
+pairs of term and docID, as in Figure <A HREF="#fig:indexstart">1.4</A> .  The core indexing
+step is 
+<A NAME="1193"></A> <I>sorting</I> 
+this list so that the terms are alphabetical,
+giving us the representation in the middle column of
+Figure <A HREF="#fig:indexstart">1.4</A> .  Multiple occurrences of the same term from the
+same document are then merged.<A NAME="tex2html9"
+  HREF="footnode.html#foot1546"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A>Instances of the same term are then grouped, and the result is split
+into a <A NAME="1198"></A> <I>dictionary</I>  and
+<A NAME="1200"></A> <I>postings</I> , as shown in the right column of
+Figure <A HREF="#fig:indexstart">1.4</A> .  Since
+a term generally occurs in a number of
+documents, this data organization already reduces the storage requirements of
+the index.  The dictionary also records some statistics, such as the
+number of documents
+which contain each term (the <A NAME="1203"></A> <I>document frequency</I> , which is here
+also the length of each postings list).  This information is not
+vital for a basic Boolean search engine, but it allows us to
+improve the efficiency of the search engine at query time, and it
+is a statistic later used in many ranked retrieval models.
+The postings are secondarily sorted by docID.  This provides the basis
+for efficient query processing.
+This inverted index structure is essentially without rivals as
+the most efficient structure for supporting ad hoc text search.
+
+<P>
+In the resulting index, we pay for storage of both
+the dictionary and the postings lists.
+The latter are much larger, but the dictionary is commonly kept in memory,
+while postings lists are normally kept on disk, so the size of each is
+important, and in Chapter <A HREF="index-compression-1.html#ch:icompress">5</A>  we will examine how
+each can be optimized for storage and access efficiency.
+What data structure should be used for a postings list?  A fixed length
+array would be wasteful as some words occur in many documents, and others
+in very few.
+For an in-memory postings list, two good alternatives are singly linked
+lists or variable length arrays.  Singly linked lists allow cheap
+insertion of documents into postings lists (following updates, such as
+when recrawling the web for updated documents), and naturally extend to
+more advanced indexing strategies such as skip lists
+(Section <A HREF="faster-postings-list-intersection-via-skip-pointers-1.html#sec:skip-pointers">2.3</A> ), which require additional pointers.
+Variable length arrays win in space requirements by avoiding the
+overhead for pointers and in time requirements because their use of
+contiguous memory increases speed on modern
+processors with memory <A NAME="1207"></A>caches.  Extra pointers can in practice be encoded
+into the lists as offsets.  If updates are relatively infrequent,
+variable length arrays will be more compact and faster to traverse.
+We can also use a hybrid scheme with a linked list of fixed
+length arrays for each term.  When postings lists are stored on disk,
+they are stored (perhaps compressed) as a contiguous run of postings
+without explicit pointers (as in Figure <A HREF="an-example-information-retrieval-problem-1.html#fig:invertedindex-picture">1.3</A> ), so as
+to minimize the size of the postings list and the number of disk seeks to
+read a postings list into memory.
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI>Draw the inverted index that would be built for the following document collection.  (See Figure <A HREF="an-example-information-retrieval-problem-1.html#fig:invertedindex-picture">1.3</A>  for an example.)
+<BLOCKQUOTE>
+<B>Doc 1</B>&nbsp;&nbsp;&nbsp;&nbsp;new home sales top forecasts 
+<BR><B>Doc 2</B>&nbsp;&nbsp;&nbsp;&nbsp;home sales rise in july 
+<BR><B>Doc 3</B>&nbsp;&nbsp;&nbsp;&nbsp;increase in home sales in july 
+<BR><B>Doc 4</B>&nbsp;&nbsp;&nbsp;&nbsp;july new home sales rise
+
+</BLOCKQUOTE>
+
+<P>
+</LI>
+<LI><A NAME="ex:small-collection"></A> <A NAME="p:small-collection"></A> 
+Consider these documents:
+<BLOCKQUOTE>
+<B>Doc 1</B>&nbsp;&nbsp;&nbsp;&nbsp;breakthrough drug for schizophrenia
+<BR><B>Doc 2</B>&nbsp;&nbsp;&nbsp;&nbsp;new schizophrenia drug
+<BR><B>Doc 3</B>&nbsp;&nbsp;&nbsp;&nbsp;new approach for treatment of schizophrenia
+<BR><B>Doc 4</B>&nbsp;&nbsp;&nbsp;&nbsp;new hopes for schizophrenia patients
+
+</BLOCKQUOTE>
+
+<OL>
+<LI>Draw the term-document incidence matrix for this document
+  collection.
+</LI>
+<LI>Draw the inverted index representation for this
+  collection, as in Figure&nbsp;<A HREF="an-example-information-retrieval-problem-1.html#fig:invertedindex-picture">1.3</A> (page&nbsp;<A HREF="an-example-information-retrieval-problem-1.html#p:invertedindex-picture"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>).
+</LI>
+</OL>
+
+<P>
+</LI>
+<LI>For the document collection shown in
+Exercise <A HREF="#ex:small-collection">1.2</A> , what are the returned results for
+these queries:
+
+<OL>
+<LI>schizophrenia AND drug
+</LI>
+<LI>for AND NOT(drug OR approach)
+</LI>
+</OL>
+
+<P>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html950"
+  HREF="processing-boolean-queries-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html944"
+  HREF="boolean-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html938"
+  HREF="an-example-information-retrieval-problem-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html946"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html948"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html951"
+  HREF="processing-boolean-queries-1.html">Processing Boolean queries</A>
+<B> Up:</B> <A NAME="tex2html945"
+  HREF="boolean-retrieval-1.html">Boolean retrieval</A>
+<B> Previous:</B> <A NAME="tex2html939"
+  HREF="an-example-information-retrieval-problem-1.html">An example information retrieval</A>
+ &nbsp; <B>  <A NAME="tex2html947"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html949"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/a-first-take-at-building-an-inverted-index-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:22:17 GMT -->
+</HTML>

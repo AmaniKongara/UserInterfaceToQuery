@@ -1,0 +1,207 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/pagerank-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:39:23 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>PageRank</TITLE>
+<META NAME="description" CONTENT="PageRank">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="hubs-and-authorities-1.html">
+<LINK REL="previous" HREF="the-web-as-a-graph-1.html">
+<LINK REL="up" HREF="link-analysis-1.html">
+<LINK REL="next" HREF="markov-chains-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5007"
+  HREF="markov-chains-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html5001"
+  HREF="link-analysis-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4995"
+  HREF="anchor-text-and-the-web-graph-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html5003"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html5005"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html5008"
+  HREF="markov-chains-1.html">Markov chains</A>
+<B> Up:</B> <A NAME="tex2html5002"
+  HREF="link-analysis-1.html">Link analysis</A>
+<B> Previous:</B> <A NAME="tex2html4996"
+  HREF="anchor-text-and-the-web-graph-1.html">Anchor text and the</A>
+ &nbsp; <B>  <A NAME="tex2html5004"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html5006"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION002620000000000000000"></A>
+<A NAME="sec:pagerank"></A> <A NAME="p:pagerank"></A>
+<BR>
+PageRank
+</H1> 
+We now focus on scoring and ranking measures derived from the link structure alone. Our first technique for link analysis assigns to every node in the web graph a numerical score between 0 and 1, known as its <A NAME="32219"></A> <I>PageRank</I> . The PageRank of a node will depend on the link structure of the web graph. Given a query, a web search engine computes a composite score for each web page that combines hundreds of features such as cosine similarity (Section <A HREF="the-vector-space-model-for-scoring-1.html#sec:docvectors">6.3</A> ) and term proximity (Section <A HREF="query-term-proximity-1.html#sec:proximity">7.2.2</A> ), together with the PageRank score. This composite score, developed using the methods of Section <A HREF="a-simple-example-of-machine-learned-scoring-1.html#sec:mls">15.4.1</A> , is used to provide a ranked list of results for the query.
+
+<P>
+Consider a random surfer who begins at a web page (a node of the web graph) and executes a random walk on the Web as follows.  At each time step, the surfer proceeds from his current page A to a randomly chosen web page that A hyperlinks to. Figure <A HREF="#fig:randomwalk">21.1</A>  shows the surfer at a node A, out of which there are three hyperlinks to nodes B, C and D; the surfer proceeds at the next time step to one of these three nodes, with equal probabilities 1/3.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:randomwalk"></A><A NAME="p:randomwalk"></A><A NAME="32239"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 21.1:</STRONG>
+The random surfer at node A proceeds with probability 1/3 to each of B, C and D.</CAPTION>
+<TR><TD><IMG
+ WIDTH="150" HEIGHT="113" BORDER="0"
+ SRC="img1890.png"
+ ALT="\begin{figure}\begin{picture}(700,100)\thicklines
+\put(125,50){\circle{20}}
+\...
+...50){\vector(1,1){20}}
+\put(135,50){\vector(1,-1){20}}
+\end{picture}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+As the surfer proceeds in this random walk from node to node, he visits some nodes more often than others; intuitively, these are nodes with many links coming in from other frequently visited nodes. The idea behind PageRank is that pages visited more often in this walk are more important.
+
+<P>
+What if the current location of the surfer, the node A, has no out-links? To address this we introduce an additional operation for our random surfer: the <A NAME="32243"></A> <I>teleport</I>  operation. In the teleport operation the surfer jumps from a node to any other node in the web graph.  This could happen because he types an address into the URL bar of his browser.  The destination of a teleport operation is modeled as being chosen uniformly at random from all web pages. In other words, if <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$N$"> is the total number of nodes in the web graph<A NAME="tex2html223"
+  HREF="footnode.html#foot32245"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A>, the teleport operation takes the surfer to each node with probability <IMG
+ WIDTH="36" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1891.png"
+ ALT="$1/N$">. The surfer would also teleport to his present position with probability <IMG
+ WIDTH="36" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1891.png"
+ ALT="$1/N$">.
+
+<P>
+In assigning a PageRank score to each node of the web graph, we use the teleport operation in two ways: (1) When at a node with no out-links, the surfer invokes the teleport operation. (2) At any node that has outgoing links, the surfer invokes the teleport operation with probability <IMG
+ WIDTH="73" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1892.png"
+ ALT="$0&lt;\alpha&lt;1$"> and the standard random walk (follow an out-link chosen uniformly at random as in Figure <A HREF="#fig:randomwalk">21.1</A> ) with probability <IMG
+ WIDTH="40" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1893.png"
+ ALT="$1-\alpha$">, where <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img524.png"
+ ALT="$\alpha$"> is a fixed parameter chosen in advance. Typically, <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img524.png"
+ ALT="$\alpha$"> might be 0.1.
+
+<P>
+In Section <A HREF="markov-chains-1.html#sec:markov">21.2.1</A> , we will use the theory of Markov chains to argue that when the surfer follows this combined process (random walk plus teleport) he visits each node <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img615.png"
+ ALT="$v$"> of the web graph a fixed fraction of the time <IMG
+ WIDTH="37" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1894.png"
+ ALT="$\pi (v)$"> that depends on (1) the structure of the web graph and (2) the value of <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img524.png"
+ ALT="$\alpha$">. We call this value <IMG
+ WIDTH="37" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1894.png"
+ ALT="$\pi (v)$"> the PageRank of <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img615.png"
+ ALT="$v$"> and will show how to compute this value in Section <A HREF="the-pagerank-computation-1.html#sec:prank">21.2.2</A> .
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html5009"
+  HREF="markov-chains-1.html">Markov chains</A>
+<UL>
+<LI><A NAME="tex2html5010"
+  HREF="definition-1.html">Definition:</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html5011"
+  HREF="the-pagerank-computation-1.html">The PageRank computation</A>
+<LI><A NAME="tex2html5012"
+  HREF="topic-specific-pagerank-1.html">Topic-specific PageRank</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html5007"
+  HREF="markov-chains-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html5001"
+  HREF="link-analysis-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4995"
+  HREF="anchor-text-and-the-web-graph-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html5003"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html5005"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html5008"
+  HREF="markov-chains-1.html">Markov chains</A>
+<B> Up:</B> <A NAME="tex2html5002"
+  HREF="link-analysis-1.html">Link analysis</A>
+<B> Previous:</B> <A NAME="tex2html4996"
+  HREF="anchor-text-and-the-web-graph-1.html">Anchor text and the</A>
+ &nbsp; <B>  <A NAME="tex2html5004"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html5006"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/pagerank-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:39:26 GMT -->
+</HTML>

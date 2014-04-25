@@ -1,0 +1,204 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/other-languages-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:40:24 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Other languages.</TITLE>
+<META NAME="description" CONTENT="Other languages.">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="other-issues-in-english-1.html">
+<LINK REL="up" HREF="normalization-equivalence-classing-of-terms-1.html">
+<LINK REL="next" HREF="stemming-and-lemmatization-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1189"
+  HREF="stemming-and-lemmatization-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1183"
+  HREF="normalization-equivalence-classing-of-terms-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1179"
+  HREF="other-issues-in-english-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1185"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1187"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1190"
+  HREF="stemming-and-lemmatization-1.html">Stemming and lemmatization</A>
+<B> Up:</B> <A NAME="tex2html1184"
+  HREF="normalization-equivalence-classing-of-terms-1.html">Normalization (equivalence classing of</A>
+<B> Previous:</B> <A NAME="tex2html1180"
+  HREF="other-issues-in-english-1.html">Other issues in English.</A>
+ &nbsp; <B>  <A NAME="tex2html1186"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1188"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H4><A NAME="SECTION00723040000000000000">
+Other languages.</A>
+</H4>
+
+<P>
+English has maintained a dominant position on the WWW; approximately
+60% of web pages are in English (<A
+ HREF="bibliography-1.html#gerrand07estimating">Gerrand, 2007</A>).  But that
+still leaves 40% of the web, and the non-English portion might be
+expected to grow over time, since less than one third of Internet
+users and less than 10% of the world's population primarily speak
+English.  And there are signs of change: <A
+ HREF="bibliography-1.html#sifry07state">Sifry (2007)</A> reports
+that only about one third of blog posts are in English.
+
+<P>
+Other languages again present distinctive issues in equivalence classing.
+The French word for <I>the</I> has distinctive forms based not only on
+the gender (masculine or feminine) and number of the following noun, but
+also depending on whether the following word begins with a 
+vowel: <I>le</I>, <I>la</I>, <I>l'</I>, <I>les</I>.  
+We may well wish to equivalence class these various forms of <I>the</I>.
+German has a convention whereby vowels with an umlaut can be rendered
+instead as a two vowel digraph.  We would want to treat
+<I>Sch&#252;tze</I> and <I>Schuetze</I> as equivalent.
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:japanese"></A><A NAME="p:japanese"></A></P><IMG
+ WIDTH="99" HEIGHT="2" ALIGN="BOTTOM" BORDER="0"
+ SRC="img98.png"
+ ALT="\includegraphics[angle=270]{Japanese-example.eps}">
+Japanese makes use of multiple intermingled writing systems
+and, like Chinese, does not segment words.
+  The text is mainly Chinese characters with the hiragana
+  syllabary for inflectional endings and function words.  The part in
+  latin letters is actually a Japanese 
+  expression, but has been taken up as the name of an environmental
+  campaign by 2004 Nobel Peace Prize winner Wangari Maathai.  His name
+  is written using the katakana syllabary in the middle of the first
+  line.  The first four characters of the final line express a monetary
+  amount that we would want to match with &#165;500,000 (500,000
+  Japanese yen).
+
+</DIV>
+
+<P>
+Japanese is a well-known difficult writing system, as illustrated in
+Figure <A HREF="#fig:japanese">2.7</A> .  Modern Japanese is standardly an
+intermingling of multiple alphabets, principally Chinese characters, two
+syllabaries (hiragana and katakana) and western characters (Latin
+letters, Arabic numerals, and various symbols).  While there are strong
+conventions and standardization through the education system over the
+choice of writing 
+system, in many cases the same word can be written with multiple writing
+systems.  For example, a word may be written in katakana for emphasis
+(somewhat like italics).  Or a word may sometimes be written in hiragana
+and sometimes in Chinese characters.
+Successful retrieval thus requires complex equivalence classing across
+the writing systems.  In particular, an end user might commonly present
+a query entirely in hiragana, because it is easier to type, just as
+Western end users commonly use all lowercase.
+
+<P>
+Document collections being indexed can include documents from many
+different languages. 
+Or a single document can easily contain text from 
+multiple languages.  For instance, a French email might quote clauses
+from a contract document written in English.
+Most commonly, the language is detected and language-particular
+tokenization and normalization rules are applied at a predetermined
+granularity, such as whole documents or individual paragraphs, but this
+still will not correctly deal with cases where language changes occur
+for brief quotations. 
+When document collections contain multiple languages, 
+a single index may have to 
+contain terms of several languages.  One option is to run a language
+identification classifier on documents and then to tag terms in the
+vocabulary for their language.  Or this tagging can simply be omitted,
+since it is relatively rare for the exact same character sequence to be a word
+in different languages. 
+
+<P>
+When dealing with foreign or complex words, particularly foreign
+names, the spelling may be unclear or there may be variant
+transliteration standards giving different spellings (for example,
+<I>Chebyshev</I> and <I>Tchebycheff</I> or <I>Beijing</I> and
+<I>Peking</I>).  One way of dealing with this is to use heuristics to
+equivalence class or expand terms with phonetic equivalents.
+The traditional and best known such algorithm is the Soundex algorithm,
+which we cover in Section&nbsp;<A HREF="phonetic-correction-1.html#sec:soundex">3.4</A> (page&nbsp;<A HREF="phonetic-correction-1.html#p:soundex"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>).
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1189"
+  HREF="stemming-and-lemmatization-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1183"
+  HREF="normalization-equivalence-classing-of-terms-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1179"
+  HREF="other-issues-in-english-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1185"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1187"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1190"
+  HREF="stemming-and-lemmatization-1.html">Stemming and lemmatization</A>
+<B> Up:</B> <A NAME="tex2html1184"
+  HREF="normalization-equivalence-classing-of-terms-1.html">Normalization (equivalence classing of</A>
+<B> Previous:</B> <A NAME="tex2html1180"
+  HREF="other-issues-in-english-1.html">Other issues in English.</A>
+ &nbsp; <B>  <A NAME="tex2html1186"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1188"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/other-languages-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:40:25 GMT -->
+</HTML>

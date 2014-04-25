@@ -1,0 +1,141 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/tiered-indexes-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:26:29 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Tiered indexes</TITLE>
+<META NAME="description" CONTENT="Tiered indexes">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="query-term-proximity-1.html">
+<LINK REL="previous" HREF="components-of-an-information-retrieval-system-1.html">
+<LINK REL="up" HREF="components-of-an-information-retrieval-system-1.html">
+<LINK REL="next" HREF="query-term-proximity-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2246"
+  HREF="query-term-proximity-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2240"
+  HREF="components-of-an-information-retrieval-system-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2234"
+  HREF="components-of-an-information-retrieval-system-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2242"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2244"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2247"
+  HREF="query-term-proximity-1.html">Query-term proximity</A>
+<B> Up:</B> <A NAME="tex2html2241"
+  HREF="components-of-an-information-retrieval-system-1.html">Components of an information</A>
+<B> Previous:</B> <A NAME="tex2html2235"
+  HREF="components-of-an-information-retrieval-system-1.html">Components of an information</A>
+ &nbsp; <B>  <A NAME="tex2html2243"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2245"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001221000000000000000"></A>
+<A NAME="sec:tiered"></A> <A NAME="p:tiered"></A>
+<BR>
+Tiered indexes
+</H2> 
+We mentioned in Section <A HREF="index-elimination-1.html#sec:indelim">7.1.2</A>  that when using heuristics such as index elimination for inexact top-<IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$"> retrieval, we may occasionally find ourselves with a set <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img167.png"
+ ALT="$A$"> of contenders that has fewer than <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$"> documents.  A common solution to this issue is the user of <A NAME="9998"></A> <I>tiered indexes</I> , which may be viewed as a generalization of <A NAME="10000"></A> <I>champion lists</I> .  We illustrate this idea in Figure <A HREF="#fig:fig:tiered">7.4</A> , where we represent the documents and terms of Figure <A HREF="tf-idf-weighting-1.html#fig:tfgraph">6.9</A> .  In this example we set a tf threshold of 20 for tier 1 and 10 for tier 2, meaning that the tier 1 index only has postings entries with tf values exceeding 20, while the tier 2 index only has postings entries with tf values exceeding 10.  In this example we have chosen to order the postings entries within a tier by document ID.
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:fig:tiered"></A><A NAME="p:fig:tiered"></A></P><IMG
+ WIDTH="497" HEIGHT="570" ALIGN="BOTTOM" BORDER="0"
+ SRC="img505.png"
+ ALT="\includegraphics[width=11cm]{tiered.eps}">
+Tiered indexes.If we fail to get <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$"> results from tier 1, query processing ``falls back'' to tier 2, and so on.  Within each tier, postings are ordered by document ID.
+
+</DIV>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2246"
+  HREF="query-term-proximity-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2240"
+  HREF="components-of-an-information-retrieval-system-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2234"
+  HREF="components-of-an-information-retrieval-system-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2242"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2244"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2247"
+  HREF="query-term-proximity-1.html">Query-term proximity</A>
+<B> Up:</B> <A NAME="tex2html2241"
+  HREF="components-of-an-information-retrieval-system-1.html">Components of an information</A>
+<B> Previous:</B> <A NAME="tex2html2235"
+  HREF="components-of-an-information-retrieval-system-1.html">Components of an information</A>
+ &nbsp; <B>  <A NAME="tex2html2243"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2245"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/tiered-indexes-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:26:30 GMT -->
+</HTML>

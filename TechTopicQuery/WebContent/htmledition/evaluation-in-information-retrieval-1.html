@@ -1,0 +1,197 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/evaluation-in-information-retrieval-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:21:34 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Evaluation in information retrieval</TITLE>
+<META NAME="description" CONTENT="Evaluation in information retrieval">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="relevance-feedback-and-query-expansion-1.html">
+<LINK REL="previous" HREF="computing-scores-in-a-complete-search-system-1.html">
+<LINK REL="up" HREF="irbook.html">
+<LINK REL="next" HREF="information-retrieval-system-evaluation-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2377"
+  HREF="information-retrieval-system-evaluation-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2371"
+  HREF="irbook.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2365"
+  HREF="references-and-further-reading-7.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2373"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2375"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2378"
+  HREF="information-retrieval-system-evaluation-1.html">Information retrieval system evaluation</A>
+<B> Up:</B> <A NAME="tex2html2372"
+  HREF="irbook.html">irbook</A>
+<B> Previous:</B> <A NAME="tex2html2366"
+  HREF="references-and-further-reading-7.html">References and further reading</A>
+ &nbsp; <B>  <A NAME="tex2html2374"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2376"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001300000000000000000"></A><A NAME="ch:evaluation"></A>
+<BR>
+Evaluation in information retrieval
+</H1> 
+
+<P>
+We have seen in the preceding chapters many alternatives in designing an
+IR system.  How do we know which of these techniques are effective in
+which applications?  Should we use stop lists?  Should we stem?  Should
+we use inverse document frequency weighting? 
+Information retrieval has developed as a highly empirical
+discipline, requiring careful and thorough evaluation
+to demonstrate the superior performance of novel techniques on
+representative document collections.
+
+<P>
+In this chapter we begin with a discussion of measuring the
+effectiveness of IR systems (Section <A HREF="information-retrieval-system-evaluation-1.html#sec:ir-eval">8.1</A> ) and the test collections
+that are most often used for this purpose (Section <A HREF="standard-test-collections-1.html#sec:sample-test-collections">8.2</A> ).
+We then present the straightforward notion of relevant and 
+nonrelevant documents and the formal evaluation methodology
+that has been 
+developed for evaluating unranked retrieval results
+(Section <A HREF="evaluation-of-unranked-retrieval-sets-1.html#sec:unranked-evaluation">8.3</A> ). This includes explaining the kinds of 
+evaluation measures that are standardly used for document retrieval and related
+tasks like text classification and why they are appropriate.  We then extend
+these notions and develop further measures for evaluating ranked
+retrieval results (Section <A HREF="evaluation-of-ranked-retrieval-results-1.html#sec:ranked-evaluation">8.4</A> ) and discuss developing
+reliable and informative test collections (Section <A HREF="assessing-relevance-1.html#sec:test-collections">8.5</A> ).
+
+<P>
+We then step back to introduce the notion of user utility, and how it is 
+approximated by the use of document relevance (Section <A HREF="a-broader-perspective-system-quality-and-user-utility-1.html#sec:user-utility">8.6</A> ).
+The key utility measure is user happiness.  Speed of
+response and the size of the index are factors in user happiness.  It seems
+reasonable to assume that
+relevance of results is the most important factor:
+blindingly fast, useless answers do not make a user happy.  However,
+user perceptions do not always coincide with system designers' notions
+of quality.  For example, user happiness commonly depends very strongly
+on user interface design issues, including the layout, clarity, and
+responsiveness of the user interface, which are independent of the
+quality of the results returned.  We touch on
+other measures of the quality of a system, in particular
+the generation of high-quality
+result summary snippets, which strongly influence 
+user utility, but are not measured in the basic relevance ranking
+paradigm (Section <A HREF="results-snippets-1.html#sec:snippets">8.7</A> ). 
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html2379"
+  HREF="information-retrieval-system-evaluation-1.html">Information retrieval system evaluation</A>
+<LI><A NAME="tex2html2380"
+  HREF="standard-test-collections-1.html">Standard test collections</A>
+<LI><A NAME="tex2html2381"
+  HREF="evaluation-of-unranked-retrieval-sets-1.html">Evaluation of unranked retrieval sets</A>
+<LI><A NAME="tex2html2382"
+  HREF="evaluation-of-ranked-retrieval-results-1.html">Evaluation of ranked retrieval results</A>
+<LI><A NAME="tex2html2383"
+  HREF="assessing-relevance-1.html">Assessing relevance</A>
+<UL>
+<LI><A NAME="tex2html2384"
+  HREF="critiques-and-justifications-of-the-concept-of-relevance-1.html">Critiques and justifications of the concept of relevance</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html2385"
+  HREF="a-broader-perspective-system-quality-and-user-utility-1.html">A broader perspective: System quality and user
+  utility</A>
+<UL>
+<LI><A NAME="tex2html2386"
+  HREF="system-issues-1.html">System issues</A>
+<LI><A NAME="tex2html2387"
+  HREF="user-utility-1.html">User utility</A>
+<LI><A NAME="tex2html2388"
+  HREF="refining-a-deployed-system-1.html">Refining a deployed system</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html2389"
+  HREF="results-snippets-1.html">Results snippets</A>
+<LI><A NAME="tex2html2390"
+  HREF="references-and-further-reading-8.html">References and further reading</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2377"
+  HREF="information-retrieval-system-evaluation-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2371"
+  HREF="irbook.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2365"
+  HREF="references-and-further-reading-7.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2373"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2375"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2378"
+  HREF="information-retrieval-system-evaluation-1.html">Information retrieval system evaluation</A>
+<B> Up:</B> <A NAME="tex2html2372"
+  HREF="irbook.html">irbook</A>
+<B> Previous:</B> <A NAME="tex2html2366"
+  HREF="references-and-further-reading-7.html">References and further reading</A>
+ &nbsp; <B>  <A NAME="tex2html2374"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2376"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/evaluation-in-information-retrieval-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:21:34 GMT -->
+</HTML>

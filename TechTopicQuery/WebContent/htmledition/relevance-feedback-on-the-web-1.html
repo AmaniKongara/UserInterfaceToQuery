@@ -1,0 +1,164 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/relevance-feedback-on-the-web-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:27:16 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Relevance feedback on the web</TITLE>
+<META NAME="description" CONTENT="Relevance feedback on the web">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="evaluation-of-relevance-feedback-strategies-1.html">
+<LINK REL="previous" HREF="when-does-relevance-feedback-work-1.html">
+<LINK REL="up" HREF="relevance-feedback-and-pseudo-relevance-feedback-1.html">
+<LINK REL="next" HREF="evaluation-of-relevance-feedback-strategies-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2706"
+  HREF="evaluation-of-relevance-feedback-strategies-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2700"
+  HREF="relevance-feedback-and-pseudo-relevance-feedback-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2694"
+  HREF="when-does-relevance-feedback-work-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2702"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2704"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2707"
+  HREF="evaluation-of-relevance-feedback-strategies-1.html">Evaluation of relevance feedback</A>
+<B> Up:</B> <A NAME="tex2html2701"
+  HREF="relevance-feedback-and-pseudo-relevance-feedback-1.html">Relevance feedback and pseudo</A>
+<B> Previous:</B> <A NAME="tex2html2695"
+  HREF="when-does-relevance-feedback-work-1.html">When does relevance feedback</A>
+ &nbsp; <B>  <A NAME="tex2html2703"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2705"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001414000000000000000">
+Relevance feedback on the web</A>
+</H2>
+
+<P>
+Some web search engines offer a similar/related pages feature: the user indicates a document in the results set as exemplary from the standpoint of meeting his information need and requests more documents like it. This can be viewed as a particular simple form of relevance feedback. However, in general relevance feedback has been little used in web search. One exception was the Excite web search engine, which initially provided full relevance feedback. However, the feature was in time dropped, due to lack of use. On the web, few people use advanced search interfaces and most would like to
+complete their search in a single interaction. But the lack of uptake also probably
+reflects two other factors: relevance feedback is hard to explain to the
+average user, and relevance feedback is mainly a recall enhancing
+strategy, and web search users are only rarely concerned with getting
+sufficient recall.
+
+<P>
+<A
+ HREF="bibliography-1.html#spink00use">Spink et&nbsp;al. (2000)</A> present results from the use of relevance feedback
+in the Excite search engine. Only about 4% of user query sessions used
+the relevance feedback option, and these were usually exploiting the
+``More like this''
+link next to each result. About 70% of users only looked at the
+first page of results and did not pursue things any further.
+For people who used relevance feedback, results were improved
+about two thirds of the time.
+
+<P>
+An important more recent thread of work is the use of clickstream data (what links a user clicks on) to provide indirect relevance
+feedback.  Use of this data is studied in detail in
+(<A NAME="tex2html2708"
+  HREF="bibliography-1.html#joachims02clickthrough">Joachims, 2002b</A>, <A NAME="tex2html2709"
+  HREF="bibliography-1.html#joachims05clickthrough">Joachims et&nbsp;al., 2005</A>). The very
+successful use of web link structure (see Chapter <A HREF="link-analysis-1.html#ch:link">21</A> ) can also be
+viewed as implicit feedback, but provided by page authors rather than
+readers (though in practice most authors are also readers).
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI>In Rocchio's algorithm, what weight setting for
+<!-- MATH
+ $\alpha/\beta/\gamma$
+ -->
+<IMG
+ WIDTH="52" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img602.png"
+ ALT="$\alpha/\beta/\gamma$"> does a ``Find
+pages like this one'' search correspond to?
+
+<P>
+</LI>
+<LI>Give three reasons why relevance feedback has been little used in web search.
+
+<P>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2706"
+  HREF="evaluation-of-relevance-feedback-strategies-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2700"
+  HREF="relevance-feedback-and-pseudo-relevance-feedback-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2694"
+  HREF="when-does-relevance-feedback-work-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2702"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2704"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2707"
+  HREF="evaluation-of-relevance-feedback-strategies-1.html">Evaluation of relevance feedback</A>
+<B> Up:</B> <A NAME="tex2html2701"
+  HREF="relevance-feedback-and-pseudo-relevance-feedback-1.html">Relevance feedback and pseudo</A>
+<B> Previous:</B> <A NAME="tex2html2695"
+  HREF="when-does-relevance-feedback-work-1.html">When does relevance feedback</A>
+ &nbsp; <B>  <A NAME="tex2html2703"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2705"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/relevance-feedback-on-the-web-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:27:17 GMT -->
+</HTML>

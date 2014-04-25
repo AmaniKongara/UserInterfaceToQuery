@@ -1,0 +1,359 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/faster-postings-list-intersection-via-skip-pointers-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:22:42 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Faster postings list intersection via skip pointers</TITLE>
+<META NAME="description" CONTENT="Faster postings list intersection via skip pointers">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="positional-postings-and-phrase-queries-1.html">
+<LINK REL="previous" HREF="determining-the-vocabulary-of-terms-1.html">
+<LINK REL="up" HREF="the-term-vocabulary-and-postings-lists-1.html">
+<LINK REL="next" HREF="positional-postings-and-phrase-queries-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1215"
+  HREF="positional-postings-and-phrase-queries-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1209"
+  HREF="the-term-vocabulary-and-postings-lists-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1203"
+  HREF="stemming-and-lemmatization-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1211"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1213"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1216"
+  HREF="positional-postings-and-phrase-queries-1.html">Positional postings and phrase</A>
+<B> Up:</B> <A NAME="tex2html1210"
+  HREF="the-term-vocabulary-and-postings-lists-1.html">The term vocabulary and</A>
+<B> Previous:</B> <A NAME="tex2html1204"
+  HREF="stemming-and-lemmatization-1.html">Stemming and lemmatization</A>
+ &nbsp; <B>  <A NAME="tex2html1212"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1214"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00730000000000000000"></A>
+<A NAME="sec:skip-pointers"></A> <A NAME="p:skip-pointers"></A>
+<BR>
+Faster postings list intersection via skip pointers
+</H1> 
+
+<P>
+In the remainder of this chapter, we will discuss extensions to postings
+list data structures and ways to increase the efficiency of using postings
+lists.
+Recall the basic postings list intersection operation from 
+Section&nbsp;<A HREF="processing-boolean-queries-1.html#sec:postingsintersection">1.3</A> (page&nbsp;<A HREF="processing-boolean-queries-1.html#p:postingsintersection"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>): we walk through the two postings lists
+simultaneously, in time linear in the total number of postings entries.
+If the list lengths are <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img103.png"
+ ALT="$m$"> and <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img104.png"
+ ALT="$n$">, the intersection takes <IMG
+ WIDTH="72" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img105.png"
+ ALT="$O(m+n)$">
+operations.  Can we do better than this?  That is, empirically, can we usually
+process postings list intersection in sublinear time?  We can, if the index isn't
+changing too fast.
+
+<P>
+One way to do this is to use a <A NAME="2478"></A> <I>skip list</I>  by augmenting postings
+lists with skip pointers (at 
+indexing time), as shown in Figure <A HREF="#fig:skippointers">2.9</A> .  Skip pointers are
+effectively shortcuts that allow us to avoid processing parts of
+the postings list that will not figure in the search results.  The two
+questions are then where to place skip pointers and how to do efficient
+merging using skip pointers.
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:skippointers"></A><A NAME="p:skippointers"></A></P>
+<P>
+<IMG
+ WIDTH="406" HEIGHT="232" ALIGN="BOTTOM" BORDER="0"
+ SRC="img106.png"
+ ALT="\includegraphics[width=3.5in]{SkipLists.eps}">
+
+<P>
+Postings lists with skip pointers.The postings intersection can
+  use a skip pointer when the end point is still less than the item on
+  the other list.
+
+</DIV>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:skip-pointer-postings-intersection-algorithm"></A><A NAME="p:skip-pointer-postings-intersection-algorithm"></A><A NAME="2516"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 2.10:</STRONG>
+Postings lists intersection with skip pointers.</CAPTION>
+<TR><TD><IMG
+ WIDTH="599" HEIGHT="318" BORDER="0"
+ SRC="img107.png"
+ ALT="\begin{figure}\begin{algorithm}{IntersectWithSkips}{p_1, p_2}
+answer \= \langle\...
+...{IF}\end{IF}\end{IF}\end{WHILE} \\
+\RETURN{answer}
+\end{algorithm}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Consider first efficient merging, with Figure <A HREF="#fig:skippointers">2.9</A>  as an
+example.  Suppose we've stepped through the lists in the figure until
+we have matched <IMG
+ WIDTH="19" HEIGHT="22" ALIGN="BOTTOM" BORDER="0"
+ SRC="img108.png"
+ ALT="\framebox{8}"> on each list and moved it to the results
+list.  We advance both pointers, giving us <IMG
+ WIDTH="28" HEIGHT="22" ALIGN="BOTTOM" BORDER="0"
+ SRC="img109.png"
+ ALT="\framebox{16}"> on the upper
+list and <IMG
+ WIDTH="27" HEIGHT="22" ALIGN="BOTTOM" BORDER="0"
+ SRC="img110.png"
+ ALT="\framebox{41}"> on the lower list.  The smallest item is then
+the element <IMG
+ WIDTH="28" HEIGHT="22" ALIGN="BOTTOM" BORDER="0"
+ SRC="img109.png"
+ ALT="\framebox{16}"> on the top list. Rather than simply
+advancing the upper pointer, we first check the skip list pointer and
+note that 28 is also less than 41.  Hence we can follow the skip list
+pointer, and then we advance the upper pointer to <IMG
+ WIDTH="28" HEIGHT="22" ALIGN="BOTTOM" BORDER="0"
+ SRC="img111.png"
+ ALT="\framebox{28}">.
+We thus avoid stepping to <IMG
+ WIDTH="27" HEIGHT="22" ALIGN="BOTTOM" BORDER="0"
+ SRC="img112.png"
+ ALT="\framebox{19}"> and <IMG
+ WIDTH="28" HEIGHT="22" ALIGN="BOTTOM" BORDER="0"
+ SRC="img113.png"
+ ALT="\framebox{23}">
+on the upper list.  A number of variant versions of postings list
+intersection with skip pointers is possible depending on when exactly
+you check the skip pointer.  One version is shown in
+Figure <A HREF="#fig:skip-pointer-postings-intersection-algorithm">2.10</A> .  Skip pointers
+will only be available for the original postings lists.  For an
+intermediate result in a complex query, the call
+<!-- MATH
+ $\mbox{\emph{hasSkip}}(p)$
+ -->
+<IMG
+ WIDTH="76" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img114.png"
+ ALT="$\mbox{\emph{hasSkip}}(p)$"> will always return false.  Finally, note
+that the presence of skip pointers only helps for AND queries,
+not for OR queries.
+
+<P>
+Where do we place skips?  There is a tradeoff.  
+More skips means shorter skip spans, and that we are more likely to
+skip.  But it also means lots of comparisons to skip pointers, and lots
+of space storing skip pointers.
+Fewer skips means few pointer comparisons, but then long skip spans
+which means that there will be fewer opportunities to skip.
+A simple heuristic for placing skips, which has been found to work well
+in practice, is that for a postings list of length <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img115.png"
+ ALT="$P$">, use  <IMG
+ WIDTH="28" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img116.png"
+ ALT="$\sqrt{P}$">
+evenly-spaced skip pointers.
+This heuristic can be improved upon; it ignores any details
+of the
+distribution of query terms. 
+
+<P>
+Building effective skip pointers is easy if an index is relatively
+static; it is harder if a postings list keeps changing because of
+updates. A malicious deletion strategy can render skip lists
+ineffective. 
+
+<P>
+Choosing the optimal encoding for an inverted index is an ever-changing
+game for the system builder, because it is strongly dependent on underlying computer
+technologies and their relative speeds and sizes.
+Traditionally, CPUs were slow, and so highly compressed techniques were
+not optimal.  Now CPUs are fast and disk is slow, so reducing disk
+postings list size dominates. However, if you're running a search
+engine with everything in memory then the equation changes again.  
+We discuss the impact of hardware parameters on index construction time
+in Section&nbsp;<A HREF="hardware-basics-1.html#sec:hardwarebasics">4.1</A> (page&nbsp;<A HREF="hardware-basics-1.html#p:hardwarebasics"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>) and the impact of index size on system speed
+in Chapter <A HREF="index-compression-1.html#ch:icompress">5</A> .
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI>Why are skip pointers not useful for queries of the form <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img58.png"
+ ALT="$x$"> OR <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img59.png"
+ ALT="$y$">?
+
+<P>
+</LI>
+<LI>We have a two-word query. For one term the postings list consists of
+the following 16 entries:
+<BLOCKQUOTE>
+[4,6,10,12,14,16,18,20,22,32,47,81,120,122,157,180]
+
+</BLOCKQUOTE>
+and for the other it is the one entry postings list:
+<BLOCKQUOTE>
+[47].
+
+</BLOCKQUOTE>
+Work out how many comparisons would be done to 
+intersect the two postings lists with the following
+two strategies. Briefly justify your answers: 
+
+<OL>
+<LI>Using standard postings lists
+</LI>
+<LI>Using postings lists stored with skip pointers, with a skip 
+length of <IMG
+ WIDTH="28" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img116.png"
+ ALT="$\sqrt{P}$">, as 
+suggested in Section <A HREF="#sec:skip-pointers">2.3</A> .
+</LI>
+</OL>
+
+<P>
+</LI>
+<LI>Consider a postings intersection between this postings list, with skip pointers:
+<BLOCKQUOTE>
+xunit=0.6cm,arcangle=30
+<BR>
+<IMG
+ WIDTH="740" HEIGHT="13" ALIGN="BOTTOM" BORDER="0"
+ SRC="img117.png"
+ ALT="\begin{pspicture}(0.5,0)(17.5,1)
+\rput(1,.5){\Rnode{A}{3}}
+\rput(2,.5){\Rnode{B}...
+...arc{-&gt;}{A}{E}
+\ncarc{-&gt;}{E}{I}
+\ncarc{-&gt;}{I}{M}
+\ncarc{-&gt;}{M}{Q}
+\end{pspicture}">
+<BR>
+</BLOCKQUOTE>
+and the following intermediate result postings list (which hence has no skip pointers): 
+<BLOCKQUOTE>
+3&nbsp;&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;89&nbsp;&nbsp;&nbsp;&nbsp;95&nbsp;&nbsp;&nbsp;&nbsp;97&nbsp;&nbsp;&nbsp;&nbsp;99&nbsp;&nbsp;&nbsp;&nbsp;100&nbsp;&nbsp;&nbsp;&nbsp;101
+
+</BLOCKQUOTE>
+Trace through the postings intersection algorithm in Figure&nbsp;<A HREF="#fig:skip-pointer-postings-intersection-algorithm">2.10</A> (page&nbsp;<A HREF="faster-postings-list-intersection-via-skip-pointers-1.html#p:skip-pointer-postings-intersection-algorithm"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>).
+
+<OL>
+<LI>How often is a skip pointer followed (i.e., <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1.png"
+ ALT="$p_1$"> is advanced to <!-- MATH
+ $\mbox{\emph{skip}}(p_1)$
+ -->
+<IMG
+ WIDTH="59" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img118.png"
+ ALT="$\mbox{\emph{skip}}(p_1)$">)?
+</LI>
+<LI>How many postings comparisons will be made by this algorithm while intersecting the two lists?
+</LI>
+<LI>How many postings comparisons would be made if the postings lists are intersected without the use of skip pointers?
+</LI>
+</OL>
+
+<P>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1215"
+  HREF="positional-postings-and-phrase-queries-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1209"
+  HREF="the-term-vocabulary-and-postings-lists-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1203"
+  HREF="stemming-and-lemmatization-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1211"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1213"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1216"
+  HREF="positional-postings-and-phrase-queries-1.html">Positional postings and phrase</A>
+<B> Up:</B> <A NAME="tex2html1210"
+  HREF="the-term-vocabulary-and-postings-lists-1.html">The term vocabulary and</A>
+<B> Previous:</B> <A NAME="tex2html1204"
+  HREF="stemming-and-lemmatization-1.html">Stemming and lemmatization</A>
+ &nbsp; <B>  <A NAME="tex2html1212"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1214"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/faster-postings-list-intersection-via-skip-pointers-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:22:51 GMT -->
+</HTML>

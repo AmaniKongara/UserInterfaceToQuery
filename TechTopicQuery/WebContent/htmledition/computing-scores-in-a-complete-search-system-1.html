@@ -1,0 +1,173 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/computing-scores-in-a-complete-search-system-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:21:33 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Computing scores in a complete search system</TITLE>
+<META NAME="description" CONTENT="Computing scores in a complete search system">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="evaluation-in-information-retrieval-1.html">
+<LINK REL="previous" HREF="scoring-term-weighting-and-the-vector-space-model-1.html">
+<LINK REL="up" HREF="irbook.html">
+<LINK REL="next" HREF="efficient-scoring-and-ranking-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2095"
+  HREF="efficient-scoring-and-ranking-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2089"
+  HREF="irbook.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2083"
+  HREF="references-and-further-reading-6.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2091"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2093"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2096"
+  HREF="efficient-scoring-and-ranking-1.html">Efficient scoring and ranking</A>
+<B> Up:</B> <A NAME="tex2html2090"
+  HREF="irbook.html">irbook</A>
+<B> Previous:</B> <A NAME="tex2html2084"
+  HREF="references-and-further-reading-6.html">References and further reading</A>
+ &nbsp; <B>  <A NAME="tex2html2092"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2094"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001200000000000000000"></A>
+<A NAME="ch:cosine"></A> <A NAME="ch:ranking-ir-system"></A>
+<BR>
+Computing scores in a complete search system
+</H1> 
+
+<P>
+Chapter <A HREF="scoring-term-weighting-and-the-vector-space-model-1.html#ch:tfidf">6</A>  developed the theory underlying term weighting in documents for the purposes of scoring, leading up to vector space models and the basic cosine scoring algorithm of Section&nbsp;<A HREF="computing-vector-scores-1.html#sec:pseudocode">6.3.3</A> (page&nbsp;<A HREF="computing-vector-scores-1.html#p:pseudocode"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>).  In this chapter we begin in Section <A HREF="efficient-scoring-and-ranking-1.html#sec:heuristics">7.1</A>  with heuristics for speeding up this computation; many of these heuristics achieve their speed at the risk of not finding quite the top <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$"> documents matching the query.  Some of these heuristics generalize beyond cosine scoring.  With Section <A HREF="efficient-scoring-and-ranking-1.html#sec:heuristics">7.1</A>  in place, we have essentially all the components needed for a complete search engine.  We therefore take a step back from cosine scoring, to the more general problem of computing scores in a search engine.  In Section <A HREF="components-of-an-information-retrieval-system-1.html#sec:components">7.2</A>  we outline a complete search engine, including indexes and structures to support not only cosine scoring but also more general ranking factors such as query term proximity. We describe how all of the various pieces fit together in Section <A HREF="putting-it-all-together-1.html#sec:system">7.2.4</A> .  We conclude this chapter with Section <A HREF="vector-space-scoring-and-query-operator-interaction-1.html#sec:interactions">7.3</A> , where we discuss how the vector space model for free text queries interacts with common query operators.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html2097"
+  HREF="efficient-scoring-and-ranking-1.html">Efficient scoring and ranking</A>
+<UL>
+<LI><A NAME="tex2html2098"
+  HREF="inexact-top-k-document-retrieval-1.html">Inexact top K document retrieval</A>
+<LI><A NAME="tex2html2099"
+  HREF="index-elimination-1.html">Index elimination</A>
+<LI><A NAME="tex2html2100"
+  HREF="champion-lists-1.html">Champion lists</A>
+<LI><A NAME="tex2html2101"
+  HREF="static-quality-scores-and-ordering-1.html">Static quality scores and ordering</A>
+<LI><A NAME="tex2html2102"
+  HREF="impact-ordering-1.html">Impact ordering</A>
+<LI><A NAME="tex2html2103"
+  HREF="cluster-pruning-1.html">Cluster pruning</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html2104"
+  HREF="components-of-an-information-retrieval-system-1.html">Components of an information retrieval system</A>
+<UL>
+<LI><A NAME="tex2html2105"
+  HREF="tiered-indexes-1.html">Tiered indexes</A>
+<LI><A NAME="tex2html2106"
+  HREF="query-term-proximity-1.html">Query-term proximity</A>
+<LI><A NAME="tex2html2107"
+  HREF="designing-parsing-and-scoring-functions-1.html">Designing parsing and scoring functions</A>
+<LI><A NAME="tex2html2108"
+  HREF="putting-it-all-together-1.html">Putting it all together</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html2109"
+  HREF="vector-space-scoring-and-query-operator-interaction-1.html">Vector space scoring and query operator interaction</A>
+<UL>
+<LI><A NAME="tex2html2110"
+  HREF="boolean-retrieval-2.html">Boolean retrieval</A>
+<LI><A NAME="tex2html2111"
+  HREF="wildcard-queries-2.html">Wildcard queries</A>
+<LI><A NAME="tex2html2112"
+  HREF="phrase-queries-1.html">Phrase queries</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html2113"
+  HREF="references-and-further-reading-7.html">References and further reading</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2095"
+  HREF="efficient-scoring-and-ranking-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2089"
+  HREF="irbook.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2083"
+  HREF="references-and-further-reading-6.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2091"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2093"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2096"
+  HREF="efficient-scoring-and-ranking-1.html">Efficient scoring and ranking</A>
+<B> Up:</B> <A NAME="tex2html2090"
+  HREF="irbook.html">irbook</A>
+<B> Previous:</B> <A NAME="tex2html2084"
+  HREF="references-and-further-reading-6.html">References and further reading</A>
+ &nbsp; <B>  <A NAME="tex2html2092"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2094"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/computing-scores-in-a-complete-search-system-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:21:34 GMT -->
+</HTML>

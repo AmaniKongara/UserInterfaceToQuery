@@ -1,0 +1,469 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/dynamic-indexing-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:23:40 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Dynamic indexing</TITLE>
+<META NAME="description" CONTENT="Dynamic indexing">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="other-types-of-indexes-1.html">
+<LINK REL="previous" HREF="distributed-indexing-1.html">
+<LINK REL="up" HREF="index-construction-1.html">
+<LINK REL="next" HREF="other-types-of-indexes-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1613"
+  HREF="other-types-of-indexes-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1607"
+  HREF="index-construction-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1601"
+  HREF="distributed-indexing-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1609"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1611"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1614"
+  HREF="other-types-of-indexes-1.html">Other types of indexes</A>
+<B> Up:</B> <A NAME="tex2html1608"
+  HREF="index-construction-1.html">Index construction</A>
+<B> Previous:</B> <A NAME="tex2html1602"
+  HREF="distributed-indexing-1.html">Distributed indexing</A>
+ &nbsp; <B>  <A NAME="tex2html1610"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1612"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00950000000000000000"></A>
+<A NAME="sec:dynamicindexing"></A> <A NAME="p:dynamicindexing"></A>
+<BR>
+Dynamic indexing
+</H1> 
+
+<P>
+Thus far, we have assumed that the document collection is
+static. This is fine for collections that change
+infrequently or never (e.g., the Bible or Shakespeare).  But
+most collections are modified frequently with documents being
+added, deleted, and updated.  This means that new terms need
+to be added to the dictionary, and postings lists need to be
+updated for existing terms.
+
+<P>
+The simplest way to achieve this is to periodically
+reconstruct the index from scratch. This is a good solution
+if the number of changes over time is small and a delay in
+making new documents searchable is acceptable - and if
+enough resources are available to construct a new index
+while the old one is still available for querying.
+
+<P>
+If there is a requirement that new documents be included
+quickly, one solution is to maintain two indexes: a large
+main index and a small <A NAME="5167"></A><A NAME="5168"></A> <I>auxiliary index</I>  that stores
+new documents. The auxiliary index is kept in
+memory. Searches are run across both indexes and results
+merged. Deletions are stored in an invalidation bit
+vector. We can then filter out deleted documents before
+returning the search result. Documents are updated by
+deleting and reinserting them.
+
+<P>
+Each time the auxiliary index becomes too large, we merge it into
+the main index. The cost of this merging operation depends
+on  how we store the index in the file system. If we store
+each postings list as a separate file, then the merge simply
+consists of extending each postings list of the main index by
+the corresponding postings list of the auxiliary
+index. In this scheme, 
+the reason for keeping the auxiliary
+index is to reduce the number of disk seeks required over
+time. Updating each document separately requires up to <IMG
+ WIDTH="38" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img203.png"
+ ALT="$ M_{ave}$"><A NAME="Md-notation"></A>disk seeks, where <IMG
+ WIDTH="38" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img203.png"
+ ALT="$ M_{ave}$"> is the average size of the vocabulary of 
+documents in the collection. With an auxiliary index, we only put additional load on
+the disk when we merge auxiliary and main indexes.
+
+<P>
+Unfortunately, the one-file-per-postings-list scheme is
+infeasible because most file systems cannot efficiently
+handle very large numbers of files. The simplest alternative
+is to store the index as one large file, that is, as a
+concatenation of all postings lists. In reality, we
+often choose a compromise between the two extremes
+(Section <A HREF="references-and-further-reading-4.html#sec:iconstfurther">4.7</A> ). To simplify the discussion, we
+choose the simple option of storing the index as one large
+file here.
+
+<P>
+In this scheme, we process each posting <!-- MATH
+ $\lfloor T/n
+\rfloor$
+ -->
+<IMG
+ WIDTH="49" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img204.png"
+ ALT="$\lfloor T/n
+\rfloor$"> times because we touch it during each of <!-- MATH
+ $\lfloor
+T/n \rfloor$
+ -->
+<IMG
+ WIDTH="49" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img204.png"
+ ALT="$\lfloor T/n
+\rfloor$"> merges where <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img104.png"
+ ALT="$n$"> is the size of the auxiliary
+index and <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img123.png"
+ ALT="$T$"> the total number of postings.  Thus, the
+overall time complexity is <IMG
+ WIDTH="67" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img205.png"
+ ALT="$\Theta(T^2/n)$">. (We neglect the
+representation of terms here and consider only the
+docIDs. For the purpose of time complexity, a postings list is simply a list of docIDs.)
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:logmerging"></A><A NAME="p:logmerging"></A><A NAME="5360"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure:</STRONG>
+Logarithmic merging.<A NAME="5204"></A> Each token
+(termID,docID) is
+initially added to in-memory index <IMG
+ WIDTH="22" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img5.png"
+ ALT="$Z_0$"> by LM<SMALL>ERGE</SMALL>A<SMALL>DD</SMALL>T<SMALL>OKEN</SMALL>. 
+L<SMALL>OGARITHMIC</SMALL>M<SMALL>ERGE</SMALL> initializes <IMG
+ WIDTH="22" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img5.png"
+ ALT="$Z_0$"> and <IMG
+ WIDTH="55" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img6.png"
+ ALT="$indexes$">.</CAPTION>
+<TR><TD><IMG
+ WIDTH="470" HEIGHT="341" BORDER="0"
+ SRC="img206.png"
+ ALT="\begin{figure}\begin{algorithm}{LMergeAddToken}{indexes,Z_0,token}
+Z_0 \= \CALL{...
+...oken}(indexes,Z_0,\CALL{getNextToken}())
+\end{WHILE}\end{algorithm}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+We can do better than <IMG
+ WIDTH="67" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img205.png"
+ ALT="$\Theta(T^2/n)$"> by introducing
+<IMG
+ WIDTH="77" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img207.png"
+ ALT="$\log_2 (T/n)$"> indexes <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img208.png"
+ ALT="$I_0$">, <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img209.png"
+ ALT="$I_1$">, <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img210.png"
+ ALT="$I_2$">, ...of
+size <IMG
+ WIDTH="48" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img211.png"
+ ALT="$2^0 \times n$">, <IMG
+ WIDTH="47" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img212.png"
+ ALT="$2^1 \times n$">, <IMG
+ WIDTH="48" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img213.png"
+ ALT="$2^2 \times n$">
+.... Postings percolate up this sequence of indexes and
+are processed only once on each level.  This scheme is
+called <A NAME="5210"></A> <I>logarithmic merging</I>  (Figure <A HREF="#fig:logmerging">4.7</A> ). As
+before, up to <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img104.png"
+ ALT="$n$"> postings are accumulated in an in-memory
+auxiliary index, which we call <IMG
+ WIDTH="22" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img5.png"
+ ALT="$Z_0$">. When the limit <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img104.png"
+ ALT="$n$"> is reached,
+the <IMG
+ WIDTH="48" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img211.png"
+ ALT="$2^0 \times n$"> postings in <IMG
+ WIDTH="22" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img5.png"
+ ALT="$Z_0$"> are transferred to a
+new index <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img208.png"
+ ALT="$I_0$"> that is created on disk.
+The next time <IMG
+ WIDTH="22" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img5.png"
+ ALT="$Z_0$"> is full, it is merged with <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img208.png"
+ ALT="$I_0$">
+to create an index <IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img214.png"
+ ALT="$Z_1$"> of size <!-- MATH
+ $2^1\!  \times n$
+ -->
+<IMG
+ WIDTH="45" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img215.png"
+ ALT="$2^1\! \times n$">.  Then <IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img214.png"
+ ALT="$Z_1$">
+is either stored as <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img209.png"
+ ALT="$I_1$"> (if there isn't already an <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img209.png"
+ ALT="$I_1$">)
+or merged with <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img209.png"
+ ALT="$I_1$"> into <IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img216.png"
+ ALT="$Z_2$"> (if <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img209.png"
+ ALT="$I_1$"> exists); and so
+on.  We service search requests by querying in-memory <IMG
+ WIDTH="22" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img5.png"
+ ALT="$Z_0$">
+and all currently valid indexes <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img217.png"
+ ALT="$I_i$"> on disk and merging
+the results. Readers familiar with the binomial
+heap data structure<A NAME="tex2html42"
+  HREF="footnode.html#foot5361"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A> will
+recognize its similarity  with the structure of the inverted
+indexes in logarithmic merging.
+
+<P>
+Overall index construction time is <!-- MATH
+ $\Theta(T \log (T/n))$
+ -->
+<IMG
+ WIDTH="109" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img218.png"
+ ALT="$\Theta(T \log (T/n))$">
+because each posting is processed only once on each of the
+<IMG
+ WIDTH="70" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img219.png"
+ ALT="$\log (T/n)$"> levels. We trade
+this efficiency gain for a slow down of query processing;
+we now need to merge results from <IMG
+ WIDTH="70" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img219.png"
+ ALT="$\log (T/n)$"> indexes as
+opposed to just two (the main and auxiliary indexes).  As in
+the auxiliary index scheme, we still need to merge very
+large indexes occasionally (which slows down the search
+system during the merge), but this happens less
+frequently and the indexes involved in a merge  on
+average are smaller.
+
+<P>
+Having multiple indexes complicates the maintenance of
+collection-wide <A NAME="p:auxstatistics"></A> statistics.  For example, it affects the
+spelling correction algorithm in Section&nbsp;<A HREF="spelling-correction-1.html#sec:spelling">3.3</A> (page&nbsp;<A HREF="spelling-correction-1.html#p:spelling"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>) that
+selects the corrected alternative with the most hits. With
+multiple indexes and an invalidation bit vector, the correct
+number of hits for a term is no longer a simple lookup.  
+In fact, all
+aspects of an IR system - index maintenance, query
+processing, distribution, and so on - are more complex in logarithmic
+merging.
+
+<P>
+Because of this complexity of dynamic indexing, some large
+search engines adopt a reconstruction-from-scratch
+strategy.  They do not construct indexes
+dynamically. Instead, a new index is built from scratch
+periodically. Query processing is then switched from the new
+index and the old index is deleted.
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI>For <IMG
+ WIDTH="43" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img220.png"
+ ALT="$n=2$"> and <!-- MATH
+ $1 \leq T \leq 30$
+ -->
+<IMG
+ WIDTH="83" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img221.png"
+ ALT="$1 \leq T \leq 30$">, perform a
+step-by-step 
+simulation of the
+algorithm in Figure <A HREF="#fig:logmerging">4.7</A> . 
+Create a table that shows,
+for each point in time
+at which <IMG
+ WIDTH="67" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img222.png"
+ ALT="$T=2*k$"> tokens have been processed (<!-- MATH
+ $1 \leq k \leq
+15$
+ -->
+<IMG
+ WIDTH="80" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img223.png"
+ ALT="$1 \leq k \leq
+15$">), which of the three indexes <!-- MATH
+ $I_0, \ldots, I_3$
+ -->
+<IMG
+ WIDTH="64" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img224.png"
+ ALT="$I_0, \ldots, I_3$">
+are in use. The first three lines of the table are given below.
+<BLOCKQUOTE>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img225.png"
+ ALT="$I_3$"></TD>
+<TD ALIGN="LEFT"><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img210.png"
+ ALT="$I_2$"></TD>
+<TD ALIGN="LEFT"><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img209.png"
+ ALT="$I_1$"></TD>
+<TD ALIGN="LEFT"><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img208.png"
+ ALT="$I_0$"></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">2</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">4</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">6</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1613"
+  HREF="other-types-of-indexes-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1607"
+  HREF="index-construction-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1601"
+  HREF="distributed-indexing-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1609"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1611"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1614"
+  HREF="other-types-of-indexes-1.html">Other types of indexes</A>
+<B> Up:</B> <A NAME="tex2html1608"
+  HREF="index-construction-1.html">Index construction</A>
+<B> Previous:</B> <A NAME="tex2html1602"
+  HREF="distributed-indexing-1.html">Distributed indexing</A>
+ &nbsp; <B>  <A NAME="tex2html1610"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1612"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/dynamic-indexing-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:23:53 GMT -->
+</HTML>

@@ -1,0 +1,474 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/pivoted-normalized-document-length-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:26:05 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Pivoted normalized document length</TITLE>
+<META NAME="description" CONTENT="Pivoted normalized document length">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="document-and-query-weighting-schemes-1.html">
+<LINK REL="up" HREF="variant-tf-idf-functions-1.html">
+<LINK REL="next" HREF="references-and-further-reading-6.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2064"
+  HREF="references-and-further-reading-6.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2058"
+  HREF="variant-tf-idf-functions-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2054"
+  HREF="document-and-query-weighting-schemes-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2060"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2062"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2065"
+  HREF="references-and-further-reading-6.html">References and further reading</A>
+<B> Up:</B> <A NAME="tex2html2059"
+  HREF="variant-tf-idf-functions-1.html">Variant tf-idf functions</A>
+<B> Previous:</B> <A NAME="tex2html2055"
+  HREF="document-and-query-weighting-schemes-1.html">Document and query weighting</A>
+ &nbsp; <B>  <A NAME="tex2html2061"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2063"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001144000000000000000"></A>
+<A NAME="sec:pivoted"></A> <A NAME="p:pivoted"></A>
+<BR>
+Pivoted normalized document length
+</H2> 
+
+<P>
+In Section <A HREF="dot-products-1.html#sec:inner">6.3.1</A>  we normalized each document vector by the Euclidean length of the vector, so that all document vectors turned into unit vectors. In doing so, we eliminated all information on the length of the original document; this masks some subtleties about longer documents. First, longer documents will - as a result of containing more terms - have higher tf values. Second, longer documents contain more distinct terms. These factors can conspire to raise the scores of longer documents, which (at least for some information needs) is unnatural. Longer documents can broadly be lumped into two categories: (1) <I>verbose</I> documents that essentially repeat the same content - in these, the length of the document does not alter the relative weights of different terms; (2) documents covering multiple different topics, in which the search terms probably match small segments of the document but not all of it - in this case, the relative weights of terms are quite different from a single short document that matches the query terms. Compensating for this phenomenon is a form of document length normalization that is independent of term and document frequencies. To this end, we introduce a form of normalizing the vector representations of documents in the collection, so that the resulting ``normalized'' documents are not necessarily of unit length. Then, when we compute the dot product score between a (unit) query vector and such a normalized document, the score is skewed to account for the effect of document length on relevance. This form of compensation for document length is known as <A NAME="8458"></A> <I>pivoted document length normalization</I> .
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:fig:pivoted"></A><A NAME="p:fig:pivoted"></A><A NAME="8477"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 6.16:</STRONG>
+Pivoted document length normalization.</CAPTION>
+<TR><TD><IMG
+ WIDTH="376" HEIGHT="265" BORDER="0"
+ SRC="img463.png"
+ ALT="\begin{figure}\begin{picture}(700,200)
+\put(180,5){\makebox(50,20){Document leng...
+...10){\vector(1,0){200}}
+\put(10,10){\vector(0,1){140}}
+\end{picture} \end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Consider a document collection together with an ensemble of queries for that collection. Suppose that we were given, for each query <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$"> and for each document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">, a Boolean judgment of whether or not <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$"> is relevant to the query <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$">; in Chapter <A HREF="evaluation-in-information-retrieval-1.html#ch:evaluation">8</A>  we will see how to procure such a set of relevance judgments for a query ensemble and a document collection. Given this set of relevance judgments, we may compute a <I>probability of relevance</I> as a function of document length, averaged over all queries in the ensemble. The resulting plot may look like the curve drawn in thick lines in Figure <A HREF="#fig:fig:pivoted">6.16</A> . To compute this curve, we bucket documents by length and compute the fraction of relevant documents in each bucket, then plot this fraction against the median document length of each bucket.  (Thus even though the ``curve'' in Figure <A HREF="#fig:fig:pivoted">6.16</A>  appears to be continuous, it is in fact a histogram of discrete buckets of document length.)
+
+<P>
+On the other hand, the curve in thin lines shows what might happen with the same documents and query ensemble if we were to use relevance as prescribed by cosine normalization Equation&nbsp;<A HREF="queries-as-vectors-1.html#eqn:cosinescore">27</A> - thus, cosine normalization has a tendency to distort the computed relevance vis-&#224;-vis the true relevance, at the expense of longer documents. The thin and thick curves crossover at a point <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img181.png"
+ ALT="$p$"> corresponding to document length <IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img464.png"
+ ALT="$\ell_p$">, which we refer to as the <I>pivot length</I>; dashed lines mark this point on the <IMG
+ WIDTH="26" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img465.png"
+ ALT="$x-$"> and <IMG
+ WIDTH="25" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img466.png"
+ ALT="$y-$"> axes. The idea of pivoted document length normalization would then be to ``rotate'' the cosine normalization curve counter-clockwise about <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img181.png"
+ ALT="$p$"> so that it more closely matches thick line representing the relevance vs. document length curve. As mentioned at the beginning of this section, we do so by using in Equation&nbsp;<A HREF="queries-as-vectors-1.html#eqn:cosinescore">27</A> a normalization factor for each document vector <IMG
+ WIDTH="38" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img410.png"
+ ALT="$\vec{V}(d)$"> that is not the Euclidean length of that vector, but instead one that is larger than the Euclidean length for documents of length less than <IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img464.png"
+ ALT="$\ell_p$">, and smaller for longer documents.
+
+<P>
+To this end, we first note that the normalizing term for <IMG
+ WIDTH="38" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img410.png"
+ ALT="$\vec{V}(d)$"> in the denominator of Equation&nbsp;<A HREF="queries-as-vectors-1.html#eqn:cosinescore">27</A> is its Euclidean length, denoted <IMG
+ WIDTH="48" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img467.png"
+ ALT="$\vert\vec{V}(d)\vert$">. In the simplest implementation of pivoted document length normalization, we use a normalization factor in the denominator that is linear in <IMG
+ WIDTH="48" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img467.png"
+ ALT="$\vert\vec{V}(d)\vert$">, but one of slope <IMG
+ WIDTH="29" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img468.png"
+ ALT="$&lt;1$"> as in Figure <A HREF="#fig:pivlin">6.17</A> . In this figure, the <IMG
+ WIDTH="26" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img465.png"
+ ALT="$x-$"> axis represents <IMG
+ WIDTH="48" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img467.png"
+ ALT="$\vert\vec{V}(d)\vert$">, while the <IMG
+ WIDTH="25" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img466.png"
+ ALT="$y-$">axis represents possible normalization factors we can use. The thin line <IMG
+ WIDTH="43" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img469.png"
+ ALT="$y=x$"> depicts the use of cosine normalization.  Notice the following aspects of the thick line representing pivoted length normalization:
+
+<OL>
+<LI>It is linear in the document length and has the form
+  <BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+a|\vec{V}(d)|+(1-a)\mbox{piv},
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="pivoteddoclen"></A><IMG
+ WIDTH="148" HEIGHT="28" BORDER="0"
+ SRC="img470.png"
+ ALT="\begin{displaymath}
+a\vert\vec{V}(d)\vert+(1-a)\mbox{piv},
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(31)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+where <IMG
+ WIDTH="27" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img471.png"
+ ALT="$\mbox{piv}$"> is the cosine normalization value at which the two curves intersect.
+</LI>
+<LI>Its slope is <IMG
+ WIDTH="41" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img472.png"
+ ALT="$a&lt;1$"> and (3) it crosses the <IMG
+ WIDTH="43" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img469.png"
+ ALT="$y=x$"> line at piv.
+</LI>
+</OL>
+It has been argued that in practice, Equation&nbsp;<A HREF="#pivoteddoclen">31</A> is well approximated by
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+au_d+(1-a)\mbox{piv},
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="119" HEIGHT="28" BORDER="0"
+ SRC="img473.png"
+ ALT="\begin{displaymath}
+au_d+(1-a)\mbox{piv},
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(32)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+where <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img474.png"
+ ALT="$u_d$"> is the number of unique terms in document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:pivlin"></A><A NAME="p:pivlin"></A><A NAME="8524"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 6.17:</STRONG>
+Implementing pivoted document length normalization by linear scaling.</CAPTION>
+<TR><TD><IMG
+ WIDTH="441" HEIGHT="265" BORDER="0"
+ SRC="img475.png"
+ ALT="\begin{figure}\begin{picture}(700,200)
+\put(220,10){\makebox(50,20){$\vert\vec{V...
+...10){\vector(1,0){200}}
+\put(30,10){\vector(0,1){140}}
+\end{picture} \end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Of course, pivoted document length normalization is not appropriate for all applications. For instance, in a collection of answers to frequently asked questions (say, at a customer service website), relevance may have little to do with document length. In other cases the dependency may be more complex than can be accounted for by a simple linear pivoted normalization. In such cases, document length can be used as a feature in the machine learning based scoring approach of Section <A HREF="learning-weights-1.html#sec:mlr">6.1.2</A> .
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI><A NAME="ex:euclideancosine"></A> One measure of the similarity of two vectors is the <A NAME="8532"></A> <I>Euclidean
+distance</I>  (or <A NAME="8534"></A> <I><IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img476.png"
+ ALT="$L_2$"> distance</I> ) between them:
+<A NAME="p:euclideandistance"></A> 
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+|\vec{x}-\vec{y}|= \sqrt{\sum_{i=1}^M (x_i-y_i)^2}
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="170" HEIGHT="64" BORDER="0"
+ SRC="img477.png"
+ ALT="\begin{displaymath}
+\vert\vec{x}-\vec{y}\vert= \sqrt{\sum_{i=1}^M (x_i-y_i)^2}
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(33)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+Given a query <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$"> and documents
+<!-- MATH
+ $d_1,d_2,\ldots$
+ -->
+<IMG
+ WIDTH="66" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img478.png"
+ ALT="$d_1,d_2,\ldots$">, we may rank the documents <IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img190.png"
+ ALT="$d_i$"> in order
+of increasing Euclidean distance from <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$">. Show that if <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$">
+and the <IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img190.png"
+ ALT="$d_i$"> are all normalized to unit vectors, then the
+rank ordering produced by Euclidean distance is identical to
+that produced by cosine similarities.
+
+<P>
+</LI>
+<LI><A NAME="ex:cosineex"></A>Compute the vector space similarity between the query
+``digital cameras'' and the  document ``digital cameras and video cameras'' by
+filling out the empty columns in Table <A HREF="#tab:cosinetab">6.1</A> . Assume
+<!-- MATH
+ $N=10{,}000{,}000$
+ -->
+<IMG
+ WIDTH="112" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img479.png"
+ ALT="$N=10{,}000{,}000$">, logarithmic term weighting (wf columns) for query and
+document, idf weighting for the query only and cosine
+normalization for the document only. Treat and as a
+stop word. Enter term counts in the tf columns. What is the final similarity score?
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="8699"></A>
+<TABLE>
+<CAPTION><STRONG>Table 6.1:</STRONG>
+Cosine computation for Exercise <A HREF="#ex:cosineex">6.4.4</A> .</CAPTION>
+<TR><TD><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="CENTER" COLSPAN=5>query</TD>
+<TD ALIGN="CENTER" COLSPAN=3>document</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT">word</TD>
+<TD ALIGN="LEFT">tf</TD>
+<TD ALIGN="LEFT">wf</TD>
+<TD ALIGN="LEFT">df</TD>
+<TD ALIGN="LEFT">idf</TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $q_i = \mbox{wf-idf}$
+ -->
+<IMG
+ WIDTH="82" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img480.png"
+ ALT="$q_i = \mbox{wf-idf}$"></TD>
+<TD ALIGN="LEFT">tf</TD>
+<TD ALIGN="LEFT">wf</TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $d_i=\mbox{normalized wf}$
+ -->
+<IMG
+ WIDTH="142" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img481.png"
+ ALT="$d_i=\mbox{normalized wf}$"></TD>
+<TD ALIGN="LEFT"><IMG
+ WIDTH="40" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img482.png"
+ ALT="$q_i\cdot d_i$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT">digital</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">10,000</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT">video</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">100,000</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT">cameras</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">50,000</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+</TR>
+</TABLE>
+
+<A NAME="tab:cosinetab"></A> <A NAME="p:cosinetab"></A> 
+</TD></TR>
+</TABLE>
+</DIV><P></P>
+<BR>
+
+<P>
+</LI>
+<LI>Show that for the query affection, the relative ordering of the scores of the three documents in Figure&nbsp;<A HREF="dot-products-1.html#tab:3tfidfs">6.13</A> is the reverse of the ordering of the scores for the query jealous gossip.
+
+<P>
+</LI>
+<LI>In turning a query into a unit vector in Figure&nbsp;<A HREF="dot-products-1.html#tab:3tfidfs">6.13</A>, we assigned equal weights to each of the query terms. What other principled approaches are plausible?
+
+<P>
+</LI>
+<LI>Consider the case of a query term that is not in the set of <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img186.png"
+ ALT="$M$"> indexed terms; thus our standard construction of the query vector results in <IMG
+ WIDTH="38" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img461.png"
+ ALT="$\vec{V}(q)$"> not being in the vector space created from the collection. How would one adapt the vector space representation to handle this case?
+
+<P>
+</LI>
+<LI><A NAME="ex:tfidfscoring"></A>Refer to the tf and idf values for four terms and
+three documents in Exercise&nbsp;<A HREF="tf-idf-weighting-1.html#ex:tfidf">6.2.2</A>.
+Compute the two top scoring documents on the query
+best car insurance for each of the
+following weighing schemes: (i) <TT>nnn.atc</TT>;
+(ii) <TT>ntc.atc</TT>.
+
+<P>
+</LI>
+<LI>Suppose that the word coyote does not occur
+in the collection used in Exercises&nbsp;<A HREF="tf-idf-weighting-1.html#ex:tfidf">6.2.2</A> and
+<A HREF="#ex:tfidfscoring">6.4.4</A>.  How would one compute
+<TT>ntc.atc</TT> scores for the query coyote
+insurance?
+
+<P>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2064"
+  HREF="references-and-further-reading-6.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2058"
+  HREF="variant-tf-idf-functions-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2054"
+  HREF="document-and-query-weighting-schemes-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2060"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2062"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2065"
+  HREF="references-and-further-reading-6.html">References and further reading</A>
+<B> Up:</B> <A NAME="tex2html2059"
+  HREF="variant-tf-idf-functions-1.html">Variant tf-idf functions</A>
+<B> Previous:</B> <A NAME="tex2html2055"
+  HREF="document-and-query-weighting-schemes-1.html">Document and query weighting</A>
+ &nbsp; <B>  <A NAME="tex2html2061"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2063"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/pivoted-normalized-document-length-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:26:17 GMT -->
+</HTML>

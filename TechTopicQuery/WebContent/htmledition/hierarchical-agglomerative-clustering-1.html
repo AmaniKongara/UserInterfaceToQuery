@@ -1,0 +1,428 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/hierarchical-agglomerative-clustering-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:36:02 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Hierarchical agglomerative clustering</TITLE>
+<META NAME="description" CONTENT="Hierarchical agglomerative clustering">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="single-link-and-complete-link-clustering-1.html">
+<LINK REL="previous" HREF="hierarchical-clustering-1.html">
+<LINK REL="up" HREF="hierarchical-clustering-1.html">
+<LINK REL="next" HREF="single-link-and-complete-link-clustering-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4338"
+  HREF="single-link-and-complete-link-clustering-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4332"
+  HREF="hierarchical-clustering-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4326"
+  HREF="hierarchical-clustering-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4334"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4336"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4339"
+  HREF="single-link-and-complete-link-clustering-1.html">Single-link and complete-link clustering</A>
+<B> Up:</B> <A NAME="tex2html4333"
+  HREF="hierarchical-clustering-1.html">Hierarchical clustering</A>
+<B> Previous:</B> <A NAME="tex2html4327"
+  HREF="hierarchical-clustering-1.html">Hierarchical clustering</A>
+ &nbsp; <B>  <A NAME="tex2html4335"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4337"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION002210000000000000000"></A>
+<A NAME="sec:hac"></A> <A NAME="p:hac"></A>
+<BR>
+Hierarchical agglomerative clustering
+</H1> 
+Hierarchical clustering algorithms are either top-down or
+bottom-up. <A NAME="27284"></A>Bottom-up algorithms 
+treat  each document
+as a singleton cluster at the outset and then
+successively merge (or <I>agglomerate</I>)
+ pairs of clusters until all clusters have been
+merged into a single cluster that contains all documents.
+Bottom-up hierarchical clustering is therefore called 
+<A NAME="26381"></A> <I>hierarchical agglomerative clustering</I> 
+or <A NAME="26383"></A> <I>HAC</I> . Top-down clustering requires a method for
+splitting a cluster. It proceeds by splitting clusters
+recursively until individual documents are reached.
+See Section <A HREF="divisive-clustering-1.html#sec:divisive">17.6</A> . HAC is
+more frequently used in IR than top-down clustering and is the main subject of this
+chapter.
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:rprojectsingle"></A><A NAME="p:rprojectsingle"></A></P><IMG
+ WIDTH="521" HEIGHT="555" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1544.png"
+ ALT="\includegraphics[width=15cm]{rprojectsingle.eps}">
+A dendrogram
+of a 
+single-link clustering of 30 documents from Reuters-RCV1.
+Two possible cuts of the dendrogram are shown: at 0.4 into 24
+clusters and at 0.1 into 12 clusters. 
+
+
+</DIV>
+
+<P>
+Before looking at specific similarity measures used in
+HAC in Sections <A HREF="single-link-and-complete-link-clustering-1.html#sec:singlecomplete">17.2</A> -<A HREF="centroid-clustering-1.html#sec:centroidsec">17.4</A> , we first introduce
+a method for depicting hierarchical clusterings
+graphically,
+discuss a
+few key properties of HACs and present a simple algorithm
+for computing an HAC.
+
+<P>
+An HAC clustering is typically
+visualized as a <A NAME="26395"></A> <I>dendrogram</I>  as shown in
+Figure <A HREF="#fig:rprojectsingle">17.1</A> . Each merge is represented by a horizontal line. 
+The y-coordinate of the horizontal line is the 
+similarity  of the two clusters that were
+merged, 
+where documents are viewed as <A NAME="26398"></A> singleton clusters.
+We call this similarity
+the <A NAME="p:combsimilarity"></A> 
+<A NAME="26400"></A> <I>combination similarity</I>  of the merged cluster.
+For example, the combination similarity
+of the cluster consisting of Lloyd's CEO questioned and
+Lloyd's chief / U.S. grilling in Figure <A HREF="#fig:rprojectsingle">17.1</A>  is <IMG
+ WIDTH="50" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1545.png"
+ ALT="$\approx
+0.56$">.
+We define the combination similarity of a
+singleton cluster as its document's self-similarity
+(which is 1.0 for cosine similarity).  
+
+<P>
+By moving up from the
+bottom layer to the top node, a dendrogram allows  us to reconstruct the history
+of merges that resulted in the depicted clustering. For
+example, we see that the two documents entitled War hero
+  Colin Powell were merged first in Figure <A HREF="#fig:rprojectsingle">17.1</A>  and that the last merge
+added Ag trade reform to a cluster consisting of the
+other 29 documents.
+
+<P>
+A fundamental assumption in HAC is that the merge operation
+is <A NAME="p:hclstmonotone"></A>  <A NAME="26409"></A> <I>monotonic</I> . Monotonic means that if
+<!-- MATH
+ $s_1,s_2,\ldots,s_{K-1}$
+ -->
+<IMG
+ WIDTH="104" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1546.png"
+ ALT="$s_1,s_2,\ldots,s_{K-1}$"> are the combination
+similarities of the successive merges of an HAC, then <!-- MATH
+ $s_1 \geq s_2 \geq \ldots \geq
+s_{K-1}$
+ -->
+<IMG
+ WIDTH="148" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1547.png"
+ ALT="$s_1 \geq s_2 \geq \ldots \geq
+s_{K-1}$"> holds.  A non-monotonic hierarchical clustering
+contains at least one <A NAME="26413"></A> <I>inversion</I>  <IMG
+ WIDTH="64" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1548.png"
+ ALT="$s_i &lt; s_{i+1}$"> and
+contradicts the fundamental assumption that we 
+
+<P>
+chose the
+best merge available at each step. We will see an example of
+an inversion in Figure <A HREF="centroid-clustering-1.html#fig:inversion">17.12</A> .
+
+<P>
+Hierarchical clustering does not require a prespecified
+number of clusters.  However, in some applications we want a
+partition of disjoint clusters just as in flat
+clustering. In those cases, the hierarchy needs to be cut at
+some point.  A number of criteria can be used to determine
+the cutting point:
+
+<UL>
+<LI>Cut at a prespecified level of similarity. For
+example, we cut the dendrogram at 0.4 if we want clusters with a
+minimum combination similarity of 0.4. 
+In Figure <A HREF="#fig:rprojectsingle">17.1</A> , cutting the
+diagram at <IMG
+ WIDTH="54" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1549.png"
+ ALT="$y=0.4$"> yields 24 clusters (grouping only
+documents with high similarity together) and cutting it at
+<IMG
+ WIDTH="54" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1550.png"
+ ALT="$y=0.1$">
+yields 12 clusters (one large financial news cluster and 11
+smaller clusters).
+
+<P>
+</LI>
+<LI>Cut the dendrogram where the gap between two
+successive combination similarities is largest. Such large gaps
+arguably indicate ``natural'' clusterings. Adding one more
+cluster decreases the quality of the clustering
+significantly, so cutting before this steep decrease
+occurs is desirable. This strategy is
+analogous to looking for the knee in the  <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means graph in
+Figure <A HREF="k-means-1.html#fig:clustercard">16.8</A>  (page <A HREF="k-means-1.html#p:clustercard">16.8</A> ).
+</LI>
+<LI>Apply Equation&nbsp;<A HREF="cluster-cardinality-in-k-means-1.html#eqn:aicsimple">195</A> (page <A HREF="cluster-cardinality-in-k-means-1.html#p:aicsimple">16.4.1</A> ):
+<P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{eqnarray*}
+K = \argmin_{K'} [\mbox{RSS}(K') + \lambda K']
+\end{eqnarray*}
+ -->
+<IMG
+ WIDTH="197" HEIGHT="42" BORDER="0"
+ SRC="img1551.png"
+ ALT="\begin{eqnarray*}
+K = \argmin_{K'} [\mbox{RSS}(K') + \lambda K']
+\end{eqnarray*}"></DIV>
+<BR CLEAR="ALL"><P></P>
+where <IMG
+ WIDTH="19" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1552.png"
+ ALT="$K'$"> refers to the cut of the hierarchy that results in <IMG
+ WIDTH="19" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1552.png"
+ ALT="$K'$"> clusters,
+RSS is the residual sum of squares and <IMG
+ WIDTH="14" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img830.png"
+ ALT="$\lambda$"> is a
+penalty for each additional cluster. Instead of RSS, another
+measure of distortion can be used.
+</LI>
+<LI>As in flat clustering, we can also prespecify
+the number of clusters <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$"> and 
+select the cutting point that produces <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$"> clusters.
+</LI>
+</UL>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:hacalgorithm"></A><A NAME="p:hacalgorithm"></A><A NAME="26456"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 17.2:</STRONG>
+A simple, but inefficient HAC algorithm.</CAPTION>
+<TR><TD><IMG
+ WIDTH="385" HEIGHT="264" BORDER="0"
+ SRC="img1553.png"
+ ALT="\begin{figure}\begin{algorithm}{SimpleHAC}{d_1,\ldots,d_N}
+\begin{FOR}
+{n \= 1 \...
+...\emph{(deactivate cluster)}
+\end{FOR}\\
+\RETURN{A}
+\end{algorithm}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:clustersimilarities"></A><A NAME="p:clustersimilarities"></A></P><IMG
+ WIDTH="555" HEIGHT="271" BORDER="0"
+ SRC="img1554.png"
+ ALT="\begin{figure}
+% latex2html id marker 26460
+\psset{unit=0.7cm}
+\begin{pspicture}...
+...{}
+is a
+similarity between two documents from different clusters.}
+\end{figure}">
+</DIV>
+
+<P>
+A simple, naive HAC algorithm is shown in
+Figure <A HREF="#fig:hacalgorithm">17.2</A> . 
+We first compute the
+<IMG
+ WIDTH="51" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1555.png"
+ ALT="$N \times N$"> similarity matrix <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img616.png"
+ ALT="$C$">.
+The algorithm then executes
+<IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1556.png"
+ ALT="$N-1$"> steps of merging the currently most
+similar clusters. 
+In each iteration,
+the two most similar clusters are merged and the rows and columns of the
+merged cluster <IMG
+ WIDTH="9" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1557.png"
+ ALT="$\oldell$"> in <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img616.png"
+ ALT="$C$"> are updated.<A NAME="tex2html189"
+  HREF="footnode.html#foot26482"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A>The clustering is stored as a list of merges in <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img167.png"
+ ALT="$A$">.
+<IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1399.png"
+ ALT="$I$"> indicates which clusters are still available to be
+merged.  The function
+<SMALL>SIM</SMALL><IMG
+ WIDTH="54" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1558.png"
+ ALT="$(\oldell,m,j)$"> computes the similarity of cluster <IMG
+ WIDTH="9" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img9.png"
+ ALT="$j$"> with 
+the merge of clusters <IMG
+ WIDTH="9" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1557.png"
+ ALT="$\oldell$"> and <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img103.png"
+ ALT="$m$">. For some HAC algorithms,
+<SMALL>SIM</SMALL><IMG
+ WIDTH="54" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1558.png"
+ ALT="$(\oldell,m,j)$"> is simply a function of <IMG
+ WIDTH="45" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1559.png"
+ ALT="$C[j][\oldell]$"> and
+<IMG
+ WIDTH="53" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1560.png"
+ ALT="$C[j][m]$">, for example,
+the maximum of these two values for single-link.
+
+<P>
+We will now refine this algorithm for
+the different similarity measures of
+single-link and
+complete-link clustering 
+(Section <A HREF="single-link-and-complete-link-clustering-1.html#sec:singlecomplete">17.2</A> )
+and
+group-average and
+centroid clustering ( and <A HREF="centroid-clustering-1.html#sec:centroidsec">17.4</A> ).
+The merge criteria of these four variants of HAC are shown in
+Figure <A HREF="#fig:clustersimilarities">17.3</A> .
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:singlecompletelink"></A><A NAME="p:singlecompletelink"></A></P><IMG
+ WIDTH="556" HEIGHT="312" BORDER="0"
+ SRC="img1561.png"
+ ALT="\begin{figure}
+% latex2html id marker 26488
+\par
+\psset{unit=0.75cm}
+\par
+\begin...
+...e-link similarity of the
+two left two-point clusters (solid line).}
+\end{figure}">
+</DIV>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4338"
+  HREF="single-link-and-complete-link-clustering-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4332"
+  HREF="hierarchical-clustering-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4326"
+  HREF="hierarchical-clustering-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4334"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4336"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4339"
+  HREF="single-link-and-complete-link-clustering-1.html">Single-link and complete-link clustering</A>
+<B> Up:</B> <A NAME="tex2html4333"
+  HREF="hierarchical-clustering-1.html">Hierarchical clustering</A>
+<B> Previous:</B> <A NAME="tex2html4327"
+  HREF="hierarchical-clustering-1.html">Hierarchical clustering</A>
+ &nbsp; <B>  <A NAME="tex2html4335"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4337"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/hierarchical-agglomerative-clustering-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:36:13 GMT -->
+</HTML>

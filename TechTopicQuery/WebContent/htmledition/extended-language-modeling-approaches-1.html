@@ -1,0 +1,297 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/extended-language-modeling-approaches-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:29:33 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Extended language modeling approaches</TITLE>
+<META NAME="description" CONTENT="Extended language modeling approaches">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="references-and-further-reading-12.html">
+<LINK REL="previous" HREF="language-modeling-versus-other-approaches-in-ir-1.html">
+<LINK REL="up" HREF="language-models-for-information-retrieval-1.html">
+<LINK REL="next" HREF="references-and-further-reading-12.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3384"
+  HREF="references-and-further-reading-12.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3378"
+  HREF="language-models-for-information-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3372"
+  HREF="language-modeling-versus-other-approaches-in-ir-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3380"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3382"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3385"
+  HREF="references-and-further-reading-12.html">References and further reading</A>
+<B> Up:</B> <A NAME="tex2html3379"
+  HREF="language-models-for-information-retrieval-1.html">Language models for information</A>
+<B> Previous:</B> <A NAME="tex2html3373"
+  HREF="language-modeling-versus-other-approaches-in-ir-1.html">Language modeling versus other</A>
+ &nbsp; <B>  <A NAME="tex2html3381"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3383"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001740000000000000000"></A><A NAME="sec:extended-lm"></A> <A NAME="p:extended-lm"></A>
+<BR>
+Extended language modeling approaches
+</H1> 
+
+<P>
+In this section we briefly mention some of the work that extends the
+basic language modeling approach. 
+
+<P>
+There are other ways to think of using the language modeling
+idea in IR settings, and many of them have been tried in subsequent
+work.  Rather than looking at the probability of a document language
+model <IMG
+ WIDTH="27" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img789.png"
+ ALT="$M_d$"> generating the query, you can look at the probability of a query
+language model <IMG
+ WIDTH="26" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img846.png"
+ ALT="$M_q$"> generating the document.  The main reason that doing
+things in this direction and creating a <A NAME="15499"></A> <I>document likelihood
+  model</I>  is less appealing is that there is much less
+text available to estimate a language model based on the query text,
+and so the model will 
+be worse estimated, and will have to depend more on being smoothed with
+some other language model.  On the other hand, it is easy to see how to
+incorporate relevance feedback into such a model: you can expand the
+query with terms taken from relevant documents in the usual way and
+hence update the language model <IMG
+ WIDTH="26" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img846.png"
+ ALT="$M_q$"> (<A
+ HREF="bibliography-1.html#zhai01feedback">Zhai and Lafferty, 2001a</A>).  Indeed,
+with appropriate modeling choices, this approach leads to the BIM model
+of Chapter <A HREF="probabilistic-information-retrieval-1.html#ch:probir">11</A> .  The relevance model of
+<A
+ HREF="bibliography-1.html#lavrenko01relevance">Lavrenko and Croft (2001)</A> is an instance of a document likelihood
+model, which incorporates 
+pseudo-relevance feedback into a language modeling approach.  It
+achieves very strong empirical results.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:lm3ways"></A><A NAME="p:lm3ways"></A><A NAME="15537"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 12.5:</STRONG>
+Three ways of developing the language modeling approach: (a) query
+  likelihood, (b) document likelihood, and (c) model
+  comparison.</CAPTION>
+<TR><TD><IMG
+ WIDTH="405" HEIGHT="133" BORDER="0"
+ SRC="img847.png"
+ ALT="\begin{figure}\begin{pspicture}(0,1)(10,5)
+\rput(1.5,4.25){\ovalnode{A}{Query}}
+...
+...2,3.5){(a)}
+\rput(2,2.5){(b)}
+\rput(5.9,3){(c)}
+\end{pspicture}\par
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Rather than directly generating in either direction, we can make a
+language model from both the document and query, and then ask how
+different these two language models are from each other.
+<A
+ HREF="bibliography-1.html#lafferty01risk">Lafferty and Zhai (2001)</A> lay out these three ways of thinking about the problem,
+which we show in Figure <A HREF="#fig:lm3ways">12.5</A> , and
+develop a general risk minimization approach for document retrieval.
+For instance, one way to model the risk of returning a document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$"> as
+relevant to a query <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$"> is to use the 
+<A NAME="p:kullback"></A> <A NAME="15544"></A> <I>Kullback-Leibler (KL) divergence</I> 
+between their respective language models:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+R(d;q) = KL(M_d\|M_q) = \sum_{t\in V} P(t|M_q) \log\frac{P(t|M_q)}{P(t|M_d)}
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="351" HEIGHT="50" BORDER="0"
+ SRC="img848.png"
+ ALT="\begin{displaymath}
+R(d;q) = KL(M_d\Vert M_q) = \sum_{t\in V} P(t\vert M_q) \log\frac{P(t\vert M_q)}{P(t\vert M_d)}
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(109)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+KL divergence is an asymmetric divergence measure originating in
+information theory, which measures
+how bad the probability distribution <IMG
+ WIDTH="26" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img846.png"
+ ALT="$M_q$"> is at modeling <IMG
+ WIDTH="27" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img789.png"
+ ALT="$M_d$">
+(<A NAME="tex2html3386"
+  HREF="bibliography-1.html#manning99foundations">Manning and Sch&#252;tze, 1999</A>, <A NAME="tex2html3387"
+  HREF="bibliography-1.html#cover91elements">Cover and Thomas, 1991</A>). 
+<A
+ HREF="bibliography-1.html#lafferty01risk">Lafferty and Zhai (2001)</A> present results suggesting that a model comparison
+approach outperforms both query-likelihood and document-likelihood
+approaches.  One disadvantage of using KL divergence as a ranking
+function is that scores are not comparable across queries.  This does
+not matter for ad hoc retrieval, but is important in other
+applications such as topic tracking.  <A
+ HREF="bibliography-1.html#kraaij03language">Kraaij and Spitters (2003)</A> suggest
+an alternative proposal which models similarity as a normalized
+log-likelihood ratio (or, equivalently, as a difference between
+<A NAME="15554"></A>cross-entropies).
+
+<P>
+Basic LMs do not address issues of alternate expression, that is,
+synonymy, or any deviation in use of language between queries and
+documents.  <A
+ HREF="bibliography-1.html#berger99ir">Berger and Lafferty (1999)</A> introduce <A NAME="15556"></A>translation models to bridge this
+query-document gap.  A <A NAME="15557"></A> <I>translation model</I>  lets you generate query words
+not in a document by translation to alternate terms with similar
+meaning.  This also provides a basis for performing cross-language IR.
+We assume that the translation model can be represented by a
+conditional probability distribution <!-- MATH
+ $T(\cdot|\cdot)$
+ -->
+<IMG
+ WIDTH="43" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img849.png"
+ ALT="$T(\cdot\vert\cdot)$"> between
+vocabulary terms.  The form of the translation query generation model
+is then:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+P(q|M_d) = \prod_{t \in q} \sum_{v \in V} P(v|M_d)T(t|v)
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="233" HEIGHT="45" BORDER="0"
+ SRC="img850.png"
+ ALT="\begin{displaymath}
+P(q\vert M_d) = \prod_{t \in q} \sum_{v \in V} P(v\vert M_d)T(t\vert v)
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(110)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+The term <IMG
+ WIDTH="64" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img851.png"
+ ALT="$P(v\vert M_d)$">
+is the basic document language
+model, and the term <IMG
+ WIDTH="47" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img852.png"
+ ALT="$T(t\vert v)$"> performs translation.  This model is clearly
+more computationally intensive and we need to build a translation
+model.  The translation model is usually built using separate resources 
+(such as a traditional thesaurus or bilingual dictionary or a
+statistical machine translation system's translation dictionary), but
+can be built using the document collection if there are pieces of text
+that naturally paraphrase or summarize other pieces of text.
+Candidate examples are documents and their titles or abstracts, or
+documents and anchor-text pointing to them in a hypertext environment.
+
+<P>
+Building extended LM approaches remains an active area of research.   
+In general, translation
+models, relevance feedback models, and model comparison approaches
+have all been
+demonstrated to improve performance over the basic query likelihood LM.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3384"
+  HREF="references-and-further-reading-12.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3378"
+  HREF="language-models-for-information-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3372"
+  HREF="language-modeling-versus-other-approaches-in-ir-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3380"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3382"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3385"
+  HREF="references-and-further-reading-12.html">References and further reading</A>
+<B> Up:</B> <A NAME="tex2html3379"
+  HREF="language-models-for-information-retrieval-1.html">Language models for information</A>
+<B> Previous:</B> <A NAME="tex2html3373"
+  HREF="language-modeling-versus-other-approaches-in-ir-1.html">Language modeling versus other</A>
+ &nbsp; <B>  <A NAME="tex2html3381"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3383"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/extended-language-modeling-approaches-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:29:37 GMT -->
+</HTML>

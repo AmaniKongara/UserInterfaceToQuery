@@ -1,0 +1,145 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/features-a-crawler-should-provide-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:39:14 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Features a crawler should provide</TITLE>
+<META NAME="description" CONTENT="Features a crawler should provide">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="features-a-crawler-must-provide-1.html">
+<LINK REL="up" HREF="overview-1.html">
+<LINK REL="next" HREF="crawling-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4825"
+  HREF="crawling-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4819"
+  HREF="overview-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4815"
+  HREF="features-a-crawler-must-provide-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4821"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4823"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4826"
+  HREF="crawling-1.html">Crawling</A>
+<B> Up:</B> <A NAME="tex2html4820"
+  HREF="overview-1.html">Overview</A>
+<B> Previous:</B> <A NAME="tex2html4816"
+  HREF="features-a-crawler-must-provide-1.html">Features a crawler must</A>
+ &nbsp; <B>  <A NAME="tex2html4822"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4824"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION002512000000000000000">
+Features a crawler <I>should</I> provide</A>
+</H2>
+<DL>
+<DT><STRONG>Distributed:</STRONG></DT>
+<DD>The crawler should have the ability to execute in a distributed fashion across multiple machines.
+ 
+</DD>
+<DT><STRONG>Scalable:</STRONG></DT>
+<DD>The crawler architecture should permit scaling up the crawl rate by adding extra machines and bandwidth.
+ 
+</DD>
+<DT><STRONG>Performance and efficiency:</STRONG></DT>
+<DD>The crawl system should make
+efficient use of various system resources including processor,
+storage and network bandwidth.
+ 
+</DD>
+<DT><STRONG>Quality:</STRONG></DT>
+<DD>Given that a significant fraction of all web pages are of poor utility for serving user query needs, the crawler should be biased towards fetching ``useful'' pages first.
+ 
+</DD>
+<DT><STRONG>Freshness:</STRONG></DT>
+<DD>In many applications, the crawler should
+operate in continuous mode: it should obtain fresh copies of
+previously fetched pages. A search engine crawler, for instance,
+can thus ensure that the search engine's index contains a fairly
+current representation of each indexed web page. For such continuous crawling, a crawler should be able to crawl a page with a frequency that approximates the rate of change of that page.
+ 
+</DD>
+<DT><STRONG>Extensible:</STRONG></DT>
+<DD>Crawlers should be designed to be extensible in many ways - to cope with new data formats, new fetch protocols,
+and so on. This demands that the crawler architecture be modular.
+</DD>
+</DL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4825"
+  HREF="crawling-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4819"
+  HREF="overview-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4815"
+  HREF="features-a-crawler-must-provide-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4821"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4823"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4826"
+  HREF="crawling-1.html">Crawling</A>
+<B> Up:</B> <A NAME="tex2html4820"
+  HREF="overview-1.html">Overview</A>
+<B> Previous:</B> <A NAME="tex2html4816"
+  HREF="features-a-crawler-must-provide-1.html">Features a crawler must</A>
+ &nbsp; <B>  <A NAME="tex2html4822"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4824"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/features-a-crawler-should-provide-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:39:14 GMT -->
+</HTML>

@@ -1,0 +1,343 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/time-complexity-and-optimality-of-knn-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:32:24 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Time complexity and optimality of kNN</TITLE>
+<META NAME="description" CONTENT="Time complexity and optimality of kNN">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="k-nearest-neighbor-1.html">
+<LINK REL="up" HREF="k-nearest-neighbor-1.html">
+<LINK REL="next" HREF="linear-versus-nonlinear-classifiers-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3720"
+  HREF="linear-versus-nonlinear-classifiers-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3714"
+  HREF="k-nearest-neighbor-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3710"
+  HREF="k-nearest-neighbor-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3716"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3718"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3721"
+  HREF="linear-versus-nonlinear-classifiers-1.html">Linear versus nonlinear classifiers</A>
+<B> Up:</B> <A NAME="tex2html3715"
+  HREF="k-nearest-neighbor-1.html">k nearest neighbor</A>
+<B> Previous:</B> <A NAME="tex2html3711"
+  HREF="k-nearest-neighbor-1.html">k nearest neighbor</A>
+ &nbsp; <B>  <A NAME="tex2html3717"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3719"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001931000000000000000">
+Time complexity and optimality of kNN</A>
+</H2>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="CENTER" COLSPAN=2><B>kNN with preprocessing of training set</B></TD>
+</TR>
+<TR><TD ALIGN="LEFT">training</TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $\Theta(|\docsetlabeled| L_{ave})$
+ -->
+<IMG
+ WIDTH="83" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img914.png"
+ ALT="$\Theta(\vert\docsetlabeled\vert L_{ave})$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT">testing</TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $\Theta( L_{a} + |\docsetlabeled|  M_{ave} M_{a})= \Theta(|\docsetlabeled|  M_{ave} M_{a})$
+ -->
+<IMG
+ WIDTH="277" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1154.png"
+ ALT="$\Theta( L_{a} + \vert\docsetlabeled\vert M_{ave} M_{a})= \Theta(\vert\docsetlabeled\vert M_{ave} M_{a})$"></TD>
+</TR>
+<TR><TD ALIGN="CENTER" COLSPAN=2><B>kNN without preprocessing of training set</B></TD>
+</TR>
+<TR><TD ALIGN="LEFT">training</TD>
+<TD ALIGN="LEFT"><IMG
+ WIDTH="39" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1155.png"
+ ALT="$\Theta(1)$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT">testing</TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $\Theta( L_{a} + |\docsetlabeled|  L_{ave} M_{a}) = \Theta(|\docsetlabeled|  L_{ave} M_{a})$
+ -->
+<IMG
+ WIDTH="265" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1156.png"
+ ALT="$\Theta( L_{a} + \vert\docsetlabeled\vert L_{ave} M_{a}) = \Theta(\vert\docsetlabeled\vert L_{ave} M_{a})$"></TD>
+</TR>
+</TABLE>
+Training and test times for kNN classification.<IMG
+ WIDTH="38" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img203.png"
+ ALT="$ M_{ave}$"> is the average size of the vocabulary of 
+documents in the collection.
+<A NAME="tab:knncomp"></A> <A NAME="p:knncomp"></A> 
+
+</DIV>
+<BR>
+
+<P>
+Table <A HREF="#tab:knncomp">14.3</A>  gives the time complexity of kNN.  kNN has
+properties that are quite different from most other
+classification algorithms.  Training a kNN classifier simply
+consists of determining <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> and preprocessing documents. In
+fact, if we preselect a value for <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> and do not preprocess,
+then kNN requires no training at all. In practice, we have
+to perform preprocessing steps like tokenization.  It makes
+more sense to preprocess training documents once as part of
+the training phase rather than repeatedly every time we
+classify a new test document.
+
+<P>
+Test time is <!-- MATH
+ $\Theta(|\docsetlabeled| M_{ave} M_{a})$
+ -->
+<IMG
+ WIDTH="112" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1157.png"
+ ALT="$\Theta(\vert\docsetlabeled\vert M_{ave} M_{a})$"> for kNN.  It is linear in the
+size of the training set as we need to compute the distance
+of each training document from the test document.  Test time
+is independent of the number of classes <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img27.png"
+ ALT="$J$">. kNN therefore
+has a potential advantage for problems with large <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img27.png"
+ ALT="$J$">.
+
+<P>
+In kNN classification, we do not perform any estimation of
+parameters as we do in Rocchio classification (centroids) or
+in Naive Bayes (priors and conditional probabilities). kNN
+simply memorizes all examples in the training set and then
+compares the test document to them. For this reason, kNN is
+also called <A NAME="20266"></A> <I>memory-based learning</I>  or
+<A NAME="20268"></A> <I>instance-based learning</I> .  It is usually desirable to
+have as much training data as possible in machine
+learning. But in kNN large training sets come with a severe
+efficiency penalty in classification.
+
+<P>
+<A NAME="p:knninvertedindexcomplexity"></A>  Can kNN testing be
+made more efficient than
+<!-- MATH
+ $\Theta(|\docsetlabeled| M_{ave} M_{a})$
+ -->
+<IMG
+ WIDTH="112" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1157.png"
+ ALT="$\Theta(\vert\docsetlabeled\vert M_{ave} M_{a})$"> or, ignoring the
+length of documents, more efficient than
+<!-- MATH
+ $\Theta(|\docsetlabeled|)$
+ -->
+<IMG
+ WIDTH="55" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1158.png"
+ ALT="$\Theta(\vert\docsetlabeled\vert)$">? There are fast kNN
+algorithms for small dimensionality <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img186.png"
+ ALT="$M$"> (Exercise <A HREF="exercises-2.html#ex:knndim2dim3">14.8</A> ).  There
+are also approximations for large <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img186.png"
+ ALT="$M$"> that give error bounds
+for specific efficiency gains (see
+Section <A HREF="references-and-further-reading-14.html#sec:vclassfurther">14.7</A> ). These approximations have not been
+extensively tested for text classification applications, so
+it is not clear whether they can achieve much better
+efficiency than <!-- MATH
+ $\Theta(|\docsetlabeled|)$
+ -->
+<IMG
+ WIDTH="55" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1158.png"
+ ALT="$\Theta(\vert\docsetlabeled\vert)$"> without a significant loss
+of accuracy.
+
+<P>
+The reader may have noticed the similarity between the
+problem of finding nearest neighbors of a test document and
+ad hoc retrieval, where we search for the documents with the
+highest similarity to the query (Section <A HREF="queries-as-vectors-1.html#sec:queryvector">6.3.2</A> ,
+page <A HREF="queries-as-vectors-1.html#p:queryvector">6.3.2</A> ). In fact, the two problems are both
+<IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> nearest neighbor problems and only differ in the
+relative density of (the vector of) the test document in kNN
+(10s or 100s of non-zero entries) versus the sparseness of
+(the vector of) the query in ad hoc retrieval (usually fewer
+than 10 non-zero entries). We introduced the inverted index
+for efficient ad hoc retrieval in Section <A HREF="an-example-information-retrieval-problem-1.html#sec:example-problem">1.1</A> 
+(page <A HREF="an-example-information-retrieval-problem-1.html#p:invertedindex">1.1</A> ). Is the inverted index also the
+solution for efficient kNN?
+
+<P>
+An inverted index restricts a search to those documents that
+have at least one term in common with the query. Thus in the
+context of kNN, the inverted index will be efficient if the
+test document has no term overlap with a large number of
+training documents. Whether this is the case depends on
+the classification problem. If documents are long and no
+stop list is used, then less time will be saved. But with
+short documents and a large stop list, an inverted index may
+well cut the average test time by a factor of 10 or more.
+
+<P>
+The search time in an inverted index is a function of the
+length of the postings lists of the terms in the
+query. Postings lists grow sublinearly with the length of
+the collection since the vocabulary increases according to
+Heaps' law - if the probability of occurrence of some terms
+increases, then the probability of occurrence of others must
+decrease. However, most new terms are infrequent. We
+therefore take the complexity of inverted index search to be
+<IMG
+ WIDTH="41" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img124.png"
+ ALT="$\Theta(T)$"> (as discussed in Section <A HREF="positional-indexes-1.html#sec:positional-index">2.4.2</A> ,
+page <A HREF="positional-indexes-1.html#p:positional-index">2.4.2</A> ) and, assuming average document
+length does not change over time, 
+<!-- MATH
+ $\Theta(T)=\Theta(|\docsetlabeled|)$
+ -->
+<IMG
+ WIDTH="115" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1159.png"
+ ALT="$\Theta(T)=\Theta(\vert\docsetlabeled\vert)$">.
+
+<P>
+<A NAME="p:knnmacroaverage"></A>  As we will see in the next
+chapter, kNN's effectiveness is close to that of the most
+accurate learning methods in text classification
+(Table <A HREF="experimental-results-1.html#tab:reuters-joachims">15.2</A> , page <A HREF="experimental-results-1.html#p:reuters-joachims">15.2</A> ).
+A measure of the quality of a learning method is its
+<A NAME="20284"></A> <I>Bayes error rate</I> , the average error rate of
+classifiers learned by it for a particular problem.
+kNN
+is not optimal for problems with a non-zero Bayes error rate
+- that is, for problems where even the best possible classifier has
+a non-zero classification error.  The error of 1NN
+is asymptotically (as the training set increases) bounded by
+twice the Bayes error rate. That is, if the optimal
+classifier has an error rate of <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img58.png"
+ ALT="$x$">, then 1NN has an
+asymptotic error rate of less than <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1160.png"
+ ALT="$2x$">.  This is due to the
+effect of noise - we already saw one example of noise in
+the form of noisy features in Section <A HREF="feature-selection-1.html#sec:feature">13.5</A> 
+(page <A HREF="feature-selection-1.html#p:noisefeature">13.5</A> ), but noise can also take other
+forms as we will discuss in the next section.  Noise affects
+two components of kNN: the test document and the closest
+training document. The two sources of noise are additive, so
+the overall error of 1NN is twice the optimal error
+rate. For problems with Bayes error rate 0, the error rate
+of 1NN will approach 0 as the size of the training set
+increases.
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI>Explain why kNN handles multimodal classes better
+than Rocchio.
+
+<P>
+</LI>
+</UL><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3720"
+  HREF="linear-versus-nonlinear-classifiers-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3714"
+  HREF="k-nearest-neighbor-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3710"
+  HREF="k-nearest-neighbor-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3716"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3718"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3721"
+  HREF="linear-versus-nonlinear-classifiers-1.html">Linear versus nonlinear classifiers</A>
+<B> Up:</B> <A NAME="tex2html3715"
+  HREF="k-nearest-neighbor-1.html">k nearest neighbor</A>
+<B> Previous:</B> <A NAME="tex2html3711"
+  HREF="k-nearest-neighbor-1.html">k nearest neighbor</A>
+ &nbsp; <B>  <A NAME="tex2html3717"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3719"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/time-complexity-and-optimality-of-knn-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:32:28 GMT -->
+</HTML>

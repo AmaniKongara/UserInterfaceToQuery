@@ -1,0 +1,359 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/basic-xml-concepts-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:27:25 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Basic XML concepts</TITLE>
+<META NAME="description" CONTENT="Basic XML concepts">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="challenges-in-xml-retrieval-1.html">
+<LINK REL="previous" HREF="xml-retrieval-1.html">
+<LINK REL="up" HREF="xml-retrieval-1.html">
+<LINK REL="next" HREF="challenges-in-xml-retrieval-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2869"
+  HREF="challenges-in-xml-retrieval-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2863"
+  HREF="xml-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2857"
+  HREF="xml-retrieval-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2865"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2867"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2870"
+  HREF="challenges-in-xml-retrieval-1.html">Challenges in XML retrieval</A>
+<B> Up:</B> <A NAME="tex2html2864"
+  HREF="xml-retrieval-1.html">XML retrieval</A>
+<B> Previous:</B> <A NAME="tex2html2858"
+  HREF="xml-retrieval-1.html">XML retrieval</A>
+ &nbsp; <B>  <A NAME="tex2html2866"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2868"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001510000000000000000"></A>
+<A NAME="sec:xmlbasic"></A> <A NAME="p:xmlbasic"></A>
+<BR>
+Basic XML concepts
+</H1> 
+
+<DIV ALIGN="CENTER"><A NAME="fig:xmldocex"></A><A NAME="p:xmldocex"></A><A NAME="12184"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 10.1:</STRONG>
+An XML document.</CAPTION>
+<TR><TD><IMG
+ WIDTH="447" HEIGHT="185" BORDER="0"
+ SRC="img617.png"
+ ALT="\begin{figure}\begin{verbatim}&lt;play&gt;
+&lt;author&gt;Shakespeare&lt;/author&gt;
+&lt;title&gt;Macbe...
+... wine and wassail ...&lt;/verse&gt;
+&lt;/scene&gt;
+&lt;/act&gt;
+&lt;/play&gt;\end{verbatim}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+An XML document is an ordered, labeled
+tree. Each node of the tree is an <A NAME="12188"></A> <I>XML element</I>  and is written with an opening and
+closing <A NAME="12190"></A> <I>tag</I> . An element can have one or more
+<A NAME="12192"></A> <I>XML attributes</I> .
+In the
+XML document in
+Figure <A HREF="#fig:xmldocex">10.1</A> , the scene element is enclosed by
+the two tags <code>&lt;scene ...&gt;</code> and
+<code>&lt;/scene&gt;</code>. It
+has an attribute
+number with value vii and two child elements,
+title and verse.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:xmldom"></A><A NAME="p:xmldom"></A><A NAME="12999"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 10.2:</STRONG>
+The XML document in Figure <A HREF="#fig:xmldocex">10.1</A>  as a
+  simplified DOM object.</CAPTION>
+<TR><TD><IMG
+ WIDTH="374" HEIGHT="449" BORDER="0"
+ SRC="img618.png"
+ ALT="\begin{figure}\psset{unit=0.6cm}
+\begin{pspicture}(0,0)(12,17)
+\par
+\pspolygon[l...
+...1.5){text}
+\rput(12,0.5){\em Macbeth's castle}
+\par
+\end{pspicture}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Figure <A HREF="#fig:xmldom">10.2</A>  shows Figure <A HREF="#fig:xmldocex">10.1</A>  as a tree.
+The <I>leaf nodes</I> of the tree
+consist of text, e.g., Shakespeare, Macbeth, and
+Macbeth's castle. The tree's <I>internal nodes</I>
+encode either
+the structure of the document
+(title, act, and scene) or
+<A NAME="12262"></A> <I>metadata</I>  functions
+(author).
+
+<P>
+The standard for accessing and processing XML
+documents is the XML Document Object Model or <A NAME="12265"></A> <I>DOM</I> . The DOM represents elements, attributes and text within
+elements as
+nodes in a tree. Figure <A HREF="#fig:xmldom">10.2</A>  is a simplified DOM representation of
+the XML document in Figure <A HREF="#fig:xmldocex">10.1</A> .<A NAME="tex2html94"
+  HREF="footnode.html#foot13000"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A>With a DOM API, we can process an
+XML document by starting at the root element and then
+descending down the tree from parents to children.
+
+<P>
+<A NAME="12272"></A> <I>XPath</I>  is a standard for enumerating paths in an XML
+document collection.
+We will also refer to paths as 
+<A NAME="12274"></A> <I>XML contexts</I>  
+or simply <A NAME="12276"></A> <I>contexts</I>  
+in
+this chapter. Only a small subset of XPath is needed for our purposes.
+The
+XPath expression <code>node</code> selects all nodes of that name.
+Successive elements of a path are separated by slashes, so
+<code>act/scene</code> selects all scene elements whose
+parent is an act element.
+Double slashes indicate that an arbitrary number of elements
+can intervene on a  path:
+<code>play//scene</code> selects all scene elements
+occurring in a play element. In Figure <A HREF="#fig:xmldom">10.2</A> 
+this set consists of a single scene element, which is accessible via
+the path
+play,
+act,
+scene from the top. An initial slash starts the path
+at the root element.
+<code>/play/title</code> selects the play's title in
+Figure <A HREF="#fig:xmldocex">10.1</A> ,
+<code>/play//title</code> selects a set with two members (the play's title and the scene's
+title), and
+<code>/scene/title</code> selects no elements. For notational convenience, we
+allow the final element of a path to be a vocabulary term and
+separate it from the element path by the symbol #, even
+though this does not conform to the XPath standard. For example, <code>title#"Macbeth"</code>
+selects all titles containing the term Macbeth.
+
+<P>
+We also need the concept of <A NAME="12289"></A> <I>schema</I>  in this
+chapter. A schema puts constraints on the structure of
+allowable XML documents for a particular application. A
+schema for Shakespeare's plays may stipulate that scenes can
+only occur as children of acts and that only acts and scenes
+have the number attribute.
+Two standards for schemas for XML documents are
+<A NAME="12292"></A> <I>XML DTD</I>  (document type definition) and
+<A NAME="12294"></A> <I>XML Schema</I> .
+Users can only write structured queries for an XML retrieval system
+if they have some minimal knowledge about the schema of the
+collection.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:nexitopic"></A><A NAME="p:nexitopic"></A><A NAME="12317"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 10.3:</STRONG>
+An XML query in NEXI format and its partial
+  representation as a tree.</CAPTION>
+<TR><TD><IMG
+ WIDTH="462" HEIGHT="204" BORDER="0"
+ SRC="img619.png"
+ ALT="\begin{figure}\begin{tabular}{l\vert l}
+\begin{tabular}{l}
+{\tt //article}\\
+{\...
+...t(11.5,9){\small\markup{article}}
+\par
+\end{pspicture}\end{tabular}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+A common format for XML queries is
+<A NAME="12321"></A> <I>NEXI</I>  (Narrowed Extended XPath I). We give an example
+in Figure <A HREF="#fig:nexitopic">10.3</A> .
+We display the query on four lines for typographical
+convenience, but it is intended to be read as one unit
+without line breaks. In
+particular, <code>//section</code> is embedded under <code>//article</code>.
+
+<P>
+The query 
+in Figure <A HREF="#fig:nexitopic">10.3</A> 
+specifies a search for
+sections about the
+summer holidays that are part of
+articles from 2001 or 2002.
+As in XPath
+double slashes indicate that an arbitrary number of elements
+can intervene on a  path.
+The dot in a clause in square brackets refers to the element
+the clause modifies.
+The clause <code>[.//yr = 2001 or .//yr = 2002]</code> modifies <code>//article</code>.
+Thus,
+the dot refers to
+<code>//article</code> in this case.
+Similarly, the dot in
+<TT>[about(., summer holidays)]</TT>
+refers to the section that the clause modifies.
+
+<P>
+The two <code>yr</code> conditions are
+relational attribute constraints. Only articles whose <code>yr</code>
+attribute is 2001 or 2002 (or that contain an element whose
+<code>yr</code> attribute is 2001 or 2002) are to be considered.
+The <code>about</code> clause is a ranking constraint: Sections
+that occur in the right type of article
+are to be ranked according
+to how relevant they are to the topic summer
+holidays.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:xmlqueries"></A><A NAME="p:xmlqueries"></A><A NAME="12357"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 10.4:</STRONG>
+Tree representation of XML documents and queries.</CAPTION>
+<TR><TD><IMG
+ WIDTH="464" HEIGHT="193" BORDER="0"
+ SRC="img620.png"
+ ALT="\begin{figure}\psset{unit=0.75cm}
+\begin{pspicture}(-3,1.5)(11,7.5)
+\par
+\pselli...
+...{$d_1$}
+\rput(4,1.75){$q_1$}
+\rput(8.5,1.75){$q_2$}
+\end{pspicture}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+We usually handle relational attribute constraints by prefiltering or
+postfiltering: We simply exclude all elements from the
+result set that do not meet the relational attribute constraints.  In
+this chapter, we will not address how to do this efficiently
+and instead focus on the core information retrieval problem
+in XML retrieval, namely how to rank documents according to the
+relevance criteria expressed in the about conditions of the NEXI
+query.
+
+<P>
+If we discard relational attributes, we can represent documents
+as trees with only one type of node: element nodes. In other
+words, we remove all attribute nodes from the XML document,
+such as the number attribute in
+Figure <A HREF="#fig:xmldocex">10.1</A> . Figure <A HREF="#fig:xmlqueries">10.4</A>  shows a subtree of
+the document in Figure <A HREF="#fig:xmldocex">10.1</A>  as an element-node tree
+(labeled <IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img412.png"
+ ALT="$d_1$">). 
+
+<P>
+We can represent queries as trees in the same way. This is a
+<A NAME="12365"></A> <I>query-by-example</I>  approach to query language
+design because users pose queries by creating objects that
+satisfy the same formal description as documents. In Figure <A HREF="#fig:xmlqueries">10.4</A> ,
+<IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img366.png"
+ ALT="$q_1$"> is a search
+for books whose titles score highly for the keywords Julius Caesar. <IMG
+ WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img367.png"
+ ALT="$q_2$"> is a
+search for books whose author elements score highly for
+Julius Caesar and whose title elements score highly
+for Gallic war.<A NAME="tex2html98"
+  HREF="footnode.html#foot13018"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A>
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2869"
+  HREF="challenges-in-xml-retrieval-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2863"
+  HREF="xml-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2857"
+  HREF="xml-retrieval-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2865"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2867"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2870"
+  HREF="challenges-in-xml-retrieval-1.html">Challenges in XML retrieval</A>
+<B> Up:</B> <A NAME="tex2html2864"
+  HREF="xml-retrieval-1.html">XML retrieval</A>
+<B> Previous:</B> <A NAME="tex2html2858"
+  HREF="xml-retrieval-1.html">XML retrieval</A>
+ &nbsp; <B>  <A NAME="tex2html2866"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2868"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/basic-xml-concepts-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:27:27 GMT -->
+</HTML>

@@ -1,0 +1,171 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/wildcard-queries-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:23:03 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Wildcard queries</TITLE>
+<META NAME="description" CONTENT="Wildcard queries">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="spelling-correction-1.html">
+<LINK REL="previous" HREF="search-structures-for-dictionaries-1.html">
+<LINK REL="up" HREF="dictionaries-and-tolerant-retrieval-1.html">
+<LINK REL="next" HREF="general-wildcard-queries-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1367"
+  HREF="general-wildcard-queries-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1361"
+  HREF="dictionaries-and-tolerant-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1355"
+  HREF="search-structures-for-dictionaries-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1363"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1365"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1368"
+  HREF="general-wildcard-queries-1.html">General wildcard queries</A>
+<B> Up:</B> <A NAME="tex2html1362"
+  HREF="dictionaries-and-tolerant-retrieval-1.html">Dictionaries and tolerant retrieval</A>
+<B> Previous:</B> <A NAME="tex2html1356"
+  HREF="search-structures-for-dictionaries-1.html">Search structures for dictionaries</A>
+ &nbsp; <B>  <A NAME="tex2html1364"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1366"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00820000000000000000"></A>
+<A NAME="sec:wildcard"></A> <A NAME="p:wildcard"></A>
+<BR>
+Wildcard queries
+</H1> 
+
+<P>
+Wildcard queries are used in any of the following situations: (1) the user is uncertain of the spelling of a query term (e.g., Sydney vs. Sidney, which leads to the wildcard query S*dney); (2) the user is aware of multiple variants of spelling a term and (consciously) seeks documents containing any of the variants (e.g., color vs. colour); (3) the user seeks documents containing variants of a term that would be caught by stemming, but is unsure whether the search engine performs stemming (e.g., judicial vs. judiciary, leading to the wildcard query judicia*); (4) the user is uncertain of the correct rendition of a foreign word or phrase (e.g., the query Universit* Stuttgart).
+
+<P>
+A query such as mon* is known as a <A NAME="3677"></A> <I>trailing wildcard query</I> , because the * symbol occurs only once, at the end of the search string. A search tree on the dictionary is a convenient way of handling trailing wildcard queries: we walk down the tree following the symbols m, o and n in turn, at which point we can enumerate the set <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img141.png"
+ ALT="$W$"><A NAME="W-notation"></A> of terms in the dictionary with the prefix mon. Finally, we use <IMG
+ WIDTH="29" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img142.png"
+ ALT="$\vert W\vert$"> lookups on the standard inverted index to retrieve all documents containing any term in <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img141.png"
+ ALT="$W$">.
+
+<P>
+But what about wildcard queries in which the * symbol is not constrained to be at the end of the search string? Before handling this general case, we mention a slight generalization of trailing wildcard queries. First, consider <EM>leading wildcard queries</EM>, or queries of the form *mon. Consider a <EM>reverse B-tree</EM> on the dictionary - one in which each root-to-leaf path of the B-tree corresponds to a term in the dictionary written <EM>backwards:</EM> thus, the term lemon would, in the B-tree, be represented by the path root-n-o-m-e-l. A walk down the reverse B-tree then enumerates all terms <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img143.png"
+ ALT="$R$"> in the vocabulary with
+a given prefix.
+
+<P>
+In fact, using a regular B-tree together with a reverse B-tree, we can handle an even more general case: wildcard queries in which there is a single * symbol, such as se*mon. To do this, we use the regular B-tree to enumerate the set <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img141.png"
+ ALT="$W$"> of dictionary terms beginning with the prefix se, then the reverse B-tree to enumerate the set <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img143.png"
+ ALT="$R$"> of terms ending with the suffix
+mon. Next, we take the intersection <IMG
+ WIDTH="48" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img144.png"
+ ALT="$W\cap R$"> of these two
+sets, to arrive at the set of terms that begin with the prefix
+se and end with the suffix mon. Finally, we use the standard
+inverted index to retrieve all documents containing any terms in
+this intersection. We can thus handle wildcard queries that contain a single * symbol using two B-trees, the normal B-tree and a reverse B-tree.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html1369"
+  HREF="general-wildcard-queries-1.html">General wildcard queries</A>
+<UL>
+<LI><A NAME="tex2html1370"
+  HREF="permuterm-indexes-1.html">Permuterm indexes</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1371"
+  HREF="k-gram-indexes-for-wildcard-queries-1.html">k-gram indexes for wildcard queries</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1367"
+  HREF="general-wildcard-queries-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1361"
+  HREF="dictionaries-and-tolerant-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1355"
+  HREF="search-structures-for-dictionaries-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1363"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1365"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1368"
+  HREF="general-wildcard-queries-1.html">General wildcard queries</A>
+<B> Up:</B> <A NAME="tex2html1362"
+  HREF="dictionaries-and-tolerant-retrieval-1.html">Dictionaries and tolerant retrieval</A>
+<B> Previous:</B> <A NAME="tex2html1356"
+  HREF="search-structures-for-dictionaries-1.html">Search structures for dictionaries</A>
+ &nbsp; <B>  <A NAME="tex2html1364"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1366"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/wildcard-queries-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:23:06 GMT -->
+</HTML>

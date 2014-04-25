@@ -1,0 +1,160 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/crawling-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:39:14 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Crawling</TITLE>
+<META NAME="description" CONTENT="Crawling">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="distributing-indexes-1.html">
+<LINK REL="previous" HREF="overview-1.html">
+<LINK REL="up" HREF="web-crawling-and-indexes-1.html">
+<LINK REL="next" HREF="crawler-architecture-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4839"
+  HREF="crawler-architecture-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4833"
+  HREF="web-crawling-and-indexes-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4827"
+  HREF="features-a-crawler-should-provide-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4835"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4837"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4840"
+  HREF="crawler-architecture-1.html">Crawler architecture</A>
+<B> Up:</B> <A NAME="tex2html4834"
+  HREF="web-crawling-and-indexes-1.html">Web crawling and indexes</A>
+<B> Previous:</B> <A NAME="tex2html4828"
+  HREF="features-a-crawler-should-provide-1.html">Features a crawler should</A>
+ &nbsp; <B>  <A NAME="tex2html4836"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4838"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION002520000000000000000"></A>
+<A NAME="sec:crawling"></A>
+<BR>
+Crawling
+</H1>
+The basic operation of any hypertext crawler (whether for the Web, an
+intranet or other hypertext document collection) is as follows. The crawler
+begins with one or more URLs that constitute a <I>seed set</I>. It
+picks a URL from this seed set, then fetches the web page at that
+URL. The fetched page is then parsed, to extract both the text and
+the links from the page (each of which points to another URL). The
+extracted text is fed to a text indexer (described in Chapters <A HREF="index-construction-1.html#ch:iconst">4</A> <A HREF="index-compression-1.html#ch:icompress">5</A> ). The extracted links (URLs)
+are then added to a <I>URL frontier</I>, which at all times consists of URLs whose corresponding pages have yet to be fetched by the
+crawler. Initially, the URL frontier contains the seed set; as pages are fetched, the corresponding URLs are deleted from the URL frontier. The entire process may be viewed as traversing the web graph (see Chapter <A HREF="web-search-basics-1.html#ch:webchar">19</A> ).  In continuous crawling, the URL of a fetched page is added back to the frontier for fetching again in the future.
+
+<P>
+This seemingly simple recursive traversal of the web graph is
+complicated by the many demands on a practical web crawling system: the crawler has to be distributed, scalable, efficient, polite, robust and extensible while fetching pages of high quality. We examine the effects of each of these issues. Our treatment follows
+the design of the <A NAME="31295"></A> <I>Mercator</I>  crawler that has formed the basis of a number of research and commercial crawlers. As a reference point, fetching a billion pages (a small fraction of the static Web at present) in a month-long crawl requires fetching several hundred pages each second. We will see how to use a multi-threaded design to address several bottlenecks in the overall crawler system in order to attain this fetch rate.
+
+<P>
+Before proceeding to this detailed description, we reiterate for readers who may attempt to build crawlers of some basic properties any non-professional crawler should satisfy:
+
+<OL>
+<LI>Only one connection should be open to any given host at a time.
+</LI>
+<LI>A waiting time of a few seconds should occur between successive requests to a host.
+</LI>
+<LI>Politeness restrictions detailed in Section <A HREF="crawler-architecture-1.html#sec:crawlarch">20.2.1</A>  should be obeyed.
+</LI>
+</OL>
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html4841"
+  HREF="crawler-architecture-1.html">Crawler architecture</A>
+<UL>
+<LI><A NAME="tex2html4842"
+  HREF="distributing-the-crawler-1.html">Distributing the crawler</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html4843"
+  HREF="dns-resolution-1.html">DNS resolution</A>
+<LI><A NAME="tex2html4844"
+  HREF="the-url-frontier-1.html">The URL frontier</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4839"
+  HREF="crawler-architecture-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4833"
+  HREF="web-crawling-and-indexes-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4827"
+  HREF="features-a-crawler-should-provide-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4835"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4837"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4840"
+  HREF="crawler-architecture-1.html">Crawler architecture</A>
+<B> Up:</B> <A NAME="tex2html4834"
+  HREF="web-crawling-and-indexes-1.html">Web crawling and indexes</A>
+<B> Previous:</B> <A NAME="tex2html4828"
+  HREF="features-a-crawler-should-provide-1.html">Features a crawler should</A>
+ &nbsp; <B>  <A NAME="tex2html4836"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4838"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/crawling-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:39:14 GMT -->
+</HTML>

@@ -1,0 +1,150 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/document-and-query-weighting-schemes-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:26:04 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Document and query weighting schemes</TITLE>
+<META NAME="description" CONTENT="Document and query weighting schemes">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="pivoted-normalized-document-length-1.html">
+<LINK REL="previous" HREF="maximum-tf-normalization-1.html">
+<LINK REL="up" HREF="variant-tf-idf-functions-1.html">
+<LINK REL="next" HREF="pivoted-normalized-document-length-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2052"
+  HREF="pivoted-normalized-document-length-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2046"
+  HREF="variant-tf-idf-functions-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2040"
+  HREF="maximum-tf-normalization-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2048"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2050"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2053"
+  HREF="pivoted-normalized-document-length-1.html">Pivoted normalized document length</A>
+<B> Up:</B> <A NAME="tex2html2047"
+  HREF="variant-tf-idf-functions-1.html">Variant tf-idf functions</A>
+<B> Previous:</B> <A NAME="tex2html2041"
+  HREF="maximum-tf-normalization-1.html">Maximum tf normalization</A>
+ &nbsp; <B>  <A NAME="tex2html2049"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2051"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001143000000000000000"></A>
+<A NAME="sec:querydocweighting"></A> <A NAME="p:querydocweighting"></A>
+<BR>
+Document and query weighting schemes
+</H2> 
+
+<P>
+Equation <A HREF="queries-as-vectors-1.html#eqn:cosinescore">27</A>  is fundamental to information retrieval systems that use any form of vector space scoring.  Variations from one vector space scoring method to another hinge on the specific choices of weights in the vectors <IMG
+ WIDTH="38" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img410.png"
+ ALT="$\vec{V}(d)$"> and <IMG
+ WIDTH="38" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img461.png"
+ ALT="$\vec{V}(q)$">.  Figure <A HREF="#fig:figtfidf">6.15</A>  lists some of the principal weighting schemes in use for each of <IMG
+ WIDTH="38" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img410.png"
+ ALT="$\vec{V}(d)$"> and <IMG
+ WIDTH="38" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img461.png"
+ ALT="$\vec{V}(q)$">, together with a mnemonic for representing a specific combination of weights; this system of mnemonics is sometimes called SMART notation, following the authors of an early text retrieval system.  The mnemonic for representing a combination of weights takes the form <I>ddd.qqq</I> where the first triplet gives the term weighting of the document vector, while the second triplet gives the weighting in the query vector.  The first letter in each triplet specifies the term frequency component of the weighting, the second the document frequency component, and the third the form of normalization used.  It is quite common to apply different normalization functions to <IMG
+ WIDTH="38" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img410.png"
+ ALT="$\vec{V}(d)$"> and <IMG
+ WIDTH="38" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img461.png"
+ ALT="$\vec{V}(q)$">.  For example, a very standard weighting scheme is <I>lnc.ltc</I>, where the document vector has log-weighted term frequency, no idf (for both effectiveness and efficiency reasons), and cosine normalization, while the query vector uses log-weighted term frequency, idf weighting, and cosine normalization.
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:figtfidf"></A><A NAME="p:figtfidf"></A></P><IMG
+ WIDTH="774" HEIGHT="232" BORDER="0"
+ SRC="img462.png"
+ ALT="\begin{figure}
+% latex2html id marker 8408
+\begin{tabular}{\vert ll\vert ll\vert...
+...s.}{Here $CharLength$\ is the number of characters in the document.}\end{figure}">
+</DIV>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2052"
+  HREF="pivoted-normalized-document-length-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2046"
+  HREF="variant-tf-idf-functions-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2040"
+  HREF="maximum-tf-normalization-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2048"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2050"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2053"
+  HREF="pivoted-normalized-document-length-1.html">Pivoted normalized document length</A>
+<B> Up:</B> <A NAME="tex2html2047"
+  HREF="variant-tf-idf-functions-1.html">Variant tf-idf functions</A>
+<B> Previous:</B> <A NAME="tex2html2041"
+  HREF="maximum-tf-normalization-1.html">Maximum tf normalization</A>
+ &nbsp; <B>  <A NAME="tex2html2049"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2051"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/document-and-query-weighting-schemes-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:26:05 GMT -->
+</HTML>

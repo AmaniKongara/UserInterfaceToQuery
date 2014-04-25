@@ -1,0 +1,394 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/distributed-indexing-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:23:36 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Distributed indexing</TITLE>
+<META NAME="description" CONTENT="Distributed indexing">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="dynamic-indexing-1.html">
+<LINK REL="previous" HREF="single-pass-in-memory-indexing-1.html">
+<LINK REL="up" HREF="index-construction-1.html">
+<LINK REL="next" HREF="dynamic-indexing-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1599"
+  HREF="dynamic-indexing-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1593"
+  HREF="index-construction-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1587"
+  HREF="single-pass-in-memory-indexing-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1595"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1597"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1600"
+  HREF="dynamic-indexing-1.html">Dynamic indexing</A>
+<B> Up:</B> <A NAME="tex2html1594"
+  HREF="index-construction-1.html">Index construction</A>
+<B> Previous:</B> <A NAME="tex2html1588"
+  HREF="single-pass-in-memory-indexing-1.html">Single-pass in-memory indexing</A>
+ &nbsp; <B>  <A NAME="tex2html1596"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1598"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00940000000000000000"></A>
+<A NAME="sec:distributedindexing"></A> <A NAME="p:distributedindexing"></A>
+<BR>
+Distributed indexing
+</H1> 
+Collections are often so large that we cannot perform index
+construction efficiently on a single machine.
+This is particularly true
+of the World Wide Web for which we need large computer
+<A NAME="5084"></A> <I>clusters</I> <A NAME="tex2html39"
+  HREF="footnode.html#foot5352"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A>to construct any reasonably sized web index. Web
+search engines, therefore, use <A NAME="5090"></A> <I>distributed indexing</I>  algorithms for index
+construction.  The result of the construction process is
+a <A NAME="5092"></A> <I>distributed index</I>  that is partitioned across several machines -
+either according to term or according to document. In this
+section, we describe distributed indexing for a
+
+<P>
+<A NAME="5094"></A> <I>term-partitioned index</I> . Most large search engines prefer a
+<A NAME="5096"></A> <I>document-partitioned index</I>  (which can be easily generated
+from a term-partitioned index).
+We discuss this topic further in
+Section&nbsp;<A HREF="distributing-indexes-1.html#sec:distributingindexes">20.3</A> (page&nbsp;<A HREF="distributing-indexes-1.html#p:distributingindexes"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>).
+
+<P>
+<A NAME="5100"></A>The distributed index construction method we describe in
+this section is an application of <A NAME="5101"></A> <I>MapReduce</I> , a
+general architecture for distributed computing.  MapReduce
+is designed for large computer clusters.  The point of a
+cluster is to solve large computing problems on cheap
+commodity machines or <I>nodes</I> 
+that are built from standard parts (processor, memory,
+disk) 
+as opposed to on
+a supercomputer with specialized hardware.  Although hundreds
+or thousands of machines are available in such clusters,
+individual machines can fail at any time. One requirement
+for robust distributed indexing is, therefore, that we divide
+the work up into chunks that we can easily assign and -
+<A NAME="5104"></A> in
+case of failure - reassign.  A <A NAME="5105"></A> <I>master node</I>  directs the process
+of assigning and reassigning tasks to individual worker
+nodes.
+
+<P>
+The map and reduce phases of MapReduce split
+up the computing job into chunks that
+standard machines can process in a short time.  The various
+steps of MapReduce are shown in
+Figure <A HREF="#fig:mapreduce">4.5</A>  and an example on a collection consisting
+of two
+documents is shown in Figure <A HREF="#fig:mapreduceschema">4.6</A> .  First, the
+input data, in our case a collection of web pages, are split
+into <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img104.png"
+ ALT="$n$"> <A NAME="5109"></A> <I>splits</I>  where the size of the split is
+chosen to ensure that the work can be distributed evenly
+(chunks should not be too large) and efficiently (the total
+number of chunks we need to manage should not be
+too large); 16 or 64 MB are good
+sizes in distributed indexing. Splits are
+not preassigned to machines, but are instead assigned by the
+master node on an ongoing basis: As a machine finishes
+processing one split, it is assigned the next one.  If a
+machine dies or becomes a laggard due to hardware problems,
+the split it is working on is simply reassigned to another
+machine.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:mapreduce"></A><A NAME="p:mapreduce"></A><A NAME="5353"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 4.5:</STRONG>
+<A NAME="5113"></A> An example of distributed indexing with MapReduce.
+Adapted from <A
+ HREF="bibliography-1.html#dean04mapreduce">Dean and Ghemawat (2004)</A>.</CAPTION>
+<TR><TD><IMG
+ WIDTH="519" HEIGHT="295" ALIGN="BOTTOM" BORDER="0"
+ SRC="img195.png"
+ ALT="\includegraphics[width=11.5cm]{art/mapreduce2.eps}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+In general, MapReduce breaks a large computing problem into
+smaller parts by recasting it in terms of manipulation of
+<A NAME="5118"></A> <I>key-value pairs</I> . For indexing, a key-value pair has
+the form (termID,docID).
+In distributed indexing, the mapping
+from terms to termIDs is also distributed and therefore more
+complex than in single-machine indexing. 
+A simple solution is to maintain a (perhaps precomputed) mapping for frequent
+terms that is copied to all nodes and to use terms directly
+(instead of termIDs) for infrequent terms.
+We do not address
+this problem here and assume that all nodes share a
+consistent term <IMG
+ WIDTH="21" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img97.png"
+ ALT="$\rightarrow$"> termID mapping. 
+
+<P>
+<A NAME="5120"></A> The <A NAME="5121"></A> <I>map phase</I>  of MapReduce consists of
+mapping splits of the input data to key-value pairs.  This
+is the same parsing task we also encountered in
+BSBI and SPIMI,
+and we therefore call the
+machines that execute the map phase <A NAME="5123"></A><A NAME="5124"></A> <I>parsers</I> .  Each parser writes its output to
+local intermediate files, the <A NAME="5126"></A><A NAME="5127"></A> <I>segment files</I>  (shown as 
+<!-- MATH
+ $\fbox{a-f\medstrut}$
+ -->
+<IMG
+ WIDTH="33" HEIGHT="44" ALIGN="MIDDLE" BORDER="0"
+ SRC="img196.png"
+ ALT="\fbox{a-f\medstrut}"><!-- MATH
+ $\fbox{g-p\medstrut}$
+ -->
+<IMG
+ WIDTH="39" HEIGHT="44" ALIGN="MIDDLE" BORDER="0"
+ SRC="img197.png"
+ ALT="\fbox{g-p\medstrut}"><!-- MATH
+ $\fbox{q-z\medstrut}$
+ -->
+<IMG
+ WIDTH="37" HEIGHT="44" ALIGN="MIDDLE" BORDER="0"
+ SRC="img198.png"
+ ALT="\fbox{q-z\medstrut}"> in
+Figure <A HREF="#fig:mapreduce">4.5</A> ).
+
+<P>
+<A NAME="5133"></A>For the <A NAME="5134"></A> <I>reduce phase</I> , we want all values for a given key to
+be stored close together, so that they can be read and
+processed quickly. This is achieved by partitioning the keys
+into <IMG
+ WIDTH="9" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img9.png"
+ ALT="$j$"> term partitions and having the parsers write key-value
+pairs for each term partition into a separate segment file. In
+Figure <A HREF="#fig:mapreduce">4.5</A> , the term partitions are according to first letter:
+a-f, g-p, q-z,  and <IMG
+ WIDTH="39" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img199.png"
+ ALT="$j=3$">. (We chose these
+key ranges for ease of exposition. In general, key ranges
+need not correspond to contiguous terms or termIDs.) The
+term partitions are defined by the
+person who operates the indexing system
+(Exercise <A HREF="other-types-of-indexes-1.html#ex:mapreducepartition">4.6</A> ). The parsers then
+write corresponding segment files, one for each
+term partition. Each term partition thus corresponds to <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img28.png"
+ ALT="$r$">
+segments files, where <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img28.png"
+ ALT="$r$"> is the number of parsers. For
+instance, 
+Figure <A HREF="#fig:mapreduce">4.5</A>  shows three a-f segment files of the a-f
+partition, corresponding to the three parsers shown in the figure.
+
+<P>
+<A NAME="5139"></A>Collecting all values (here: docIDs) for a given key (here:
+termID) into one list is the task of the 
+<A NAME="5140"></A> <I>inverters</I>  in the reduce phase. The master assigns each term partition to a
+different inverter - and, as in the case of parsers,
+reassigns term partitions in case of failing or slow inverters.
+Each term partition (corresponding to <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img28.png"
+ ALT="$r$"> segment files, one on
+each parser) is processed by one inverter.  
+We assume here that segment files are of a size that a
+single machine can handle (Exercise <A HREF="other-types-of-indexes-1.html#ex:mapreducelong">4.6</A> ). Finally, the
+list of values is sorted for each key and written to the
+final sorted postings list (``postings'' in the figure).
+(Note that postings in Figure <A HREF="#fig:mapreduceschema">4.6</A>  include term frequencies, whereas
+each posting in the other sections of this chapter is simply
+a
+docID without term frequency information.)
+The data flow is shown for a-f in Figure <A HREF="#fig:mapreduce">4.5</A> .
+This completes the construction of the inverted index.
+
+<P>
+Parsers and inverters are not
+separate sets of machines. The master identifies idle
+machines and assigns tasks to them. The same machine
+can be a parser in the map phase and an inverter in the
+reduce phase. And there are often other jobs that run in
+parallel 
+with index construction, so in between being a parser and an
+inverter a machine might do some crawling or another
+unrelated task.
+
+<P>
+To minimize
+write times before inverters reduce the data, each parser writes
+its segment files to its <I>local disk</I>. In the reduce phase, the master communicates
+to an inverter the locations of 
+the relevant segment files (e.g., of the <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img28.png"
+ ALT="$r$"> segment files
+of the a-f partition).
+Each segment file
+only requires one sequential read because all data
+relevant to a particular inverter were written to a single
+segment file by the parser.  This setup minimizes
+the amount of network traffic needed during indexing.
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:mapreduceschema"></A><A NAME="p:mapreduceschema"></A></P>
+<P>
+<IMG
+ WIDTH="586" HEIGHT="163" ALIGN="BOTTOM" BORDER="0"
+ SRC="img200.png"
+ ALT="\includegraphics[width=13cm]{art/figure4.6.eps}">
+<A NAME="5148"></A>Map and reduce functions in MapReduce. In
+general, the map
+function produces a list of key-value pairs. All values
+for a key are collected into one list in the reduce
+phase. This list is then processed further.
+The instantiations of the two functions and an
+example 
+are shown for index construction. Because the map phase
+processes documents in a 
+distributed fashion, termID-docID pairs need not be ordered correctly
+initially as in this example. 
+The example shows terms instead of termIDs
+for better readability.
+We abbreviate Caesar
+as C and
+conquered
+as c'ed. 
+
+
+</DIV>
+
+<P>
+Figure <A HREF="#fig:mapreduceschema">4.6</A>  shows the general schema of the
+MapReduce functions. Input and output are often lists of
+key-value pairs themselves, so that several MapReduce jobs
+can run in sequence. In fact, this was the design of the Google
+indexing system in 2004. What we describe in this section
+corresponds to only one of five to ten MapReduce operations in that
+indexing system. Another MapReduce operation transforms the
+term-partitioned index we just created into a document-partitioned
+one.<A NAME="5157"></A><A NAME="5158"></A>
+
+<P>
+MapReduce offers a robust and conceptually simple framework
+for implementing index construction in a distributed
+environment. By providing a semiautomatic method for
+splitting index construction into smaller tasks, it can
+scale to almost arbitrarily large collections, given computer
+clusters of sufficient size.  
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI>For <IMG
+ WIDTH="51" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img201.png"
+ ALT="$n=15$"> splits, <IMG
+ WIDTH="48" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img202.png"
+ ALT="$r=10$"> segments, and
+<IMG
+ WIDTH="39" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img199.png"
+ ALT="$j=3$"> term partitions, how long would distributed index
+creation take for Reuters-RCV1 in a MapReduce architecture?
+Base your assumptions about cluster machines on
+Table <A HREF="hardware-basics-1.html#tab:perfchar">4.1</A> .
+
+<P>
+</LI>
+</UL>
+<A NAME="5163"></A><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1599"
+  HREF="dynamic-indexing-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1593"
+  HREF="index-construction-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1587"
+  HREF="single-pass-in-memory-indexing-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1595"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1597"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1600"
+  HREF="dynamic-indexing-1.html">Dynamic indexing</A>
+<B> Up:</B> <A NAME="tex2html1594"
+  HREF="index-construction-1.html">Index construction</A>
+<B> Previous:</B> <A NAME="tex2html1588"
+  HREF="single-pass-in-memory-indexing-1.html">Single-pass in-memory indexing</A>
+ &nbsp; <B>  <A NAME="tex2html1596"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1598"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/distributed-indexing-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:23:40 GMT -->
+</HTML>

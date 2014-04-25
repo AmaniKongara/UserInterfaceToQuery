@@ -1,0 +1,222 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/references-and-further-reading-4.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:23:55 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>References and further reading</TITLE>
+<META NAME="description" CONTENT="References and further reading">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="other-types-of-indexes-1.html">
+<LINK REL="up" HREF="index-construction-1.html">
+<LINK REL="next" HREF="index-compression-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1639"
+  HREF="index-compression-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1633"
+  HREF="index-construction-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1629"
+  HREF="other-types-of-indexes-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1635"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1637"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1640"
+  HREF="index-compression-1.html">Index compression</A>
+<B> Up:</B> <A NAME="tex2html1634"
+  HREF="index-construction-1.html">Index construction</A>
+<B> Previous:</B> <A NAME="tex2html1630"
+  HREF="other-types-of-indexes-1.html">Other types of indexes</A>
+ &nbsp; <B>  <A NAME="tex2html1636"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1638"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00970000000000000000"></A>
+<A NAME="sec:iconstfurther"></A> <A NAME="p:iconstfurther"></A>
+<BR>
+References and further reading
+</H1> 
+
+<P>
+<A
+ HREF="bibliography-1.html#witten99gigabytes">Witten et&nbsp;al. (1999, Chapter&nbsp;5)</A> present an extensive
+treatment of the subject of <A NAME="5308"></A>index construction and
+additional indexing algorithms with different tradeoffs of
+memory, disk space, and time. In general, blocked sort-based indexing does well on all three counts. However, if conserving
+memory or disk space is the main criterion, then other algorithms may be
+a better choice. See <A
+ HREF="bibliography-1.html#witten99gigabytes">Witten et&nbsp;al. (1999)</A>, Tables 5.4
+and 5.5; BSBI is closest to <A NAME="5310"></A>``sort-based
+multiway merge,'' but the two algorithms differ in dictionary
+structure and use of compression.  
+
+<P>
+<A
+ HREF="bibliography-1.html#moffat95insitu">Moffat and Bell (1995)</A> show how to construct an index
+``in situ,'' that is, with disk space usage close to what is
+needed for the final index and with a minimum of additional
+temporary files (cf. also <A
+ HREF="bibliography-1.html#harman90retrieving">Harman and Candela (1990)</A>). They
+give <A
+ HREF="bibliography-1.html#lesk88grab">Lesk (1988)</A> and <A
+ HREF="bibliography-1.html#somogyi90melbourne">Somogyi (1990)</A> credit
+for being among the first to employ sorting for index
+construction.
+
+<P>
+The <A NAME="5315"></A>SPIMI method in Section <A HREF="single-pass-in-memory-indexing-1.html#sec:spimi">4.3</A>  is from
+(<A
+ HREF="bibliography-1.html#heinz03efficient">Heinz and Zobel, 2003</A>). We have simplified several aspects
+of the algorithm, including compression and the fact that
+each term's data structure also contains, in addition to the
+postings list, its document frequency and house keeping
+information.  We recommend <A
+ HREF="bibliography-1.html#heinz03efficient">Heinz and Zobel (2003)</A> and
+<A
+ HREF="bibliography-1.html#zobel06inverted">Zobel and Moffat (2006)</A> as up-do-date, in-depth treatments of
+index construction. Other algorithms with good scaling
+properties with respect to vocabulary size require several
+passes through the data, e.g., FAST-INV (<A NAME="tex2html1641"
+  HREF="bibliography-1.html#harman92inverted">Harman et&nbsp;al., 1992</A>, <A NAME="tex2html1642"
+  HREF="bibliography-1.html#fox91fastinv">Fox and Lee, 1991</A>).
+
+<P>
+The <A NAME="5321"></A> MapReduce architecture was introduced by
+<A
+ HREF="bibliography-1.html#dean04mapreduce">Dean and Ghemawat (2004)</A>. An open source implementation of
+MapReduce is available at
+<TT><A NAME="tex2html46"
+  HREF="http://lucene.apache.org/hadoop/">http://lucene.apache.org/hadoop/</A></TT>.
+<A
+ HREF="bibliography-1.html#ribeiro99efficient">Ribeiro-Neto et&nbsp;al. (1999)</A> and <A
+ HREF="bibliography-1.html#melnik01building">Melnik et&nbsp;al. (2001)</A> describe other
+approaches to distributed indexing.
+Introductory chapters on distributed IR are
+(<A
+ HREF="bibliography-1.html#baezayates99">Baeza-Yates and Ribeiro-Neto, 1999</A>, Chapter&nbsp;9)
+and (<A
+ HREF="bibliography-1.html#grossman04information">Grossman and Frieder, 2004</A>, Chapter&nbsp;8).
+See also <A
+ HREF="bibliography-1.html#callan00distributed">Callan (2000)</A>.
+
+<P>
+<A
+ HREF="bibliography-1.html#lester05fast">Lester et&nbsp;al. (2005)</A> and <A
+ HREF="bibliography-1.html#buttcher05indexing">B&#252;ttcher and Clarke (2005a)</A> analyze
+the properties of logarithmic merging and compare it with other construction methods.
+One of the first uses of this method was in Lucene
+(<TT><A NAME="tex2html47"
+  HREF="http://lucene.apache.org/">http://lucene.apache.org</A></TT>).
+Other dynamic indexing
+methods are discussed by <A
+ HREF="bibliography-1.html#buttcher06hybrid">B&#252;ttcher et&nbsp;al. (2006)</A> and
+<A
+ HREF="bibliography-1.html#lester06efficient">Lester et&nbsp;al. (2006)</A>. The latter paper also discusses
+the strategy of replacing the old index by one
+built from scratch.
+
+<P>
+<A
+ HREF="bibliography-1.html#heinz02burst">Heinz et&nbsp;al. (2002)</A>
+compare data structures for accumulating the vocabulary
+in memory.
+<A
+ HREF="bibliography-1.html#buttcher05security">B&#252;ttcher and Clarke (2005b)</A> discuss security models for a
+common inverted index for multiple users.
+A detailed characterization of the
+<A NAME="5336"></A> 
+Reuters-RCV1 collection can be found in (<A
+ HREF="bibliography-1.html#lewis04benchmark">Lewis et&nbsp;al., 2004</A>).
+NIST distributes the collection (see <TT><A NAME="tex2html48"
+  HREF="http://trec.nist.gov/data/reuters/reuters.html">http://trec.nist.gov/data/reuters/reuters.html</A></TT>).
+
+<P>
+<A
+ HREF="bibliography-1.html#garciamolina99database">Garcia-Molina et&nbsp;al. (1999, Chapter&nbsp;2)</A> review computer
+hardware relevant to system design
+in depth.
+
+<P>
+An effective indexer for enterprise search needs to be able to
+communicate efficiently with a number of applications that
+hold text data in corporations, including Microsoft Outlook,
+IBM's Lotus software, <A NAME="5340"></A>databases like Oracle and MySQL,
+<A NAME="5341"></A><A NAME="5342"></A> <I>content management systems</I>  like Open Text, and
+<A NAME="5344"></A> <I>enterprise resource planning</I>  software like SAP.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1639"
+  HREF="index-compression-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1633"
+  HREF="index-construction-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1629"
+  HREF="other-types-of-indexes-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1635"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1637"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1640"
+  HREF="index-compression-1.html">Index compression</A>
+<B> Up:</B> <A NAME="tex2html1634"
+  HREF="index-construction-1.html">Index construction</A>
+<B> Previous:</B> <A NAME="tex2html1630"
+  HREF="other-types-of-indexes-1.html">Other types of indexes</A>
+ &nbsp; <B>  <A NAME="tex2html1636"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1638"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/references-and-further-reading-4.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:23:55 GMT -->
+</HTML>

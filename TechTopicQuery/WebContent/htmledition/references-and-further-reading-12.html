@@ -1,0 +1,184 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/references-and-further-reading-12.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:29:37 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>References and further reading</TITLE>
+<META NAME="description" CONTENT="References and further reading">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="extended-language-modeling-approaches-1.html">
+<LINK REL="up" HREF="language-models-for-information-retrieval-1.html">
+<LINK REL="next" HREF="text-classification-and-naive-bayes-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3398"
+  HREF="text-classification-and-naive-bayes-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3392"
+  HREF="language-models-for-information-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3388"
+  HREF="extended-language-modeling-approaches-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3394"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3396"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3399"
+  HREF="text-classification-and-naive-bayes-1.html">Text classification and Naive</A>
+<B> Up:</B> <A NAME="tex2html3393"
+  HREF="language-models-for-information-retrieval-1.html">Language models for information</A>
+<B> Previous:</B> <A NAME="tex2html3389"
+  HREF="extended-language-modeling-approaches-1.html">Extended language modeling approaches</A>
+ &nbsp; <B>  <A NAME="tex2html3395"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3397"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001750000000000000000"></A><A NAME="sec:lmir-refs"></A> <A NAME="p:lmir-refs"></A>
+<BR>
+References and further reading
+</H1> 
+
+<P>
+For more details on the basic concepts of probabilistic language
+models and techniques for smoothing, see either  
+<A
+ HREF="bibliography-1.html#manning99foundations">Manning and Sch&#252;tze (1999, Chapter 6)</A> or <A
+ HREF="bibliography-1.html#jurafsky08slp">Jurafsky and Martin (2008, Chapter 4)</A>.
+
+<P>
+The important initial papers that originated the language modeling
+approach to IR are:
+(<A NAME="tex2html3400"
+  HREF="bibliography-1.html#berger99ir">Berger and Lafferty, 1999</A>, <A NAME="tex2html3401"
+  HREF="bibliography-1.html#ponte98lm">Ponte and Croft, 1998</A>, <A NAME="tex2html3402"
+  HREF="bibliography-1.html#miller99hmm">Miller et&nbsp;al., 1999</A>, <A NAME="tex2html3403"
+  HREF="bibliography-1.html#hiemstra98linguistically">Hiemstra, 1998</A>).
+Other relevant papers can be found in the next several years of SIGIR
+proceedings.  (<A
+ HREF="bibliography-1.html#croft03lm">Croft and Lafferty, 2003</A>) contains a collection of papers from a
+workshop on
+language modeling approaches and <A
+ HREF="bibliography-1.html#hiemstra05lm">Hiemstra and Kraaij (2005)</A> review one
+prominent thread of work on using language modeling approaches for TREC tasks.
+<A
+ HREF="bibliography-1.html#zhai01smoothing">Zhai and Lafferty (2001b)</A> clarify the role of smoothing in LMs for IR
+and present detailed empirical 
+comparisons of different 
+smoothing methods.  <A
+ HREF="bibliography-1.html#zaragoza03bayesian">Zaragoza et&nbsp;al. (2003)</A> advocate using full
+Bayesian predictive distributions rather than MAP point estimates, but
+while they outperform Bayesian smoothing, they fail to outperform a
+linear interpolation.  <A
+ HREF="bibliography-1.html#zhai02two">Zhai and Lafferty (2002)</A> argue that a two-stage
+smoothing model with first Bayesian smoothing followed by linear
+interpolation gives a good model of the task, and performs better and
+more stably than a single form of smoothing.  A nice feature of the LM
+approach is that it provides a convenient and principled way to put
+various kinds of prior information into the model; <A
+ HREF="bibliography-1.html#kraaij02importance">Kraaij et&nbsp;al. (2002)</A>
+demonstrate this by showing the value of link information as a prior
+in improving web entry page retrieval performance.
+As briefly discussed in Chapter <A HREF="flat-clustering-1.html#ch:flatclust">16</A>  (page <A HREF="clustering-in-information-retrieval-1.html#p:clusterlgmodel">16.1</A> ), <A
+ HREF="bibliography-1.html#liu04cluster">Liu and Croft (2004)</A> show some gains by smoothing a document LM with
+estimates from a cluster of similar documents; <A
+ HREF="bibliography-1.html#tao06language">Tao et&nbsp;al. (2006)</A>
+report larger gains by doing document-similarity based smoothing.
+
+<P>
+<A
+ HREF="bibliography-1.html#hiemstra05lm">Hiemstra and Kraaij (2005)</A> present TREC results showing a LM approach
+beating use of BM25 weights.  
+Recent
+work has achieved some gains by going beyond the unigram model,
+providing the higher order models are smoothed with lower order models
+(<A NAME="tex2html3404"
+  HREF="bibliography-1.html#cao05integrating">Cao et&nbsp;al., 2005</A>, <A NAME="tex2html3405"
+  HREF="bibliography-1.html#gao04dependence">Gao et&nbsp;al., 2004</A>), though the gains to date
+remain modest.
+<A
+ HREF="bibliography-1.html#sparckjones04rational">Sp&#228;rck&nbsp;Jones (2004)</A> presents a critical viewpoint on the
+rationale for the language modeling approach, but
+<A
+ HREF="bibliography-1.html#lafferty03probabilistic">Lafferty and Zhai (2003)</A> argue that a unified account can be
+given of the probabilistic semantics underlying both the language
+modeling approach presented in this chapter and the classical
+probabilistic information retrieval approach of Chapter <A HREF="probabilistic-information-retrieval-1.html#ch:probir">11</A> .
+The Lemur Toolkit (<TT><A NAME="tex2html121"
+  HREF="http://www.lemurproject.org/">http://www.lemurproject.org/</A></TT>) provides a
+flexible open source framework for investigating language modeling
+approaches to IR.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3398"
+  HREF="text-classification-and-naive-bayes-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3392"
+  HREF="language-models-for-information-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3388"
+  HREF="extended-language-modeling-approaches-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3394"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3396"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3399"
+  HREF="text-classification-and-naive-bayes-1.html">Text classification and Naive</A>
+<B> Up:</B> <A NAME="tex2html3393"
+  HREF="language-models-for-information-retrieval-1.html">Language models for information</A>
+<B> Previous:</B> <A NAME="tex2html3389"
+  HREF="extended-language-modeling-approaches-1.html">Extended language modeling approaches</A>
+ &nbsp; <B>  <A NAME="tex2html3395"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3397"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/references-and-further-reading-12.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:29:37 GMT -->
+</HTML>

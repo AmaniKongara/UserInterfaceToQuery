@@ -1,0 +1,488 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/matrix-decompositions-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:37:32 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Matrix decompositions</TITLE>
+<META NAME="description" CONTENT="Matrix decompositions">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="linear-algebra-review-1.html">
+<LINK REL="up" HREF="linear-algebra-review-1.html">
+<LINK REL="next" HREF="term-document-matrices-and-singular-value-decompositions-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4541"
+  HREF="term-document-matrices-and-singular-value-decompositions-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4535"
+  HREF="linear-algebra-review-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4531"
+  HREF="linear-algebra-review-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4537"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4539"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4542"
+  HREF="term-document-matrices-and-singular-value-decompositions-1.html">Term-document matrices and singular</A>
+<B> Up:</B> <A NAME="tex2html4536"
+  HREF="linear-algebra-review-1.html">Linear algebra review</A>
+<B> Previous:</B> <A NAME="tex2html4532"
+  HREF="linear-algebra-review-1.html">Linear algebra review</A>
+ &nbsp; <B>  <A NAME="tex2html4538"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4540"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION002311000000000000000"></A>
+<A NAME="sec:matdecomp"></A> <A NAME="p:matdecomp"></A>
+<BR>
+Matrix decompositions
+</H2> 
+In this section we examine ways in which a square matrix can be <I>factored</I> into the product of matrices derived from its eigenvectors; we refer to this process as <A NAME="28615"></A> <I>matrix decomposition</I> . <A NAME="p:pagematdecomp"></A> 
+Matrix decompositions similar to the ones in this section will form the basis of our principal text-analysis technique in Section <A HREF="low-rank-approximations-1.html#sec:lsi">18.3</A> , where we will look at decompositions of non-square term-document matrices.  The square decompositions in this section are simpler and can be treated with sufficient mathematical rigor to help the reader understand how such decompositions work.  The detailed mathematical derivation of the more complex decompositions in Section <A HREF="term-document-matrices-and-singular-value-decompositions-1.html#sec:svd">18.2</A>  are beyond the scope of this book.
+
+<P>
+We begin by giving two theorems on the decomposition of a square matrix into the product of three matrices of a special form. The first of these, Theorem&nbsp;<A HREF="#thm:eigendecomp">18.1.1</A>, gives the basic factorization of a square real-valued matrix into three factors. The second, Theorem&nbsp;<A HREF="#thm:symmeigendecomp">18.1.1</A>, applies to square symmetric matrices and is the basis of the singular value decomposition described in Theorem&nbsp;<A HREF="term-document-matrices-and-singular-value-decompositions-1.html#thm:svd">18.2</A>.
+
+<P>
+<B>Theorem.</B>
+<I>(Matrix diagonalization theorem)</I>
+<A NAME="thm:eigendecomp"></A>Let <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1679.png"
+ ALT="$S$"> be a square real-valued <!-- MATH
+ $\lsinoterms\times \lsinoterms$
+ -->
+<IMG
+ WIDTH="56" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1669.png"
+ ALT="$\lsinoterms\times \lsinoterms$"> matrix with <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1673.png"
+ ALT="$\lsinoterms$"> linearly independent eigenvectors. Then there exists an <A NAME="28626"></A> <I>eigen decomposition</I> 
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+S=U\Lambda U^{-1},
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eqn:eigendecomp"></A><IMG
+ WIDTH="91" HEIGHT="26" BORDER="0"
+ SRC="img1701.png"
+ ALT="\begin{displaymath}
+S=U\Lambda U^{-1},
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(223)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+where the columns of <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1702.png"
+ ALT="$U$"> are the eigenvectors of <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1679.png"
+ ALT="$S$"> and <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1703.png"
+ ALT="$\Lambda$"> is a diagonal matrix whose diagonal entries are the eigenvalues of <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1679.png"
+ ALT="$S$"> in decreasing order
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\left(
+    \begin{array}{cccc}
+      \lambda_1 & & & \\
+       & \lambda_2 & & \\
+       & & \cdots & \\
+       & & & \lambda_\lsinoterms
+    \end{array}
+    \right), \lambda_i\geq\lambda_{i+1}.
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eqn:diagonal"></A><IMG
+ WIDTH="244" HEIGHT="83" BORDER="0"
+ SRC="img1704.png"
+ ALT="\begin{displaymath}
+\left(
+\begin{array}{cccc}
+\lambda_1 &amp; &amp; &amp; \\
+&amp; \lambda_...
+..._\lsinoterms
+\end{array} \right), \lambda_i\geq\lambda_{i+1}.
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(224)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+If the eigenvalues are distinct, then this decomposition is unique.
+<B>End theorem.</B>
+
+<P>
+To understand how Theorem&nbsp;<A HREF="#thm:eigendecomp">18.1.1</A> works, we note that <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1702.png"
+ ALT="$U$"> has the eigenvectors of <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1679.png"
+ ALT="$S$"> as columns
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+U=\left(
+    \vec{u_1}\
+    \vec{u_2}
+    \cdots
+    \vec{u_\lsinoterms}
+    \right).
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eqn:diagen"></A><IMG
+ WIDTH="137" HEIGHT="28" BORDER="0"
+ SRC="img1705.png"
+ ALT="\begin{displaymath}
+U=\left(
+\vec{u_1}\
+\vec{u_2}
+\cdots
+\vec{u_\lsinoterms}
+\right).
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(225)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+Then we have
+<BR>
+<DIV ALIGN="CENTER">
+
+<!-- MATH
+ \begin{eqnarray}
+SU &=& S\left(
+    \vec{u_1}\
+    \vec{u_2}
+    \cdots
+    \vec{u_\lsinoterms}
+    \right) \\
+   &=& \left(
+    \lambda_1\vec{u_1}\
+    \lambda_2\vec{u_2}
+    \cdots
+    \lambda_\lsinoterms\vec{u_\lsinoterms}
+    \right) \\
+  &=& \left(
+    \vec{u_1}\
+    \vec{u_2}
+    \cdots
+    \vec{u_\lsinoterms}
+    \right)\left(
+    \begin{array}{cccc}
+      \lambda_1 & & & \\
+       & \lambda_2 & & \\
+       & & \cdots & \\
+       & & & \lambda_\lsinoterms
+    \end{array}
+    \right).
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="26" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1706.png"
+ ALT="$\displaystyle SU$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="114" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1707.png"
+ ALT="$\displaystyle S\left(
+\vec{u_1}\
+\vec{u_2}
+\cdots
+\vec{u_\lsinoterms}
+\right)$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(226)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT">&nbsp;</TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="158" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1708.png"
+ ALT="$\displaystyle \left(
+\lambda_1\vec{u_1}\
+\lambda_2\vec{u_2}
+\cdots
+\lambda_\lsinoterms\vec{u_\lsinoterms}
+\right)$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(227)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT">&nbsp;</TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="281" HEIGHT="94" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1709.png"
+ ALT="$\displaystyle \left(
+\vec{u_1}\
+\vec{u_2}
+\cdots
+\vec{u_\lsinoterms}
+\rig...
+..._2 &amp; &amp; \\
+&amp; &amp; \cdots &amp; \\
+&amp; &amp; &amp; \lambda_\lsinoterms
+\end{array} \right).$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(228)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+Thus, we have <IMG
+ WIDTH="74" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1710.png"
+ ALT="$SU=U\Lambda$">, or <!-- MATH
+ $S=U\Lambda U^{-1}$
+ -->
+<IMG
+ WIDTH="91" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1711.png"
+ ALT="$S=U\Lambda U^{-1}$">.
+
+<P>
+We next state a closely related decomposition of a symmetric square matrix into the product of matrices derived from its eigenvectors. This will pave the way for the development of our main tool for text analysis, the singular value decomposition (Section <A HREF="term-document-matrices-and-singular-value-decompositions-1.html#sec:svd">18.2</A> ).
+
+<P>
+<B>Theorem.</B>
+<I>(Symmetric diagonalization theorem)</I>
+<A NAME="thm:symmeigendecomp"></A>Let <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1679.png"
+ ALT="$S$"> be a square, symmetric real-valued <!-- MATH
+ $\lsinoterms\times \lsinoterms$
+ -->
+<IMG
+ WIDTH="56" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1669.png"
+ ALT="$\lsinoterms\times \lsinoterms$"> matrix with <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1673.png"
+ ALT="$\lsinoterms$"> linearly independent eigenvectors. Then there exists a <A NAME="28666"></A> <I>symmetric diagonal decomposition</I> 
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+S=Q\Lambda Q^{T},
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eqn:symmeigendecomp"></A><IMG
+ WIDTH="82" HEIGHT="27" BORDER="0"
+ SRC="img1712.png"
+ ALT="\begin{displaymath}
+S=Q\Lambda Q^{T},
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(229)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+where the columns of <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img146.png"
+ ALT="$Q$"> are the orthogonal and normalized (unit length, real) eigenvectors of <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1679.png"
+ ALT="$S$">, and <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1703.png"
+ ALT="$\Lambda$"> is the diagonal matrix whose entries are the eigenvalues of <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1679.png"
+ ALT="$S$">. Further, all entries of <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img146.png"
+ ALT="$Q$"> are real and we have <IMG
+ WIDTH="78" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1713.png"
+ ALT="$Q^{-1}=Q^T$">.
+<B>End theorem.</B>
+
+<P>
+We will build on this symmetric diagonal decomposition to build low-rank approximations to term-document matrices.
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI>What is the rank of the <IMG
+ WIDTH="39" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1714.png"
+ ALT="$3\times 3$"> diagonal matrix below?
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\left(
+  \begin{array}{ccc}
+    1 & 1 & 0 \\
+    0 & 1 & 1 \\
+    1 & 2 & 1 \\
+  \end{array}
+\right)
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="91" HEIGHT="64" BORDER="0"
+ SRC="img1715.png"
+ ALT="\begin{displaymath}
+\left(
+\begin{array}{ccc}
+1 &amp; 1 &amp; 0 \\
+0 &amp; 1 &amp; 1 \\
+1 &amp; 2 &amp; 1 \\
+\end{array}\right)
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(230)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+
+<P>
+</LI>
+<LI>Show that <IMG
+ WIDTH="44" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1716.png"
+ ALT="$\lambda=2$"> is an eigenvalue of
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\lsimatrix=\left(
+      \begin{array}{cc}
+        6 & -2 \\
+        4 & 0 \\
+      \end{array}
+    \right).
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="124" HEIGHT="45" BORDER="0"
+ SRC="img1717.png"
+ ALT="\begin{displaymath}
+\lsimatrix=\left(
+\begin{array}{cc}
+6 &amp; -2 \\
+4 &amp; 0 \\
+\end{array} \right).
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(231)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+Find the corresponding eigenvector.
+
+<P>
+</LI>
+<LI>Compute the unique eigen decomposition of the <IMG
+ WIDTH="39" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img154.png"
+ ALT="$2\times 2$"> matrix in (<A HREF="linear-algebra-review-1.html#eqn:examplematrix">222</A>).
+
+<P>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4541"
+  HREF="term-document-matrices-and-singular-value-decompositions-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4535"
+  HREF="linear-algebra-review-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4531"
+  HREF="linear-algebra-review-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4537"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4539"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4542"
+  HREF="term-document-matrices-and-singular-value-decompositions-1.html">Term-document matrices and singular</A>
+<B> Up:</B> <A NAME="tex2html4536"
+  HREF="linear-algebra-review-1.html">Linear algebra review</A>
+<B> Previous:</B> <A NAME="tex2html4532"
+  HREF="linear-algebra-review-1.html">Linear algebra review</A>
+ &nbsp; <B>  <A NAME="tex2html4538"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4540"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/matrix-decompositions-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:37:41 GMT -->
+</HTML>

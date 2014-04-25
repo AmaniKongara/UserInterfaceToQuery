@@ -1,0 +1,206 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/document-representations-and-measures-of-relatedness-in-vector-spaces-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:31:48 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Document representations and measures of relatedness in vector spaces</TITLE>
+<META NAME="description" CONTENT="Document representations and measures of relatedness in vector spaces">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="rocchio-classification-1.html">
+<LINK REL="previous" HREF="vector-space-classification-1.html">
+<LINK REL="up" HREF="vector-space-classification-1.html">
+<LINK REL="next" HREF="rocchio-classification-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3679"
+  HREF="rocchio-classification-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3673"
+  HREF="vector-space-classification-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3667"
+  HREF="vector-space-classification-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3675"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3677"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3680"
+  HREF="rocchio-classification-1.html">Rocchio classification</A>
+<B> Up:</B> <A NAME="tex2html3674"
+  HREF="vector-space-classification-1.html">Vector space classification</A>
+<B> Previous:</B> <A NAME="tex2html3668"
+  HREF="vector-space-classification-1.html">Vector space classification</A>
+ &nbsp; <B>  <A NAME="tex2html3676"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3678"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001910000000000000000"></A>
+<A NAME="sec:simdisfigs"></A> <A NAME="p:simdisfigs"></A> 
+<A NAME="p:similaritymetric"></A>
+<BR>
+Document representations and measures of
+  relatedness in vector spaces
+</H1>  
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:3dsphere"></A><A NAME="p:3dsphere"></A></P><IMG
+ WIDTH="556" HEIGHT="323" BORDER="0"
+ SRC="img1088.png"
+ ALT="\begin{figure}
+% latex2html id marker 19708
+\par
+\psset{unit=0.25cm}
+\begin{tabu...
+...a.
+Right: The corresponding projection of the 3D hemisphere to 2D.}
+\end{figure}">
+</DIV>
+
+<P>
+As in Chapter <A HREF="scoring-term-weighting-and-the-vector-space-model-1.html#ch:termvspace">6</A> , we represent documents as
+vectors in
+<!-- MATH
+ $\mathbb{R}^{|V|}$
+ -->
+<IMG
+ WIDTH="34" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1086.png"
+ ALT="$\mathbb{R}^{\vert V\vert}$"> in this chapter. To illustrate properties
+of document vectors in vector classification,
+we will render these vectors as points in a plane as in the
+example in Figure <A HREF="vector-space-classification-1.html#fig:classesinvspace">14.1</A> . In
+reality, document vectors are length-normalized
+unit vectors that point to the surface of a hypersphere.  We
+can view the 2D planes in our figures as projections onto a
+plane of the surface of a (hyper-)sphere as shown in
+Figure <A HREF="#fig:3dsphere">14.2</A> . Distances on the surface of the sphere
+and on the projection plane are approximately the same as
+long as we restrict ourselves to small areas of the surface
+and choose an appropriate projection
+(Exercise <A HREF="#ex:qualityof2d">14.1</A> ). 
+
+<P>
+Decisions of many vector space classifiers are
+based on a notion of distance, e.g., when computing the nearest
+neighbors in kNN classification.
+We will use Euclidean
+distance in this chapter as the underlying distance measure.
+We observed earlier (Exercise <A HREF="pivoted-normalized-document-length-1.html#ex:euclideancosine">6.4.4</A> ,
+page <A HREF="#p:euclideancosine"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A> ) that there is a direct
+correspondence between cosine similarity and Euclidean
+distance for length-normalized vectors. In vector space classification, it
+rarely matters whether the relatedness of two documents is
+expressed  in terms of similarity or distance.
+
+<P>
+However, in addition to documents, centroids or averages of
+vectors also play an important role in vector space
+classification.  Centroids are not length-normalized. For
+unnormalized vectors, dot product, cosine similarity and
+Euclidean distance all have different behavior in general
+(Exercise <A HREF="exercises-2.html#ex:diffsimex">14.8</A> ).  We will be mostly concerned with
+small local regions when computing the similarity between a
+document and a centroid, and the smaller the region the more
+similar the behavior of the three measures is.
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI><A NAME="ex:qualityof2d"></A> For small areas, distances on the surface of the hypersphere are
+approximated well by distances on its projection 
+(Figure <A HREF="#fig:3dsphere">14.2</A> )
+because
+<!-- MATH
+ $\alpha \approx \sin \alpha$
+ -->
+<IMG
+ WIDTH="67" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1089.png"
+ ALT="$\alpha \approx \sin \alpha$"> for small angles. For what size
+angle is the distortion <!-- MATH
+ $\alpha/\sin(\alpha)$
+ -->
+<IMG
+ WIDTH="68" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1090.png"
+ ALT="$\alpha/\sin(\alpha)$"> (i) 1.01, (ii) 1.05 and (iii) 1.1?
+
+<P>
+</LI>
+</UL><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3679"
+  HREF="rocchio-classification-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3673"
+  HREF="vector-space-classification-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3667"
+  HREF="vector-space-classification-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3675"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3677"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3680"
+  HREF="rocchio-classification-1.html">Rocchio classification</A>
+<B> Up:</B> <A NAME="tex2html3674"
+  HREF="vector-space-classification-1.html">Vector space classification</A>
+<B> Previous:</B> <A NAME="tex2html3668"
+  HREF="vector-space-classification-1.html">Vector space classification</A>
+ &nbsp; <B>  <A NAME="tex2html3676"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3678"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/document-representations-and-measures-of-relatedness-in-vector-spaces-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:31:50 GMT -->
+</HTML>

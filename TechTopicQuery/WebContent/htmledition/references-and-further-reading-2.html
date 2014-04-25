@@ -1,0 +1,232 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/references-and-further-reading-2.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:22:58 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>References and further reading</TITLE>
+<META NAME="description" CONTENT="References and further reading">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="positional-postings-and-phrase-queries-1.html">
+<LINK REL="up" HREF="the-term-vocabulary-and-postings-lists-1.html">
+<LINK REL="next" HREF="dictionaries-and-tolerant-retrieval-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1298"
+  HREF="dictionaries-and-tolerant-retrieval-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1292"
+  HREF="the-term-vocabulary-and-postings-lists-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1288"
+  HREF="combination-schemes-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1294"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1296"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1299"
+  HREF="dictionaries-and-tolerant-retrieval-1.html">Dictionaries and tolerant retrieval</A>
+<B> Up:</B> <A NAME="tex2html1293"
+  HREF="the-term-vocabulary-and-postings-lists-1.html">The term vocabulary and</A>
+<B> Previous:</B> <A NAME="tex2html1289"
+  HREF="combination-schemes-1.html">Combination schemes</A>
+ &nbsp; <B>  <A NAME="tex2html1295"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1297"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00750000000000000000"></A><A NAME="sec:ch2-references"></A> <A NAME="p:ch2-references"></A>
+<BR>
+References and further reading
+</H1> 
+
+<P>
+Exhaustive discussion of the character-level processing of
+<A NAME="2811"></A>   can be found in <A
+ HREF="bibliography-1.html#lunde98cjkv">Lunde (1998)</A>.  Character bigram
+indexes are perhaps the most standard approach to indexing Chinese,
+although some systems use word segmentation. Due to differences
+in the language and writing system, word segmentation is most usual
+for Japanese (<A NAME="tex2html1300"
+  HREF="bibliography-1.html#luk02comparison">Luk and Kwok, 2002</A>, <A NAME="tex2html1301"
+  HREF="bibliography-1.html#kishida05clir">Kishida et&nbsp;al., 2005</A>).  The structure of a
+character <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">-gram index over unsegmented text differs
+from that in Section&nbsp;<A HREF="k-gram-indexes-for-wildcard-queries-1.html#sec:kgram">3.2.2</A> (page&nbsp;<A HREF="k-gram-indexes-for-wildcard-queries-1.html#p:kgram"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>): there the <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">-gram dictionary points to
+postings lists of entries in the regular dictionary, whereas here it
+points directly to document postings lists.
+For further discussion of Chinese word segmentation, see
+<A NAME="tex2html1302"
+  HREF="bibliography-1.html#tseng05segmentation">Tseng et&nbsp;al. (2005)</A>, <A NAME="tex2html1303"
+  HREF="bibliography-1.html#sproat03bakeoff">Sproat and Emerson (2003)</A>, <A NAME="tex2html1304"
+  HREF="bibliography-1.html#sproat96segmentation">Sproat et&nbsp;al. (1996)</A>, and
+<A
+ HREF="bibliography-1.html#gao05chinese">Gao et&nbsp;al. (2005)</A>.  
+
+<P>
+<A
+ HREF="bibliography-1.html#lita03truecasing">Lita et&nbsp;al. (2003)</A> present a method for <A NAME="2820"></A> <I>truecasing</I> .  Natural
+language processing work on computational morphology is presented in
+(<A NAME="tex2html1305"
+  HREF="bibliography-1.html#sproat92morphology">Sproat, 1992</A>, <A NAME="tex2html1306"
+  HREF="bibliography-1.html#beesley03finite">Beesley and Karttunen, 2003</A>). 
+
+<P>
+<A NAME="p:languageid"></A> <A NAME="2824"></A> <I>Language identification</I>  was perhaps
+first explored in cryptography; for example,
+<A
+ HREF="bibliography-1.html#konheim81cryptography">Konheim (1981)</A> presents a character-level <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">-gram
+language identification algorithm.  While other methods such as looking
+for particular distinctive function words and letter combinations have
+been used, with the advent of widespread digital text, many people have
+explored the character <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img104.png"
+ ALT="$n$">-gram technique, and found it to be highly
+successful
+(<A NAME="tex2html1307"
+  HREF="bibliography-1.html#beesley88identifier">Beesley, 1998</A>, <A NAME="tex2html1308"
+  HREF="bibliography-1.html#dunning94identification">Dunning, 1994</A>, <A NAME="tex2html1309"
+  HREF="bibliography-1.html#cavnar94ngram">Cavnar and Trenkle, 1994</A>).
+Written language identification is regarded as a fairly easy problem,
+while spoken language identification remains more difficult; see
+<A
+ HREF="bibliography-1.html#hughes06identification">Hughes et&nbsp;al. (2006)</A> for a recent survey.
+
+<P>
+Experiments on and discussion of the positive and negative impact of
+<A NAME="2829"></A> <I>stemming</I>  in English can be found in the following works:
+<A NAME="tex2html1310"
+  HREF="bibliography-1.html#salton89automatic">Salton (1989)</A>, <A NAME="tex2html1311"
+  HREF="bibliography-1.html#krovetz95disambiguation">Krovetz (1995)</A>, <A NAME="tex2html1312"
+  HREF="bibliography-1.html#hull96stemming">Hull (1996)</A>, <A NAME="tex2html1313"
+  HREF="bibliography-1.html#harman91suffixing">Harman (1991)</A>. 
+<A
+ HREF="bibliography-1.html#hollink04monolingual">Hollink et&nbsp;al. (2004)</A> provide detailed results for the effectiveness of language-specific methods on 8 European languages. In terms of percent change in mean average precision (see page <A HREF="evaluation-of-ranked-retrieval-results-1.html#p:map">8.4</A> ) over a baseline system, diacritic removal gains up to 23% (being especially helpful for Finnish, French, and Swedish). Stemming helped markedly for Finnish (30% improvement) and Spanish (10% improvement), but for most languages, including English, the gain from stemming was in the range 0-5%, and results from a lemmatizer were poorer still.  Compound splitting gained 25% for Swedish and 15% for German, but only 4% for Dutch.  Rather than language-particular methods, indexing character <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">-grams (as we suggested for Chinese) could often give as good or better results: using within-word character 4-grams rather than words gave gains of 37% in Finnish, 27% in Swedish, and 20% in German, while even being slightly positive for other languages, such as Dutch, Spanish, and English.
+<A
+ HREF="bibliography-1.html#tomlinson03lexical">Tomlinson (2003)</A> presents broadly similar results.  <A
+ HREF="bibliography-1.html#barilan05how">Bar-Ilan and Gutman (2005)</A> suggest that, at the time of their study (2003), the major commercial web search engines suffered from lacking decent language-particular processing; for example, a query on <TT><A NAME="tex2html29"
+  HREF="www.google.html">www.google.fr</A></TT> for l'&#233;lectricit&#233; did not separate off the article <I>l'</I> but only matched pages with precisely this string of article+noun.
+
+<P>
+The classic presentation of <A NAME="2840"></A>   for IR can be found in <A
+ HREF="bibliography-1.html#moffat96selfindexing">Moffat and Zobel (1996)</A>.  Extended 
+techniques are discussed in <A
+ HREF="bibliography-1.html#boldi05skiplists">Boldi and Vigna (2005)</A>.
+The main paper in the algorithms literature is <A
+ HREF="bibliography-1.html#pugh90skip">Pugh (1990)</A>, which
+uses multilevel skip pointers to give expected <IMG
+ WIDTH="65" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img132.png"
+ ALT="$O(\log P)$"> list access
+(the same expected efficiency as using a tree data structure) with less
+implementational complexity.
+In practice, the effectiveness of using skip pointers depends on various
+system parameters.  <A
+ HREF="bibliography-1.html#moffat96selfindexing">Moffat and Zobel (1996)</A> report conjunctive
+queries running about five 
+times faster with the use of skip pointers, but
+<A
+ HREF="bibliography-1.html#bahle02phrase">Bahle et&nbsp;al. (2002, p.&nbsp;217)</A> report that, with modern CPUs, using skip lists
+instead slows down search because it expands the size of the postings list
+(i.e., disk I/O dominates performance).  In contrast,
+<A
+ HREF="bibliography-1.html#strohman07efficient">Strohman and Croft (2007)</A> again show good performance gains from
+skipping, in a system architecture designed to optimize for the large
+memory spaces and multiple cores of recent CPUs.
+
+<P>
+<A
+ HREF="bibliography-1.html#johnson06effective">Johnson et&nbsp;al. (2006)</A> report that 11.7% of all queries in two
+2002 web query logs contained <A NAME="2849"></A> <I>phrase queries</I> , though
+<A
+ HREF="bibliography-1.html#kammenhuber06web">Kammenhuber et&nbsp;al. (2006)</A> report only 3% phrase queries for a
+different data set.  <A
+ HREF="bibliography-1.html#silverstein99analysis">Silverstein et&nbsp;al. (1999)</A> note that many
+queries without explicit phrase operators are actually implicit phrase
+searches.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1298"
+  HREF="dictionaries-and-tolerant-retrieval-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1292"
+  HREF="the-term-vocabulary-and-postings-lists-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1288"
+  HREF="combination-schemes-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1294"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1296"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1299"
+  HREF="dictionaries-and-tolerant-retrieval-1.html">Dictionaries and tolerant retrieval</A>
+<B> Up:</B> <A NAME="tex2html1293"
+  HREF="the-term-vocabulary-and-postings-lists-1.html">The term vocabulary and</A>
+<B> Previous:</B> <A NAME="tex2html1289"
+  HREF="combination-schemes-1.html">Combination schemes</A>
+ &nbsp; <B>  <A NAME="tex2html1295"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1297"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/references-and-further-reading-2.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:22:59 GMT -->
+</HTML>

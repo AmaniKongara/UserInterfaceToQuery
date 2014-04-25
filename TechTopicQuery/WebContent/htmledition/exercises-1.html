@@ -1,0 +1,210 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/exercises-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:27:56 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Exercises</TITLE>
+<META NAME="description" CONTENT="Exercises">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="references-and-further-reading-10.html">
+<LINK REL="up" HREF="xml-retrieval-1.html">
+<LINK REL="next" HREF="probabilistic-information-retrieval-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2969"
+  HREF="probabilistic-information-retrieval-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2963"
+  HREF="xml-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2959"
+  HREF="references-and-further-reading-10.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2965"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2967"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2970"
+  HREF="probabilistic-information-retrieval-1.html">Probabilistic information retrieval</A>
+<B> Up:</B> <A NAME="tex2html2964"
+  HREF="xml-retrieval-1.html">XML retrieval</A>
+<B> Previous:</B> <A NAME="tex2html2960"
+  HREF="references-and-further-reading-10.html">References and further reading</A>
+ &nbsp; <B>  <A NAME="tex2html2966"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2968"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001570000000000000000">
+Exercises</A>
+</H1>
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI><A NAME="ex:xmlcoll"></A> Find a reasonably sized
+XML document collection (or a collection using a markup
+language different from XML like HTML) on the web and download
+it. 
+Jon Bosak's XML edition of Shakespeare and of various
+religious works at 
+<TT><A NAME="tex2html111"
+  HREF="http://www.ibiblio.org/bosak/">http://www.ibiblio.org/bosak/</A></TT> 
+or
+the first 10,000 documents of the Wikipedia are good
+choices. Create three CAS topics of the type shown in
+Figure <A HREF="basic-xml-concepts-1.html#fig:nexitopic">10.3</A>  that you would expect to do better than
+analogous CO topics. Explain why an XML retrieval
+system would be able to exploit the XML structure of the
+documents to achieve better
+retrieval results on the topics than an unstructured retrieval system.
+
+<P>
+</LI>
+<LI>For the collection and the
+topics in Exercise <A HREF="#ex:xmlcoll">10.7</A> , (i) are there pairs of
+elements <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img672.png"
+ ALT="$e_1$"> and <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img673.png"
+ ALT="$e_2$">, with <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img673.png"
+ ALT="$e_2$"> a subelement of <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img672.png"
+ ALT="$e_1$"> such that both answer one of the
+topics?
+Find one case each where (ii) <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img672.png"
+ ALT="$e_1$"> (iii) <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img673.png"
+ ALT="$e_2$"> is the better
+answer to the query.
+
+<P>
+</LI>
+<LI>Implement the (i) S<SMALL>IM</SMALL>M<SMALL>ERGE</SMALL> (ii) S<SMALL>IM</SMALL>N<SMALL>O</SMALL>M<SMALL>ERGE</SMALL> algorithm in
+Section <A HREF="a-vector-space-model-for-xml-retrieval-1.html#sec:xmlvector">10.3</A>  and run it for the collection and the
+topics in Exercise <A HREF="#ex:xmlcoll">10.7</A> . (iii) Evaluate the results
+by assigning binary relevance judgments to the first five
+documents of the three retrieved lists for each algorithm. Which algorithm
+performs better?
+
+<P>
+</LI>
+<LI>Are all of the elements in Exercise <A HREF="#ex:xmlcoll">10.7</A> 
+appropriate to be returned as hits to a user or are there
+elements (as in the example
+<code>&lt;b&gt;definitely&lt;/b&gt;</code> on page <A HREF="challenges-in-xml-retrieval-1.html#p:definitely">10.2</A> ) that you would exclude?
+
+<P>
+</LI>
+<LI><A NAME="ex:indexingsize"></A> <A NAME="p:indexingsize"></A> 
+We discussed the tradeoff between accuracy of results and
+dimensionality of the vector space on page <A HREF="a-vector-space-model-for-xml-retrieval-1.html#p:xmltradeoff">10.3</A> .
+Give an example of an information need that we can answer correctly if we
+index all lexicalized subtrees, but cannot answer if we only
+index structural terms.
+
+<P>
+</LI>
+<LI>If we index all structural terms,
+what is the size of the index as a function of text size?
+
+<P>
+</LI>
+<LI>If we index all lexicalized subtrees,
+what is the size of the index as a function of text size?
+
+<P>
+</LI>
+<LI><A NAME="ex:simcrlargerthan1"></A> Give an example of a query-document pair for which
+<!-- MATH
+ $\mbox{\textsc{SimNoMerge}}(q,d)$
+ -->
+<IMG
+ WIDTH="145" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img649.png"
+ ALT="$\mbox{\textsc{SimNoMerge}}(q,d)$"> is larger than 1.0.
+
+<P>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2969"
+  HREF="probabilistic-information-retrieval-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2963"
+  HREF="xml-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2959"
+  HREF="references-and-further-reading-10.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2965"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2967"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2970"
+  HREF="probabilistic-information-retrieval-1.html">Probabilistic information retrieval</A>
+<B> Up:</B> <A NAME="tex2html2964"
+  HREF="xml-retrieval-1.html">XML retrieval</A>
+<B> Previous:</B> <A NAME="tex2html2960"
+  HREF="references-and-further-reading-10.html">References and further reading</A>
+ &nbsp; <B>  <A NAME="tex2html2966"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2968"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/exercises-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:27:58 GMT -->
+</HTML>

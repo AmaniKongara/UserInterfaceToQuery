@@ -1,0 +1,193 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/information-retrieval-system-evaluation-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:26:32 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Information retrieval system evaluation</TITLE>
+<META NAME="description" CONTENT="Information retrieval system evaluation">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="standard-test-collections-1.html">
+<LINK REL="previous" HREF="evaluation-in-information-retrieval-1.html">
+<LINK REL="up" HREF="evaluation-in-information-retrieval-1.html">
+<LINK REL="next" HREF="standard-test-collections-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2403"
+  HREF="standard-test-collections-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2397"
+  HREF="evaluation-in-information-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2391"
+  HREF="evaluation-in-information-retrieval-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2399"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2401"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2404"
+  HREF="standard-test-collections-1.html">Standard test collections</A>
+<B> Up:</B> <A NAME="tex2html2398"
+  HREF="evaluation-in-information-retrieval-1.html">Evaluation in information retrieval</A>
+<B> Previous:</B> <A NAME="tex2html2392"
+  HREF="evaluation-in-information-retrieval-1.html">Evaluation in information retrieval</A>
+ &nbsp; <B>  <A NAME="tex2html2400"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2402"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001310000000000000000"></A><A NAME="sec:ir-eval"></A> <A NAME="p:ir-eval"></A>
+<BR>
+Information retrieval system evaluation
+</H1> 
+
+<P>
+To measure ad hoc information retrieval effectiveness in the standard way, we
+need a test collection consisting of three things: 
+
+<OL>
+<LI>A document collection
+</LI>
+<LI>A test suite of information needs, expressible as queries
+</LI>
+<LI>A set of relevance judgments, standardly a binary assessment of
+  either <I>relevant</I> or <I>nonrelevant</I> for each query-document pair.
+</LI>
+</OL>
+The standard approach to information retrieval system evaluation
+revolves around the notion of <A NAME="10554"></A> <I>relevant</I>  and
+<I>nonrelevant</I> documents.  With respect to a user information need, a
+document in the test collection is given a binary classification as either
+relevant or nonrelevant. 
+This decision is referred to as the <A NAME="p:goldstandard"></A> <A NAME="10558"></A> <I>gold standard</I>  or <A NAME="10560"></A> <I>ground truth</I>  judgment of relevance.
+The test document collection and suite of information needs have to be of a
+reasonable size: you need to average performance 
+over fairly large test sets, as results are highly
+variable over different documents and information needs.  As a rule of
+thumb, 50 information needs has usually been found to be a
+sufficient minimum.
+
+<P>
+Relevance is assessed relative to an
+<A NAME="10562"></A>  ,
+<I>not</I> a query.  For example, an information need 
+might be:
+<BLOCKQUOTE>
+Information on whether drinking red wine is more
+effective at reducing your risk of heart attacks than white wine.
+
+</BLOCKQUOTE>
+This might be translated into a query such as:
+<BLOCKQUOTE>
+wine and red and white and
+heart and attack and effective
+
+</BLOCKQUOTE>
+A document is relevant if it addresses the stated information need, not
+because it just happens to contain all the words in the query.  This
+distinction is often misunderstood in practice, because the information
+need is not overt.  But, nevertheless, an information need is
+present.  If a user types python into a web search engine, 
+they might be wanting to know where they can purchase a pet python.  Or they
+might be wanting information on the programming language Python.  From a
+one word query, it is very difficult for a system to know what the
+information need is.  But, nevertheless, the user has one, and can judge the returned
+results on the basis of their relevance to it.  
+To evaluate a system, we require an overt expression of an information
+need, which can be used for judging returned documents as relevant or
+nonrelevant.
+At this point, we make a simplification: relevance can reasonably
+be thought of as a scale, with some documents highly relevant and
+others marginally so.  But for the moment, we will use just a binary
+decision of relevance.  We discuss the reasons for using 
+binary relevance judgments and alternatives in Section <A HREF="critiques-and-justifications-of-the-concept-of-relevance-1.html#sec:relevance">8.5.1</A> .
+
+<P>
+Many systems contain various weights (often known as
+parameters) that can be adjusted to <A NAME="10582"></A>tune system
+performance. It is wrong to report results on a test
+collection which were obtained by tuning these parameters to
+maximize performance on that collection. That is because
+such tuning overstates the expected performance of the
+system, because the weights will be set to maximize
+performance on one particular set of queries rather than for
+a random sample of queries.  In such cases, the correct
+procedure is to have one or more <A NAME="10583"></A> <I>development test
+collections</I> ,<A NAME="p:dev-test"></A>  and to tune the
+parameters on the development test collection.  The tester
+then runs the system with those weights on the test
+collection and reports the results on that collection as an
+unbiased estimate of performance.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2403"
+  HREF="standard-test-collections-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2397"
+  HREF="evaluation-in-information-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2391"
+  HREF="evaluation-in-information-retrieval-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2399"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2401"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2404"
+  HREF="standard-test-collections-1.html">Standard test collections</A>
+<B> Up:</B> <A NAME="tex2html2398"
+  HREF="evaluation-in-information-retrieval-1.html">Evaluation in information retrieval</A>
+<B> Previous:</B> <A NAME="tex2html2392"
+  HREF="evaluation-in-information-retrieval-1.html">Evaluation in information retrieval</A>
+ &nbsp; <B>  <A NAME="tex2html2400"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2402"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/information-retrieval-system-evaluation-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:26:32 GMT -->
+</HTML>

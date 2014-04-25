@@ -1,0 +1,854 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/rocchio-classification-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:31:50 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Rocchio classification</TITLE>
+<META NAME="description" CONTENT="Rocchio classification">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="k-nearest-neighbor-1.html">
+<LINK REL="previous" HREF="document-representations-and-measures-of-relatedness-in-vector-spaces-1.html">
+<LINK REL="up" HREF="vector-space-classification-1.html">
+<LINK REL="next" HREF="k-nearest-neighbor-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3693"
+  HREF="k-nearest-neighbor-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3687"
+  HREF="vector-space-classification-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3681"
+  HREF="document-representations-and-measures-of-relatedness-in-vector-spaces-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3689"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3691"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3694"
+  HREF="k-nearest-neighbor-1.html">k nearest neighbor</A>
+<B> Up:</B> <A NAME="tex2html3688"
+  HREF="vector-space-classification-1.html">Vector space classification</A>
+<B> Previous:</B> <A NAME="tex2html3682"
+  HREF="document-representations-and-measures-of-relatedness-in-vector-spaces-1.html">Document representations and measures</A>
+ &nbsp; <B>  <A NAME="tex2html3690"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3692"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001920000000000000000"></A>
+<A NAME="sec:vspacerocchio"></A> <A NAME="p:vspacerocchio"></A>
+<BR>
+Rocchio classification
+</H1> 
+Figure <A HREF="vector-space-classification-1.html#fig:classesinvspace">14.1</A>  shows three classes, China,
+UK and Kenya, in a two-dimensional (2D)
+space.  Documents are shown as circles, diamonds and X's.
+The boundaries  in the figure, which we call
+<A NAME="19795"></A> <I>decision
+  boundaries</I> , are chosen to separate the
+three classes, but are otherwise arbitrary.  To classify a
+new document, depicted as a star in the figure, we determine
+the region it occurs in and assign it the class of that
+region - China in this case.  Our task in vector
+space classification is to devise algorithms that compute
+good boundaries where ``good'' means high classification
+accuracy on data unseen during training.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:vclassrocchio"></A><A NAME="p:vclassrocchio"></A><A NAME="19833"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 14.3:</STRONG>
+Rocchio classification.</CAPTION>
+<TR><TD><IMG
+ WIDTH="398" HEIGHT="331" BORDER="0"
+ SRC="img1091.png"
+ ALT="\begin{figure}\par
+\psset{unit=0.175cm}
+\begin{pspicture}(0,2)(55,45)
+\par
+\psci...
+...put(48,27.1){$c_1$}
+\rput(48,19.1){$c_2$}
+\par
+\end{pspicture}\par\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Perhaps the
+best-known way of computing good class boundaries is <A NAME="19837"></A> <I>Rocchio
+classification</I> , which uses <A NAME="19839"></A> <I>centroids</I>  to
+define the boundaries.<A NAME="p:centroid"></A>  The centroid of
+a class <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img252.png"
+ ALT="$c$"> is computed as the vector average or center of
+mass of its members:
+<BR>
+<DIV ALIGN="CENTER"><A NAME="centroiddef"></A><A NAME="p:centroiddef"></A>
+<!-- MATH
+ \begin{eqnarray}
+\vec{\mu} (c) = \frac{1}{|\docset_c|} \sum_{d \in
+  \docset_c} \vec{v}(d)
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="154" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1092.png"
+ ALT="$\displaystyle \vec{\mu} (c) = \frac{1}{\vert\docset_c\vert} \sum_{d \in
+\docset_c} \vec{v}(d)$"></TD>
+<TD>&nbsp;</TD>
+<TD>&nbsp;</TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(139)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+where <A NAME="p:documentsetsubset"></A> <IMG
+ WIDTH="23" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1093.png"
+ ALT="$\docset_c$"> is the
+set of documents in
+<!-- MATH
+ $\docsetlabeled$
+ -->
+<IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img856.png"
+ ALT="$\docsetlabeled$"> whose class is <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img252.png"
+ ALT="$c$">: <!-- MATH
+ $\docset_c = \{ d:\langle d,c\rangle \in
+\docsetlabeled  \}$
+ -->
+<IMG
+ WIDTH="154" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1094.png"
+ ALT="$\docset_c = \{ d:\langle d,c\rangle \in
+\docsetlabeled \}$">. We denote the normalized vector of <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">
+by <IMG
+ WIDTH="34" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img429.png"
+ ALT="$\vec{v}(d)$"> (Equation <A HREF="dot-products-1.html#eqn:normcosine">25</A> , page <A HREF="dot-products-1.html#p:eqnnormcosine">6.3.1</A> ).
+Three example centroids are shown
+as  solid circles
+in 
+Figure <A HREF="#fig:vclassrocchio">14.3</A> .
+
+<P>
+The boundary between two classes in Rocchio
+classification is the set of points with equal distance
+from the two centroids. For example, <IMG
+ WIDTH="75" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1095.png"
+ ALT="$\vert a_1\vert=\vert a_2\vert$">,
+<IMG
+ WIDTH="74" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1096.png"
+ ALT="$\vert b_1\vert=\vert b_2\vert$">, and <IMG
+ WIDTH="74" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1097.png"
+ ALT="$\vert c_1\vert=\vert c_2\vert$"> in the figure.  This set
+of points is always a line.  
+The generalization of a line in
+<IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img186.png"
+ ALT="$M$">-dimensional space is
+a hyperplane, which we define as the set of points <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img701.png"
+ ALT="$\vec{x}$">
+that satisfy:
+<BR>
+<DIV ALIGN="CENTER"><A NAME="linearclassifier"></A>
+<!-- MATH
+ \begin{eqnarray}
+\vec{w}^{T}\vec{x} = b
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="63" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1098.png"
+ ALT="$\displaystyle \vec{w}^{T}\vec{x} = b$"></TD>
+<TD>&nbsp;</TD>
+<TD>&nbsp;</TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(140)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+where <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1099.png"
+ ALT="$\vec{w}$"> is the <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img186.png"
+ ALT="$M$">-dimensional <A NAME="19864"></A> <I>normal
+vector</I> <A NAME="tex2html151"
+  HREF="footnode.html#foot20826"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A> of the hyperplane and <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img137.png"
+ ALT="$b$"> is a constant.  This definition of
+hyperplanes includes lines (any line in 2D can be defined by
+<!-- MATH
+ $w_1x_1+w_2x_2=b$
+ -->
+<IMG
+ WIDTH="122" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1101.png"
+ ALT="$w_1x_1+w_2x_2=b$">) and 2-dimensional planes (any plane in 3D
+can be defined by <!-- MATH
+ $w_1x_1+w_2x_2+w_3x_3=b$
+ -->
+<IMG
+ WIDTH="175" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1102.png"
+ ALT="$w_1x_1+w_2x_2+w_3x_3=b$">).  A line divides
+a plane in two, a plane divides 3-dimensional space in two,
+and hyperplanes divide higher-dimensional spaces in two.
+
+<P>
+Thus, the boundaries of class regions in Rocchio
+classification are hyperplanes. The classification rule in
+Rocchio is to
+classify a point in accordance with the
+region it falls into. Equivalently, we determine the
+centroid <!-- MATH
+ $\vec{\mu}(\tcjclass)$
+ -->
+<IMG
+ WIDTH="34" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1103.png"
+ ALT="$\vec{\mu}(\tcjclass)$"> that the point is closest to and then assign it to <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img884.png"
+ ALT="$\tcjclass$">.
+As an example, consider the star
+in Figure <A HREF="#fig:vclassrocchio">14.3</A> . It is located in the
+China region of the space and Rocchio therefore assigns it to China.
+We show the Rocchio algorithm 
+in pseudocode in
+Figure <A HREF="#fig:rocchioalgorithm">14.4</A> .
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="20828"></A>
+<TABLE>
+<CAPTION><STRONG>Table 14.1:</STRONG>
+Vectors and class centroids for the data in
+  Table <A HREF="#tab:nbtoy">13.1</A> .</CAPTION>
+<TR><TD><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="CENTER" COLSPAN=6>term weights</TD>
+</TR>
+<TR><TD ALIGN="LEFT">vector</TD>
+<TD ALIGN="LEFT">Chinese</TD>
+<TD ALIGN="LEFT">Japan</TD>
+<TD ALIGN="LEFT">Tokyo</TD>
+<TD ALIGN="LEFT">Macao</TD>
+<TD ALIGN="LEFT">Beijing</TD>
+<TD ALIGN="LEFT">Shanghai</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><IMG
+ WIDTH="19" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1104.png"
+ ALT="$\vec{d}_1$"></TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">1.0</TD>
+<TD ALIGN="LEFT">0</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><IMG
+ WIDTH="19" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1105.png"
+ ALT="$\vec{d}_2$"></TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">1.0</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><IMG
+ WIDTH="19" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1106.png"
+ ALT="$\vec{d}_3$"></TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">1.0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><IMG
+ WIDTH="19" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1107.png"
+ ALT="$\vec{d}_4$"></TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0.71</TD>
+<TD ALIGN="LEFT">0.71</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><IMG
+ WIDTH="19" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1108.png"
+ ALT="$\vec{d}_5$"></TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0.71</TD>
+<TD ALIGN="LEFT">0.71</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1109.png"
+ ALT="$\vec{\mu}_c$"></TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0.33</TD>
+<TD ALIGN="LEFT">0.33</TD>
+<TD ALIGN="LEFT">0.33</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><!-- MATH
+ $\vec{\mu}_{\overline{c}}$
+ -->
+<IMG
+ WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1110.png"
+ ALT="$\vec{\mu}_{\overline{c}}$"></TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0.71</TD>
+<TD ALIGN="LEFT">0.71</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+</TR>
+</TABLE>
+
+<A NAME="tab:toyvectors"></A> <A NAME="p:toyvectors"></A> 
+</TD></TR>
+</TABLE>
+</DIV><P></P>
+<BR>
+
+<P>
+<B>Worked example.</B>
+Table <A HREF="#tab:toyvectors">14.1</A>  shows the tf-idf vector representations of the
+five documents in 
+  Table <A HREF="#tab:nbtoy">13.1</A> 
+ (page <A HREF="#p:nbtoy">13.1</A> ), using the formula <!-- MATH
+ $(1+\log_{10}
+  \mbox{tf}_{t,d}) \log_{10} (4/\mbox{df}_t)$
+ -->
+<IMG
+ WIDTH="197" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1111.png"
+ ALT="$(1+\log_{10}
+\mbox{tf}_{t,d}) \log_{10} (4/\mbox{df}_t)$"> if
+  <!-- MATH
+ $\mbox{tf}_{t,d} >0$
+ -->
+<IMG
+ WIDTH="59" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1112.png"
+ ALT="$\mbox{tf}_{t,d} &gt;0$">
+(Equation&nbsp;<A HREF="sublinear-tf-scaling-1.html#eqn:wfidf">29</A>, page <A HREF="sublinear-tf-scaling-1.html#p:eqn:wfidf">6.4.1</A> ).
+ The two class centroids are
+<!-- MATH
+ $\mu_c = 1/3 \cdot (\vec{d}_1+ \vec{d}_2+ \vec{d}_3)$
+ -->
+<IMG
+ WIDTH="177" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1113.png"
+ ALT="$\mu_c = 1/3 \cdot (\vec{d}_1+ \vec{d}_2+ \vec{d}_3)$">
+and 
+<!-- MATH
+ $\mu_{\overline{c}} = 1/1 \cdot (\vec{d}_4)$
+ -->
+<IMG
+ WIDTH="107" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1114.png"
+ ALT="$\mu_{\overline{c}} = 1/1 \cdot (\vec{d}_4)$">.
+The distances of the test document from the centroids are 
+<!-- MATH
+ $|\mu_c - \vec{d}_5 | \approx 1.15$
+ -->
+<IMG
+ WIDTH="114" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1115.png"
+ ALT="$\vert\mu_c - \vec{d}_5 \vert \approx 1.15$">
+and 
+<!-- MATH
+ $|\mu_{\overline{c}} - \vec{d}_5 | = 0.0$
+ -->
+<IMG
+ WIDTH="106" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1116.png"
+ ALT="$\vert\mu_{\overline{c}} - \vec{d}_5 \vert = 0.0$">. Thus, Rocchio
+assigns <IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img908.png"
+ ALT="$d_5$"> to <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img931.png"
+ ALT="$\overline{c}$">.
+
+<P>
+The separating hyperplane in this case has the following parameters:
+<P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{eqnarray*}
+\vec{w} &\approx&
+(0 \  -0.71 \  -0.71 \ \ 1/3 \ \  1/3  \ \ 1/3 )^T\\
+b &=&-1/3
+\end{eqnarray*}
+ -->
+<IMG
+ WIDTH="291" HEIGHT="50" BORDER="0"
+ SRC="img1117.png"
+ ALT="\begin{eqnarray*}
+\vec{w} &amp;\approx&amp;
+(0 \ -0.71 \ -0.71 \ \ 1/3 \ \ 1/3 \ \ 1/3 )^T\\
+b &amp;=&amp;-1/3
+\end{eqnarray*}"></DIV>
+<BR CLEAR="ALL"><P></P>
+See Exercise <A HREF="exercises-2.html#ex:exrocchiolinear">14.8</A>  for how to compute
+<IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1099.png"
+ ALT="$\vec{w}$"> and <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img137.png"
+ ALT="$b$">.
+We can
+easily verify that this hyperplane separates the documents
+as desired:
+<!-- MATH
+ $\vec{w}^{T}\vec{d_1} \approx
+0 \cdot 0+-0.71 \cdot 0+-0.71 \cdot 0+1/3 \cdot 0+1/3
+\cdot 1.0+1/3 \cdot 0
+= 1/3 > b$
+ -->
+<IMG
+ WIDTH="532" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1118.png"
+ ALT="$\vec{w}^{T}\vec{d_1} \approx
+0 \cdot 0+-0.71 \cdot 0+-0.71 \cdot 0+1/3 \cdot 0+1/3
+\cdot 1.0+1/3 \cdot 0
+= 1/3 &gt; b$"> (and, similarly,
+<!-- MATH
+ $\vec{w}^{T}\vec{d_i} > b$
+ -->
+<IMG
+ WIDTH="68" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1119.png"
+ ALT="$\vec{w}^{T}\vec{d_i} &gt; b$"> for <IMG
+ WIDTH="39" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1120.png"
+ ALT="$i=2$"> and <IMG
+ WIDTH="39" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1121.png"
+ ALT="$i=3$">)
+and <!-- MATH
+ $\vec{w}^{T}\vec{d_4} = -1 < b$
+ -->
+<IMG
+ WIDTH="113" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1122.png"
+ ALT="$\vec{w}^{T}\vec{d_4} = -1 &lt; b$">. Thus, documents in <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img252.png"
+ ALT="$c$"> are
+above the hyperplane (<!-- MATH
+ $\vec{w}^{T}\vec{d} > b$
+ -->
+<IMG
+ WIDTH="63" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1123.png"
+ ALT="$\vec{w}^{T}\vec{d} &gt; b$">) and
+documents in <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img931.png"
+ ALT="$\overline{c}$"> are below the hyperplane
+(<!-- MATH
+ $\vec{w}^{T}\vec{d} < b$
+ -->
+<IMG
+ WIDTH="63" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1124.png"
+ ALT="$\vec{w}^{T}\vec{d} &lt; b$">).
+
+<P>
+<B>End worked example.</B>
+
+<P>
+The assignment criterion in
+Figure <A HREF="#fig:rocchioalgorithm">14.4</A>  is Euclidean distance (A<SMALL>PPLY</SMALL>R<SMALL>OCCHIO</SMALL>, line 1). An
+alternative is cosine similarity:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\mbox{Assign $d$\  to class} \ c =
+\argmax_{{c'}} \cos (\vec{\mu}({c'}) ,\vec{v}(\onedoc) )
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="313" HEIGHT="42" BORDER="0"
+ SRC="img1125.png"
+ ALT="\begin{displaymath}\mbox{Assign $d$\ to class} \ c =
+\argmax_{{c'}} \cos (\vec{\mu}({c'}) ,\vec{v}(\onedoc) ) \end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(141)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+As
+discussed in Section <A HREF="document-representations-and-measures-of-relatedness-in-vector-spaces-1.html#sec:simdisfigs">14.1</A> , the two
+assignment criteria will sometimes make different
+classification decisions.
+We present the Euclidean distance variant of
+Rocchio classification here because it 
+emphasizes Rocchio's close correspondence 
+to  <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means clustering (Section <A HREF="k-means-1.html#sec:kmeans">16.4</A> , page <A HREF="k-means-1.html#p:kmeans">16.4</A> ).
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:rocchioalgorithm"></A><A NAME="p:rocchioalgorithm"></A><A NAME="19985"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 14.4:</STRONG>
+Rocchio classification: Training and
+testing.</CAPTION>
+<TR><TD><IMG
+ WIDTH="227" HEIGHT="166" BORDER="0"
+ SRC="img1126.png"
+ ALT="\begin{figure}\begin{algorithm}{TrainRocchio}{\mathbb{C},\docsetlabeled}
+\begin...
+...in_{j} \vert \vec{\mu}_j - \vec{v}(\onedoc) \vert }
+\end{algorithm}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Rocchio classification is a form of Rocchio relevance
+feedback (Section <A HREF="the-rocchio-algorithm-for-relevance-feedback-1.html#sec:rocchio">9.1.1</A> , page <A HREF="the-rocchio-algorithm-for-relevance-feedback-1.html#p:rocchio">9.1.1</A> ).  The
+average of the relevant documents, corresponding to the most
+important component of the Rocchio vector in relevance
+feedback (Equation&nbsp;<A HREF="the-rocchio71-algorithm-1.html#modrocchio">49</A>, page <A HREF="the-rocchio71-algorithm-1.html#p:modrocchio">49</A> ), is
+the centroid of the ``class'' of relevant documents. We omit
+the query component of the Rocchio formula in Rocchio
+classification since there is no query in text
+classification.  Rocchio classification can be applied to
+<IMG
+ WIDTH="41" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1127.png"
+ ALT="$J&gt;2$"> classes whereas Rocchio relevance feedback is designed
+to distinguish only two classes, relevant and nonrelevant.
+
+<P>
+In addition to respecting contiguity, the classes in Rocchio
+classification must be approximate spheres with similar radii.
+In Figure <A HREF="#fig:vclassrocchio">14.3</A> , the solid square just
+below the boundary between UK and Kenya
+is a better fit for the class UK since UK is
+more scattered than Kenya. But Rocchio assigns it to
+Kenya because it ignores details of the distribution
+of points in a class and only uses distance from the
+centroid for
+classification.
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:vclasstwoprototypes"></A><A NAME="p:vclasstwoprototypes"></A></P><IMG
+ WIDTH="555" HEIGHT="278" BORDER="0"
+ SRC="img1128.png"
+ ALT="\begin{figure}
+% latex2html id marker 20000
+\par
+\psset{unit=1.5cm}
+\begin{pspic...
+...d A of the \lq\lq a''
+class than to the centroid B of the \lq\lq b'' class.
+}
+\end{figure}">
+</DIV>
+
+<P>
+The assumption of sphericity also does not hold 
+in Figure <A HREF="#fig:vclasstwoprototypes">14.5</A> . We cannot represent the ``a'' class 
+well with a single prototype because it has two clusters.
+Rocchio often misclassifies this type of <A NAME="20074"></A> <I>multimodal class</I> .
+A text classification example for multimodality is a country like Burma, which 
+changed its name to Myanmar in 1989. The two clusters before and after the name
+change need not be close to each other in space.
+We also encountered the problem of  multimodality
+in relevance feedback (Section <A HREF="probabilistic-relevance-feedback-1.html#sec:probrelfeedback">9.1.2</A> , page <A HREF="when-does-relevance-feedback-work-1.html#p:multimodal">9.1.3</A> ).
+
+<P>
+Two-class classification is another case where
+classes are rarely distributed like
+spheres with similar radii. Most two-class classifiers
+distinguish between a class like China that occupies
+a small region of the space and its
+widely scattered complement. Assuming equal radii will
+result in a large number of false positives. Most
+two-class classification problems therefore require a modified
+decision rule of the form: 
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\mbox{Assign $\onedoc$\  to class $c$
+iff}
+ \ | \vec{\mu}(c) - \vec{v}(\onedoc) | <
+ | \vec{\mu}(\overline{c}) - \vec{v}(\onedoc) | - b
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="379" HEIGHT="28" BORDER="0"
+ SRC="img1129.png"
+ ALT="\begin{displaymath}\mbox{Assign $\onedoc$\ to class $c$
+iff}
+\ \vert \vec{\mu}(...
+... &lt;
+\vert \vec{\mu}(\overline{c}) - \vec{v}(\onedoc) \vert - b
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(142)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+for a positive constant <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img137.png"
+ ALT="$b$">. As in Rocchio relevance
+feedback, the centroid of the negative documents is often
+not used at all, so that the decision criterion simplifies to
+<!-- MATH
+ $| \vec{\mu}(c) - \vec{v}(\onedoc) | < b'$
+ -->
+<IMG
+ WIDTH="128" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1130.png"
+ ALT="$ \vert \vec{\mu}(c) - \vec{v}(\onedoc) \vert &lt; b'$"><A NAME="p:bprime"></A>  for 
+a positive constant <IMG
+ WIDTH="16" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1131.png"
+ ALT="$b'$">.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">mode</TD>
+<TD ALIGN="LEFT">time complexity</TD>
+</TR>
+<TR><TD ALIGN="LEFT">training</TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $\Theta(|\docsetlabeled|  L_{ave}+|\mathbb{C}||V| )$
+ -->
+<IMG
+ WIDTH="147" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img909.png"
+ ALT="$\Theta(\vert\docsetlabeled\vert L_{ave}+\vert\mathbb{C}\vert\vert V\vert)$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT">testing</TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $\Theta( L_{a} + |\mathbb{C}|  M_{a} ) = \Theta(|\mathbb{C}|  M_{a})$
+ -->
+<IMG
+ WIDTH="203" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img910.png"
+ ALT="$\Theta( L_{a}+\vert\mathbb{C}\vert M_{a})= \Theta(\vert\mathbb{C}\vert M_{a})$"></TD>
+</TR>
+</TABLE>
+Training and test times for Rocchio
+classification.
+
+<IMG
+ WIDTH="32" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img185.png"
+ ALT="$ L_{ave}$"> is the average number of
+tokens  per document. 
+<IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img918.png"
+ ALT="$ L_{a}$"> and <IMG
+ WIDTH="27" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img919.png"
+ ALT="$ M_{a}$"> are the numbers of
+tokens and types, respectively, in the test document. 
+Computing Euclidean distance
+between the class centroids and a document is <!-- MATH
+ $\Theta(|\mathbb{C}|  M_{a})$
+ -->
+<IMG
+ WIDTH="74" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1132.png"
+ ALT="$\Theta(\vert\mathbb{C}\vert M_{a}) $">.
+<A NAME="tab:rocchiocomp"></A> <A NAME="p:rocchiocomp"></A> 
+
+</DIV>
+<BR>
+
+<P>
+Table <A HREF="#tab:rocchiocomp">14.2</A>  gives the time complexity of Rocchio
+classification.<A NAME="tex2html154"
+  HREF="footnode.html#foot20838"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A>  Adding all documents to their respective (unnormalized) centroid is
+<!-- MATH
+ $\Theta(|\docsetlabeled| L_{ave})$
+ -->
+<IMG
+ WIDTH="83" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img914.png"
+ ALT="$\Theta(\vert\docsetlabeled\vert L_{ave})$"> (as opposed to <!-- MATH
+ $\Theta(|\docsetlabeled||V|)$
+ -->
+<IMG
+ WIDTH="78" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1133.png"
+ ALT="$\Theta(\vert\docsetlabeled\vert\vert V\vert)$">) since we need
+only consider non-zero entries.  
+Dividing each vector sum by the size of its class to compute
+the centroid is <IMG
+ WIDTH="53" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1134.png"
+ ALT="$\Theta(\vert V\vert)$">.
+Overall, training time is
+linear in the size of the collection
+(cf. Exercise <A HREF="relation-to-multinomial-unigram-language-model-1.html#ex:lineartrainingtime">13.2.1</A> ). Thus, Rocchio
+classification and Naive Bayes have the same linear training
+time complexity.
+
+<P>
+In the next section, we will introduce another
+vector space classification method, kNN, that
+deals better with classes that have non-spherical,
+disconnected or other irregular
+shapes.
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:knnboundaries"></A><A NAME="p:knnboundaries"></A></P><IMG
+ WIDTH="555" HEIGHT="368" BORDER="0"
+ SRC="img1135.png"
+ ALT="\begin{figure}
+% latex2html id marker 20115
+\par
+\psset{unit=0.2cm}
+\par
+\begin{...
+...1NN
+classification.}{The three classes are: X, circle and diamond.}
+\end{figure}">
+</DIV>
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI><A NAME="ex:rocchiomisclass"></A> Show that Rocchio classification can assign a
+label to a document that is different from
+its training set label.
+
+<P>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3693"
+  HREF="k-nearest-neighbor-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3687"
+  HREF="vector-space-classification-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3681"
+  HREF="document-representations-and-measures-of-relatedness-in-vector-spaces-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3689"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3691"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3694"
+  HREF="k-nearest-neighbor-1.html">k nearest neighbor</A>
+<B> Up:</B> <A NAME="tex2html3688"
+  HREF="vector-space-classification-1.html">Vector space classification</A>
+<B> Previous:</B> <A NAME="tex2html3682"
+  HREF="document-representations-and-measures-of-relatedness-in-vector-spaces-1.html">Document representations and measures</A>
+ &nbsp; <B>  <A NAME="tex2html3690"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3692"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/rocchio-classification-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:32:15 GMT -->
+</HTML>

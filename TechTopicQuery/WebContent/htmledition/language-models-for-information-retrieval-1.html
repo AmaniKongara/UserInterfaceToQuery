@@ -1,0 +1,196 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/language-models-for-information-retrieval-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:21:35 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Language models for information retrieval</TITLE>
+<META NAME="description" CONTENT="Language models for information retrieval">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="text-classification-and-naive-bayes-1.html">
+<LINK REL="previous" HREF="probabilistic-information-retrieval-1.html">
+<LINK REL="up" HREF="irbook.html">
+<LINK REL="next" HREF="language-models-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3229"
+  HREF="language-models-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3223"
+  HREF="irbook.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3217"
+  HREF="references-and-further-reading-11.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3225"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3227"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3230"
+  HREF="language-models-1.html">Language models</A>
+<B> Up:</B> <A NAME="tex2html3224"
+  HREF="irbook.html">irbook</A>
+<B> Previous:</B> <A NAME="tex2html3218"
+  HREF="references-and-further-reading-11.html">References and further reading</A>
+ &nbsp; <B>  <A NAME="tex2html3226"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3228"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001700000000000000000"></A><A NAME="ch:lmodels"></A>
+<BR>
+Language models for information retrieval
+</H1> 
+
+<P>
+A common suggestion to users for coming up with good
+queries is to think of words that would likely appear in a relevant
+document, and to use those words as the query.  The language modeling
+approach to IR directly models that idea: a document is a good match to
+a query if the document model is likely to generate the query, which
+will in turn happen if the document contains the query words often.
+This approach thus provides a different realization of some of the
+basic ideas for document ranking which we saw in Section&nbsp;<A HREF="term-frequency-and-weighting-1.html#sec:tfidf">6.2</A> (page&nbsp;<A HREF="term-frequency-and-weighting-1.html#p:tfidf"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>). 
+Instead of overtly modeling the probability <IMG
+ WIDTH="97" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img788.png"
+ ALT="$P(R=1\vert q,d)$"> of relevance of a
+document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$"> to a query <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$">, as in the traditional probabilistic approach to IR
+(Chapter <A HREF="probabilistic-information-retrieval-1.html#ch:probir">11</A> ), the basic language modeling approach 
+instead builds a 
+probabilistic language model <IMG
+ WIDTH="27" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img789.png"
+ ALT="$M_d$"><A NAME="M_d-notation"></A> from each
+document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">, and ranks 
+documents based on the probability of the model generating the
+query: <IMG
+ WIDTH="64" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img790.png"
+ ALT="$P(q\vert M_d)$">.
+
+<P>
+In this chapter, we first introduce the concept of language models
+(Section <A HREF="language-models-1.html#sec:langmodel">12.1</A> ) and then describe the basic and most commonly
+used language modeling approach to IR, the Query Likelihood Model
+(Section <A HREF="the-query-likelihood-model-1.html#sec:qlm">12.2</A> ).  After some comparisons between the language modeling
+approach and other approaches to IR (Section <A HREF="language-modeling-versus-other-approaches-in-ir-1.html#sec:lm-vs-other">12.3</A> ), we
+finish by briefly describing various extensions to the language
+modeling approach (Section <A HREF="extended-language-modeling-approaches-1.html#sec:extended-lm">12.4</A> ).
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html3231"
+  HREF="language-models-1.html">Language models</A>
+<UL>
+<LI><A NAME="tex2html3232"
+  HREF="finite-automata-and-language-models-1.html">Finite automata and language models</A>
+<LI><A NAME="tex2html3233"
+  HREF="types-of-language-models-1.html">Types of language models</A>
+<LI><A NAME="tex2html3234"
+  HREF="multinomial-distributions-over-words-1.html">Multinomial distributions over words</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html3235"
+  HREF="the-query-likelihood-model-1.html">The query likelihood model</A>
+<UL>
+<LI><A NAME="tex2html3236"
+  HREF="using-query-likelihood-language-models-in-ir-1.html">Using query likelihood language models in IR</A>
+<LI><A NAME="tex2html3237"
+  HREF="estimating-the-query-generation-probability-1.html">Estimating the query generation probability</A>
+<LI><A NAME="tex2html3238"
+  HREF="ponte-and-crofts-experiments-1.html">Ponte and Croft's Experiments</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html3239"
+  HREF="language-modeling-versus-other-approaches-in-ir-1.html">Language modeling versus other approaches in IR</A>
+<LI><A NAME="tex2html3240"
+  HREF="extended-language-modeling-approaches-1.html">Extended language modeling approaches</A>
+<LI><A NAME="tex2html3241"
+  HREF="references-and-further-reading-12.html">References and further reading</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3229"
+  HREF="language-models-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3223"
+  HREF="irbook.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3217"
+  HREF="references-and-further-reading-11.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3225"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3227"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3230"
+  HREF="language-models-1.html">Language models</A>
+<B> Up:</B> <A NAME="tex2html3224"
+  HREF="irbook.html">irbook</A>
+<B> Previous:</B> <A NAME="tex2html3218"
+  HREF="references-and-further-reading-11.html">References and further reading</A>
+ &nbsp; <B>  <A NAME="tex2html3226"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3228"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/language-models-for-information-retrieval-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:21:38 GMT -->
+</HTML>

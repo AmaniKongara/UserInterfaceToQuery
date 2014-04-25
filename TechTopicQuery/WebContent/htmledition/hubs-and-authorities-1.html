@@ -1,0 +1,578 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/hubs-and-authorities-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:39:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Hubs and Authorities</TITLE>
+<META NAME="description" CONTENT="Hubs and Authorities">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="references-and-further-reading-21.html">
+<LINK REL="previous" HREF="pagerank-1.html">
+<LINK REL="up" HREF="link-analysis-1.html">
+<LINK REL="next" HREF="choosing-the-subset-of-the-web-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5078"
+  HREF="choosing-the-subset-of-the-web-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html5072"
+  HREF="link-analysis-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html5066"
+  HREF="topic-specific-pagerank-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html5074"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html5076"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html5079"
+  HREF="choosing-the-subset-of-the-web-1.html">Choosing the subset of</A>
+<B> Up:</B> <A NAME="tex2html5073"
+  HREF="link-analysis-1.html">Link analysis</A>
+<B> Previous:</B> <A NAME="tex2html5067"
+  HREF="topic-specific-pagerank-1.html">Topic-specific PageRank</A>
+ &nbsp; <B>  <A NAME="tex2html5075"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html5077"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION002630000000000000000"></A>
+<A NAME="sec:hits"></A> <A NAME="p:hits"></A>
+<BR>
+Hubs and Authorities
+</H1> 
+We now develop a scheme in which, given a query, every web page is assigned <I>two</I> scores. One is called its <A NAME="32531"></A> <I>hub score</I>  and the other its <A NAME="32533"></A> <I>authority score</I> . For any query, we compute two ranked lists of results rather than one.  The ranking of one list is induced by the hub scores and that of the other by the authority scores.
+
+<P>
+This approach stems from a particular insight into the creation of web pages, that there are two primary kinds of web pages useful as results for <I>broad-topic searches</I>. By a broad topic search we mean an informational query such as "I wish to learn about leukemia". There are authoritative sources of information on the topic; in this case, the National Cancer Institute's page on leukemia would be such a page. We will call such pages <I>authorities</I>; in the computation we are about to describe, they are the pages that will emerge with high authority scores.
+
+<P>
+On the other hand, there are many pages on the Web that are hand-compiled lists of links to authoritative web pages on a specific topic. These <I>hub</I> pages are not in themselves authoritative sources of topic-specific information, but rather compilations that someone with an interest in the topic has spent time putting together. The approach we will take, then, is to use these hub pages to discover the authority pages. In the computation we now develop, these hub pages are the pages that will emerge with high hub scores.
+
+<P>
+A good hub page is one that points to many good authorities; a good authority page is one that is pointed to by many good hub pages. We thus appear to have a circular definition of hubs and authorities; we will turn this into an iterative computation. Suppose that we have a subset of the web containing good hub and authority pages, together with the hyperlinks amongst them. We will iteratively compute a hub score and an authority score for every web page in this subset, deferring the discussion of how we pick this subset until Section <A HREF="choosing-the-subset-of-the-web-1.html#sec:hitsgraph">21.3.1</A> .
+
+<P>
+For a web page <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img615.png"
+ ALT="$v$"> in our subset of the web, we use <IMG
+ WIDTH="34" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1949.png"
+ ALT="$h(v)$"> to denote its hub score and <IMG
+ WIDTH="33" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1950.png"
+ ALT="$a(v)$"> its authority score. Initially, we set <IMG
+ WIDTH="116" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1951.png"
+ ALT="$h(v)=a(v)=1$"> for all nodes <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img615.png"
+ ALT="$v$">. We also denote by <IMG
+ WIDTH="47" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1952.png"
+ ALT="$v\mapsto y$"> the existence of a hyperlink from <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img615.png"
+ ALT="$v$"> to <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img59.png"
+ ALT="$y$">. The core of the iterative algorithm is a pair of updates to the hub and authority scores of all pages given by Equation&nbsp;<A HREF="#eqn:hubauth">262</A>, which capture the intuitive notions that good hubs point to good authorities and that good authorities are pointed to by good hubs.
+
+<P>
+<BR>
+<DIV ALIGN="CENTER"><A NAME="eqn:hubauth"></A>
+<!-- MATH
+ \begin{eqnarray}
+h(v) &\leftarrow& \sum_{v\mapsto y} a(y)\\
+  a(v) &\leftarrow& \sum_{y\mapsto v} h(y).
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="34" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1953.png"
+ ALT="$\displaystyle h(v)$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1954.png"
+ ALT="$\textstyle \leftarrow$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="62" HEIGHT="49" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1955.png"
+ ALT="$\displaystyle \sum_{v\mapsto y} a(y)$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(262)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="33" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1956.png"
+ ALT="$\displaystyle a(v)$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1954.png"
+ ALT="$\textstyle \leftarrow$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="67" HEIGHT="49" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1957.png"
+ ALT="$\displaystyle \sum_{y\mapsto v} h(y).$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(263)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+Thus, the first line of Equation&nbsp;<A HREF="#eqn:hubauth">262</A> sets the hub score of page <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img615.png"
+ ALT="$v$"> to the sum of the authority scores of the pages it links to. In other words, if <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img615.png"
+ ALT="$v$"> links to pages with high authority scores, its hub score increases. The second line plays the reverse role; if page <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img615.png"
+ ALT="$v$"> is linked to by good hubs, its authority score increases.
+
+<P>
+What happens as we perform these updates iteratively, recomputing hub scores, then new authority scores based on the recomputed hub scores, and so on? Let us recast the equations Equation&nbsp;<A HREF="#eqn:hubauth">262</A> into matrix-vector form. Let <IMG
+ WIDTH="12" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1958.png"
+ ALT="$\vec{h}$"> and <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1248.png"
+ ALT="$\vec{a}$"> denote the vectors of all hub and all authority scores respectively, for the pages in our subset of the web graph. Let <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img167.png"
+ ALT="$A$"> denote the adjacency matrix of the subset of the web graph that we are dealing with: <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img167.png"
+ ALT="$A$"> is a square matrix with one row and one column for each page in the subset. The entry <IMG
+ WIDTH="25" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1959.png"
+ ALT="$A_{ij}$"> is 1 if there is a hyperlink from page <IMG
+ WIDTH="8" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="$i$"> to page <IMG
+ WIDTH="9" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img9.png"
+ ALT="$j$">, and 0 otherwise. Then, we may write Equation&nbsp;<A HREF="#eqn:hubauth">262</A>
+<BR>
+<DIV ALIGN="CENTER"><A NAME="matrixhubauth"></A>
+<!-- MATH
+ \begin{eqnarray}
+\vec{h} &\leftarrow& A\vec{a} \\
+  \vec{a} &\leftarrow& A^T\vec{h},
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="12" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1960.png"
+ ALT="$\displaystyle \vec{h}$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1954.png"
+ ALT="$\textstyle \leftarrow$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="24" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1961.png"
+ ALT="$\displaystyle A\vec{a}$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(264)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1962.png"
+ ALT="$\displaystyle \vec{a}$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1954.png"
+ ALT="$\textstyle \leftarrow$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="38" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1963.png"
+ ALT="$\displaystyle A^T\vec{h},$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(265)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+where <IMG
+ WIDTH="25" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1964.png"
+ ALT="$A^T$"> denotes the transpose of the matrix <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img167.png"
+ ALT="$A$">. Now the right hand side of each line of Equation&nbsp;<A HREF="#matrixhubauth">264</A> is a vector that is the left hand side of the other line of Equation&nbsp;<A HREF="#matrixhubauth">264</A>. Substituting these into one another, we may rewrite Equation&nbsp;<A HREF="#matrixhubauth">264</A> as
+<BR>
+<DIV ALIGN="CENTER"><A NAME="eigenhubauth"></A>
+<!-- MATH
+ \begin{eqnarray}
+\vec{h} &\leftarrow& AA^T\vec{h} \\
+  \vec{a} &\leftarrow& A^TA\vec{a}.
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="12" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1960.png"
+ ALT="$\displaystyle \vec{h}$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1954.png"
+ ALT="$\textstyle \leftarrow$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="47" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1965.png"
+ ALT="$\displaystyle AA^T\vec{h}$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(266)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1962.png"
+ ALT="$\displaystyle \vec{a}$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1954.png"
+ ALT="$\textstyle \leftarrow$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="50" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1966.png"
+ ALT="$\displaystyle A^TA\vec{a}.$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(267)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+Now, Equation&nbsp;<A HREF="#eigenhubauth">266</A> bears an uncanny resemblance to a pair of eigenvector equations (Section <A HREF="linear-algebra-review-1.html#sec:linalg">18.1</A> ); indeed, if we replace the <IMG
+ WIDTH="21" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1967.png"
+ ALT="$\leftarrow$"> symbols by <IMG
+ WIDTH="17" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img176.png"
+ ALT="$=$"> symbols and introduce the (unknown) eigenvalue, the first line of Equation&nbsp;<A HREF="#eigenhubauth">266</A> becomes the equation for the eigenvectors of <IMG
+ WIDTH="38" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1968.png"
+ ALT="$AA^T$">, while the second becomes the equation for the eigenvectors of <IMG
+ WIDTH="38" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1969.png"
+ ALT="$A^TA$">:
+<BR>
+<DIV ALIGN="CENTER"><A NAME="eqn:eigenvaluehubauth"></A>
+<!-- MATH
+ \begin{eqnarray}
+\vec{h} &=& (1/\lambda_h) AA^T\vec{h} \\
+  \vec{a} &=& (1/\lambda_a) A^TA\vec{a}.
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="12" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1960.png"
+ ALT="$\displaystyle \vec{h}$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="95" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1970.png"
+ ALT="$\displaystyle (1/\lambda_h) AA^T\vec{h}$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(268)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1962.png"
+ ALT="$\displaystyle \vec{a}$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="98" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1971.png"
+ ALT="$\displaystyle (1/\lambda_a) A^TA\vec{a}.$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(269)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+Here we have used <IMG
+ WIDTH="21" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1972.png"
+ ALT="$\lambda_h$"> to denote the eigenvalue of <IMG
+ WIDTH="38" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1968.png"
+ ALT="$AA^T$"> and <IMG
+ WIDTH="21" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1973.png"
+ ALT="$\lambda_a$"> to denote the eigenvalue of <IMG
+ WIDTH="38" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1969.png"
+ ALT="$A^TA$">.
+
+<P>
+This leads to some key consequences:
+
+<OL>
+<LI>The iterative updates in Equation&nbsp;<A HREF="#eqn:hubauth">262</A> (or equivalently, Equation&nbsp;<A HREF="#matrixhubauth">264</A>), if scaled by the appropriate eigenvalues, are equivalent to the power iteration method for computing the eigenvectors of <IMG
+ WIDTH="38" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1968.png"
+ ALT="$AA^T$"> and <IMG
+ WIDTH="38" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1969.png"
+ ALT="$A^TA$">. Provided that the principal eigenvalue of <IMG
+ WIDTH="38" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1968.png"
+ ALT="$AA^T$"> is unique, the iteratively computed entries of <IMG
+ WIDTH="12" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1958.png"
+ ALT="$\vec{h}$"> and <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1248.png"
+ ALT="$\vec{a}$"> settle into unique steady-state values determined by the entries of <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img167.png"
+ ALT="$A$"> and hence the link structure of the graph.
+</LI>
+<LI>In computing these eigenvector entries, we are not restricted to using the power iteration method; indeed, we could use any fast method for computing the principal eigenvector of a stochastic matrix.
+</LI>
+</OL>
+
+<P>
+The resulting computation thus takes the following form:
+
+<OL>
+<LI>Assemble the target subset of web pages, form the graph induced by their hyperlinks and compute <IMG
+ WIDTH="38" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1968.png"
+ ALT="$AA^T$"> and <IMG
+ WIDTH="38" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1969.png"
+ ALT="$A^TA$">.
+</LI>
+<LI>Compute the principal eigenvectors of <IMG
+ WIDTH="38" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1968.png"
+ ALT="$AA^T$"> and <IMG
+ WIDTH="38" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1969.png"
+ ALT="$A^TA$"> to form the vector of hub scores <IMG
+ WIDTH="12" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1958.png"
+ ALT="$\vec{h}$"> and authority scores <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1248.png"
+ ALT="$\vec{a}$">.
+</LI>
+<LI>Output the top-scoring hubs and the top-scoring authorities.
+</LI>
+</OL>
+This method of link analysis is known as <A NAME="32589"></A> <I>HITS</I> , which is an acronym for <I>Hyperlink-Induced Topic Search</I>.
+
+<P>
+<B>Worked example.</B>
+Assuming the query jaguar and double-weighting of links whose anchors contain the query word, the matrix <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img167.png"
+ ALT="$A$"> for Figure <A HREF="the-pagerank-computation-1.html#fig:workedlinkexample">21.4</A>  is as follows:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\begin{tabular}{rrrrrrr}
+0&0&1&0&0&0&0\\
+0&1&1&0&0&0&0\\
+1&0&1&2&0&0&0\\
+0&0&0&1&1&0&0\\
+0&0&0&0&0&0&1\\
+0&0&0&0&0&1&1\\
+0&0&0&2&1&0&1
+\end{tabular}
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="112" HEIGHT="140" BORDER="0"
+ SRC="img1974.png"
+ ALT="\begin{displaymath}
+\begin{tabular}{rrrrrrr}
+0&amp;0&amp;1&amp;0&amp;0&amp;0&amp;0\\
+0&amp;1&amp;1&amp;0&amp;0&amp;0&amp;0\\
+1...
+...
+0&amp;0&amp;0&amp;0&amp;0&amp;0&amp;1\\
+0&amp;0&amp;0&amp;0&amp;0&amp;1&amp;1\\
+0&amp;0&amp;0&amp;2&amp;1&amp;0&amp;1
+\end{tabular}\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(270)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+
+<P>
+The hub and authority vectors are:
+
+<P>
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\vec{h} =
+(0.03\quad
+0.04\quad
+0.33\quad
+0.18\quad
+0.04\quad
+0.04\quad
+0.35)
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="333" HEIGHT="28" BORDER="0"
+ SRC="img1975.png"
+ ALT="\begin{displaymath}\vec{h} =
+(0.03\quad
+0.04\quad
+0.33\quad
+0.18\quad
+0.04\quad
+0.04\quad
+0.35)
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(271)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+
+<P>
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\vec{a} =
+(0.10\quad
+0.01\quad
+0.12\quad
+0.47\quad
+0.16\quad
+0.01\quad
+0.13 )
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="332" HEIGHT="28" BORDER="0"
+ SRC="img1976.png"
+ ALT="\begin{displaymath}
+\vec{a} =
+(0.10\quad
+0.01\quad
+0.12\quad
+0.47\quad
+0.16\quad
+0.01\quad
+0.13 )
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(272)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+
+<P>
+Here, <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img624.png"
+ ALT="$q_3$"> is the main authority - two hubs (<IMG
+ WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img367.png"
+ ALT="$q_2$"> and <IMG
+ WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img631.png"
+ ALT="$q_6$">)
+are pointing to it via highly weighted jaguar links.
+
+<P>
+<B>End worked example.</B>
+
+<P>
+Since the iterative updates captured the intuition of good hubs and good authorities, the high-scoring pages we output would give us good hubs and authorities from the target subset of web pages. In Section <A HREF="choosing-the-subset-of-the-web-1.html#sec:hitsgraph">21.3.1</A>  we describe the remaining detail: how do we gather a target subset of web pages around a topic such as leukemia?
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html5080"
+  HREF="choosing-the-subset-of-the-web-1.html">Choosing the subset of the Web</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html5078"
+  HREF="choosing-the-subset-of-the-web-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html5072"
+  HREF="link-analysis-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html5066"
+  HREF="topic-specific-pagerank-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html5074"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html5076"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html5079"
+  HREF="choosing-the-subset-of-the-web-1.html">Choosing the subset of</A>
+<B> Up:</B> <A NAME="tex2html5073"
+  HREF="link-analysis-1.html">Link analysis</A>
+<B> Previous:</B> <A NAME="tex2html5067"
+  HREF="topic-specific-pagerank-1.html">Topic-specific PageRank</A>
+ &nbsp; <B>  <A NAME="tex2html5075"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html5077"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/hubs-and-authorities-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:40:09 GMT -->
+</HTML>

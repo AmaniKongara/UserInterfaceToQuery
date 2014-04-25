@@ -1,0 +1,247 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/exercises-4.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:37:10 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Exercises</TITLE>
+<META NAME="description" CONTENT="Exercises">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="references-and-further-reading-17.html">
+<LINK REL="up" HREF="hierarchical-clustering-1.html">
+<LINK REL="next" HREF="matrix-decompositions-and-latent-semantic-indexing-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4494"
+  HREF="matrix-decompositions-and-latent-semantic-indexing-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4488"
+  HREF="hierarchical-clustering-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4484"
+  HREF="references-and-further-reading-17.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4490"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4492"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4495"
+  HREF="matrix-decompositions-and-latent-semantic-indexing-1.html">Matrix decompositions and latent</A>
+<B> Up:</B> <A NAME="tex2html4489"
+  HREF="hierarchical-clustering-1.html">Hierarchical clustering</A>
+<B> Previous:</B> <A NAME="tex2html4485"
+  HREF="references-and-further-reading-17.html">References and further reading</A>
+ &nbsp; <B>  <A NAME="tex2html4491"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4493"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION0022100000000000000000">
+Exercises</A>
+</H1>
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI><A NAME="ex:minspan"></A> <A NAME="p:minspan"></A>  
+A single-link clustering can also be computed from the
+<A NAME="27260"></A> <I>minimum spanning tree</I>  of a graph. The minimum spanning
+tree connects the vertices of a graph
+at the smallest possible cost, where cost is defined as the sum
+over all edges of the graph. In our case the cost of an edge
+is the distance between two documents. 
+Show that if <!-- MATH
+ $\Delta_{k-1}>\Delta_k>\ldots>\Delta_1$
+ -->
+<IMG
+ WIDTH="158" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1659.png"
+ ALT="$\Delta_{k-1}&gt;\Delta_k&gt;\ldots&gt;\Delta_1$"> are the
+costs of the edges of a minimum spanning tree, then these
+edges correspond to the <IMG
+ WIDTH="39" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img265.png"
+ ALT="$k-1$"> merges in constructing a
+single-link clustering.
+
+<P>
+</LI>
+<LI><A NAME="ex:singlelinkbestmerge"></A> <A NAME="p:singlelinkbestmerge"></A>  Show that
+single-link clustering is best-merge persistent and that
+GAAC and centroid clustering are not best-merge persistent.
+
+<P>
+</LI>
+<LI><OL>
+<LI>Consider running 2-means clustering on a
+collection with documents from two different languages.
+What result would you expect? 
+</LI>
+<LI>Would you expect the same
+result when running an HAC algorithm?
+</LI>
+</OL>
+
+<P>
+</LI>
+<LI>Download 
+Reuters-21578. Keep only documents that are in the classes
+crude,
+interest, and
+grain. Discard documents that are members of
+more than one of these three classes. Compute a (i)
+single-link, (ii) complete-link, (iii) GAAC, (iv) centroid
+clustering of the documents. (v) Cut each dendrogram at the
+second branch from the top to obtain <IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1660.png"
+ ALT="$K=3$"> clusters. 
+Compute the Rand index for each of the 4 clusterings. Which
+clustering method performs best?
+
+<P>
+</LI>
+<LI><A NAME="ex:determinek"></A> <A NAME="p:determinek"></A> 
+Suppose a run of HAC finds
+the clustering with <IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1661.png"
+ ALT="$K=7$"> to have
+the highest value on some prechosen goodness measure of clustering.  Have we found the
+highest-value clustering among all clusterings with <IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1661.png"
+ ALT="$K=7$">? 
+
+<P>
+</LI>
+<LI><A NAME="ex:lowdim"></A> <A NAME="p:lowdim"></A>  
+Consider the task of producing a single-link clustering of <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$N$"> points on a line:
+
+<P>
+<BR>
+
+<BR>
+
+<P>
+Show that we only need to compute a total of about <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$N$">
+similarities.
+What is the overall complexity of
+single-link clustering for a set of points on a line?
+
+<P>
+</LI>
+<LI><A NAME="ex:monotonicclustering"></A> Prove that 
+single-link, complete-link, and
+group-average clustering are monotonic in the sense defined on page <A HREF="hierarchical-agglomerative-clustering-1.html#p:hclstmonotone">17.1</A> .
+
+<P>
+</LI>
+<LI><A NAME="ex:howmanyclusterings"></A> For <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$N$"> points,
+there are <IMG
+ WIDTH="45" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1663.png"
+ ALT="$\leq N^K$"> different flat clusterings into <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">
+clusters (Section <A HREF="problem-statement-1.html#sec:probstatement">16.2</A> ,
+page <A HREF="cardinality---the-number-of-clusters-1.html#p:numberofclusterings">16.2.1</A> ). What is the number of
+different hierarchical clusterings (or
+dendrograms) of <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$N$"> documents? 
+Are there more flat clusterings or more hierarchical
+clusterings for given <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$"> and <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$N$">?
+
+<P>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4494"
+  HREF="matrix-decompositions-and-latent-semantic-indexing-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4488"
+  HREF="hierarchical-clustering-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4484"
+  HREF="references-and-further-reading-17.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4490"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4492"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4495"
+  HREF="matrix-decompositions-and-latent-semantic-indexing-1.html">Matrix decompositions and latent</A>
+<B> Up:</B> <A NAME="tex2html4489"
+  HREF="hierarchical-clustering-1.html">Hierarchical clustering</A>
+<B> Previous:</B> <A NAME="tex2html4485"
+  HREF="references-and-further-reading-17.html">References and further reading</A>
+ &nbsp; <B>  <A NAME="tex2html4491"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4493"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/exercises-4.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:37:12 GMT -->
+</HTML>

@@ -1,0 +1,580 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/combination-schemes-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:22:54 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Combination schemes</TITLE>
+<META NAME="description" CONTENT="Combination schemes">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="positional-indexes-1.html">
+<LINK REL="up" HREF="positional-postings-and-phrase-queries-1.html">
+<LINK REL="next" HREF="references-and-further-reading-2.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1286"
+  HREF="references-and-further-reading-2.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1280"
+  HREF="positional-postings-and-phrase-queries-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1276"
+  HREF="positional-index-size-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1282"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1284"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1287"
+  HREF="references-and-further-reading-2.html">References and further reading</A>
+<B> Up:</B> <A NAME="tex2html1281"
+  HREF="positional-postings-and-phrase-queries-1.html">Positional postings and phrase</A>
+<B> Previous:</B> <A NAME="tex2html1277"
+  HREF="positional-index-size-1.html">Positional index size.</A>
+ &nbsp; <B>  <A NAME="tex2html1283"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1285"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00743000000000000000">
+Combination schemes</A>
+</H2>
+
+<P>
+The strategies of biword indexes and positional indexes can be
+fruitfully combined.  If users commonly query on particular phrases,
+such as Michael Jackson, it is quite inefficient to keep merging
+positional postings lists.  A combination strategy uses a phrase index,
+or just a <A NAME="2755"></A> <I>biword index</I> ,
+for certain queries and uses a positional index
+for other phrase queries.  Good queries to include in the phrase index
+are ones known to be common based on recent querying behavior.
+But this is not the only criterion: the most expensive phrase queries
+to evaluate are ones where the individual words are common but the
+desired phrase is comparatively rare.  Adding <I>Britney Spears</I> as a
+phrase index entry may only give a speedup factor to that query of about
+3, since most documents that mention either word are valid results,
+whereas adding <I>The Who</I> as a phrase index entry may
+speed up that query by a factor of 1000.  Hence, having the latter is
+more desirable, even if it is a relatively less common query.
+
+<P>
+<A
+ HREF="bibliography-1.html#williams04phrase">Williams et&nbsp;al. (2004)</A> evaluate an even more
+sophisticated scheme which employs indexes of both these sorts and
+additionally a partial next word index as a halfway house between the first
+two strategies.  For each term, a <A NAME="2760"></A> <I>next word index</I>  records terms 
+that follow it in a document. They conclude that such a strategy allows a typical
+mixture of web phrase queries to be completed in one quarter of the time
+taken by use of a positional index alone, while taking up 26% more
+space than use of a positional index alone.
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI>Assume a biword index. Give an example of a document which will be returned for
+a query of New York University but is actually a false positive which should not be returned.
+
+<P>
+</LI>
+<LI>Shown below is a portion of a positional index in the format:
+term: doc1: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">position1, position2, ...<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; doc2: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">position1, position2, ...<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; etc.
+<BLOCKQUOTE>
+angels: 2: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">36,174,252,651<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; 4: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">12,22,102,432<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; 7: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">17<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; 
+<BR>
+fools: 2: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">1,17,74,222<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; 4: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">8,78,108,458<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; 7: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">3,13,23,193<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; 
+<BR>
+fear: 2: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">87,704,722,901<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; 4: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">13,43,113,433<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; 7: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">18,328,528<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; 
+<BR>
+in: 2: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">3,37,76,444,851<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; 4: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">10,20,110,470,500<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; 7: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">5,15,25,195<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; 
+<BR>
+rush: 2: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">2,66,194,321,702<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; 4: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">9,69,149,429,569<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; 7: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">4,14,404<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; 
+<BR>
+to: 2: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">47,86,234,999<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; 4: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">14,24,774,944<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; 7: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">199,319,599,709<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; 
+<BR>
+tread: 2: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">57,94,333<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; 4: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">15,35,155<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; 7: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">20,320<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; 
+<BR>
+where: 2: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">67,124,393,1001<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; 4: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">11,41,101,421,431<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; 7: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">16,36,736<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">;
+
+</BLOCKQUOTE>
+Which document(s) if any match each of the following queries, where each
+expression within
+quotes is a phrase query?
+
+<OL>
+<LI>``fools rush in''
+</LI>
+<LI>``fools rush in'' AND ``angels fear to tread''
+</LI>
+</OL>
+
+<P>
+</LI>
+<LI>Consider the following fragment of a positional index with 
+the format: 
+<BLOCKQUOTE>
+word: document: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">position, position, <IMG
+ WIDTH="29" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img125.png"
+ ALT="$\ldots\rangle$">; document: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">position, <IMG
+ WIDTH="29" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img125.png"
+ ALT="$\ldots\rangle$">
+<BR>...
+
+</BLOCKQUOTE>
+<BLOCKQUOTE>
+Gates: 1: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">3<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; 2: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">6<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; 3: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">2,17<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; 4: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">1<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">;
+<BR>
+IBM: 4: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">3<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; 7: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">14<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; 
+<BR>
+Microsoft: 1: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">1<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; 2: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">1,21<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; 3: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">3<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; 5: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">16,22,51<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">;
+
+</BLOCKQUOTE>
+The /<IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> operator, word1 /<IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> word2 finds occurrences of 
+word1 within <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> words of
+word2 (on either side), where <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> is a positive integer
+argument. Thus <IMG
+ WIDTH="41" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img126.png"
+ ALT="$k = 1$"> demands that word1 be adjacent to 
+word2.
+
+<OL>
+<LI>Describe the set of documents that satisfy the query Gates /2
+  Microsoft.
+</LI>
+<LI>Describe each set of values for <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> for which the query Gates /<IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">
+  Microsoft returns a different set of documents as the answer. 
+</LI>
+</OL>
+
+<P>
+</LI>
+<LI>Consider the general procedure for merging two 
+positional postings lists for a given document, to determine the document positions 
+where a document satisfies a /<IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> clause (in general there can be multiple positions
+at which each term occurs in a single
+document). We begin with a pointer to the 
+position of occurrence of each term and move each pointer along the list
+of occurrences in the document, checking as 
+we do so whether we have a hit for /<IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">. Each move of either pointer
+counts as a step. Let <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img127.png"
+ ALT="$L$"> denote the total 
+number of occurrences of the two terms in the document. What is the big-O
+complexity of the merge procedure, if we 
+wish to have postings including positions in the result?
+
+<P>
+</LI>
+<LI><A NAME="ex:pos-inter-exercise"></A>Consider the adaptation of the basic algorithm for intersection of two postings
+lists postings-merge-algorithm to the one in 
+Figure&nbsp;<A HREF="positional-indexes-1.html#fig:positional-intersection-algorithm">2.12</A> (page&nbsp;<A HREF="positional-indexes-1.html#p:positional-intersection-algorithm"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>), which handles proximity
+queries.
+A naive algorithm for this operation could be <!-- MATH
+ $O(P\dlenmax^2)$
+ -->
+<IMG
+ WIDTH="79" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img128.png"
+ ALT="$O(P\dlenmax^2)$">, where <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img115.png"
+ ALT="$P$"> 
+is the sum of the lengths of the postings lists (i.e., the sum of document
+frequencies) and <IMG
+ WIDTH="36" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img129.png"
+ ALT="$\dlenmax$"> is the maximum length of a document (in tokens).
+
+<OL>
+<LI>Go through this algorithm carefully and explain how it works.
+</LI>
+<LI>What is the complexity of this algorithm?  Justify your answer carefully.
+</LI>
+<LI>For certain queries and data distributions, would another algorithm be 
+more efficient?  What complexity does it have?
+</LI>
+</OL>
+
+<P>
+</LI>
+<LI>Suppose we wish to use a postings intersection procedure 
+to determine simply the list of documents that satisfy
+a /<IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> clause, rather than returning the list of positions,
+as in Figure&nbsp;<A HREF="positional-indexes-1.html#fig:positional-intersection-algorithm">2.12</A> (page&nbsp;<A HREF="positional-indexes-1.html#p:positional-intersection-algorithm"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>).
+For simplicity, assume <IMG
+ WIDTH="41" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img130.png"
+ ALT="$k \ge 2$">.
+Let <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img127.png"
+ ALT="$L$"> denote the total 
+number of occurrences of the two terms in the document collection
+(i.e., the sum of their collection frequencies).
+Which of the following is true? Justify your answer. 
+
+<OL>
+<LI>The merge can be accomplished in a number of steps linear in <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img127.png"
+ ALT="$L$">
+and independent of <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">, and we can ensure that each 
+pointer moves only to the right.
+</LI>
+<LI>The merge can be accomplished in a 
+number of steps 
+linear in <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img127.png"
+ ALT="$L$"> and independent of <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">, but a pointer may be forced to
+move non-monotonically (i.e., to sometimes back up) 
+</LI>
+<LI>The merge can require <IMG
+ WIDTH="21" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img131.png"
+ ALT="$kL$"> steps in some cases. 
+</LI>
+</OL>
+
+<P>
+</LI>
+<LI>How could an IR system combine use of a positional index and use of stop words?
+<A NAME="2806"></A>
+What is the potential problem, and how could it be handled?
+
+<P>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1286"
+  HREF="references-and-further-reading-2.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1280"
+  HREF="positional-postings-and-phrase-queries-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1276"
+  HREF="positional-index-size-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1282"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1284"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1287"
+  HREF="references-and-further-reading-2.html">References and further reading</A>
+<B> Up:</B> <A NAME="tex2html1281"
+  HREF="positional-postings-and-phrase-queries-1.html">Positional postings and phrase</A>
+<B> Previous:</B> <A NAME="tex2html1277"
+  HREF="positional-index-size-1.html">Positional index size.</A>
+ &nbsp; <B>  <A NAME="tex2html1283"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1285"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/combination-schemes-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:22:58 GMT -->
+</HTML>

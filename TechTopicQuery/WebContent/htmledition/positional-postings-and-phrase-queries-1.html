@@ -1,0 +1,157 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/positional-postings-and-phrase-queries-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:22:51 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Positional postings and phrase queries</TITLE>
+<META NAME="description" CONTENT="Positional postings and phrase queries">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="references-and-further-reading-2.html">
+<LINK REL="previous" HREF="faster-postings-list-intersection-via-skip-pointers-1.html">
+<LINK REL="up" HREF="the-term-vocabulary-and-postings-lists-1.html">
+<LINK REL="next" HREF="biword-indexes-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1229"
+  HREF="biword-indexes-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1223"
+  HREF="the-term-vocabulary-and-postings-lists-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1217"
+  HREF="faster-postings-list-intersection-via-skip-pointers-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1225"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1227"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1230"
+  HREF="biword-indexes-1.html">Biword indexes</A>
+<B> Up:</B> <A NAME="tex2html1224"
+  HREF="the-term-vocabulary-and-postings-lists-1.html">The term vocabulary and</A>
+<B> Previous:</B> <A NAME="tex2html1218"
+  HREF="faster-postings-list-intersection-via-skip-pointers-1.html">Faster postings list intersection</A>
+ &nbsp; <B>  <A NAME="tex2html1226"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1228"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00740000000000000000"></A><A NAME="sec:phrasequery"></A> <A NAME="p:phrasequery"></A>
+<BR>
+Positional postings and phrase queries
+</H1> 
+
+<P>
+Many complex or technical concepts and many organization and product
+names are multiword compounds or phrases.  We would like to be
+able to pose a query
+such as Stanford University by treating it as a phrase so that a
+sentence in a document like <I>The inventor Stanford
+  Ovshinsky never went to university.</I> is
+not a match.  Most recent search engines support a double quotes
+syntax (``stanford university'') for <A NAME="2612"></A> <I>phrase queries</I> , which has
+proven to 
+be very easily understood and successfully used by users.  As many as 10%
+of web queries are phrase queries, and many more are implicit phrase
+queries (such as person names), entered without use of double quotes.
+To be able to support such queries, it is no longer sufficient for
+postings lists to be simply lists of documents that contain individual terms.
+In this section we consider two approaches to supporting
+phrase queries and their combination.  A search engine should not only 
+support phrase queries, but implement them efficiently.
+A related but distinct concept is term proximity weighting,
+where a document is preferred to the extent that the query terms appear
+close to each other in the text.  This technique is covered in
+Section&nbsp;<A HREF="query-term-proximity-1.html#sec:proximity">7.2.2</A> (page&nbsp;<A HREF="query-term-proximity-1.html#p:proximity"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>) in the context of ranked retrieval.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html1231"
+  HREF="biword-indexes-1.html">Biword indexes</A>
+<LI><A NAME="tex2html1232"
+  HREF="positional-indexes-1.html">Positional indexes</A>
+<UL>
+<LI><A NAME="tex2html1233"
+  HREF="positional-index-size-1.html">Positional index size.</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1234"
+  HREF="combination-schemes-1.html">Combination schemes</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1229"
+  HREF="biword-indexes-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1223"
+  HREF="the-term-vocabulary-and-postings-lists-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1217"
+  HREF="faster-postings-list-intersection-via-skip-pointers-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1225"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1227"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1230"
+  HREF="biword-indexes-1.html">Biword indexes</A>
+<B> Up:</B> <A NAME="tex2html1224"
+  HREF="the-term-vocabulary-and-postings-lists-1.html">The term vocabulary and</A>
+<B> Previous:</B> <A NAME="tex2html1218"
+  HREF="faster-postings-list-intersection-via-skip-pointers-1.html">Faster postings list intersection</A>
+ &nbsp; <B>  <A NAME="tex2html1226"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1228"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/positional-postings-and-phrase-queries-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:22:51 GMT -->
+</HTML>

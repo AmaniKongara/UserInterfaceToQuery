@@ -1,0 +1,255 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/positional-indexes-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:22:51 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Positional indexes</TITLE>
+<META NAME="description" CONTENT="Positional indexes">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="combination-schemes-1.html">
+<LINK REL="previous" HREF="biword-indexes-1.html">
+<LINK REL="up" HREF="positional-postings-and-phrase-queries-1.html">
+<LINK REL="next" HREF="positional-index-size-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1261"
+  HREF="positional-index-size-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1255"
+  HREF="positional-postings-and-phrase-queries-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1249"
+  HREF="biword-indexes-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1257"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1259"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1262"
+  HREF="positional-index-size-1.html">Positional index size.</A>
+<B> Up:</B> <A NAME="tex2html1256"
+  HREF="positional-postings-and-phrase-queries-1.html">Positional postings and phrase</A>
+<B> Previous:</B> <A NAME="tex2html1250"
+  HREF="biword-indexes-1.html">Biword indexes</A>
+ &nbsp; <B>  <A NAME="tex2html1258"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1260"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00742000000000000000"></A>
+<A NAME="sec:positional-index"></A> <A NAME="p:positional-index"></A>
+<BR>
+Positional indexes
+</H2> 
+
+<P>
+For the reasons given, a biword index is not the standard solution.
+Rather, a <A NAME="2649"></A> <I>positional index</I>  is most commonly
+employed.  Here, for each 
+term in the vocabulary, we store postings of the
+form docID: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">position1, position2, ...<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">, as shown in
+Figure <A HREF="#fig:positionalindex">2.11</A> , where each position is a token index in the document.
+Each posting will also usually record the term
+frequency, for reasons discussed in Chapter <A HREF="scoring-term-weighting-and-the-vector-space-model-1.html#ch:tfidf">6</A> .
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:positionalindex"></A><A NAME="p:positionalindex"></A></P><IMG
+ WIDTH="555" HEIGHT="253" BORDER="0"
+ SRC="img121.png"
+ ALT="\begin{figure}
+% latex2html id marker 2653
+\raggedright
+\term{to}, 993427:\\
+\h...
+...77, and
+occurs 6 times in document 1 at positions 7, 18, 33, etc.}
+\end{figure}">
+</DIV>
+
+<P>
+To process a phrase query, you still need to 
+access the inverted index entries for each distinct term.
+As before, you would start with the
+least frequent term and then work to further restrict the list of
+possible candidates.  
+In the merge operation, the same general technique is used as before,
+but rather than simply checking that both terms are in a document,
+you also need to check that their positions of appearance in the
+document are compatible with the phrase query being evaluated.  This
+requires working out offsets between the words.  
+
+<P>
+<B>Worked example.</B> Satisfying phrase queries.phrasequery
+Suppose the postings
+lists for to and be are as in Figure <A HREF="#fig:positionalindex">2.11</A> ,
+and the query is ``to be or not to be''.
+The postings lists to access are: to, be, or, not.  
+We will examine intersecting the postings lists for to and be.
+We first look for documents that contain both terms.  Then, we look for
+places in the lists where there is an occurrence of 
+<I>be</I> with a token index one higher than a position of <I>to</I>,
+and then we look for another occurrence of each word
+with token index 4 higher than the first occurrence. In the above lists,
+the pattern of occurrences that is a possible match is:
+<BLOCKQUOTE>
+to: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">...; 4:<IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">...,429,433<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; ...<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">
+<BR>
+be: <IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">...; 4:<IMG
+ WIDTH="11" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img119.png"
+ ALT="$\langle$">...,430,434<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">; ...<IMG
+ WIDTH="10" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img120.png"
+ ALT="$\rangle$">
+</BLOCKQUOTE>
+<B>End worked example.</B>
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:positional-intersection-algorithm"></A><A NAME="p:positional-intersection-algorithm"></A></P><IMG
+ WIDTH="555" HEIGHT="562" BORDER="0"
+ SRC="img122.png"
+ ALT="\begin{figure}
+% latex2html id marker 2691
+\par
+\begin{algorithm}{PositionalInte...
+...of triples giving docID and the term position
+in $p_1$\ and $p_2$.}
+\end{figure}">
+</DIV>
+
+<P>
+The same general method is applied for within <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> word proximity
+searches, of the sort we saw in westlaw:
+<BLOCKQUOTE>
+employment /3 place
+
+</BLOCKQUOTE>
+Here, /<IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> means ``within <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> words
+of (on either side)''.
+Clearly, positional indexes can be used for such queries; biword
+indexes cannot.  We show in Figure <A HREF="#fig:positional-intersection-algorithm">2.12</A>  an algorithm for satisfying within <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> word proximity searches; it is further discussed in Exercise <A HREF="combination-schemes-1.html#ex:pos-inter-exercise">2.4.3</A> .
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><UL>
+<LI><A NAME="tex2html1263"
+  HREF="positional-index-size-1.html">Positional index size.</A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1261"
+  HREF="positional-index-size-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1255"
+  HREF="positional-postings-and-phrase-queries-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1249"
+  HREF="biword-indexes-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1257"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1259"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1262"
+  HREF="positional-index-size-1.html">Positional index size.</A>
+<B> Up:</B> <A NAME="tex2html1256"
+  HREF="positional-postings-and-phrase-queries-1.html">Positional postings and phrase</A>
+<B> Previous:</B> <A NAME="tex2html1250"
+  HREF="biword-indexes-1.html">Biword indexes</A>
+ &nbsp; <B>  <A NAME="tex2html1258"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1260"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/positional-indexes-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:22:54 GMT -->
+</HTML>

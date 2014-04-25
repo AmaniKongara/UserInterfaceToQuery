@@ -1,0 +1,142 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/web-characteristics-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:38:43 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Web characteristics</TITLE>
+<META NAME="description" CONTENT="Web characteristics">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="advertising-as-the-economic-model-1.html">
+<LINK REL="previous" HREF="background-and-history-1.html">
+<LINK REL="up" HREF="web-search-basics-1.html">
+<LINK REL="next" HREF="the-web-graph-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4649"
+  HREF="the-web-graph-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4643"
+  HREF="web-search-basics-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4637"
+  HREF="background-and-history-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4645"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4647"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4650"
+  HREF="the-web-graph-1.html">The web graph</A>
+<B> Up:</B> <A NAME="tex2html4644"
+  HREF="web-search-basics-1.html">Web search basics</A>
+<B> Previous:</B> <A NAME="tex2html4638"
+  HREF="background-and-history-1.html">Background and history</A>
+ &nbsp; <B>  <A NAME="tex2html4646"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4648"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION002420000000000000000"></A>
+<A NAME="sec:webchar"></A> <A NAME="p:webchar"></A>
+<BR>
+Web characteristics
+</H1> 
+The essential feature that led to the explosive growth of the web - decentralized content publishing with essentially no central control of authorship - turned out to be the biggest challenge for web search engines in their quest to index and retrieve this content. Web page authors created content in dozens of (natural) languages and thousands of dialects, thus demanding many different forms of stemming and other linguistic operations. Because publishing was now open to tens of millions, web pages exhibited heterogeneity at a daunting scale, in many crucial aspects. First, content-creation was no longer the privy of editorially-trained writers; while this represented a tremendous democratization of content creation, it also resulted in a tremendous variation in grammar and style (and in many cases, no recognizable grammar or style). Indeed, web publishing in a sense unleashed the best and worst of desktop publishing on a planetary scale, so that pages quickly became riddled with wild variations in colors, fonts and structure. Some web pages, including the professionally created home pages of some large corporations, consisted entirely of images (which, when clicked, led to richer textual content) - and therefore, no indexable text.
+
+<P>
+What about the substance of the text in web pages? The democratization of content creation on the web meant a new level of granularity in <I>opinion</I> on virtually any subject. This meant that the web contained truth, lies, contradictions and suppositions on a grand scale. This gives rise to the question: which web pages does one trust? In a simplistic approach, one might argue that some publishers are trustworthy and others not - begging the question of how a search engine is to assign such a measure of trust to each website or web page. In Chapter <A HREF="link-analysis-1.html#ch:link">21</A>  we will examine approaches to understanding this question. More subtly, there may be no universal, user-independent notion of trust; a web page whose contents are trustworthy to one user may not be so to another. In traditional (non-web) publishing this is not an issue: users self-select sources they find trustworthy. Thus one reader may find the reporting of <I>The New York Times</I> to be reliable, while another may prefer <I>The Wall Street Journal</I>. But when a search engine is the only viable means for a user to become aware of (let alone select) most content, this challenge becomes significant.
+
+<P>
+While the question ``how big is the Web?'' has no easy answer (see Section <A HREF="index-size-and-estimation-1.html#sec:size">19.5</A> ), the question ``how many web pages are in a search engine's index'' is more precise, although, even this question has issues. By the end of 1995, Altavista reported that it had crawled and indexed approximately 30 million <A NAME="30245"></A> <I>static web pages</I> . Static web pages are those whose content does not vary from one request for that page to the next. For this purpose, a professor who manually updates his home page every week is considered to have a static web page, but an airport's flight status page is considered to be dynamic. Dynamic pages are typically mechanically generated by an application server in response to a query to a database, as show in Figure <A HREF="#fig:dynamicpage">19.1</A> . One sign of such a page is that the URL has the character "?" in it. Since the number of static web pages was believed to be doubling every few months in 1995, early web search engines such as Altavista had to constantly add hardware and bandwidth for crawling and indexing web pages.
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:dynamicpage"></A><A NAME="p:dynamicpage"></A></P><IMG
+ WIDTH="452" HEIGHT="140" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1828.png"
+ ALT="\includegraphics[width=10cm]{dynamicpage.eps}">
+A dynamically generated web page.The browser sends a request for flight information on flight AA129 to the web application, that fetches the information from back-end databases then creates a dynamic web page that it returns to the browser.
+
+</DIV>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html4651"
+  HREF="the-web-graph-1.html">The web graph</A>
+<LI><A NAME="tex2html4652"
+  HREF="spam-1.html">Spam</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4649"
+  HREF="the-web-graph-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4643"
+  HREF="web-search-basics-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4637"
+  HREF="background-and-history-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4645"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4647"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4650"
+  HREF="the-web-graph-1.html">The web graph</A>
+<B> Up:</B> <A NAME="tex2html4644"
+  HREF="web-search-basics-1.html">Web search basics</A>
+<B> Previous:</B> <A NAME="tex2html4638"
+  HREF="background-and-history-1.html">Background and history</A>
+ &nbsp; <B>  <A NAME="tex2html4646"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4648"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/web-characteristics-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:38:44 GMT -->
+</HTML>

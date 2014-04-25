@@ -1,0 +1,194 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/relevance-feedback-and-query-expansion-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:21:34 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Relevance feedback and query expansion</TITLE>
+<META NAME="description" CONTENT="Relevance feedback and query expansion">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="xml-retrieval-1.html">
+<LINK REL="previous" HREF="evaluation-in-information-retrieval-1.html">
+<LINK REL="up" HREF="irbook.html">
+<LINK REL="next" HREF="relevance-feedback-and-pseudo-relevance-feedback-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2582"
+  HREF="relevance-feedback-and-pseudo-relevance-feedback-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2576"
+  HREF="irbook.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2570"
+  HREF="references-and-further-reading-8.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2578"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2580"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2583"
+  HREF="relevance-feedback-and-pseudo-relevance-feedback-1.html">Relevance feedback and pseudo</A>
+<B> Up:</B> <A NAME="tex2html2577"
+  HREF="irbook.html">irbook</A>
+<B> Previous:</B> <A NAME="tex2html2571"
+  HREF="references-and-further-reading-8.html">References and further reading</A>
+ &nbsp; <B>  <A NAME="tex2html2579"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2581"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001400000000000000000"></A><A NAME="ch:queryexpansion"></A>
+<BR>
+Relevance feedback and query expansion
+</H1> 
+
+<P>
+In most collections, the same concept may be referred to using different words. This issue, known as <A NAME="11436"></A> <I>synonymy</I> , has an impact on the recall of most information retrieval systems. For example, you would want a search for aircraft to match plane (but only for references to an <I>airplane</I>, not a woodworking plane), and for a search on thermodynamics to match references to heat in appropriate discussions.  Users often attempt to address this problem themselves by manually refining a query, as was discussed in Section <A HREF="the-extended-boolean-model-versus-ranked-retrieval-1.html#sec:boolean-querying">1.4</A> ; in this chapter we discuss ways in which a system can help with query refinement, either fully automatically or with the user in the loop.
+
+<P>
+The methods for tackling this problem split into two major classes:
+global methods and local methods. Global methods are techniques for expanding or reformulating query terms independent of the query and results returned from it, so that changes in the query wording will cause the new query to match other semantically similar terms. Global methods include:
+
+<UL>
+<LI>Query expansion/reformulation with a thesaurus or WordNet
+  (Section <A HREF="query-expansion-1.html#sec:query-expansion">9.2.2</A> )
+</LI>
+<LI>Query expansion via automatic thesaurus generation (Section <A HREF="automatic-thesaurus-generation-1.html#sec:automatic-thesaurus">9.2.3</A> )
+</LI>
+<LI>Techniques like spelling correction (discussed in Chapter <A HREF="dictionaries-and-tolerant-retrieval-1.html#ch:spell">3</A> )
+</LI>
+</UL>
+Local methods adjust a query relative to the documents that initially appear to match the query. The basic methods here are:
+
+<UL>
+<LI>Relevance feedback (Section <A HREF="relevance-feedback-and-pseudo-relevance-feedback-1.html#sec:relevance-feedback">9.1</A> )
+</LI>
+<LI>Pseudo relevance feedback, also known as Blind relevance feedback
+  (Section <A HREF="pseudo-relevance-feedback-1.html#sec:pseudo-rf">9.1.6</A> )
+</LI>
+<LI>(Global) indirect relevance feedback (Section <A HREF="indirect-relevance-feedback-1.html#sec:implicit-feedback">9.1.7</A> )
+</LI>
+</UL>
+In this chapter, we will mention all of these approaches, but we will
+concentrate on relevance feedback, which is one of the most used and
+most successful approaches.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html2584"
+  HREF="relevance-feedback-and-pseudo-relevance-feedback-1.html">Relevance feedback and pseudo relevance feedback</A>
+<UL>
+<LI><A NAME="tex2html2585"
+  HREF="the-rocchio-algorithm-for-relevance-feedback-1.html">The Rocchio algorithm for relevance feedback</A>
+<UL>
+<LI><A NAME="tex2html2586"
+  HREF="the-underlying-theory-1.html">The underlying theory.</A>
+<LI><A NAME="tex2html2587"
+  HREF="the-rocchio71-algorithm-1.html">The <A
+ HREF="bibliography-1.html#rocchio71">Rocchio (1971)</A> algorithm.</A>
+</UL>
+<LI><A NAME="tex2html2588"
+  HREF="probabilistic-relevance-feedback-1.html">Probabilistic relevance feedback</A>
+<LI><A NAME="tex2html2589"
+  HREF="when-does-relevance-feedback-work-1.html">When does relevance feedback work?</A>
+<LI><A NAME="tex2html2590"
+  HREF="relevance-feedback-on-the-web-1.html">Relevance feedback on the web</A>
+<LI><A NAME="tex2html2591"
+  HREF="evaluation-of-relevance-feedback-strategies-1.html">Evaluation of relevance feedback strategies</A>
+<LI><A NAME="tex2html2592"
+  HREF="pseudo-relevance-feedback-1.html">Pseudo relevance feedback</A>
+<LI><A NAME="tex2html2593"
+  HREF="indirect-relevance-feedback-1.html">Indirect relevance feedback</A>
+<LI><A NAME="tex2html2594"
+  HREF="summary-1.html">Summary</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html2595"
+  HREF="global-methods-for-query-reformulation-1.html">Global methods for query reformulation</A>
+<UL>
+<LI><A NAME="tex2html2596"
+  HREF="vocabulary-tools-for-query-reformulation-1.html">Vocabulary tools for query reformulation</A>
+<LI><A NAME="tex2html2597"
+  HREF="query-expansion-1.html">Query expansion</A>
+<LI><A NAME="tex2html2598"
+  HREF="automatic-thesaurus-generation-1.html">Automatic thesaurus generation</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html2599"
+  HREF="references-and-further-reading-9.html">References and further reading</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2582"
+  HREF="relevance-feedback-and-pseudo-relevance-feedback-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2576"
+  HREF="irbook.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2570"
+  HREF="references-and-further-reading-8.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2578"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2580"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2583"
+  HREF="relevance-feedback-and-pseudo-relevance-feedback-1.html">Relevance feedback and pseudo</A>
+<B> Up:</B> <A NAME="tex2html2577"
+  HREF="irbook.html">irbook</A>
+<B> Previous:</B> <A NAME="tex2html2571"
+  HREF="references-and-further-reading-8.html">References and further reading</A>
+ &nbsp; <B>  <A NAME="tex2html2579"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2581"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/relevance-feedback-and-query-expansion-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:21:35 GMT -->
+</HTML>

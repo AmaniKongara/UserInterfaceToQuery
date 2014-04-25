@@ -1,0 +1,262 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/dictionary-as-a-string-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:24:09 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Dictionary as a string</TITLE>
+<META NAME="description" CONTENT="Dictionary as a string">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="blocked-storage-1.html">
+<LINK REL="previous" HREF="dictionary-compression-1.html">
+<LINK REL="up" HREF="dictionary-compression-1.html">
+<LINK REL="next" HREF="blocked-storage-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1737"
+  HREF="blocked-storage-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1731"
+  HREF="dictionary-compression-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1725"
+  HREF="dictionary-compression-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1733"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1735"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1738"
+  HREF="blocked-storage-1.html">Blocked storage</A>
+<B> Up:</B> <A NAME="tex2html1732"
+  HREF="dictionary-compression-1.html">Dictionary compression</A>
+<B> Previous:</B> <A NAME="tex2html1726"
+  HREF="dictionary-compression-1.html">Dictionary compression</A>
+ &nbsp; <B>  <A NAME="tex2html1734"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1736"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001021000000000000000">
+Dictionary as a string</A>
+</H2>
+The simplest data structure for the dictionary is to 
+sort the vocabulary lexicographically and store it
+in an array
+of fixed-width entries as shown in
+Figure <A HREF="dictionary-compression-1.html#fig:icompressfg5">5.3</A> . 
+Assuming a Unicode representation, we
+allocate <IMG
+ WIDTH="47" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img256.png"
+ ALT="$2\times 20$">We allocate 20
+bytes for the term itself (because few
+terms have more than twenty characters in English), 4 bytes for
+its document frequency, and 4 bytes for the pointer to its postings
+list. Four-byte pointers resolve a 4&nbsp;gigabytes (GB) address space. For
+large collections like the web, we need to allocate more
+bytes per pointer.  We look up terms in the array by binary
+search.
+
+<P>
+For Reuters-RCV1, we need 
+
+<!-- MATH
+ $M \times (2 \times
+20+4+4) = 400{,}000 \times 48 = 19.2 \mbox{ megabytes (MB)}$
+ -->
+<IMG
+ WIDTH="430" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img257.png"
+ ALT="$M \times (2 \times
+20+4+4) = 400{,}000 \times 48 = 19.2 \mbox{ megabytes (MB)}$">
+
+<!-- MATH
+ $M \times (20+4+4) = 400{,}000 \times 28 = 11.2 \mbox{megabytes (MB)}$
+ -->
+<IMG
+ WIDTH="398" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img258.png"
+ ALT="$M \times (20+4+4) = 400{,}000 \times 28 = 11.2 \mbox{megabytes (MB)}$">
+for storing
+the dictionary in this scheme.
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:icompressfg6"></A><A NAME="p:icompressfg6"></A></P><IMG
+ WIDTH="611" HEIGHT="345" ALIGN="BOTTOM" BORDER="0"
+ SRC="img259.png"
+ ALT="\includegraphics{art/figure5.4.eps}">
+Dictionary-as-a-string storage.Pointers mark
+the end of the preceding term and the beginning of the
+next. For example, the first three terms in this example
+are systile, syzygetic,
+and syzygial.
+
+
+</DIV>
+
+<P>
+Using fixed-width entries for terms is clearly wasteful. The
+average length of a term in English is about eight
+characters icompresstb1, so on average we are wasting twelve characters 
+(or
+24 bytes) 
+in
+the fixed-width scheme. Also, we have no way of storing terms with
+more than twenty characters like
+hydrochlorofluorocarbons
+and
+supercalifragilisticexpialidocious.
+We can
+overcome these
+shortcomings
+by storing the dictionary terms as one long string
+of characters, as shown in Figure <A HREF="#fig:icompressfg6">5.4</A> . The
+pointer to the next term is also used to demarcate the end
+of the current term. As before, we locate terms in the data
+structure by way of binary search in the (now smaller) table. This scheme saves us 60%
+compared to fixed-width storage - 
+
+
+24 bytes on average of
+the 40 bytes 
+
+12 bytes on average of
+the 20 bytes 
+
+we allocated for terms before. However, we now
+also need to store  term pointers. The term
+pointers resolve <!-- MATH
+ $400{,}000 \times 8 = 3.2 \times 10^6$
+ -->
+<IMG
+ WIDTH="167" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img260.png"
+ ALT="$400{,}000 \times 8 = 3.2 \times 10^6$"> positions, so they
+need to be <!-- MATH
+ $\log_2 3.2 \times 10^6 \approx 22$
+ -->
+<IMG
+ WIDTH="136" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img261.png"
+ ALT="$ \log_2 3.2 \times 10^6 \approx 22$"> bits or 3 bytes long.
+
+<P>
+In this new scheme, 
+we need 
+<!-- MATH
+ $400{,}000 \times (4+4+3+\unicode{2\times}{} 8) = \unicode{10.8}{7.6} \ \mbox{MB}$
+ -->
+<IMG
+ WIDTH="249" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img262.png"
+ ALT="$400{,}000 \times (4+4+3+\unicode{2\times}{} 8) = \unicode{10.8}{7.6} \ \mbox{MB}$"> for
+the Reuters-RCV1 dictionary:
+4 bytes each for frequency and postings
+pointer, 3 bytes for the term pointer, and <!-- MATH
+ $\unicode{2\times}{} 8$
+ -->
+<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img263.png"
+ ALT="$\unicode{2\times}{} 8$"> bytes on
+average for the term. 
+So we have reduced the space requirements
+by one third from 19.211.2 to 10.87.6 MB.
+<A NAME="6054"></A>
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:icompressfg7"></A><A NAME="p:icompressfg7"></A></P><IMG
+ WIDTH="611" HEIGHT="302" ALIGN="BOTTOM" BORDER="0"
+ SRC="img264.png"
+ ALT="\includegraphics{art/figure5.5.eps}">
+Blocked storage with four terms per block.The
+first block consists of 
+systile,
+syzygetic,
+syzygial, and syzygy with lengths of
+seven, nine, eight, and six characters, respectively. Each term is preceded
+by a byte encoding its length that
+indicates how many bytes
+to skip to reach subsequent terms. 
+
+
+</DIV>
+
+<P>
+<A NAME="6065"></A><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1737"
+  HREF="blocked-storage-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1731"
+  HREF="dictionary-compression-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1725"
+  HREF="dictionary-compression-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1733"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1735"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1738"
+  HREF="blocked-storage-1.html">Blocked storage</A>
+<B> Up:</B> <A NAME="tex2html1732"
+  HREF="dictionary-compression-1.html">Dictionary compression</A>
+<B> Previous:</B> <A NAME="tex2html1726"
+  HREF="dictionary-compression-1.html">Dictionary compression</A>
+ &nbsp; <B>  <A NAME="tex2html1734"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1736"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/dictionary-as-a-string-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:24:15 GMT -->
+</HTML>

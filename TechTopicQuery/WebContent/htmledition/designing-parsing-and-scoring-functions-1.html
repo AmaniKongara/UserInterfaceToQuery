@@ -1,0 +1,137 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/designing-parsing-and-scoring-functions-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:26:31 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Designing parsing and scoring functions</TITLE>
+<META NAME="description" CONTENT="Designing parsing and scoring functions">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="putting-it-all-together-1.html">
+<LINK REL="previous" HREF="query-term-proximity-1.html">
+<LINK REL="up" HREF="components-of-an-information-retrieval-system-1.html">
+<LINK REL="next" HREF="putting-it-all-together-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2274"
+  HREF="putting-it-all-together-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2268"
+  HREF="components-of-an-information-retrieval-system-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2262"
+  HREF="query-term-proximity-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2270"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2272"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2275"
+  HREF="putting-it-all-together-1.html">Putting it all together</A>
+<B> Up:</B> <A NAME="tex2html2269"
+  HREF="components-of-an-information-retrieval-system-1.html">Components of an information</A>
+<B> Previous:</B> <A NAME="tex2html2263"
+  HREF="query-term-proximity-1.html">Query-term proximity</A>
+ &nbsp; <B>  <A NAME="tex2html2271"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2273"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001223000000000000000"></A>
+<A NAME="sec:queryparsing"></A> <A NAME="p:queryparsing"></A>
+<BR>
+Designing parsing and scoring functions
+</H2> 
+Common search interfaces, particularly for consumer-facing
+search applications on the web, tend to mask query operators
+from the end user. The intent is to hide the complexity of
+these operators from the largely non-technical audience for
+such applications, inviting <A NAME="10025"></A> <I>free text queries</I> . Given such interfaces, how should a search equipped with indexes for various retrieval operators treat a query such as rising interest rates?  More generally, given the various factors we have studied that could affect the score of a document, how should we combine these features?
+
+<P>
+The answer of course depends on the user population, the query distribution and the collection of documents. Typically, a <I>query parser</I> is used to translate the user-specified keywords into a query with various operators that is executed against the underlying indexes. Sometimes, this execution can entail multiple queries against the underlying indexes; for example, the query parser may issue a stream of queries:
+
+<OL>
+<LI>Run the user-generated query string as a phrase query. Rank them by vector space scoring using as query the vector consisting of the 3 terms rising interest rates.
+</LI>
+<LI>If fewer than ten documents contain the phrase rising interest rates, run the two 2-term phrase queries rising interest and interest rates; rank these using vector space scoring, as well.
+</LI>
+<LI>If we still have fewer than ten results, run the vector space query consisting of the three individual query terms.
+</LI>
+</OL>
+Each of these steps (if invoked) may yield a list of scored documents, for each of which we compute a score. This score must combine contributions from vector space scoring, static quality, proximity weighting and potentially other factors - particularly since a document may appear in the lists from multiple steps.  This demands an aggregate scoring function that <A NAME="10035"></A> <I>accumulates evidence</I>  of a document's relevance from multiple sources. How do we devise a query parser and how do we devise the aggregate scoring function?
+
+<P>
+The answer depends on the setting.  In many enterprise settings we have application builders who make use of a toolkit of available scoring operators, along with a query parsing layer, with which to manually configure the scoring function as well as the query parser.  Such application builders make use of the available zones, metadata and knowledge of typical documents and queries to tune the parsing and scoring.  In collections whose characteristics change infrequently (in an enterprise application, significant changes in collection and query characteristics typically happen with infrequent events such as the introduction of new document formats or document management systems, or a merger with another company).  Web search on the other hand is faced with a constantly changing document collection with new characteristics being introduced all the time. It is also a setting in which the number of scoring factors can run into the hundreds, making hand-tuned scoring a difficult exercise.  To address this, it is becoming increasingly common to use machine-learned scoring, extending the ideas we introduced in Section <A HREF="learning-weights-1.html#sec:mlr">6.1.2</A> , as will be discussed further in Section <A HREF="a-simple-example-of-machine-learned-scoring-1.html#sec:mls">15.4.1</A> .
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2274"
+  HREF="putting-it-all-together-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2268"
+  HREF="components-of-an-information-retrieval-system-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2262"
+  HREF="query-term-proximity-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2270"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2272"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2275"
+  HREF="putting-it-all-together-1.html">Putting it all together</A>
+<B> Up:</B> <A NAME="tex2html2269"
+  HREF="components-of-an-information-retrieval-system-1.html">Components of an information</A>
+<B> Previous:</B> <A NAME="tex2html2263"
+  HREF="query-term-proximity-1.html">Query-term proximity</A>
+ &nbsp; <B>  <A NAME="tex2html2271"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2273"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/designing-parsing-and-scoring-functions-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:26:31 GMT -->
+</HTML>

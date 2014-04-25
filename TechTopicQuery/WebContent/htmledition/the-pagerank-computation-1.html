@@ -1,0 +1,476 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/the-pagerank-computation-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:39:33 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>The PageRank computation</TITLE>
+<META NAME="description" CONTENT="The PageRank computation">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="topic-specific-pagerank-1.html">
+<LINK REL="previous" HREF="markov-chains-1.html">
+<LINK REL="up" HREF="pagerank-1.html">
+<LINK REL="next" HREF="topic-specific-pagerank-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5052"
+  HREF="topic-specific-pagerank-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html5046"
+  HREF="pagerank-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html5040"
+  HREF="definition-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html5048"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html5050"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html5053"
+  HREF="topic-specific-pagerank-1.html">Topic-specific PageRank</A>
+<B> Up:</B> <A NAME="tex2html5047"
+  HREF="pagerank-1.html">PageRank</A>
+<B> Previous:</B> <A NAME="tex2html5041"
+  HREF="definition-1.html">Definition:</A>
+ &nbsp; <B>  <A NAME="tex2html5049"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html5051"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION002622000000000000000"></A>
+<A NAME="sec:prank"></A> <A NAME="p:prank"></A>
+<BR>
+The PageRank computation
+</H2> 
+How do we compute PageRank values? Recall the definition of a left eigenvector from Equation&nbsp;<A HREF="linear-algebra-review-1.html#eqn:left-eigen">214</A>; the left eigenvectors of the transition probability matrix <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img115.png"
+ ALT="$P$"> are <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$N$">-vectors <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1911.png"
+ ALT="$\vec{\pi}$"> such that
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\vec{\pi}\matrix{P} = \lambda \vec{\pi}.
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="pagerank"></A><IMG
+ WIDTH="73" HEIGHT="28" BORDER="0"
+ SRC="img1915.png"
+ ALT="\begin{displaymath}
+\vec{\pi}\matrix{P} = \lambda \vec{\pi}.
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(255)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+
+<P>
+The <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$N$"> entries in the principal eigenvector <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1911.png"
+ ALT="$\vec{\pi}$"> are the steady-state probabilities of the random walk with teleporting, and thus the PageRank values for the corresponding web pages. We may interpret Equation&nbsp;<A HREF="#pagerank">255</A> as follows: if <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1911.png"
+ ALT="$\vec{\pi}$"> is the probability distribution of the surfer across the web pages, he remains in the <A NAME="32344"></A> <I>steady-state</I>  distribution <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1911.png"
+ ALT="$\vec{\pi}$">. Given that <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1911.png"
+ ALT="$\vec{\pi}$"> is the steady-state distribution, we have that <IMG
+ WIDTH="67" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1916.png"
+ ALT="$\pi P = 1\pi$">, so 1 is an eigenvalue of P.  Thus if we were to compute the principal left eigenvector of the matrix <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img115.png"
+ ALT="$P$"> -- the one with eigenvalue 1 -- we would have computed the PageRank values.
+
+<P>
+There are many algorithms available for computing left eigenvectors; the references at the end of Chapter <A HREF="matrix-decompositions-and-latent-semantic-indexing-1.html#ch:lsi">18</A>  and the present chapter are a guide to these. We give here a rather elementary method, sometimes known as <EM>power iteration</EM>. If <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img701.png"
+ ALT="$\vec{x}$"> is the initial distribution over the states, then the distribution at time <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$"> is <IMG
+ WIDTH="28" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1917.png"
+ ALT="$\vec{x}P^t$">. As <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$"> grows large, we would expect that the distribution <IMG
+ WIDTH="28" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1917.png"
+ ALT="$\vec{x}P^t$"><A NAME="tex2html225"
+  HREF="footnode.html#foot32353"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A> is very similar to the distribution <!-- MATH
+ $\vec{x}P^{t+1}$
+ -->
+<IMG
+ WIDTH="44" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1920.png"
+ ALT="$\vec{x}P^{t+1}$">, since for large <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$"> we would expect the Markov chain to attain its steady state. By Theorem&nbsp;<A HREF="definition-1.html#thm:ergodic">21.2.1</A> this is independent of the initial distribution <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img701.png"
+ ALT="$\vec{x}$">. The power iteration method simulates the surfer's walk: begin at a state and run the walk for a large number of steps <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$">, keeping track of the visit frequencies for each of the states. After a large number of steps <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$">, these frequencies ``settle down'' so that the variation in the computed frequencies is below some predetermined threshold. We declare these tabulated frequencies to be the PageRank values.
+
+<P>
+We consider the web graph in Exercise&nbsp;<A HREF="topic-specific-pagerank-1.html#exer:123webgraph">21.2.3</A> with <IMG
+ WIDTH="55" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1921.png"
+ ALT="$\alpha=0.5$">. The transition probability matrix of the surfer's walk with teleportation is then
+
+<P>
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+P=\left(
+      \begin{array}{ccc}
+        1/6 & 2/3 & 1/6 \\
+        5/12 & 1/6 & 5/12 \\
+        1/6 & 2/3 & 1/6 \\
+      \end{array}
+    \right).
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eqn:123transition"></A><IMG
+ WIDTH="208" HEIGHT="64" BORDER="0"
+ SRC="img1922.png"
+ ALT="\begin{displaymath}
+P=\left(
+\begin{array}{ccc}
+1/6 &amp; 2/3 &amp; 1/6 \\
+5/12 &amp; 1/6 &amp; 5/12 \\
+1/6 &amp; 2/3 &amp; 1/6 \\
+\end{array} \right).
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(256)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+Imagine that the surfer starts in state 1, corresponding to the initial probability distribution vector <!-- MATH
+ $\vec{x_0}=(1\ 0\ 0)$
+ -->
+<IMG
+ WIDTH="87" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1923.png"
+ ALT="$\vec{x_0}=(1\ 0\ 0)$">. Then, after one step the distribution is
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\vec{x_0}P=\left(
+               \begin{array}{ccc}
+                 1/6 & 2/3 & 1/6 \\
+               \end{array}
+             \right)=\vec{x_1}.
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="230" HEIGHT="30" BORDER="0"
+ SRC="img1924.png"
+ ALT="\begin{displaymath}
+\vec{x_0}P=\left(
+\begin{array}{ccc}
+1/6 &amp; 2/3 &amp; 1/6 \\
+\end{array} \right)=\vec{x_1}.
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(257)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+After two steps it is
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\vec{x_1}P=\left(\begin{array}{ccc}
+                 1/6 & 2/3 & 1/6 \\
+               \end{array}\right)
+               \left(
+      \begin{array}{ccc}
+        1/6 & 2/3 & 1/6 \\
+        5/12 & 1/6 & 5/12 \\
+        1/6 & 2/3 & 1/6 \\
+      \end{array}
+    \right) = \left( \begin{array}{ccc}
+                 1/3 & 1/3 & 1/3 \\
+               \end{array}\right) = \vec{x_2}.
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eqn:transposedvector"></A><IMG
+ WIDTH="566" HEIGHT="64" BORDER="0"
+ SRC="img1925.png"
+ ALT="\begin{displaymath}
+\vec{x_1}P=\left(\begin{array}{ccc}
+1/6 &amp; 2/3 &amp; 1/6 \\
+\...
+...ay}{ccc}
+1/3 &amp; 1/3 &amp; 1/3 \\
+\end{array}\right) = \vec{x_2}.
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(258)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+Continuing in this fashion gives a sequence of probability vectors as shown in Figure <A HREF="#fig:probvect">21.3</A> .
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:probvect"></A><A NAME="p:probvect"></A><A NAME="32398"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 21.3:</STRONG>
+The sequence of probability vectors.</CAPTION>
+<TR><TD><IMG
+ WIDTH="161" HEIGHT="135" BORDER="0"
+ SRC="img1926.png"
+ ALT="\begin{figure}\begin{tabular}{\vert c\vert\vert c\vert c\vert c\vert}
+\hline
+$...
+...\cdots$\\
+$\vec{x}$\ &amp; 5/18 &amp; 4/9 &amp; 5/18\\
+\hline
+\end{tabular}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Continuing for several steps, we see that the distribution converges to the steady state of <!-- MATH
+ $\vec{x}=(5/18\quad 4/9\quad 5/18)$
+ -->
+<IMG
+ WIDTH="174" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1927.png"
+ ALT="$\vec{x}=(5/18\quad 4/9\quad 5/18)$">. In this simple example, we may directly calculate this steady-state probability distribution by observing the symmetry of the Markov chain: states 1 and 3 are symmetric, as evident from the fact that the first and third rows of the transition probability matrix in Equation&nbsp;<A HREF="#eqn:123transition">256</A> are identical. Postulating, then, that they both have the same steady-state probability and denoting this probability by <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img181.png"
+ ALT="$p$">, we know that the steady-state distribution is of the form <!-- MATH
+ $\vec{\pi}=(p\ \ 1-2p\ \ p)$
+ -->
+<IMG
+ WIDTH="130" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1928.png"
+ ALT="$\vec{\pi}=(p\ \ 1-2p\ \ p)$">. Now, using the identity <!-- MATH
+ $\vec{\pi}=\vec{\pi}P$
+ -->
+<IMG
+ WIDTH="60" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1929.png"
+ ALT="$\vec{\pi}=\vec{\pi}P$">, we solve a simple linear equation to obtain <IMG
+ WIDTH="69" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1930.png"
+ ALT="$p=5/18$"> and consequently, <!-- MATH
+ $\vec{\pi}=(5/18\ 4/9\ 5/18)$
+ -->
+<IMG
+ WIDTH="153" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1931.png"
+ ALT="$\vec{\pi}=(5/18\ 4/9\ 5/18)$">.
+
+<P>
+The PageRank values of pages (and the implicit ordering amongst them) are independent of any query a user might pose; PageRank is thus a query-independent measure of the static quality of each web page (recall such static quality measures from Section <A HREF="static-quality-scores-and-ordering-1.html#sec:static">7.1.4</A> ). On the other hand, the relative ordering of pages should, intuitively, depend on the query being served. For this reason, search engines use static quality measures such as PageRank as just one of many factors in scoring a web page on a query.  Indeed, the relative contribution of PageRank to the overall score may again be determined by machine-learned scoring as in Section <A HREF="a-simple-example-of-machine-learned-scoring-1.html#sec:mls">15.4.1</A> .
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:workedlinkexample"></A><A NAME="p:workedlinkexample"></A></P><IMG
+ WIDTH="555" HEIGHT="422" BORDER="0"
+ SRC="img1932.png"
+ ALT="\begin{figure}
+% latex2html id marker 32410
+\vspace{5mm}
+\begin{center}
+\begi...
+...he
+word that occurs in the anchor text of the corresponding link.}
+\end{figure}">
+</DIV>
+
+<P>
+<B>Worked example.</B>
+<A NAME="biggraph"></A>Consider the graph in Figure <A HREF="#fig:workedlinkexample">21.4</A> . For a
+teleportation rate of 0.14 its (stochastic) transition probability matrix
+is:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\begin{tabular}{rrrrrrr}
+0.02&0.02&0.88&0.02&0.02&0.02&0.02\\
+0.02&0.45&0.45&0.02&0.02&0.02&0.02\\
+0.31&0.02&0.31&0.31&0.02&0.02&0.02\\
+0.02&0.02&0.02&0.45&0.45&0.02&0.02\\
+0.02&0.02&0.02&0.02&0.02&0.02&0.88\\
+0.02&0.02&0.02&0.02&0.02&0.45&0.45\\
+0.02&0.02&0.02&0.31&0.31&0.02&0.31
+\end{tabular}
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="252" HEIGHT="140" BORDER="0"
+ SRC="img1933.png"
+ ALT="\begin{displaymath}
+\begin{tabular}{rrrrrrr}
+0.02&amp;0.02&amp;0.88&amp;0.02&amp;0.02&amp;0.02&amp;0.02\...
+...2&amp;0.45&amp;0.45\\
+0.02&amp;0.02&amp;0.02&amp;0.31&amp;0.31&amp;0.02&amp;0.31
+\end{tabular}\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(259)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+The PageRank vector of this matrix is:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\vec{x} = (
+0.05\quad
+0.04\quad
+0.11\quad
+0.25\quad
+0.21\quad
+0.04\quad
+0.31
+)
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="biggrapheqn"></A><IMG
+ WIDTH="333" HEIGHT="28" BORDER="0"
+ SRC="img1934.png"
+ ALT="\begin{displaymath}
+\vec{x} = (
+0.05\quad
+0.04\quad
+0.11\quad
+0.25\quad
+0.21\quad
+0.04\quad
+0.31
+)\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(260)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+Observe that in Figure <A HREF="#fig:workedlinkexample">21.4</A> , <IMG
+ WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img367.png"
+ ALT="$q_2$">, <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img624.png"
+ ALT="$q_3$">, <IMG
+ WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img627.png"
+ ALT="$q_4$"> and <IMG
+ WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img631.png"
+ ALT="$q_6$"> are the nodes with at least two in-links. Of these, <IMG
+ WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img367.png"
+ ALT="$q_2$"> has the lowest PageRank since the random walk tends to drift out of the top part of the graph - the walker can only return there through teleportation.
+<B>End worked example.</B>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html5052"
+  HREF="topic-specific-pagerank-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html5046"
+  HREF="pagerank-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html5040"
+  HREF="definition-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html5048"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html5050"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html5053"
+  HREF="topic-specific-pagerank-1.html">Topic-specific PageRank</A>
+<B> Up:</B> <A NAME="tex2html5047"
+  HREF="pagerank-1.html">PageRank</A>
+<B> Previous:</B> <A NAME="tex2html5041"
+  HREF="definition-1.html">Definition:</A>
+ &nbsp; <B>  <A NAME="tex2html5049"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html5051"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/the-pagerank-computation-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:39:44 GMT -->
+</HTML>

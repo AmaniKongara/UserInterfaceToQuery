@@ -1,0 +1,154 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/references-and-further-reading-20.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:39:23 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>References and further reading</TITLE>
+<META NAME="description" CONTENT="References and further reading">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="connectivity-servers-1.html">
+<LINK REL="up" HREF="web-crawling-and-indexes-1.html">
+<LINK REL="next" HREF="link-analysis-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4936"
+  HREF="link-analysis-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4930"
+  HREF="web-crawling-and-indexes-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4926"
+  HREF="connectivity-servers-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4932"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4934"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4937"
+  HREF="link-analysis-1.html">Link analysis</A>
+<B> Up:</B> <A NAME="tex2html4931"
+  HREF="web-crawling-and-indexes-1.html">Web crawling and indexes</A>
+<B> Previous:</B> <A NAME="tex2html4927"
+  HREF="connectivity-servers-1.html">Connectivity servers</A>
+ &nbsp; <B>  <A NAME="tex2html4933"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4935"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION002550000000000000000"></A>
+<A NAME="sec:crawlrefs"></A> <A NAME="p:crawlrefs"></A>
+<BR>
+References and further reading
+</H1> 
+The first web crawler appears to be Matthew Gray's Wanderer, written in the spring of 1993. The Mercator crawler is due to Najork and Heydon (<A NAME="tex2html4938"
+  HREF="bibliography-1.html#najorkheydon2002">Najork and Heydon, 2002</A>;<A NAME="tex2html4939"
+  HREF="bibliography-1.html#mercator1">2001</A>); the treatment in this chapter follows their work. Other classic early descriptions of web crawling include <A
+ HREF="bibliography-1.html#burnercrawling">Burner (1997)</A>, <A
+ HREF="bibliography-1.html#brinpageanatomy">Brin and Page (1998)</A>, <A
+ HREF="bibliography-1.html#chocrawling1998">Cho et&nbsp;al. (1998)</A> and the creators of the Webbase system at Stanford (<A
+ HREF="bibliography-1.html#webbase2000">Hirai et&nbsp;al., 2000</A>). <A
+ HREF="bibliography-1.html#511464">Cho and Garcia-Molina (2002)</A> give a taxonomy and comparative study of different modes of communication between the nodes of a distributed crawler. The Robots Exclusion Protocol standard is described at <TT><A NAME="tex2html220"
+  HREF="http://www.robotstxt.org/wc/exclusion.html">http://www.robotstxt.org/wc/exclusion.html</A></TT>. <A
+ HREF="bibliography-1.html#boldi02ubicrawler">Boldi et&nbsp;al. (2002)</A> and <A
+ HREF="bibliography-1.html#shkapenyuk02design">Shkapenyuk and Suel (2002)</A> provide more recent details of implementing large-scale distributed web crawlers.
+
+<P>
+Our discussion of DNS resolution (Section <A HREF="dns-resolution-1.html#sec:dns">20.2.2</A> ) uses the current convention for internet addresses, known as IPv4 (for Internet Protocol version 4) - each IP address is a sequence of four bytes. In the future, the convention for addresses (collectively known as the internet <I>address space</I>) is likely to use a new standard known as IPv6 (<TT><A NAME="tex2html221"
+  HREF="http://www.ipv6.org/">http://www.ipv6.org/</A></TT>).
+
+<P>
+<A NAME="31640"></A>
+<A NAME="31641"></A>
+<A
+ HREF="bibliography-1.html#tomasic93query">Tomasic and Garcia-Molina (1993)</A> and <A
+ HREF="bibliography-1.html#jeong95inverted">Jeong and Omiecinski (1995)</A> are key early papers evaluating term partitioning versus document partitioning for distributed indexes. Document partitioning is found to be superior, at least when the distribution of terms is skewed, as it typically is in practice. This result has generally been confirmed in more recent work (<A
+ HREF="bibliography-1.html#macfarlane00parallel">MacFarlane et&nbsp;al., 2000</A>). But the outcome depends on the details of the distributed system; at least one thread of work has reached the opposite conclusion (<A NAME="tex2html4940"
+  HREF="bibliography-1.html#ribeiro-neto98query">Ribeiro-Neto and Barbosa, 1998</A>, <A NAME="tex2html4941"
+  HREF="bibliography-1.html#santos01distributed">Badue et&nbsp;al., 2001</A>).
+
+<P>
+<A
+ HREF="bibliography-1.html#sornil01parallel">Sornil (2001)</A> argues for a partitioning scheme
+that is a hybrid between term and document partitioning.
+
+<P>
+<A
+ HREF="bibliography-1.html#barroso03web">Barroso et&nbsp;al. (2003)</A> describe the distribution methods used
+at Google.
+The first implementation of a connectivity server was described by <A
+ HREF="bibliography-1.html#connserver">Bharat et&nbsp;al. (1998)</A>. The scheme discussed in this chapter, currently believed to be the best published scheme (achieving as few as 3 bits per link for encoding), is described in a series of papers by <A NAME="tex2html4942"
+  HREF="bibliography-1.html#boldivigna1">Boldi and Vigna (2004b</A>;<A NAME="tex2html4943"
+  HREF="bibliography-1.html#boldivigna2">a)</A>.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4936"
+  HREF="link-analysis-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4930"
+  HREF="web-crawling-and-indexes-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4926"
+  HREF="connectivity-servers-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4932"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4934"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4937"
+  HREF="link-analysis-1.html">Link analysis</A>
+<B> Up:</B> <A NAME="tex2html4931"
+  HREF="web-crawling-and-indexes-1.html">Web crawling and indexes</A>
+<B> Previous:</B> <A NAME="tex2html4927"
+  HREF="connectivity-servers-1.html">Connectivity servers</A>
+ &nbsp; <B>  <A NAME="tex2html4933"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4935"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/references-and-further-reading-20.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:39:23 GMT -->
+</HTML>

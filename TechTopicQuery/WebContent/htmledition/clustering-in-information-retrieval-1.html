@@ -1,0 +1,385 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/clustering-in-information-retrieval-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:34:33 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Clustering in information retrieval</TITLE>
+<META NAME="description" CONTENT="Clustering in information retrieval">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="problem-statement-1.html">
+<LINK REL="previous" HREF="flat-clustering-1.html">
+<LINK REL="up" HREF="flat-clustering-1.html">
+<LINK REL="next" HREF="problem-statement-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4157"
+  HREF="problem-statement-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4151"
+  HREF="flat-clustering-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4145"
+  HREF="flat-clustering-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4153"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4155"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4158"
+  HREF="problem-statement-1.html">Problem statement</A>
+<B> Up:</B> <A NAME="tex2html4152"
+  HREF="flat-clustering-1.html">Flat clustering</A>
+<B> Previous:</B> <A NAME="tex2html4146"
+  HREF="flat-clustering-1.html">Flat clustering</A>
+ &nbsp; <B>  <A NAME="tex2html4154"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4156"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION002110000000000000000">
+Clustering in information retrieval</A>
+</H1>
+The <A NAME="24124"></A> <I>cluster hypothesis</I>  states
+the fundamental assumption we make when using
+clustering in information retrieval.
+<BLOCKQUOTE>
+<B>Cluster hypothesis.</B> Documents in the same cluster
+behave similarly with respect to
+relevance to information needs.
+
+</BLOCKQUOTE>
+The hypothesis states that if there is a document from a
+cluster that is relevant to a search request, then it is
+likely that other documents from the same cluster are also
+relevant. This is because clustering puts 
+together documents that share many terms. The
+cluster hypothesis essentially is 
+the contiguity hypothesis in Chapter <A HREF="vector-space-classification-1.html#ch:vectorclass">14</A> 
+(page <A HREF="vector-space-classification-1.html#p:contiguity">14</A> ). In both cases, we posit that
+similar documents behave similarly with respect to
+relevance.
+
+<P>
+<A NAME="sec:clusteringinir"></A> <A NAME="p:clusteringinir"></A> 
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="24145"></A>
+<TABLE>
+<CAPTION><STRONG>Table 16.1:</STRONG>
+
+Some applications of clustering in information
+retrieval.</CAPTION>
+<TR><TD><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Application</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>What is</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=119>Benefit</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=111>Example</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>clustered?</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=119>&nbsp;</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=111>&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT">Search result clustering</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>search results</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=119>more effective information
+presentation to user</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=111>Figure <A HREF="#fig:clustfg1">16.2</A></TD>
+</TR>
+<TR><TD ALIGN="LEFT">Scatter-Gather</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>(subsets of) collection</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=119>alternative
+user interface: 
+``search without typing''</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=111>Figure <A HREF="#fig:scatter">16.3</A></TD>
+</TR>
+<TR><TD ALIGN="LEFT">Collection clustering</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>collection</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=119>effective information
+presentation for exploratory browsing</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=111><A
+ HREF="bibliography-1.html#mckeown02news">McKeown et&nbsp;al. (2002)</A>,
+<TT><A NAME="tex2html176"
+  HREF="http://news.google.com/">http://news.google.com</A></TT></TD>
+</TR>
+<TR><TD ALIGN="LEFT">Language modeling</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>collection</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=119>increased precision 
+and/or recall</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=111><A
+ HREF="bibliography-1.html#liu04cluster">Liu and Croft (2004)</A></TD>
+</TR>
+<TR><TD ALIGN="LEFT">Cluster-based retrieval</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=57>collection</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=119>higher
+efficiency: 
+faster search</TD>
+<TD ALIGN="LEFT" VALIGN="TOP" WIDTH=111><A
+ HREF="bibliography-1.html#salton71cluster">Salton (1971a)</A></TD>
+</TR>
+</TABLE>
+
+<A NAME="tab:clusttb1"></A> <A NAME="p:clusttb1"></A>  
+</TD></TR>
+</TABLE>
+</DIV><P></P>
+<BR>
+
+<P>
+Table <A HREF="#tab:clusttb1">16.1</A>  shows some of the main applications of
+clustering in information retrieval. They differ in the set
+of documents that they cluster - search results, collection or
+subsets of the collection - and the aspect of an information
+retrieval system they try to  improve - user experience, user
+interface, effectiveness or efficiency of the
+search system. But they are all based on the basic
+assumption stated by the cluster hypothesis.
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:clustfg1"></A><A NAME="p:clustfg1"></A></P><IMG
+ WIDTH="678" HEIGHT="368" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1388.png"
+ ALT="\includegraphics[width=15cm]{clust01.eps}">
+Clustering of search results to improve
+recall. None of the top hits cover the animal sense of
+jaguar, but users can easily access it by clicking on the
+cat cluster in the Clustered
+Results panel on the left (third arrow from the top).
+
+
+</DIV>
+
+<P>
+The first application mentioned in Table <A HREF="#tab:clusttb1">16.1</A>  is
+<A NAME="24160"></A> <I>search result
+clustering</I>  where by <A NAME="24162"></A> <I>search
+results</I>  we mean the documents that were returned
+in response to a query.  The default presentation of search results
+in information retrieval is a simple list. Users scan the
+list from top to bottom until they have found the
+information they are looking for. Instead, search result
+clustering clusters the search results, so that similar
+documents appear together. It is often easier to scan a few
+coherent groups than many individual documents. This is
+particularly useful if a search term has different word
+senses. The example in Figure <A HREF="#fig:clustfg1">16.2</A>  is
+jaguar. Three frequent senses on the web refer to the
+car, the animal and an Apple operating system. The
+Clustered Results panel returned by the
+Viv&#237;simo search engine (<TT><A NAME="tex2html178"
+  HREF="http://vivisimo.com/">http://vivisimo.com</A></TT>) can
+be a more effective user interface for understanding what is
+in the search results than a simple list of documents.
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:scatter"></A><A NAME="p:scatter"></A></P><IMG
+ WIDTH="588" HEIGHT="427" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1389.png"
+ ALT="\includegraphics[width=13cm]{clust02.eps}">An example of 
+a user session in Scatter-Gather. A collection of New York
+Times news stories is clustered (``scattered'') into eight
+clusters (top row). The user manually <I>gathers</I> three of these into a
+smaller collection International Stories and performs another
+scattering operation. This process
+repeats until a small cluster with relevant documents
+is found (e.g., Trinidad).
+
+
+</DIV>
+
+<P>
+A better user interface is also the goal of <A NAME="24178"></A> <I>Scatter-Gather</I> , the second
+application in Table <A HREF="#tab:clusttb1">16.1</A> . Scatter-Gather clusters the whole
+collection to get groups of documents that the user can
+select or <I>gather</I>. The selected groups are merged and the
+resulting set is again clustered. This process is repeated
+until a cluster of interest is found. An example is shown in 
+Figure <A HREF="#fig:scatter">16.3</A> .
+
+<P>
+Automatically generated clusters like those in
+Figure <A HREF="#fig:scatter">16.3</A>  are not as neatly organized as a
+manually constructed hierarchical tree like the Open
+Directory at <TT><A NAME="tex2html179"
+  HREF="http://dmoz.org/">http://dmoz.org</A></TT>. Also, finding descriptive labels for clusters
+automatically is a difficult problem
+(Section <A HREF="cluster-labeling-1.html#sec:clusterlabeling">17.7</A> , page <A HREF="cluster-labeling-1.html#p:clusterlabeling">17.7</A> ). But
+cluster-based navigation is an interesting alternative to
+keyword searching, the standard information retrieval
+paradigm. This is especially true in scenarios where users
+prefer browsing over searching because they are unsure about
+which search terms to use.
+
+<P>
+As an alternative to the user-mediated iterative clustering in Scatter-Gather,
+we can also compute a static hierarchical
+clustering of a collection that is not influenced by user
+interactions (``Collection clustering'' in Table <A HREF="#tab:clusttb1">16.1</A> ). Google News and its precursor, the Columbia
+NewsBlaster system, are examples of this approach. In the
+case of news, we need to frequently recompute the clustering
+to make sure that users can access the latest breaking
+stories. Clustering is well suited for access to a
+collection of news stories since news reading is not really
+search, but rather a process of selecting a subset of
+stories about recent events.
+
+<P>
+The fourth application of clustering exploits the
+cluster hypothesis directly for improving search results,
+based on a clustering of the entire collection.
+We use a standard inverted index to
+identify an initial set of documents that match the query,
+but we then
+add other documents from the same clusters even if they have
+low similarity to the query.
+For example, if the query is car and several car
+documents are taken from a cluster of automobile documents,
+then we can add documents from this cluster
+that use terms other than car (automobile,
+vehicle etc). This can increase
+recall since a group of documents with high mutual
+similarity is often relevant as a whole.
+
+<P>
+More recently this idea has been used for
+language modeling. 
+Equation <A HREF="estimating-the-query-generation-probability-1.html#eqn:lgmodelmix">102</A> , <A NAME="p:clusterlgmodel"></A> page <A HREF="estimating-the-query-generation-probability-1.html#p:lgmodelmix">102</A> , showed that
+to avoid sparse data problems in the language modeling
+approach to IR, the 
+model of document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$"> can be interpolated with a collection model.
+But the collection contains
+many documents with terms untypical of <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">. By
+replacing the collection model with a model derived from
+<IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">'s cluster, we get more accurate estimates of the occurrence
+probabilities of terms in <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">. 
+
+<P>
+Clustering can also speed up search.  As we saw in
+Section <A HREF="queries-as-vectors-1.html#sec:queryvector">6.3.2</A> 
+(<A NAME="p:cluster4fastsearch"></A> page <A HREF="queries-as-vectors-1.html#p:queryvector">6.3.2</A> )
+search in the vector space model amounts to finding the
+nearest neighbors to the query.  The inverted index supports
+fast nearest-neighbor search for the standard IR setting.
+However, sometimes we may not be able to use an inverted
+index efficiently, e.g., in latent semantic indexing
+(Chapter <A HREF="matrix-decompositions-and-latent-semantic-indexing-1.html#ch:lsi">18</A> ). In such cases, we could compute the
+similarity of the query to every document, but this is
+slow. The cluster hypothesis offers an alternative: Find the
+clusters that are closest to the query and only consider
+documents from these clusters.  Within this much smaller
+set, we can compute similarities exhaustively and rank
+documents in the usual way.  Since there are many fewer
+clusters than documents, finding the closest cluster is
+fast; and since the documents matching a query are all
+similar to each other, they tend to be in the same clusters.
+While this algorithm is inexact, the expected decrease in
+search quality is small. This is essentially the application
+of clustering that was covered in Section <A HREF="cluster-pruning-1.html#sec:clusterpruning">7.1.6</A> 
+(page <A HREF="cluster-pruning-1.html#p:clusterpruning">7.1.6</A> ).
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI>Define two documents as similar if they have at
+least two proper names like Clinton or
+Sarkozy in common.  Give an example of an
+information need and two documents, for which the cluster
+hypothesis does <I>not</I> hold for this notion of similarity.
+
+<P>
+</LI>
+<LI>Make up a simple one-dimensional example (i.e. points on a line)
+with two clusters where the inexactness of cluster-based
+retrieval shows up. In your example, retrieving clusters close to
+the query should do worse than direct nearest neighbor search.
+
+<P>
+</LI>
+</UL><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4157"
+  HREF="problem-statement-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4151"
+  HREF="flat-clustering-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4145"
+  HREF="flat-clustering-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4153"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4155"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4158"
+  HREF="problem-statement-1.html">Problem statement</A>
+<B> Up:</B> <A NAME="tex2html4152"
+  HREF="flat-clustering-1.html">Flat clustering</A>
+<B> Previous:</B> <A NAME="tex2html4146"
+  HREF="flat-clustering-1.html">Flat clustering</A>
+ &nbsp; <B>  <A NAME="tex2html4154"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4156"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/clustering-in-information-retrieval-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:34:36 GMT -->
+</HTML>

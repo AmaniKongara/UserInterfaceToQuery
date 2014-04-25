@@ -1,0 +1,176 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/the-web-graph-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:38:44 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>The web graph</TITLE>
+<META NAME="description" CONTENT="The web graph">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="spam-1.html">
+<LINK REL="previous" HREF="web-characteristics-1.html">
+<LINK REL="up" HREF="web-characteristics-1.html">
+<LINK REL="next" HREF="spam-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4665"
+  HREF="spam-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4659"
+  HREF="web-characteristics-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4653"
+  HREF="web-characteristics-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4661"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4663"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4666"
+  HREF="spam-1.html">Spam</A>
+<B> Up:</B> <A NAME="tex2html4660"
+  HREF="web-characteristics-1.html">Web characteristics</A>
+<B> Previous:</B> <A NAME="tex2html4654"
+  HREF="web-characteristics-1.html">Web characteristics</A>
+ &nbsp; <B>  <A NAME="tex2html4662"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4664"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION002421000000000000000"></A>
+<A NAME="sec:webgraphinwebchar"></A> <A NAME="p:webgraphinwebchar"></A>
+<BR>
+The web graph
+</H2> 
+We can view the static Web consisting of static HTML pages together with the hyperlinks between them as a directed graph in which each web page is a node and each hyperlink a directed edge.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:hyperlink"></A><A NAME="p:hyperlink"></A><A NAME="30265"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 19.2:</STRONG>
+Two nodes of the web graph joined by a link.</CAPTION>
+<TR><TD><IMG
+ WIDTH="256" HEIGHT="66" BORDER="0"
+ SRC="img1829.png"
+ ALT="\begin{figure}\begin{picture}(300,100)\thicklines
+\put(60,40){\circle{40}}
+\p...
+...}\thinlines
+\put(45,45){\framebox{\small{anchor}}}
+\end{picture}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Figure <A HREF="#fig:hyperlink">19.2</A>  shows two nodes A and B from the web graph, each corresponding to a web page, with a hyperlink from A to B. We refer to the set of all such nodes and directed edges as the web graph.
+Figure <A HREF="#fig:hyperlink">19.2</A>  also shows that (as is the case with most links on web pages) there is some text surrounding the origin of the hyperlink on page A. This text is generally encapsulated in the <TT>href</TT> attribute of the &lt;a&gt; (for anchor) tag that encodes the hyperlink in the HTML code of page A, and is referred to as <A NAME="30272"></A> <I>anchor text</I> . As one might suspect, this directed graph is not <I>strongly connected</I>: there are pairs of pages such that one cannot proceed from one page of the pair to the other by following hyperlinks. We refer to the hyperlinks into a page as <A NAME="30275"></A> <I>in-links</I>  and those out of a page as <A NAME="30277"></A> <I>out-links</I> . The number of in-links to a page (also known as its <I>in-degree</I>) has averaged from roughly 8 to 15, in a range of studies. We similarly define the out-degree of a web page to be the number of links out of it. These notions are represented in Figure <A HREF="#fig:smallgraph">19.3</A> .
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:smallgraph"></A><A NAME="p:smallgraph"></A></P><IMG
+ WIDTH="406" HEIGHT="341" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1830.png"
+ ALT="\includegraphics[width=9cm]{smallgraph.eps}">
+A sample small web graph.In this example we have six pages labeled A-F. Page B has in-degree 3 and out-degree 1.  This example graph is not strongly connected: there is no path from any of pages B-F to page A.
+
+</DIV>
+
+<P>
+There is ample evidence that these links are not randomly distributed; for one thing, the distribution of the number of links into a web page does not follow the Poisson distribution one would expect if every web page were to pick the destinations of its links uniformly at random. Rather, this distribution is widely reported to be a <A NAME="p:webpowerlaw"></A> <A NAME="30289"></A> <I>power law</I> , in which the total number of web pages with in-degree <IMG
+ WIDTH="8" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="$i$"> is proportional to <IMG
+ WIDTH="34" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1831.png"
+ ALT="$1/i^\alpha$">; the value of <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img524.png"
+ ALT="$\alpha$"> typically reported by studies is 2.1.<A NAME="tex2html201"
+  HREF="footnode.html#foot30621"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A>  Furthermore, several studies have suggested that the directed graph connecting web pages has a <A NAME="30293"></A> <I>bowtie</I>  shape: there are three major categories of web pages that are sometimes referred to as IN, OUT and SCC.  A web surfer can pass from any page in IN to any page in SCC, by following hyperlinks.  Likewise, a surfer can pass from page in SCC to any page in OUT.  Finally, the surfer can surf from any page in SCC to any other page in SCC.  However, it is not possible to pass from a page in SCC to any page in IN, or from a page in OUT to a page in SCC (or, consequently, IN).  Notably, in several studies IN and OUT are roughly equal in size, whereas SCC is somewhat larger; most web pages fall into one of these three sets.  The remaining pages form into <I>tubes</I> that are small sets of pages outside SCC that lead directly from IN to OUT, and <I>tendrils</I> that either lead nowhere from IN, or from nowhere to OUT. Figure <A HREF="#fig:bowtie">19.4</A>  illustrates this structure of the Web.
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:bowtie"></A><A NAME="p:bowtie"></A></P><IMG
+ WIDTH="452" HEIGHT="288" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1832.png"
+ ALT="\includegraphics[width=10cm]{bowtie.eps}">
+The bowtie structure of the Web.Here we show one tube and three tendrils.
+
+</DIV>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4665"
+  HREF="spam-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4659"
+  HREF="web-characteristics-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4653"
+  HREF="web-characteristics-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4661"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4663"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4666"
+  HREF="spam-1.html">Spam</A>
+<B> Up:</B> <A NAME="tex2html4660"
+  HREF="web-characteristics-1.html">Web characteristics</A>
+<B> Previous:</B> <A NAME="tex2html4654"
+  HREF="web-characteristics-1.html">Web characteristics</A>
+ &nbsp; <B>  <A NAME="tex2html4662"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4664"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/the-web-graph-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:38:46 GMT -->
+</HTML>

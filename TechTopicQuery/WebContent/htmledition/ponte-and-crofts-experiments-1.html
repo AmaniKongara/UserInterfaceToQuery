@@ -1,0 +1,296 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/ponte-and-crofts-experiments-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:29:30 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Ponte and Croft's Experiments</TITLE>
+<META NAME="description" CONTENT="Ponte and Croft's Experiments">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="estimating-the-query-generation-probability-1.html">
+<LINK REL="up" HREF="the-query-likelihood-model-1.html">
+<LINK REL="next" HREF="language-modeling-versus-other-approaches-in-ir-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3354"
+  HREF="language-modeling-versus-other-approaches-in-ir-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3348"
+  HREF="the-query-likelihood-model-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3344"
+  HREF="estimating-the-query-generation-probability-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3350"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3352"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3355"
+  HREF="language-modeling-versus-other-approaches-in-ir-1.html">Language modeling versus other</A>
+<B> Up:</B> <A NAME="tex2html3349"
+  HREF="the-query-likelihood-model-1.html">The query likelihood model</A>
+<B> Previous:</B> <A NAME="tex2html3345"
+  HREF="estimating-the-query-generation-probability-1.html">Estimating the query generation</A>
+ &nbsp; <B>  <A NAME="tex2html3351"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3353"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001723000000000000000">
+Ponte and Croft's Experiments</A>
+</H2>
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:ponte"></A><A NAME="p:ponte"></A></P><IMG
+ WIDTH="556" HEIGHT="388" BORDER="0"
+ SRC="img841.png"
+ ALT="\begin{figure}
+% latex2html id marker 15432
+\begin{tabular}{\vert lllrl\vert}
+\h...
+...he approach shows significant gains is at higher levels of
+recall.}\end{figure}">
+</DIV>
+
+<P>
+<A
+ HREF="bibliography-1.html#ponte98lm">Ponte and Croft (1998)</A> present the first experiments on the
+language modeling approach to information retrieval.  Their basic
+approach is the model
+that we have presented until now.  However, we have presented an
+approach where the language model is a mixture of two multinomials, much
+as in (<A NAME="tex2html3356"
+  HREF="bibliography-1.html#miller99hmm">Miller et&nbsp;al., 1999</A>, <A NAME="tex2html3357"
+  HREF="bibliography-1.html#hiemstra00probabilistic">Hiemstra, 2000</A>) rather than Ponte and
+Croft's multivariate 
+Bernoulli model.  The use of multinomials has been standard in most
+subsequent work in the LM approach and experimental results in IR, as
+well as evidence from text classification which we consider in 
+Section&nbsp;<A HREF="the-bernoulli-model-1.html#sec:twomodels">13.3</A> (page&nbsp;<A HREF="the-bernoulli-model-1.html#p:twomodels"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>), suggests that it is superior.
+Ponte and Croft argued strongly for the effectiveness of the
+term weights that come from the language modeling approach over
+traditional tf-idf weights.  We present a subset of their results in
+Figure <A HREF="#fig:ponte">12.4</A>  where they compare tf-idf to language modeling by
+evaluating TREC topics 202-250 over TREC disks 2 and 3.  The
+queries are sentence-length natural language queries.  The language
+modeling approach yields significantly better results than their
+baseline tf-idf 
+based term weighting approach.  And indeed the gains shown here have
+been extended in subsequent work.
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI>Consider making a language model from the following training text:
+<BLOCKQUOTE>
+the martian has landed on the latin pop sensation ricky martin
+
+</BLOCKQUOTE>
+
+<OL>
+<LI>Under a MLE-estimated unigram probability model, what are
+  <IMG
+ WIDTH="50" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img842.png"
+ ALT="$P(\mbox{the})$"> and <!-- MATH
+ $P(\mbox{martian})$
+ -->
+<IMG
+ WIDTH="83" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img843.png"
+ ALT="$P(\mbox{martian})$">?
+
+<P>
+</LI>
+<LI>Under a MLE-estimated bigram model, what are
+  <!-- MATH
+ $P(\mbox{sensation}|\mbox{pop})$
+ -->
+<IMG
+ WIDTH="127" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img844.png"
+ ALT="$P(\mbox{sensation}\vert\mbox{pop})$"> and <!-- MATH
+ $P(\mbox{pop}|\mbox{the})$
+ -->
+<IMG
+ WIDTH="83" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img845.png"
+ ALT="$P(\mbox{pop}\vert\mbox{the})$">?
+</LI>
+</OL>
+
+<P>
+</LI>
+<LI><A NAME="ex:lmir-ex"></A>Suppose we have a collection that consists of the 4 documents given in
+the below table.   
+<BLOCKQUOTE>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">docID</TD>
+<TD ALIGN="LEFT">Document text</TD>
+</TR>
+<TR><TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">click go the shears boys click click click</TD>
+</TR>
+<TR><TD ALIGN="LEFT">2</TD>
+<TD ALIGN="LEFT">click click</TD>
+</TR>
+<TR><TD ALIGN="LEFT">3</TD>
+<TD ALIGN="LEFT">metal here</TD>
+</TR>
+<TR><TD ALIGN="LEFT">4</TD>
+<TD ALIGN="LEFT">metal shears click here</TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+Build a query likelihood language model for this document collection.
+Assume a mixture model between the documents and the collection, with
+both weighted at 0.5. Maximum likelihood estimation (mle) is used to
+estimate both as unigram models.  Work out the model probabilities of
+the queries click, shears, and hence click
+  shears for each document, and use those probabilities to rank
+the documents returned by each query.  Fill in these probabilities in
+the below table:
+<BLOCKQUOTE>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">Query</TD>
+<TD ALIGN="LEFT">Doc 1</TD>
+<TD ALIGN="LEFT">Doc 2</TD>
+<TD ALIGN="LEFT">Doc 3</TD>
+<TD ALIGN="LEFT">Doc 4</TD>
+</TR>
+<TR><TD ALIGN="LEFT">click</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT">shears</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT">click shears</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+What is the final ranking of the documents for the query click
+  shears?
+
+<P>
+</LI>
+<LI><A NAME="ex:smoothing-as-icf"></A>Using the calculations in Exercise <A HREF="#ex:lmir-ex">12.2.3</A>  as inspiration or as
+examples where appropriate, write one sentence each describing the
+treatment that 
+the model in Equation&nbsp;<A HREF="estimating-the-query-generation-probability-1.html#eqn:lgmodelmix">102</A>
+gives
+to each of the following quantities.  Include whether it is present in
+the model or not and whether the effect is raw or scaled.
+
+<OL>
+<LI>Term frequency in a document
+</LI>
+<LI>Collection frequency of a term
+</LI>
+<LI>Document frequency of a term
+</LI>
+<LI>Length normalization of a term
+</LI>
+</OL>
+
+<P>
+</LI>
+<LI>In the mixture model approach to the query likelihood model (Equation&nbsp;<A HREF="estimating-the-query-generation-probability-1.html#eqn:multinomialformula">104</A>), the
+probability estimate of a term is based on the term frequency of a
+word in a document, and the collection frequency of the word. Doing
+this certainly guarantees that each term of a query (in the
+vocabulary) has a non-zero chance of being generated by each
+document. But it has a more subtle but important effect of
+implementing a form of term weighting, related to what we saw in
+Chapter <A HREF="scoring-term-weighting-and-the-vector-space-model-1.html#ch:tfidf">6</A> . 
+Explain how this works. In particular, include in your answer a
+concrete numeric example showing this term weighting at work. 
+
+<P>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3354"
+  HREF="language-modeling-versus-other-approaches-in-ir-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3348"
+  HREF="the-query-likelihood-model-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3344"
+  HREF="estimating-the-query-generation-probability-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3350"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3352"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3355"
+  HREF="language-modeling-versus-other-approaches-in-ir-1.html">Language modeling versus other</A>
+<B> Up:</B> <A NAME="tex2html3349"
+  HREF="the-query-likelihood-model-1.html">The query likelihood model</A>
+<B> Previous:</B> <A NAME="tex2html3345"
+  HREF="estimating-the-query-generation-probability-1.html">Estimating the query generation</A>
+ &nbsp; <B>  <A NAME="tex2html3351"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3353"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/ponte-and-crofts-experiments-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:29:33 GMT -->
+</HTML>

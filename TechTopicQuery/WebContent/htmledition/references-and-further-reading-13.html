@@ -1,0 +1,243 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/references-and-further-reading-13.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:31:47 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>References and further reading</TITLE>
+<META NAME="description" CONTENT="References and further reading">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="evaluation-of-text-classification-1.html">
+<LINK REL="up" HREF="text-classification-and-naive-bayes-1.html">
+<LINK REL="next" HREF="vector-space-classification-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3642"
+  HREF="vector-space-classification-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3636"
+  HREF="text-classification-and-naive-bayes-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3632"
+  HREF="evaluation-of-text-classification-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3638"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3640"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3643"
+  HREF="vector-space-classification-1.html">Vector space classification</A>
+<B> Up:</B> <A NAME="tex2html3637"
+  HREF="text-classification-and-naive-bayes-1.html">Text classification and Naive</A>
+<B> Previous:</B> <A NAME="tex2html3633"
+  HREF="evaluation-of-text-classification-1.html">Evaluation of text classification</A>
+ &nbsp; <B>  <A NAME="tex2html3639"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3641"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001870000000000000000"></A>
+<A NAME="sec:further2"></A> <A NAME="p:further2"></A>
+<BR>
+References and further reading
+</H1> 
+
+<P>
+General introductions to statistical classification and
+machine learning can be found in (<A
+ HREF="bibliography-1.html#hastie2001elements">Hastie et&nbsp;al., 2001</A>),
+(<A
+ HREF="bibliography-1.html#mitchell97machine">Mitchell, 1997</A>), and (<A
+ HREF="bibliography-1.html#duda00pattern">Duda et&nbsp;al., 2000</A>),
+including many important methods (e.g.,
+<A NAME="17647"></A> <I>decision trees</I>  and <A NAME="17649"></A> <I>boosting</I> )
+that we do not cover. A comprehensive review of text
+classification methods and results is
+(<A
+ HREF="bibliography-1.html#sebastiani02automated">Sebastiani, 2002</A>).
+<A
+ HREF="bibliography-1.html#manning99foundations">Manning and Sch&#252;tze (1999, Chapter&nbsp;16)</A> give an accessible
+introduction to text classification with coverage of
+decision trees, <A NAME="17653"></A> <I>perceptrons</I>  and maximum entropy models.  More
+information on the superlinear time complexity of learning
+methods that are more accurate than Naive Bayes can be found
+in (<A
+ HREF="bibliography-1.html#perkins03grafting">Perkins et&nbsp;al., 2003</A>) and (<A
+ HREF="bibliography-1.html#joachims06training">Joachims, 2006a</A>).
+
+<P>
+<A
+ HREF="bibliography-1.html#maron60relevance">Maron and Kuhns (1960)</A> described one of the first NB
+text classifiers.  <A
+ HREF="bibliography-1.html#lewis98naive">Lewis (1998)</A> focuses on the
+history of NB classification. Bernoulli and
+multinomial models and their accuracy for different
+collections are discussed by <A
+ HREF="bibliography-1.html#mccallum98comparison">McCallum and Nigam (1998)</A>.
+<A
+ HREF="bibliography-1.html#eyheramendy03naive">Eyheramendy et&nbsp;al. (2003)</A> present additional NB
+models.  <A
+ HREF="bibliography-1.html#domingos97optimality">Domingos and Pazzani (1997)</A>, 
+<A
+ HREF="bibliography-1.html#friedman97bias">Friedman (1997)</A>, and <A
+ HREF="bibliography-1.html#hand01idiot">Hand and Yu (2001)</A>  analyze why NB performs
+well although its probability estimates are poor.  The
+first paper also discusses NB's optimality when the
+independence assumptions are true of the
+data. <A
+ HREF="bibliography-1.html#pavlov04document">Pavlov et&nbsp;al. (2004)</A> propose a modified
+document representation that partially addresses the
+inappropriateness of the independence assumptions.
+<A
+ HREF="bibliography-1.html#bennett00assessing">Bennett (2000)</A> attributes the tendency of NB
+probability estimates to be close to either 0 or 1 to the
+effect of document length.  <A
+ HREF="bibliography-1.html#ng01discriminative">Ng and Jordan (2001)</A> show
+that NB is sometimes (although rarely) superior to
+discriminative methods because it more quickly reaches its
+optimal error rate.  The basic NB model presented
+in this chapter can be tuned for better effectiveness
+(<A
+ HREF="bibliography-1.html#rennie03tackling">Rennie et&nbsp;al. 2003</A>;<A
+ HREF="bibliography-1.html#kolcz07raising">Ko<IMG
+ WIDTH="6" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1981.png"
+ ALT="\l">cz and Yih 2007</A>).  The problem of
+<A NAME="17669"></A> <I>concept drift</I>  and other reasons why
+state-of-the-art classifiers do not always excel in practice
+are discussed by <A
+ HREF="bibliography-1.html#forman06tackling">Forman (2006)</A> and
+<A
+ HREF="bibliography-1.html#hand06classifier">Hand (2006)</A>.
+
+<P>
+Early uses of mutual information and <IMG
+ WIDTH="21" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$\chi ^2$"> for feature
+selection in text classification are
+<A
+ HREF="bibliography-1.html#lewis94comparison">Lewis and Ringuette (1994)</A> and <A
+ HREF="bibliography-1.html#shp95">Sch&#252;tze et&nbsp;al. (1995)</A>, respectively.
+<A
+ HREF="bibliography-1.html#yang97selection">Yang and Pedersen (1997)</A> review feature selection methods and
+their impact on classification effectiveness. They find that
+<A NAME="17676"></A> <A NAME="17677"></A> <I>pointwise mutual information</I>  is not competitive with
+other methods.  <A
+ HREF="bibliography-1.html#yang97selection">Yang and Pedersen</A> refer to
+expected mutual information (Equation&nbsp;<A HREF="mutual-information-1.html#mifeatsel">130</A>) as
+information gain (see Exercise <A HREF="evaluation-of-text-classification-1.html#ex:informationgain">13.6</A> ,
+page <A HREF="evaluation-of-text-classification-1.html#p:informationgain">13.6</A> ).  (<A
+ HREF="bibliography-1.html#snedecor89">Snedecor and Cochran, 1989</A>) is a good
+reference for the <IMG
+ WIDTH="21" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$\chi ^2$"> test in statistics, including the
+Yates' correction for continuity for <IMG
+ WIDTH="39" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img154.png"
+ ALT="$2\times 2$">
+tables. <A
+ HREF="bibliography-1.html#dunning93accurate">Dunning (1993)</A> discusses problems of the
+<IMG
+ WIDTH="21" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$\chi ^2$"> test when counts are small.  Nongreedy feature
+selection techniques are described by
+<A
+ HREF="bibliography-1.html#hastie2001elements">Hastie et&nbsp;al. (2001)</A>.  <A
+ HREF="bibliography-1.html#cohen95empirical">Cohen (1995)</A>
+discusses the pitfalls of using multiple significance tests
+and methods to avoid them.  <A
+ HREF="bibliography-1.html#forman04pitfall">Forman (2004)</A> evaluates
+different methods for feature selection for multiple
+classifiers.
+
+<P>
+David D. Lewis defines the <A NAME="17688"></A> <I>ModApte split</I>  at
+<TT><A NAME="tex2html148"
+  HREF="www.daviddlewis.com/resources/testcollections/reuters21578/readme.html">www.daviddlewis.com/resources/testcollections/reuters21578/readme.txt</A></TT>based on <A
+ HREF="bibliography-1.html#apte94automated">Apt&#233; et&nbsp;al. (1994)</A>.  <A
+ HREF="bibliography-1.html#lewis95">Lewis (1995)</A> describes
+<A NAME="17693"></A> <A NAME="17694"></A> <I>utility measures</I>  for the
+evaluation of text classification systems.
+<A
+ HREF="bibliography-1.html#yang99re-examination">Yang and Liu (1999)</A> employ significance tests in the
+evaluation of text classification methods.
+
+<P>
+<A
+ HREF="bibliography-1.html#lewis04benchmark">Lewis et&nbsp;al. (2004)</A> find that SVMs (Chapter <A HREF="support-vector-machines-and-machine-learning-on-documents-1.html#ch:svm">15</A> ) perform better on
+Reuters-RCV1 than kNN and Rocchio (Chapter <A HREF="vector-space-classification-1.html#ch:vclass">14</A> ).
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3642"
+  HREF="vector-space-classification-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3636"
+  HREF="text-classification-and-naive-bayes-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3632"
+  HREF="evaluation-of-text-classification-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3638"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3640"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3643"
+  HREF="vector-space-classification-1.html">Vector space classification</A>
+<B> Up:</B> <A NAME="tex2html3637"
+  HREF="text-classification-and-naive-bayes-1.html">Text classification and Naive</A>
+<B> Previous:</B> <A NAME="tex2html3633"
+  HREF="evaluation-of-text-classification-1.html">Evaluation of text classification</A>
+ &nbsp; <B>  <A NAME="tex2html3639"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3641"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/references-and-further-reading-13.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:31:48 GMT -->
+</HTML>

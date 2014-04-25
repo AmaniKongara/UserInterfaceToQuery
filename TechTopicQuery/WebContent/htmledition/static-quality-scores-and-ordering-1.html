@@ -1,0 +1,227 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/static-quality-scores-and-ordering-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:26:22 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Static quality scores and ordering</TITLE>
+<META NAME="description" CONTENT="Static quality scores and ordering">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="impact-ordering-1.html">
+<LINK REL="previous" HREF="champion-lists-1.html">
+<LINK REL="up" HREF="efficient-scoring-and-ranking-1.html">
+<LINK REL="next" HREF="impact-ordering-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2188"
+  HREF="impact-ordering-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2182"
+  HREF="efficient-scoring-and-ranking-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2176"
+  HREF="champion-lists-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2184"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2186"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2189"
+  HREF="impact-ordering-1.html">Impact ordering</A>
+<B> Up:</B> <A NAME="tex2html2183"
+  HREF="efficient-scoring-and-ranking-1.html">Efficient scoring and ranking</A>
+<B> Previous:</B> <A NAME="tex2html2177"
+  HREF="champion-lists-1.html">Champion lists</A>
+ &nbsp; <B>  <A NAME="tex2html2185"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2187"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001214000000000000000"></A>
+<A NAME="sec:static"></A> <A NAME="p:static"></A>
+<BR>
+Static quality scores and ordering
+</H2> 
+We now further develop the idea of champion lists, in the somewhat more general setting of <A NAME="9899"></A> <I>static quality scores</I> . In many search engines, we have available a measure of quality <IMG
+ WIDTH="34" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img492.png"
+ ALT="$g(d)$"><A NAME="glob-notation"></A> for each document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$"> that is query-independent and thus <I>static</I>. This quality measure may be viewed as a number between zero and one. For instance, in the context of news stories on the web, <IMG
+ WIDTH="34" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img492.png"
+ ALT="$g(d)$"> may be derived from the number of favorable reviews of the story by web surfers. otherindexing provides further discussion on this topic, as does Chapter <A HREF="link-analysis-1.html#ch:link">21</A>  in the context of web search.
+
+<P>
+The net score for a document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$"> is some combination of <IMG
+ WIDTH="34" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img492.png"
+ ALT="$g(d)$"> together with the query-dependent score induced (say) by (<A HREF="queries-as-vectors-1.html#eqn:cosinescore">27</A>). The precise combination may be determined by the learning methods of Section <A HREF="learning-weights-1.html#sec:mlr">6.1.2</A> , to be developed further in Section <A HREF="a-simple-example-of-machine-learned-scoring-1.html#sec:mls">15.4.1</A> ; but for the purposes of our exposition here, let us consider a simple sum:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\mbox{net-score}(q,d)= g(d)+\frac{\vec{V}(q)\cdot \vec{V}(d)}{|\vec{V}(q)| |\vec{V}(d)|}.
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eqn:netscore"></A><IMG
+ WIDTH="268" HEIGHT="50" BORDER="0"
+ SRC="img493.png"
+ ALT="\begin{displaymath}
+\mbox{net-score}(q,d)= g(d)+\frac{\vec{V}(q)\cdot \vec{V}(d)}{\vert\vec{V}(q)\vert \vert\vec{V}(d)\vert}.
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(35)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+In this simple form, the static quality <IMG
+ WIDTH="34" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img492.png"
+ ALT="$g(d)$"> and the query-dependent score from (<A HREF="dot-products-1.html#eqn:cosine">24</A>) have equal contributions, assuming each is between 0 and 1. Other relative weightings are possible; the effectiveness of our heuristics will depend on the specific relative weighting.
+
+<P>
+First, consider ordering the documents in the postings list for each term by decreasing value of <IMG
+ WIDTH="34" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img492.png"
+ ALT="$g(d)$">. This allows us to perform the postings intersection algorithm of Figure <A HREF="processing-boolean-queries-1.html#fig:postings-merge-algorithm">1.6</A> . In order to perform the intersection by a single pass through the postings of each query term, the algorithm of Figure <A HREF="processing-boolean-queries-1.html#fig:postings-merge-algorithm">1.6</A>  relied on the postings being ordered by document IDs. But in fact, we only required that all postings be ordered by a single common ordering; here we rely on the <IMG
+ WIDTH="34" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img492.png"
+ ALT="$g(d)$"> values to provide this common ordering.  This is illustrated in Figure <A HREF="#fig:gd">7.2</A> , where the postings are ordered in decreasing order of <IMG
+ WIDTH="34" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img492.png"
+ ALT="$g(d)$">.
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:gd"></A><A NAME="p:gd"></A></P><IMG
+ WIDTH="588" HEIGHT="232" ALIGN="BOTTOM" BORDER="0"
+ SRC="img495.png"
+ ALT="\includegraphics[width=13cm]{gd.eps}">
+A static quality-ordered index.In this example we assume that Doc1, Doc2 and Doc3 respectively have static quality scores <!-- MATH
+ $g(1)=0.25, g(2)=0.5, g(3)=1$
+ -->
+<IMG
+ WIDTH="230" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img494.png"
+ ALT="$g(1)=0.25, g(2)=0.5, g(3)=1$">.
+
+</DIV>
+
+<P>
+The first idea is a direct extension of champion lists: for a well-chosen value <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img28.png"
+ ALT="$r$">, we maintain for each term <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$"> a <I>global champion list</I> of the <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img28.png"
+ ALT="$r$"> documents with the highest values for <!-- MATH
+ $g(d)+\mbox{tf-idf}_{t,d}$
+ -->
+<IMG
+ WIDTH="104" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img496.png"
+ ALT="$g(d)+\mbox{tf-idf}_{t,d}$">. The list itself is, like all the postings lists considered so far, sorted by a common order (either by document IDs or by static quality).  Then at query time, we only compute the net scores (<A HREF="#eqn:netscore">35</A>) for documents in the union of these global champion lists. Intuitively, this has the effect of focusing on documents likely to have large net scores.
+
+<P>
+We conclude the discussion of global champion lists with one further idea. We maintain for each term <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$"> two postings lists consisting of disjoint sets of documents, each sorted by <IMG
+ WIDTH="34" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img492.png"
+ ALT="$g(d)$"> values. The first list, which we call <I>high</I>, contains the <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img103.png"
+ ALT="$m$"> documents with the highest tf values for <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$">. The second list, which we call <I>low</I>, contains all other documents containing <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$">. When processing a query, we first scan only the high lists of the query terms, computing net scores for any document on the high lists of all (or more than a certain number of) query terms. If we obtain scores for <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$"> documents in the process, we terminate. If not, we continue the scanning into the low lists, scoring documents in these postings lists.  This idea is developed further in Section <A HREF="tiered-indexes-1.html#sec:tiered">7.2.1</A> .
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2188"
+  HREF="impact-ordering-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2182"
+  HREF="efficient-scoring-and-ranking-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2176"
+  HREF="champion-lists-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2184"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2186"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2189"
+  HREF="impact-ordering-1.html">Impact ordering</A>
+<B> Up:</B> <A NAME="tex2html2183"
+  HREF="efficient-scoring-and-ranking-1.html">Efficient scoring and ranking</A>
+<B> Previous:</B> <A NAME="tex2html2177"
+  HREF="champion-lists-1.html">Champion lists</A>
+ &nbsp; <B>  <A NAME="tex2html2185"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2187"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/static-quality-scores-and-ordering-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:26:24 GMT -->
+</HTML>

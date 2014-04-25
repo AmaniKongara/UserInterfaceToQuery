@@ -1,0 +1,200 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/query-expansion-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:27:19 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Query expansion</TITLE>
+<META NAME="description" CONTENT="Query expansion">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="automatic-thesaurus-generation-1.html">
+<LINK REL="previous" HREF="vocabulary-tools-for-query-reformulation-1.html">
+<LINK REL="up" HREF="global-methods-for-query-reformulation-1.html">
+<LINK REL="next" HREF="automatic-thesaurus-generation-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2807"
+  HREF="automatic-thesaurus-generation-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2801"
+  HREF="global-methods-for-query-reformulation-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2795"
+  HREF="vocabulary-tools-for-query-reformulation-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2803"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2805"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2808"
+  HREF="automatic-thesaurus-generation-1.html">Automatic thesaurus generation</A>
+<B> Up:</B> <A NAME="tex2html2802"
+  HREF="global-methods-for-query-reformulation-1.html">Global methods for query</A>
+<B> Previous:</B> <A NAME="tex2html2796"
+  HREF="vocabulary-tools-for-query-reformulation-1.html">Vocabulary tools for query</A>
+ &nbsp; <B>  <A NAME="tex2html2804"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2806"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001422000000000000000"></A><A NAME="sec:query-expansion"></A> <A NAME="p:query-expansion"></A>
+<BR>
+Query expansion
+</H2> 
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:yahooqe"></A><A NAME="p:yahooqe"></A></P>
+An example of query expansion in the interface of the
+  Yahoo! web search engine in 2006.The expanded query suggestions
+  appear just below the ``Search Results'' bar.
+</DIV>
+
+<P>
+In relevance feedback, users give additional input on documents (by marking documents in the results set as relevant or not), and this input is used to reweight the terms in the query for documents. In <A NAME="11685"></A> <I>query expansion</I>  on the other hand, users give additional input on query words or phrases, possibly suggesting additional query terms. Some search engines (especially on the web) suggest related queries in response to a query; the users then opt to use one of these alternative query suggestions. Figure <A HREF="#fig:yahooqe">9.6</A>  shows an example of query suggestion options being presented in the Yahoo! web search engine. The central question in this form of query expansion is how to generate alternative or expanded queries for the user. The most common form of query expansion is global analysis, using some form of thesaurus. For each term <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$"> in a query, the query can be automatically expanded with synonyms and related words of <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$"> from the thesaurus. Use of a thesaurus can be
+combined with ideas of term weighting: for instance, one might weight added terms less than original query terms.
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:pubmed-thesaurus"></A><A NAME="p:pubmed-thesaurus"></A></P><IMG
+ WIDTH="555" HEIGHT="252" BORDER="0"
+ SRC="img608.png"
+ ALT="\begin{figure}
+% latex2html id marker 11688
+\begin{itemize}
+\item User query: \t...
+...ez/}, their query is mapped on to the
+Medline vocabulary as shown.}\end{figure}">
+</DIV>
+
+<P>
+Methods for building a thesaurus for query expansion include:
+
+<UL>
+<LI>Use of a controlled vocabulary that is maintained by
+  human editors. Here, there is a canonical term for each concept. The subject headings
+  of traditional library subject indexes, such as the Library of
+  Congress Subject Headings, or the Dewey Decimal system are examples of
+  a controlled vocabulary. Use of a controlled vocabulary
+  is quite common for well-resourced domains. A well-known example is
+  the Unified Medical Language System (UMLS) used with MedLine for
+  querying the biomedical research literature.
+  For example, in Figure <A HREF="#fig:pubmed-thesaurus">9.7</A> , neoplasms
+  was added to a search for cancer.  This Medline query expansion also contrasts with the Yahoo! example.  The Yahoo! interface is a case of interactive query expansion, whereas PubMed does automatic query expansion. Unless the user chooses to examine the submitted query, they may not even realize that query expansion has occurred.
+
+<P>
+</LI>
+<LI>A manual thesaurus. Here, human editors have built up sets of synonymous
+  names for concepts, without designating a canonical term. The UMLS
+  metathesaurus is one example of a
+  thesaurus. Statistics Canada maintains a thesaurus
+  of preferred terms, synonyms, broader terms, and narrower terms for
+  matters on
+  which the government collects statistics, such as goods and services.
+  This thesaurus is also bilingual English and French.
+
+<P>
+</LI>
+<LI>An automatically derived thesaurus. Here, word co-occurrence
+  statistics over a collection of documents in a domain are used to
+  automatically induce a thesaurus; see Section <A HREF="automatic-thesaurus-generation-1.html#sec:automatic-thesaurus">9.2.3</A> .
+
+<P>
+</LI>
+<LI>Query reformulations based on query log mining. Here, we exploit
+  the manual query reformulations of other users to make suggestions to
+  a new user. This requires a huge query volume, and is thus
+  particularly appropriate to web search.
+</LI>
+</UL>
+Thesaurus-based query expansion has the advantage of not requiring any
+user input. Use of query expansion
+generally increases recall and is widely used in many science and
+engineering fields.
+As well as such global analysis techniques, it is also possible to do
+query expansion by local analysis, for instance, by
+analyzing the documents in the result set. User input is now usually
+required, but a distinction remains as to
+whether the user is giving feedback on documents or on query terms.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2807"
+  HREF="automatic-thesaurus-generation-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2801"
+  HREF="global-methods-for-query-reformulation-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2795"
+  HREF="vocabulary-tools-for-query-reformulation-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2803"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2805"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2808"
+  HREF="automatic-thesaurus-generation-1.html">Automatic thesaurus generation</A>
+<B> Up:</B> <A NAME="tex2html2802"
+  HREF="global-methods-for-query-reformulation-1.html">Global methods for query</A>
+<B> Previous:</B> <A NAME="tex2html2796"
+  HREF="vocabulary-tools-for-query-reformulation-1.html">Vocabulary tools for query</A>
+ &nbsp; <B>  <A NAME="tex2html2804"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2806"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/query-expansion-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:27:20 GMT -->
+</HTML>

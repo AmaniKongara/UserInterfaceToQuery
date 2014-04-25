@@ -1,0 +1,978 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/support-vector-machines-the-linearly-separable-case-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:33:23 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Support vector machines: The linearly separable case</TITLE>
+<META NAME="description" CONTENT="Support vector machines: The linearly separable case">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="extensions-to-the-svm-model-1.html">
+<LINK REL="previous" HREF="support-vector-machines-and-machine-learning-on-documents-1.html">
+<LINK REL="up" HREF="support-vector-machines-and-machine-learning-on-documents-1.html">
+<LINK REL="next" HREF="extensions-to-the-svm-model-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3845"
+  HREF="extensions-to-the-svm-model-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3839"
+  HREF="support-vector-machines-and-machine-learning-on-documents-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3833"
+  HREF="support-vector-machines-and-machine-learning-on-documents-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3841"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3843"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3846"
+  HREF="extensions-to-the-svm-model-1.html">Extensions to the SVM</A>
+<B> Up:</B> <A NAME="tex2html3840"
+  HREF="support-vector-machines-and-machine-learning-on-documents-1.html">Support vector machines and</A>
+<B> Previous:</B> <A NAME="tex2html3834"
+  HREF="support-vector-machines-and-machine-learning-on-documents-1.html">Support vector machines and</A>
+ &nbsp; <B>  <A NAME="tex2html3842"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3844"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION002010000000000000000"></A><A NAME="sec:svm-separable"></A> <A NAME="p:svm-separable"></A>
+<BR>
+Support vector machines: The linearly separable case
+</H1> 
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:support-vectors"></A><A NAME="p:support-vectors"></A><A NAME="22355"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 15.1:</STRONG>
+The support vectors are the 5 points right up against the margin of
+  the classifier.</CAPTION>
+<TR><TD><IMG
+ WIDTH="356" HEIGHT="323" BORDER="0"
+ SRC="img1260.png"
+ ALT="\begin{figure}\begin{pspicture}(0,1)(9,9)
+\psset{arrowscale=2,dotsize=6pt}
+\psli...
+...\\ maximized}}}
+\pnode(5.5,3.5){C}
+\ncline{-&gt;}{D}{C}
+\end{pspicture}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+For two-class, separable training data sets, such as the one in
+Figure&nbsp;<A HREF="linear-versus-nonlinear-classifiers-1.html#fig:vclassline">14.8</A> (page&nbsp;<A HREF="linear-versus-nonlinear-classifiers-1.html#p:vclassline"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>), there are lots of 
+possible linear separators.  Intuitively, a decision boundary
+drawn in the middle of
+the void between data items of the two classes seems better
+than one which approaches very close to examples of one or both classes.
+While some learning methods such as the
+perceptron algorithm (see references in vclassfurther)
+find just any linear separator, others, like Naive Bayes, search for 
+the best linear separator according to some criterion.  The SVM in
+particular defines the criterion to be looking for a decision surface that is
+maximally far away from any data point.  This distance from the
+decision surface to the closest data point determines the
+<A NAME="22362"></A> <I>margin</I>  of the classifier.  
+This method of construction necessarily means
+that the decision function for an SVM is fully specified by a (usually
+small) subset of the data which defines the position of the separator.
+These points are referred to as the <A NAME="22364"></A> <I>support
+vectors</I>  (in a vector space, a point can be thought of as a vector
+between the origin and that point).  Figure <A HREF="#fig:support-vectors">15.1</A>  shows the margin and support
+vectors for a sample problem.  Other data points play no part in
+determining the decision surface that is chosen.
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:band-aids"></A><A NAME="p:band-aids"></A></P><IMG
+ WIDTH="515" HEIGHT="373" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1261.png"
+ ALT="\includegraphics[width=4.5in]{band-aids.eps}">
+An intuition for large-margin classification.Insisting on a
+  large margin reduces the capacity of the model: the range of angles
+  at which the fat decision surface can be placed is smaller than for a
+  decision hyperplane (cf. vclassline).
+</DIV>
+
+<P>
+Maximizing the margin seems good because points near
+the decision surface represent very uncertain classification decisions:
+there is almost a 50% chance of the classifier deciding either way.  A
+classifier with a large margin makes no low certainty classification
+decisions.  This gives you a classification safety margin: a
+slight error in measurement or a slight document variation will not
+cause a misclassification.  Another intuition motivating SVMs is shown in
+Figure <A HREF="#fig:band-aids">15.2</A> .  By construction, an SVM classifier insists on a
+large margin around the decision boundary.  Compared to a decision
+hyperplane, if you have to place a fat separator between classes, you
+have fewer choices of where it can be put.  As a result of this, the
+memory capacity of the model has been decreased, and hence we expect that its
+ability to correctly generalize to test data is increased (cf. the
+discussion of the <A NAME="22375"></A> <I>bias-variance tradeoff</I>  in
+Chapter <A HREF="vector-space-classification-1.html#ch:vectorclass">14</A> , page <A HREF="the-bias-variance-tradeoff-1.html#p:biasvariance">14.6</A> ). 
+
+<P>
+Let us formalize an SVM with algebra.  A decision hyperplane
+(page <A HREF="linear-versus-nonlinear-classifiers-1.html#p:decisionhyperplane">14.4</A> ) can be 
+defined by an intercept term <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img137.png"
+ ALT="$b$"> and a decision hyperplane normal vector
+<IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1099.png"
+ ALT="$\vec{w}$"> which is 
+perpendicular to the hyperplane.  This vector is commonly referred to
+in the machine learning literature as the <A NAME="22381"></A> <I>weight vector</I> .  
+To choose among 
+all the hyperplanes that are perpendicular to the normal vector, we
+specify the intercept term <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img137.png"
+ ALT="$b$">. 
+Because the hyperplane is perpendicular to the normal vector, all
+points <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img701.png"
+ ALT="$\vec{x}$"> on the hyperplane satisfy <!-- MATH
+ $\vec{w}^{T}\vec{x} = -b$
+ -->
+<IMG
+ WIDTH="76" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1262.png"
+ ALT="$\vec{w}^{T}\vec{x} = -b$">.
+Now suppose that we have a set of
+training data points <!-- MATH
+ $\docsetlabeled = \{(\vec{x}_i,y_i) \}$
+ -->
+<IMG
+ WIDTH="104" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1263.png"
+ ALT="$\docsetlabeled = \{(\vec{x}_i,y_i) \}$">, where each member is a pair of a point <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1264.png"
+ ALT="$\vec{x}_i$"> and a class label <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1265.png"
+ ALT="$y_i$"> corresponding to it.<A NAME="tex2html163"
+  HREF="footnode.html#foot23206"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A>For SVMs, the two data classes are always named <IMG
+ WIDTH="25" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1266.png"
+ ALT="$+1$">
+and <IMG
+ WIDTH="25" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1267.png"
+ ALT="$-1$"> (rather than 1 and 0), and the intercept term is always
+explicitly represented as <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img137.png"
+ ALT="$b$"> (rather than being folded into the weight
+vector <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1099.png"
+ ALT="$\vec{w}$"> by adding an extra always-on feature).  The
+math works out much more cleanly if you do things this way, as we
+will see almost immediately in the definition of functional margin.  The
+linear classifier is then:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+f(\vec{x}) = \mbox{sign}(\vec{w}^{T}\vec{x} + b)
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="svm-classifier"></A><IMG
+ WIDTH="152" HEIGHT="28" BORDER="0"
+ SRC="img1268.png"
+ ALT="\begin{displaymath}
+f(\vec{x}) = \mbox{sign}(\vec{w}^{T}\vec{x} + b)
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(165)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+A value of <IMG
+ WIDTH="25" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1267.png"
+ ALT="$-1$"> indicates one class, and a value of <IMG
+ WIDTH="25" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1266.png"
+ ALT="$+1$"> the other class.
+
+<P>
+We are confident in the classification of a point if it is far away from
+the decision boundary.  For a given data set and decision hyperplane, we
+define the <A NAME="22400"></A> <I>functional margin</I>  of the 
+<IMG
+ WIDTH="20" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img191.png"
+ ALT="$i^{th}$"> example <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1264.png"
+ ALT="$\vec{x}_i$"> with respect to a hyperplane
+<!-- MATH
+ $\langle\vec{w}, b\rangle$
+ -->
+<IMG
+ WIDTH="44" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1269.png"
+ ALT="$\langle\vec{w}, b\rangle$"> as the quantity 
+<!-- MATH
+ $y_i(\vec{w}^{T}\vec{x}_i + b)$
+ -->
+<IMG
+ WIDTH="91" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1270.png"
+ ALT="$y_i(\vec{w}^{T}\vec{x}_i + b)$">.  The
+functional margin of a data set with respect to a decision surface is then twice the
+functional margin of any of the points in the data set with minimal functional
+margin (the factor of 2 comes from measuring across
+the whole width of the margin, as in Figure <A HREF="#fig:geometric-margin">15.3</A> ).
+However, there is a problem with using this 
+definition as is: the value is underconstrained, because 
+we can always make the functional margin as big as we wish
+by simply scaling up <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1099.png"
+ ALT="$\vec{w}$"> and <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img137.png"
+ ALT="$b$">.  For example, if we replace <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1099.png"
+ ALT="$\vec{w}$">
+by <IMG
+ WIDTH="24" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1271.png"
+ ALT="$5\vec{w}$"> and <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img137.png"
+ ALT="$b$"> by <IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1272.png"
+ ALT="$5b$"> then the functional margin
+<!-- MATH
+ $y_i(5\vec{w}^{T}\vec{x}_i + 5b)$
+ -->
+<IMG
+ WIDTH="108" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1273.png"
+ ALT="$y_i(5\vec{w}^{T}\vec{x}_i + 5b)$"> 
+is five times as large.  This suggests that we need to place
+some constraint on the size of the <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1099.png"
+ ALT="$\vec{w}$"> vector.  To get a sense of
+how to do that, let us look at the actual geometry.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:geometric-margin"></A><A NAME="p:geometric-margin"></A><A NAME="22427"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 15.3:</STRONG>
+The geometric margin of a point (<IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img28.png"
+ ALT="$r$">) and a decision boundary
+  (<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img29.png"
+ ALT="$\rho $">).</CAPTION>
+<TR><TD><IMG
+ WIDTH="388" HEIGHT="347" BORDER="0"
+ SRC="img1274.png"
+ ALT="\begin{figure}\begin{pspicture}(-0.5,-0.5)(9,7.25)
+\psset{arrowscale=2,dotsize=6...
+...-&gt;}(0,0)(1.3,1.3) % w
+\rput(1.5,1.5){$\vec{w}$}
+\end{pspicture}\par
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+What is the Euclidean distance from a point <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img701.png"
+ ALT="$\vec{x}$"> to the decision
+boundary?  In Figure <A HREF="#fig:geometric-margin">15.3</A> , we denote by <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img28.png"
+ ALT="$r$"> this distance.
+We know that the shortest distance between a point and a 
+hyperplane is perpendicular to the plane, and hence, parallel to
+<IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1099.png"
+ ALT="$\vec{w}$">.   A unit vector in this direction is <!-- MATH
+ $\vec{w}/|\vec{w}|$
+ -->
+<IMG
+ WIDTH="48" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1275.png"
+ ALT="$\vec{w}/\vert\vec{w}\vert$">.
+The dotted line in the diagram is then a translation of the vector
+<!-- MATH
+ $r\vec{w}/|\vec{w}|$
+ -->
+<IMG
+ WIDTH="54" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1276.png"
+ ALT="$r\vec{w}/\vert\vec{w}\vert$">.
+Let us label the point on the hyperplane closest to <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img701.png"
+ ALT="$\vec{x}$"> as
+<IMG
+ WIDTH="17" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1277.png"
+ ALT="$\vec{x}'$">.  Then:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\vec{x}' = \vec{x} - yr \frac{\vec{w}}{|\vec{w}|}
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="103" HEIGHT="44" BORDER="0"
+ SRC="img1278.png"
+ ALT="\begin{displaymath}
+\vec{x}' = \vec{x} - yr \frac{\vec{w}}{\vert\vec{w}\vert}
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(166)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+where multiplying by <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img59.png"
+ ALT="$y$"> just changes the sign for the two cases
+of <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img701.png"
+ ALT="$\vec{x}$"> being on either side of the decision surface.
+Moreover, <IMG
+ WIDTH="17" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1277.png"
+ ALT="$\vec{x}'$"> lies on the decision boundary and so satisfies
+<!-- MATH
+ $\vec{w}^{T}\vec{x}' + b = 0$
+ -->
+<IMG
+ WIDTH="96" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1279.png"
+ ALT="$\vec{w}^{T}\vec{x}' + b = 0$">.  Hence:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\vec{w}^{T}\big(\vec{x} - yr \frac{\vec{w}}{|\vec{w}|}\big) +
+b = 0
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="162" HEIGHT="44" BORDER="0"
+ SRC="img1280.png"
+ ALT="\begin{displaymath}
+\vec{w}^{T}\big(\vec{x} - yr \frac{\vec{w}}{\vert\vec{w}\vert}\big) +
+b = 0
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(167)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+Solving for <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img28.png"
+ ALT="$r$"> gives:<A NAME="tex2html165"
+  HREF="footnode.html#foot23229"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A>
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+r = y \frac{\vec{w}^{T}\vec{x} + b}{|\vec{w}|}
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="solve-r"></A><IMG
+ WIDTH="96" HEIGHT="46" BORDER="0"
+ SRC="img1282.png"
+ ALT="\begin{displaymath}
+r = y \frac{\vec{w}^{T}\vec{x} + b}{\vert\vec{w}\vert}
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(168)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+Again, the points closest to the separating hyperplane are
+support vectors.  The <A NAME="22469"></A> <I>geometric margin</I>  of the classifier is the
+maximum width of the band that can be drawn separating the support
+vectors of the two classes. 
+That is, it is twice the minimum value over data points for <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img28.png"
+ ALT="$r$"> given
+in Equation&nbsp;<A HREF="#solve-r">168</A>, or, equivalently,
+the maximal width of one of the 
+fat separators shown in Figure <A HREF="#fig:band-aids">15.2</A> .  The geometric margin is
+clearly invariant to scaling of parameters: if we replace <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1099.png"
+ ALT="$\vec{w}$"> by
+<IMG
+ WIDTH="24" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1271.png"
+ ALT="$5\vec{w}$"> and <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img137.png"
+ ALT="$b$"> by 
+<IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1272.png"
+ ALT="$5b$">, then the geometric margin is the same, because it is inherently
+normalized by the
+length of <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1099.png"
+ ALT="$\vec{w}$">.  This means that we can impose any scaling constraint we
+wish on <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1099.png"
+ ALT="$\vec{w}$"> without affecting the geometric margin.
+Among other choices, we could use unit vectors, as in Chapter <A HREF="scoring-term-weighting-and-the-vector-space-model-1.html#ch:tfidf">6</A> ,
+by requiring that <IMG
+ WIDTH="56" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1283.png"
+ ALT="$\vert\vec{w}\vert = 1$">.  This would have the effect of making
+the geometric margin the same as the functional margin.
+
+<P>
+Since we can scale the functional margin as we please, for convenience
+in solving large SVMs, let us choose to require
+that the functional margin of 
+all data points is at least 1 and that it is equal to 1 for at least
+one data vector.  That is, for all items in the data:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+y_i(\vec{w}^{T}\vec{x}_i + b) \ge 1
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="margin-requirement"></A><IMG
+ WIDTH="117" HEIGHT="28" BORDER="0"
+ SRC="img1284.png"
+ ALT="\begin{displaymath}
+y_i(\vec{w}^{T}\vec{x}_i + b) \ge 1
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(169)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+and there exist support vectors for which the inequality
+is an equality.  Since each 
+example's distance from the hyperplane is 
+<!-- MATH
+ $r_i = y_i(\vec{w}^{T}\vec{x}_i + b)/|\vec{w}|$
+ -->
+<IMG
+ WIDTH="157" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1285.png"
+ ALT="$r_i = y_i(\vec{w}^{T}\vec{x}_i + b)/\vert\vec{w}\vert$">, the geometric margin
+is <!-- MATH
+ $\rho = 2/|\vec{w}|$
+ -->
+<IMG
+ WIDTH="74" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1286.png"
+ ALT="$\rho = 2/\vert\vec{w}\vert$">.   Our desire is still to maximize this geometric
+margin.
+That is, we want to find <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1099.png"
+ ALT="$\vec{w}$"> and <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img137.png"
+ ALT="$b$"> such that:
+
+<UL>
+<LI><!-- MATH
+ $\rho = 2/|\vec{w}|$
+ -->
+<IMG
+ WIDTH="74" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1286.png"
+ ALT="$\rho = 2/\vert\vec{w}\vert$"> is maximized
+</LI>
+<LI>For all <!-- MATH
+ $(\vec{x}_i, y_i) \in \docsetlabeled$
+ -->
+<IMG
+ WIDTH="85" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1287.png"
+ ALT="$(\vec{x}_i, y_i) \in \docsetlabeled$">, <!-- MATH
+ $y_i(\vec{w}^{T}\vec{x}_i + b) \ge 1$
+ -->
+<IMG
+ WIDTH="121" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1288.png"
+ ALT="$y_i(\vec{w}^{T}\vec{x}_i + b) \ge 1$">
+</LI>
+</UL>
+Maximizing <IMG
+ WIDTH="44" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1289.png"
+ ALT="$2/\vert\vec{w}\vert$"> is the same as minimizing 
+<IMG
+ WIDTH="44" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1290.png"
+ ALT="$\vert\vec{w}\vert/2$">.  This gives the final standard formulation of an SVM 
+as a minimization problem:
+<BR>
+<IMG
+ WIDTH="300" HEIGHT="76" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1291.png"
+ ALT="\begin{example}
+Find $\vec{w}$\ and $b$\ such that:
+\begin{itemize}
+\item $\frac...
+...{x}_i, y_i)\}$, $y_i(\vec{w}^{T}\vec{x}_i + b) \ge 1$
+\end{itemize}\end{example}">
+<BR>
+
+<P>
+We are now optimizing a quadratic function subject to linear
+constraints.  <A NAME="22514"></A> <I>Quadratic optimization</I> 
+problems are a standard, well-known 
+class of mathematical optimization problems, and many algorithms exist
+for solving them.  We could in principle build our SVM using standard
+quadratic programming (QP) libraries, but there has been much recent research 
+in this area aiming to exploit the structure of the kind
+of QP that emerges from an SVM.  As a result, 
+there are more
+intricate but much faster and more scalable libraries available
+especially for building SVMs, which almost everyone uses to build models.
+We will not present the details of such algorithms here.  
+
+<P>
+However, it will be helpful to what follows to understand the shape of
+the solution of such an optimization problem.  
+The solution involves constructing a dual problem where a 
+Lagrange multiplier <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1292.png"
+ ALT="$\alpha_i$"> is associated with each constraint 
+<!-- MATH
+ $y_i(\vec{w}^{T}\vec{x_i} + b) \ge 1$
+ -->
+<IMG
+ WIDTH="122" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1293.png"
+ ALT="$y_i(\vec{w}^{T}\vec{x_i} + b) \ge 1$"> in the
+primal problem:
+<BR>
+<IMG
+ WIDTH="533" HEIGHT="75" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1294.png"
+ ALT="\begin{example}
+Find $\alpha_1, \ldots \alpha_N$\ such that
+$
+\sum \alpha_i - \f...
+... = 0$
+\item $\alpha_i \ge 0$\ for all $1 \le i \le N$
+\end{itemize}\end{example}">
+<BR>
+The solution is then of the form:
+<BR>
+<IMG
+ WIDTH="340" HEIGHT="36" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1295.png"
+ ALT="\begin{example}
+$\vec{w} = \sum \alpha_i y_i \vec{x}_i$\ \\
+$b = y_k - \vec{w}^{T}\vec{x}_k$\ for any $\vec{x}_k$
+such that $\alpha_k \ne 0$
+\end{example}">
+<BR>
+In the solution, most of the <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1292.png"
+ ALT="$\alpha_i$"> are zero.  Each non-zero
+<IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1292.png"
+ ALT="$\alpha_i$"> indicates that the corresponding <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1264.png"
+ ALT="$\vec{x}_i$"> is a support vector.
+The classification function is then:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+f(\vec{x}) = \mbox{sign}(\sum\nolimits_i \alpha_iy_i\vec{x}_i^{T}\vec{x} + b)
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="svm-sv-classifier"></A><IMG
+ WIDTH="200" HEIGHT="31" BORDER="0"
+ SRC="img1296.png"
+ ALT="\begin{displaymath}
+f(\vec{x}) = \mbox{sign}(\sum\nolimits_i \alpha_iy_i\vec{x}_i^{T}\vec{x} + b)
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(170)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+Both the term to be maximized in the dual problem and the
+classifying function involve a <I>dot product</I> between pairs of
+points (<IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img701.png"
+ ALT="$\vec{x}$"> and <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1264.png"
+ ALT="$\vec{x}_i$"> or <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1264.png"
+ ALT="$\vec{x}_i$"> and <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1297.png"
+ ALT="$\vec{x}_j$">),
+and that is the only way the data are
+used - we will return to the significance of this later. 
+
+<P>
+To recap, we start with a training data set.  The data set
+uniquely defines the best separating hyperplane, and we feed
+the data through a quadratic optimization procedure to find
+this plane.  Given a new point <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img701.png"
+ ALT="$\vec{x}$"> to classify, the
+classification function <IMG
+ WIDTH="35" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1298.png"
+ ALT="$f(\vec{x})$"> in either
+Equation&nbsp;<A HREF="#svm-classifier">165</A> or Equation&nbsp;<A HREF="#svm-sv-classifier">170</A> is
+computing the projection of the point onto the hyperplane
+normal.  The sign of this function determines the 
+class to assign to the point.  If the point is within
+the margin of the classifier (or another confidence
+threshold <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$"> that we might have determined to minimize
+classification mistakes) then the classifier can return
+``don't know'' rather than one of the two classes.  The
+value of <IMG
+ WIDTH="35" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1298.png"
+ ALT="$f(\vec{x})$"> may also be transformed into a
+probability of classification; fitting a sigmoid to
+transform the values is standard
+(<A
+ HREF="bibliography-1.html#platt00probabilistic">Platt, 2000</A>).  Also, since the
+margin is constant, if the model includes dimensions from various
+sources, careful rescaling of some dimensions may be
+required. However, this is not a problem if our documents (points) are
+on the unit hypersphere.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:small-svm"></A><A NAME="p:small-svm"></A><A NAME="22560"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 15.4:</STRONG>
+A tiny 3 data point training set for an SVM.</CAPTION>
+<TR><TD><IMG
+ WIDTH="161" HEIGHT="168" BORDER="0"
+ SRC="img1299.png"
+ ALT="\begin{figure}\begin{pspicture}(-0.5,-0.5)(3.5,3.25)
+\psset{dotsize=6pt}
+\psaxes...
+...1,1)
+\psdot(2,0)
+\psdot[dotstyle=triangle](2,3)
+\end{pspicture}\par
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+<B>Worked example.</B> <A NAME="small-svm-eg"></A>Consider building an SVM over the (very little) data set shown in
+Figure <A HREF="#fig:small-svm">15.4</A> . Working geometrically, for an example like this,
+the maximum margin weight 
+vector will be parallel to the shortest line connecting points of the two
+classes, that is, the line between <IMG
+ WIDTH="40" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1300.png"
+ ALT="$(1,1)$"> and <IMG
+ WIDTH="40" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1301.png"
+ ALT="$(2,3)$">, giving a
+weight vector of <IMG
+ WIDTH="40" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1302.png"
+ ALT="$(1,2)$">.
+The optimal decision surface is orthogonal to that line and intersects
+it at the halfway point. Therefore, it passes through <IMG
+ WIDTH="52" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1303.png"
+ ALT="$(1.5,2)$">. So,
+the SVM decision boundary is: 
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+y = x_1 + 2x_2 - 5.5
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="128" HEIGHT="28" BORDER="0"
+ SRC="img1304.png"
+ ALT="\begin{displaymath}
+y = x_1 + 2x_2 - 5.5
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(171)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+
+<P>
+Working algebraically, with the standard constraint that
+<!-- MATH
+ $\mbox{sign}(y_i(\vec{w}^{T}\vec{x}_i + b)) \ge 1$
+ -->
+<IMG
+ WIDTH="165" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1305.png"
+ ALT="$\mbox{sign}(y_i(\vec{w}^{T}\vec{x}_i + b)) \ge 1$">, we seek
+to minimize 
+<IMG
+ WIDTH="26" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1306.png"
+ ALT="$\vert\vec{w}\vert$">.  This happens when this constraint is satisfied with
+equality by the two support vectors.  Further we know that the
+solution is <!-- MATH
+ $\vec{w} = (a,2a)$
+ -->
+<IMG
+ WIDTH="82" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1307.png"
+ ALT="$\vec{w} = (a,2a)$"> for some <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img136.png"
+ ALT="$a$">.  So we have that:
+<P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{eqnarray*}
+a + 2a + b &=& -1 \\
+2a + 6a + b & = & 1
+\end{eqnarray*}
+ -->
+<IMG
+ WIDTH="143" HEIGHT="49" BORDER="0"
+ SRC="img1308.png"
+ ALT="\begin{eqnarray*}
+a + 2a + b &amp;=&amp; -1 \\
+2a + 6a + b &amp; = &amp; 1
+\end{eqnarray*}"></DIV>
+<BR CLEAR="ALL"><P></P>
+Therefore, <IMG
+ WIDTH="60" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1309.png"
+ ALT="$a = 2/5$"> and <IMG
+ WIDTH="81" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1310.png"
+ ALT="$b = -11/5$">.  So the optimal hyperplane is
+given by <!-- MATH
+ $\vec{w} = (2/5,4/5)$
+ -->
+<IMG
+ WIDTH="110" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1311.png"
+ ALT="$\vec{w} = (2/5,4/5)$"> and <IMG
+ WIDTH="81" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1310.png"
+ ALT="$b = -11/5$">.
+
+<P>
+The margin <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img29.png"
+ ALT="$\rho $"> is <!-- MATH
+ $2/|\vec{w}| = 2/\sqrt{4/25 + 16/25} = 2/(2\sqrt{5}/5)
+= \sqrt{5}$
+ -->
+<IMG
+ WIDTH="339" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1312.png"
+ ALT="$2/\vert\vec{w}\vert = 2/\sqrt{4/25 + 16/25} = 2/(2\sqrt{5}/5)
+= \sqrt{5}$">.  This answer can be confirmed geometrically by examining Figure <A HREF="#fig:small-svm">15.4</A> .
+
+<P>
+<B>End worked example.</B>
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI>What is the minimum number of support vectors
+that there can 
+be for a data set (which contains instances of each class)?
+
+<P>
+</LI>
+<LI><A NAME="ex:alphas-ex"></A>The basis of being able to use kernels in SVMs (see Section <A HREF="nonlinear-svms-1.html#sec:svm-nonlinear">15.2.3</A> ) is that the
+classification function can be written in the form of
+Equation&nbsp;<A HREF="#svm-sv-classifier">170</A> (where, for large problems, most <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1292.png"
+ ALT="$\alpha_i$">
+are 0).  Show explicitly how the classification function could be
+written in this form for the data set from
+small-svm-eg.  That is, write <IMG
+ WIDTH="13" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1313.png"
+ ALT="$f$"> as a function where
+the data points appear and the only variable is <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img701.png"
+ ALT="$\vec{x}$">. 
+
+<P>
+</LI>
+<LI>Install an SVM package such as SVMlight
+(<TT><A NAME="tex2html167"
+  HREF="http://svmlight.joachims.org/">http://svmlight.joachims.org/</A></TT>), and build an SVM for the data
+set discussed in small-svm-eg.  Confirm that the program
+gives the same solution as the text.  For SVMlight, or another package
+that accepts the same training data format, the training file would
+be:
+<BLOCKQUOTE>
+<I><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img671.png"
+ ALT="$+$">1 1:2 2:3
+<BR><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img232.png"
+ ALT="$-$">1 1:2 2:0
+<BR><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img232.png"
+ ALT="$-$">1 1:1 2:1
+
+</I></BLOCKQUOTE>
+The training command for SVMlight is then:
+<BLOCKQUOTE>
+<I>svm_learn -c 1 -a alphas.dat train.dat model.dat</I>
+
+</BLOCKQUOTE>
+The <I>-c 1</I> option is needed to turn off use of the slack variables
+that we discuss in Section <A HREF="soft-margin-classification-1.html#sec:svm-nonseparable">15.2.1</A> .  Check that the norm of
+the weight vector agrees with what we found in
+small-svm-eg.  Examine the file <I>alphas.dat</I>
+which contains
+the <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1292.png"
+ ALT="$\alpha_i$"> values, and check that they agree with your answers in
+Exercise <A HREF="#ex:alphas-ex">15.1</A> . 
+
+<P>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3845"
+  HREF="extensions-to-the-svm-model-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3839"
+  HREF="support-vector-machines-and-machine-learning-on-documents-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3833"
+  HREF="support-vector-machines-and-machine-learning-on-documents-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3841"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3843"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3846"
+  HREF="extensions-to-the-svm-model-1.html">Extensions to the SVM</A>
+<B> Up:</B> <A NAME="tex2html3840"
+  HREF="support-vector-machines-and-machine-learning-on-documents-1.html">Support vector machines and</A>
+<B> Previous:</B> <A NAME="tex2html3834"
+  HREF="support-vector-machines-and-machine-learning-on-documents-1.html">Support vector machines and</A>
+ &nbsp; <B>  <A NAME="tex2html3842"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3844"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/support-vector-machines-the-linearly-separable-case-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:33:54 GMT -->
+</HTML>

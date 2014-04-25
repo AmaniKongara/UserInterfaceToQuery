@@ -1,0 +1,135 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/tree-structured-dependencies-between-terms-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:28:50 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Tree-structured dependencies between terms</TITLE>
+<META NAME="description" CONTENT="Tree-structured dependencies between terms">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="okapi-bm25-a-non-binary-model-1.html">
+<LINK REL="previous" HREF="an-appraisal-of-probabilistic-models-1.html">
+<LINK REL="up" HREF="an-appraisal-and-some-extensions-1.html">
+<LINK REL="next" HREF="okapi-bm25-a-non-binary-model-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3172"
+  HREF="okapi-bm25-a-non-binary-model-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3166"
+  HREF="an-appraisal-and-some-extensions-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3160"
+  HREF="an-appraisal-of-probabilistic-models-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3168"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3170"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3173"
+  HREF="okapi-bm25-a-non-binary-model-1.html">Okapi BM25: a non-binary</A>
+<B> Up:</B> <A NAME="tex2html3167"
+  HREF="an-appraisal-and-some-extensions-1.html">An appraisal and some</A>
+<B> Previous:</B> <A NAME="tex2html3161"
+  HREF="an-appraisal-of-probabilistic-models-1.html">An appraisal of probabilistic</A>
+ &nbsp; <B>  <A NAME="tex2html3169"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3171"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001642000000000000000">
+Tree-structured dependencies between terms</A>
+</H2>
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:rijsbergen-tree"></A><A NAME="p:rijsbergen-tree"></A></P><IMG
+ WIDTH="556" HEIGHT="301" BORDER="0"
+ SRC="img767.png"
+ ALT="\begin{figure}
+% latex2html id marker 14314
+\psset{unit=0.75cm}
+\begin{pspicture...
+...endent on a term $x_k$\ if there is an arrow $x_k \rightarrow x_i$.}\end{figure}">
+</DIV>
+
+<P>
+<A NAME="p:rijsbergentree"></A> 
+Some of the assumptions of the BIM can be removed.
+For example, we can remove the assumption that terms are independent. This assumption is very far from true in practice. A case that particularly violates this assumption is term pairs like Hong and Kong, which are strongly dependent. But dependencies can occur in various complex configurations, such as between the set of terms New, York, England, City, Stock, Exchange, and University. <A
+ HREF="bibliography-1.html#rij79">van&nbsp;Rijsbergen (1979)</A> proposed a simple, plausible model which allowed a tree structure of term dependencies, as in Figure <A HREF="#fig:rijsbergen-tree">11.1</A> . In this model each term can be directly dependent on only one other term, giving a tree structure of dependencies. When it was invented in the 1970s, estimation problems held back the practical success of this model, but the idea was reinvented as the Tree Augmented Naive Bayes model by <A
+ HREF="bibliography-1.html#friedman96tan">Friedman and Goldszmidt (1996)</A>, who used it with some success on various machine learning data sets.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3172"
+  HREF="okapi-bm25-a-non-binary-model-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3166"
+  HREF="an-appraisal-and-some-extensions-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3160"
+  HREF="an-appraisal-of-probabilistic-models-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3168"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3170"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3173"
+  HREF="okapi-bm25-a-non-binary-model-1.html">Okapi BM25: a non-binary</A>
+<B> Up:</B> <A NAME="tex2html3167"
+  HREF="an-appraisal-and-some-extensions-1.html">An appraisal and some</A>
+<B> Previous:</B> <A NAME="tex2html3161"
+  HREF="an-appraisal-of-probabilistic-models-1.html">An appraisal of probabilistic</A>
+ &nbsp; <B>  <A NAME="tex2html3169"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3171"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/tree-structured-dependencies-between-terms-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:28:51 GMT -->
+</HTML>

@@ -1,0 +1,149 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/assessing-as-a-feature-selection-methodassessing-chi-square-as-a-feature-selection-method-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:31:36 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Assessing as a feature selection methodAssessing chi-square as a feature selection method</TITLE>
+<META NAME="description" CONTENT="Assessing as a feature selection methodAssessing chi-square as a feature selection method">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="feature-selectionchi2-feature-selection-1.html">
+<LINK REL="up" HREF="feature-selectionchi2-feature-selection-1.html">
+<LINK REL="next" HREF="frequency-based-feature-selection-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3576"
+  HREF="frequency-based-feature-selection-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3570"
+  HREF="feature-selectionchi2-feature-selection-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3566"
+  HREF="feature-selectionchi2-feature-selection-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3572"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3574"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3577"
+  HREF="frequency-based-feature-selection-1.html">Frequency-based feature selection</A>
+<B> Up:</B> <A NAME="tex2html3571"
+  HREF="feature-selectionchi2-feature-selection-1.html">Feature selectionChi2 Feature selection</A>
+<B> Previous:</B> <A NAME="tex2html3567"
+  HREF="feature-selectionchi2-feature-selection-1.html">Feature selectionChi2 Feature selection</A>
+ &nbsp; <B>  <A NAME="tex2html3573"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3575"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION001852100000000000000">
+Assessing
+    <IMG
+ WIDTH="21" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$\chi ^2$"> as a feature selection
+    methodAssessing chi-square as a feature
+    selection method</A>
+</H3><A NAME="17878"></A>
+From a statistical point of view, <IMG
+ WIDTH="21" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$\chi ^2$"> feature selection
+is problematic. For a test with one degree of freedom, the
+so-called Yates correction should be used (see
+Section <A HREF="references-and-further-reading-13.html#sec:further2">13.7</A> ), which makes it harder to reach
+statistical significance. Also, whenever a statistical test
+is used multiple times, then the probability of getting at
+least one error increases. If 1,000 hypotheses are rejected,
+each with 0.05 error probability, then
+<!-- MATH
+ $0.05 \times 1000=50$
+ -->
+<IMG
+ WIDTH="121" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1068.png"
+ ALT="$0.05 \times 1000=50$"> calls of the test will be
+wrong on average. However, in text classification it rarely
+matters whether a few additional terms are added to the
+feature set or removed from it. Rather, the <I>relative</I>
+importance of features is important. 
+As long as <IMG
+ WIDTH="21" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$\chi ^2$"> feature selection
+only ranks features with respect to their usefulness and is
+not used to make statements about statistical dependence or
+independence of variables, we need not be overly concerned
+that it does not adhere strictly to statistical theory.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3576"
+  HREF="frequency-based-feature-selection-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3570"
+  HREF="feature-selectionchi2-feature-selection-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3566"
+  HREF="feature-selectionchi2-feature-selection-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3572"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3574"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3577"
+  HREF="frequency-based-feature-selection-1.html">Frequency-based feature selection</A>
+<B> Up:</B> <A NAME="tex2html3571"
+  HREF="feature-selectionchi2-feature-selection-1.html">Feature selectionChi2 Feature selection</A>
+<B> Previous:</B> <A NAME="tex2html3567"
+  HREF="feature-selectionchi2-feature-selection-1.html">Feature selectionChi2 Feature selection</A>
+ &nbsp; <B>  <A NAME="tex2html3573"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3575"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/assessing-as-a-feature-selection-methodassessing-chi-square-as-a-feature-selection-method-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:31:36 GMT -->
+</HTML>

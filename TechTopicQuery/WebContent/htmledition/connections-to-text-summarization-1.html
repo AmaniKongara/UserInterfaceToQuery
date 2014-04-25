@@ -1,0 +1,187 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/connections-to-text-summarization-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:40:34 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Connections to text summarization.</TITLE>
+<META NAME="description" CONTENT="Connections to text summarization.">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="separate-feature-spaces-for-document-zones-1.html">
+<LINK REL="up" HREF="document-zones-in-text-classification-1.html">
+<LINK REL="next" HREF="machine-learning-methods-in-ad-hoc-information-retrieval-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4056"
+  HREF="machine-learning-methods-in-ad-hoc-information-retrieval-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4050"
+  HREF="document-zones-in-text-classification-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4046"
+  HREF="separate-feature-spaces-for-document-zones-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4052"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4054"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4057"
+  HREF="machine-learning-methods-in-ad-hoc-information-retrieval-1.html">Machine learning methods in</A>
+<B> Up:</B> <A NAME="tex2html4051"
+  HREF="document-zones-in-text-classification-1.html">Document zones in text</A>
+<B> Previous:</B> <A NAME="tex2html4047"
+  HREF="separate-feature-spaces-for-document-zones-1.html">Separate feature spaces for</A>
+ &nbsp; <B>  <A NAME="tex2html4053"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4055"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H4><A NAME="SECTION002032330000000000000">
+Connections to text summarization.</A>
+</H4>
+
+<P>
+In Section <A HREF="results-snippets-1.html#sec:snippets">8.7</A> , we mentioned the field of text summarization,
+and how most work in that field has adopted the limited goal of
+extracting and assembling pieces of the original text that are judged
+to be central based on
+features of sentences that consider the sentence's position and
+content.  Much of this work can be used to suggest zones that may be
+distinctively useful for text classification.  For example
+<A
+ HREF="bibliography-1.html#kolcz01summarization">Ko<IMG
+ WIDTH="6" HEIGHT="30" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1981.png"
+ ALT="\l">cz et&nbsp;al. (2000)</A> consider a form of feature selection
+where you classify documents based only on words in certain <A NAME="22991"></A>zones.
+Based on text summarization research, they consider using
+(i)&nbsp;only the title, (ii)&nbsp;only the first paragraph, (iii)&nbsp;only the
+paragraph with the most title words or keywords, (iv)&nbsp;the first two
+paragraphs or the first and last paragraph, or (v)&nbsp;all sentences with
+a minimum number of title words or keywords.  In general, these
+positional feature selection methods produced as good results as mutual
+information (Section <A HREF="mutual-information-1.html#sec:mutualinfo">13.5.1</A> ), and resulted in quite competitive
+classifiers.  <A
+ HREF="bibliography-1.html#ko04improving">Ko et&nbsp;al. (2004)</A> also took inspiration from text
+summarization research to upweight sentences with either words from
+the title or words that are central to the document's content, leading
+to classification accuracy gains of almost 1%.
+This presumably works because most such sentences are somehow
+more central to the concerns of the document.
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI>Spam email often makes use of various cloaking techniques to try to
+get through.  One method is to pad or substitute characters so as to
+defeat word-based text classifiers.  For example, you see terms like
+the following in spam email:
+<BLOCKQUOTE>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">Rep1icaRolex</TD>
+<TD ALIGN="LEFT">bonmus</TD>
+<TD ALIGN="LEFT">Viiiaaaagra</TD>
+<TD ALIGN="LEFT">pi11z</TD>
+</TR>
+<TR><TD ALIGN="LEFT">PHARlbdMACY</TD>
+<TD ALIGN="LEFT">[LEV]i[IT]l[RA]</TD>
+<TD ALIGN="LEFT">se<IMG
+ WIDTH="15" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1361.png"
+ ALT="$\wedge$">xual</TD>
+<TD ALIGN="LEFT">ClAfLlS</TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+Discuss how you could engineer features that would largely defeat this
+strategy. 
+
+<P>
+</LI>
+<LI>Another strategy often used by purveyors of email spam is to follow
+the message they 
+wish to send (such as buying a cheap stock or whatever) with a
+paragraph of text from another innocuous source (such as a news
+article).  Why might this strategy be effective?  How might it be
+addressed by a text classifier?
+
+<P>
+</LI>
+<LI>What other kinds of features appear as if they would be useful in an
+email spam classifier?
+
+<P>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4056"
+  HREF="machine-learning-methods-in-ad-hoc-information-retrieval-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4050"
+  HREF="document-zones-in-text-classification-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4046"
+  HREF="separate-feature-spaces-for-document-zones-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4052"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4054"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4057"
+  HREF="machine-learning-methods-in-ad-hoc-information-retrieval-1.html">Machine learning methods in</A>
+<B> Up:</B> <A NAME="tex2html4051"
+  HREF="document-zones-in-text-classification-1.html">Document zones in text</A>
+<B> Previous:</B> <A NAME="tex2html4047"
+  HREF="separate-feature-spaces-for-document-zones-1.html">Separate feature spaces for</A>
+ &nbsp; <B>  <A NAME="tex2html4053"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4055"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/connections-to-text-summarization-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:40:35 GMT -->
+</HTML>

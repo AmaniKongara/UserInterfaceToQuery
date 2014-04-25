@@ -1,0 +1,472 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/nonlinear-svms-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:34:03 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Nonlinear SVMs</TITLE>
+<META NAME="description" CONTENT="Nonlinear SVMs">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="experimental-results-1.html">
+<LINK REL="previous" HREF="multiclass-svms-1.html">
+<LINK REL="up" HREF="extensions-to-the-svm-model-1.html">
+<LINK REL="next" HREF="experimental-results-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3905"
+  HREF="experimental-results-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3899"
+  HREF="extensions-to-the-svm-model-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3893"
+  HREF="multiclass-svms-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3901"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3903"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3906"
+  HREF="experimental-results-1.html">Experimental results</A>
+<B> Up:</B> <A NAME="tex2html3900"
+  HREF="extensions-to-the-svm-model-1.html">Extensions to the SVM</A>
+<B> Previous:</B> <A NAME="tex2html3894"
+  HREF="multiclass-svms-1.html">Multiclass SVMs</A>
+ &nbsp; <B>  <A NAME="tex2html3902"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3904"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION002023000000000000000"></A><A NAME="sec:svm-nonlinear"></A> <A NAME="p:svm-nonlinear"></A>
+<BR>
+Nonlinear SVMs
+</H2> 
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:svmnonlinear"></A><A NAME="p:svmnonlinear"></A><A NAME="22738"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 15.6:</STRONG>
+Projecting data that is not linearly separable into a higher
+  dimensional space can make it linearly separable.</CAPTION>
+<TR><TD><IMG
+ WIDTH="516" HEIGHT="475" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1331.png"
+ ALT="\includegraphics[width=4.5in]{non-linear.eps}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+With what we have presented so far, data sets that are linearly
+separable (perhaps with a few exceptions or some noise) are
+well-handled.  But what are we going to do if the data set 
+just doesn't allow classification by a
+linear classifier?  Let us look at a one-dimensional case.
+The top data set in Figure <A HREF="#fig:svmnonlinear">15.6</A>  is
+straightforwardly classified by a linear classifier but the middle data
+set is not.  We instead need to be able to pick out an interval.  One way
+to solve this problem is to map the data on to a higher dimensional
+space and then to use a linear classifier in the higher dimensional
+space.  For example, the bottom part of the figure shows that a linear
+separator can easily classify the data if we use a quadratic function to
+map the data into two dimensions (a polar coordinates projection would
+be another possibility).  
+The general idea is to map the original feature
+space to some higher-dimensional feature space
+where the training set is separable.  
+Of course, we would want to
+do so in ways that preserve relevant dimensions of relatedness between data points,
+so that the resultant classifier should still generalize well.  
+
+<P>
+SVMs, and also a number of other linear classifiers, provide an easy and
+efficient way of doing this mapping to a higher dimensional space, which
+is referred to as ``the <A NAME="22743"></A> <I>kernel trick</I> ''.  It's not really a
+trick: it just exploits the math that we have seen.  The SVM linear
+classifier relies on a dot product between data point vectors.  Let
+<!-- MATH
+ $K(\vec{x}_i, \vec{x}_j) = \vec{x}_i^{T}\vec{x}_j$
+ -->
+<IMG
+ WIDTH="115" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1332.png"
+ ALT="$K(\vec{x}_i, \vec{x}_j) = \vec{x}_i^{T}\vec{x}_j$">.  Then the
+classifier we have seen so far is:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+f(\vec{x}) = \mbox{sign}(\sum_i \alpha_i y_i K(\vec{x}_i, \vec{x}) + b)
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="kernel-svm"></A><IMG
+ WIDTH="222" HEIGHT="43" BORDER="0"
+ SRC="img1333.png"
+ ALT="\begin{displaymath}
+f(\vec{x}) = \mbox{sign}(\sum_i \alpha_i y_i K(\vec{x}_i, \vec{x}) + b)
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(172)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+Now suppose we decide to map every data point into a
+higher dimensional space via some transformation <!-- MATH
+ $\Phi\colon \vec{x} \mapsto
+\phi(\vec{x})$
+ -->
+<IMG
+ WIDTH="90" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1334.png"
+ ALT="$\Phi\colon \vec{x} \mapsto
+\phi(\vec{x})$">.  Then the dot product becomes <!-- MATH
+ $\phi(\vec{x}_i)^{T}\phi(\vec{x}_j)$
+ -->
+<IMG
+ WIDTH="86" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1335.png"
+ ALT="$\phi(\vec{x}_i)^{T}\phi(\vec{x}_j)$">.
+If it turned out that this dot product (which is just a real number)
+could be computed simply and efficiently in terms of the original data
+points, then we wouldn't have to actually map from <!-- MATH
+ $\vec{x} \mapsto \phi(\vec{x})$
+ -->
+<IMG
+ WIDTH="71" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1336.png"
+ ALT="$\vec{x} \mapsto \phi(\vec{x})$">.
+Rather, we could simply compute the quantity <!-- MATH
+ $K(\vec{x}_i, \vec{x}_j) = 
+\phi(\vec{x}_i)^{T}\phi(\vec{x}_j)$
+ -->
+<IMG
+ WIDTH="167" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1337.png"
+ ALT="$K(\vec{x}_i, \vec{x}_j) =
+\phi(\vec{x}_i)^{T}\phi(\vec{x}_j)$">, and then use the function's
+value in Equation&nbsp;<A HREF="#kernel-svm">172</A>. 
+A <A NAME="22770"></A> <I>kernel function</I>  <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$"> is such a function that corresponds to a dot
+product in some expanded feature space.
+
+<P>
+<B>Worked example.</B> The quadratic kernel in two dimensions.quad-kernel
+For 2-dimensional vectors <!-- MATH
+ $\vec{u}=(u_1\;\;u_2)$
+ -->
+<IMG
+ WIDTH="90" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1338.png"
+ ALT="$\vec{u}=(u_1\;\;u_2)$">,
+<!-- MATH
+ $\vec{v} = (v_1\;\;v_2)$
+ -->
+<IMG
+ WIDTH="87" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1339.png"
+ ALT="$\vec{v} = (v_1\;\;v_2)$">, consider
+<!-- MATH
+ $K(\vec{u}, \vec{v}) = (1 + \vec{u}^{T}\vec{v})^2$
+ -->
+<IMG
+ WIDTH="149" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1340.png"
+ ALT="$K(\vec{u}, \vec{v}) = (1 + \vec{u}^{T}\vec{v})^2$">.  We wish to show that this is a
+kernel, i.e., that <!-- MATH
+ $K(\vec{u}, \vec{v}) = \phi(\vec{u})^{T}\phi(\vec{v})$
+ -->
+<IMG
+ WIDTH="149" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1341.png"
+ ALT="$K(\vec{u}, \vec{v}) = \phi(\vec{u})^{T}\phi(\vec{v})$"> for some
+<IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1342.png"
+ ALT="$\phi$">.  Consider <!-- MATH
+ $\phi(\vec{u}) = (1\;\; u_1^2\;\; \sqrt{2}u_1u_2\;\; u_2^2\;\; \sqrt{2}
+u_1\;\; \sqrt{2}u_2)$
+ -->
+<IMG
+ WIDTH="288" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1343.png"
+ ALT="$\phi(\vec{u}) = (1\;\; u_1^2\;\; \sqrt{2}u_1u_2\;\; u_2^2\;\; \sqrt{2}
+u_1\;\; \sqrt{2}u_2)$">.  Then:
+<BR>
+<DIV ALIGN="CENTER"><A NAME="2d-poly-kernel"></A>
+<!-- MATH
+ \begin{eqnarray}
+K(\vec{u}, \vec{v}) &=&
+(1+\vec{u}^{T}\vec{v})^2\\
+ &=&
+1+u_{1}^2v_{1}^2 + 2 u_{1}v_{1}u_{2}v_{2}+ u_{2}^2v_{2}^2 +
+2u_{1}v_{1} + 2u_{2}v_{2}  \\
+& = & (1\;\; u_{1}^2\;\; \sqrt2u_{1}u_{2}\;\; u_{2}^2\;\; \sqrt{2}u_{1} \;\;
+\sqrt{2}u_{2})^{T} 
+(1\;\; v_{1}^2\;\; \sqrt{2}v_{1}v_{2}\;\; v_{2}^2\;\; \sqrt{2}v_{1} \;\;
+\sqrt{2}v_{2})  \\
+& = & \phi(\vec{u})^{T}\phi(\vec{v})
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="53" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1344.png"
+ ALT="$\displaystyle K(\vec{u}, \vec{v})$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="78" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1345.png"
+ ALT="$\displaystyle (1+\vec{u}^{T}\vec{v})^2$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(173)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT">&nbsp;</TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="321" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1346.png"
+ ALT="$\displaystyle 1+u_{1}^2v_{1}^2 + 2 u_{1}v_{1}u_{2}v_{2}+ u_{2}^2v_{2}^2 +
+2u_{1}v_{1} + 2u_{2}v_{2}$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(174)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT">&nbsp;</TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="465" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1347.png"
+ ALT="$\displaystyle (1\;\; u_{1}^2\;\; \sqrt2u_{1}u_{2}\;\; u_{2}^2\;\; \sqrt{2}u_{1}...
+..._{1}^2\;\; \sqrt{2}v_{1}v_{2}\;\; v_{2}^2\;\; \sqrt{2}v_{1} \;\;
+\sqrt{2}v_{2})$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(175)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT">&nbsp;</TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="77" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1348.png"
+ ALT="$\displaystyle \phi(\vec{u})^{T}\phi(\vec{v})$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(176)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+<B>End worked example.</B>
+
+<P>
+In the language of functional analysis, what kinds of functions are
+valid <A NAME="22833"></A> <I>kernel functions</I> ?  Kernel functions are
+sometimes more precisely referred to as <A NAME="22835"></A> <I>Mercer
+kernels</I> , because they must satisfy Mercer's
+condition: for any <IMG
+ WIDTH="35" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1349.png"
+ ALT="$g(\vec{x})$"> such that <!-- MATH
+ $\int g(\vec{x})^2 d\vec{x}$
+ -->
+<IMG
+ WIDTH="73" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1350.png"
+ ALT="$\int g(\vec{x})^2 d\vec{x}$">
+is finite, we must have that:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\int K(\vec{x}, \vec{z})g(\vec{x})g(\vec{z})d\vec{x}d\vec{z} \ge 0\thinspace.
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="195" HEIGHT="38" BORDER="0"
+ SRC="img1351.png"
+ ALT="\begin{displaymath}
+\int K(\vec{x}, \vec{z})g(\vec{x})g(\vec{z})d\vec{x}d\vec{z} \ge 0\thinspace.
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(177)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+A kernel function <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$"> must be continuous, symmetric, and have a
+positive definite gram matrix.  Such a <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$"> means that there exists a
+mapping to a reproducing kernel Hilbert space (a Hilbert space is a
+vector space closed under dot 
+products) such that the dot product there gives the same value as the
+function <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">.  
+If a kernel does not satisfy
+Mercer's condition, then the corresponding QP may have no solution.
+If you would like to better understand these issues, you should consult the
+books on SVMs mentioned in Section <A HREF="references-and-further-reading-15.html#sec:svm-refs">15.5</A> . Otherwise, 
+you can content yourself with knowing that 90% of work with
+kernels uses one of two straightforward families of functions of two
+vectors, which we define below, and which define valid kernels. 
+
+<P>
+The two commonly used families of kernels are polynomial kernels and radial
+basis functions.  Polynomial kernels are of the form <!-- MATH
+ $K(\vec{x},\vec{z}) =
+(1+\vec{x}^{T}\vec{z})^d$
+ -->
+<IMG
+ WIDTH="147" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1352.png"
+ ALT="$K(\vec{x},\vec{z}) =
+(1+\vec{x}^{T}\vec{z})^d$">.  The case of <IMG
+ WIDTH="42" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1353.png"
+ ALT="$d = 1$"> is a linear kernel, which is
+what we had before the start of this section (the constant 1 just
+changing the threshold).  The case of <IMG
+ WIDTH="42" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1354.png"
+ ALT="$d = 2$"> gives a quadratic kernel,
+and is very commonly used.  We illustrated the quadratic kernel in quad-kernel.
+
+<P>
+The most common form of radial basis function is a Gaussian
+distribution, calculated as: 
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+K(\vec{x},\vec{z}) = e^{-(\vec{x}-\vec{z})^2/(2\sigma^2)}
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="161" HEIGHT="28" BORDER="0"
+ SRC="img1355.png"
+ ALT="\begin{displaymath}
+K(\vec{x},\vec{z}) = e^{-(\vec{x}-\vec{z})^2/(2\sigma^2)}
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(178)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+A radial basis function (rbf) is equivalent to mapping the data into an
+infinite dimensional Hilbert space, and so we cannot illustrate the
+radial basis function concretely, as we did a quadratic kernel.  
+Beyond these two families, there has been interesting work developing other
+kernels, some of which is 
+promising for text applications.  In particular, there has been
+investigation of string kernels (see Section <A HREF="references-and-further-reading-15.html#sec:svm-refs">15.5</A> ). 
+
+<P>
+The world of SVMs comes with its own language, which is rather different
+from the language otherwise used in machine learning.  The terminology
+does have deep roots in mathematics, but
+it's important not to be too awed
+by that terminology.  Really, we are talking about some quite
+simple things.  A polynomial kernel allows us to model feature
+conjunctions (up to the order of the polynomial).  That is, if we
+want to be able to model occurrences of pairs of words, which give
+distinctive information about topic classification, not given by the
+individual words alone, like perhaps
+<I>operating</I> and <I>system</I> or <I>ethnic</I> and
+<I>cleansing</I>, then we need to use a quadratic kernel.  If
+occurrences of triples of words give distinctive information, then we
+need to use a cubic kernel.
+Simultaneously you
+also get the powers of the basic features - for most text applications,
+that probably isn't useful, but just comes along with the math and
+hopefully doesn't do harm.  A radial basis function allows you to have
+features that pick out circles (hyperspheres) - although the decision
+boundaries become much more complex as multiple such features interact.
+A string kernel lets you have features that are character
+subsequences of terms.  All of these are straightforward notions which
+have also been used in many other places under different names.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3905"
+  HREF="experimental-results-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3899"
+  HREF="extensions-to-the-svm-model-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3893"
+  HREF="multiclass-svms-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3901"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3903"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3906"
+  HREF="experimental-results-1.html">Experimental results</A>
+<B> Up:</B> <A NAME="tex2html3900"
+  HREF="extensions-to-the-svm-model-1.html">Extensions to the SVM</A>
+<B> Previous:</B> <A NAME="tex2html3894"
+  HREF="multiclass-svms-1.html">Multiclass SVMs</A>
+ &nbsp; <B>  <A NAME="tex2html3902"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3904"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/nonlinear-svms-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:34:17 GMT -->
+</HTML>

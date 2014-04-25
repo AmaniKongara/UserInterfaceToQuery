@@ -1,0 +1,203 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/inverse-document-frequency-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:25:31 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Inverse document frequency</TITLE>
+<META NAME="description" CONTENT="Inverse document frequency">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="tf-idf-weighting-1.html">
+<LINK REL="previous" HREF="term-frequency-and-weighting-1.html">
+<LINK REL="up" HREF="term-frequency-and-weighting-1.html">
+<LINK REL="next" HREF="tf-idf-weighting-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1923"
+  HREF="tf-idf-weighting-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1917"
+  HREF="term-frequency-and-weighting-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1911"
+  HREF="term-frequency-and-weighting-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1919"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1921"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1924"
+  HREF="tf-idf-weighting-1.html">Tf-idf weighting</A>
+<B> Up:</B> <A NAME="tex2html1918"
+  HREF="term-frequency-and-weighting-1.html">Term frequency and weighting</A>
+<B> Previous:</B> <A NAME="tex2html1912"
+  HREF="term-frequency-and-weighting-1.html">Term frequency and weighting</A>
+ &nbsp; <B>  <A NAME="tex2html1920"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1922"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001121000000000000000"></A>
+<A NAME="sec:idf"></A> <A NAME="p:idf"></A>
+<BR>
+Inverse document frequency
+</H2> 
+Raw term frequency as above suffers from a critical problem: all terms are considered equally important when it comes to assessing relevancy on a query. In fact certain terms have little or no discriminating power in determining relevance. For instance, a collection of documents on the auto industry is likely to have the term auto in almost every document. To this end, we introduce a mechanism for attenuating the effect of terms that occur too often in the collection to be meaningful for relevance determination. An immediate idea is to scale down the term weights of terms with high <EM>collection frequency,</EM> defined to be the total number of occurrences of a term in the collection. The idea would be to reduce the <IMG
+ WIDTH="14" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img401.png"
+ ALT="$\mbox{tf}$"> weight of a term by a factor that grows with its collection frequency.
+
+<P>
+Instead, it is more commonplace to use for this purpose the <A NAME="7932"></A> <I>document frequency</I>  <A NAME="p:dfnotation"></A> <IMG
+ WIDTH="24" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img402.png"
+ ALT="$\mbox{df}_t$">, defined to be the number of documents in the collection that contain a term <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$">.  This is because in trying to discriminate between documents for the purpose of scoring it is better to use a document-level statistic (such as the number of documents containing a term) than to use a collection-wide statistic for the term.
+
+<DIV ALIGN="CENTER"><A NAME="fig:cfdf"></A><A NAME="p:cfdf"></A><A NAME="7940"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 6.7:</STRONG>
+Collection frequency (cf) and document frequency (df) behave differently, as in this example from the Reuters collection.</CAPTION>
+<TR><TD><IMG
+ WIDTH="198" HEIGHT="59" BORDER="0"
+ SRC="img403.png"
+ ALT="\begin{figure}\begin{tabular}{\vert l\vert l\vert l\vert}
+\hline
+% after \\ : ...
+...10422 &amp; 8760\\
+insurance &amp; 10440 &amp; 3997 \\
+\hline
+\end{tabular}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+The reason to prefer df to cf is illustrated in Figure <A HREF="#fig:cfdf">6.7</A> , where a simple example shows that collection frequency (cf) and document frequency (df) can behave rather differently. In particular, the cf values for both try and insurance are roughly equal, but their df values differ significantly. Intuitively, we want the few documents that contain insurance to get a higher boost for a query on insurance than the many documents containing try get from a query on try.
+
+<P>
+How is the document frequency df of a term used to scale its weight? Denoting as usual the total number of documents in a collection by <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$N$">, we define the <A NAME="7951"></A> <I>inverse document frequency</I> <A NAME="idf-notation"></A> of a term <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$"> as follows:
+
+<P>
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\mbox{idf}_t = \log {N\over \mbox{df}_t}.
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eqn:idf"></A><IMG
+ WIDTH="99" HEIGHT="42" BORDER="0"
+ SRC="img404.png"
+ ALT="\begin{displaymath}
+\mbox{idf}_t = \log {N\over \mbox{df}_t}.
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(21)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+
+<P>
+Thus the idf of a rare term is high, whereas the idf of a
+frequent term is likely to be low. Figure <A HREF="#fig:figureidf">6.8</A>  gives
+an example of idf's in the Reuters collection of 806,791
+documents; in this example logarithms are to the base 10. In
+fact, as we will see in Exercise <A HREF="tf-idf-weighting-1.html#ex:logbase">6.2.2</A> , the precise
+base of the logarithm is not material to ranking.  We will give
+on page <A HREF="probability-estimates-in-practice-1.html#p:justificationofidf">11.3.3</A>  a justification of the
+particular form in Equation&nbsp;<A HREF="#eqn:idf">21</A>.
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:figureidf"></A><A NAME="p:figureidf"></A></P><IMG
+ WIDTH="555" HEIGHT="147" BORDER="0"
+ SRC="img405.png"
+ ALT="\begin{figure}
+% latex2html id marker 7963
+\par
+\begin{tabular}{\vert\vert l\ver...
+...quencies in the Reuters collection of 806,791 documents.}
+\par
+\par
+\end{figure}">
+</DIV>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1923"
+  HREF="tf-idf-weighting-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1917"
+  HREF="term-frequency-and-weighting-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1911"
+  HREF="term-frequency-and-weighting-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1919"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1921"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1924"
+  HREF="tf-idf-weighting-1.html">Tf-idf weighting</A>
+<B> Up:</B> <A NAME="tex2html1918"
+  HREF="term-frequency-and-weighting-1.html">Term frequency and weighting</A>
+<B> Previous:</B> <A NAME="tex2html1912"
+  HREF="term-frequency-and-weighting-1.html">Term frequency and weighting</A>
+ &nbsp; <B>  <A NAME="tex2html1920"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1922"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/inverse-document-frequency-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:25:33 GMT -->
+</HTML>

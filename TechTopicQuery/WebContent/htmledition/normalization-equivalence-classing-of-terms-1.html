@@ -1,0 +1,236 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/normalization-equivalence-classing-of-terms-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:22:38 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Normalization (equivalence classing of terms)</TITLE>
+<META NAME="description" CONTENT="Normalization (equivalence classing of terms)">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="stemming-and-lemmatization-1.html">
+<LINK REL="previous" HREF="dropping-common-terms-stop-words-1.html">
+<LINK REL="up" HREF="determining-the-vocabulary-of-terms-1.html">
+<LINK REL="next" HREF="accents-and-diacritics-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1131"
+  HREF="accents-and-diacritics-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1125"
+  HREF="determining-the-vocabulary-of-terms-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1119"
+  HREF="dropping-common-terms-stop-words-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1127"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1129"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1132"
+  HREF="accents-and-diacritics-1.html">Accents and diacritics.</A>
+<B> Up:</B> <A NAME="tex2html1126"
+  HREF="determining-the-vocabulary-of-terms-1.html">Determining the vocabulary of</A>
+<B> Previous:</B> <A NAME="tex2html1120"
+  HREF="dropping-common-terms-stop-words-1.html">Dropping common terms: stop</A>
+ &nbsp; <B>  <A NAME="tex2html1128"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1130"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00723000000000000000"></A><A NAME="sec:normalization"></A> <A NAME="p:normalization"></A>
+<BR>
+Normalization (equivalence classing of terms)
+</H2> 
+
+<P>
+Having broken up our documents (and also our query)
+into tokens, the easy case is if tokens in the query just match
+tokens in the token list of the document.  However, there are many cases
+when two character sequences are not quite the same but you would like a match
+to occur.
+For instance, if you search for <I>USA</I>, you might hope to also match
+documents containing <I>U.S.A</I>. 
+
+<P>
+<A NAME="2263"></A> <I>Token normalization</I>  is the process of
+canonicalizing tokens so that matches occur despite superficial
+differences in the character sequences of the tokens.<A NAME="tex2html19"
+  HREF="footnode.html#foot2859"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A> 
+The most standard way to normalize is to implicitly create
+<A NAME="2268"></A> <I>equivalence classes</I> , which are 
+normally named after one member of the set.  For instance, if the
+tokens <I>anti-discriminatory</I> and <I>antidiscriminatory</I> are both
+mapped onto the term antidiscriminatory, in both the document
+text and queries, then searches for one term will retrieve 
+documents that contain either.  
+
+<P>
+The advantage of just using mapping rules that remove characters
+like hyphens is that the equivalence classing to be done is implicit,
+rather than being fully calculated in advance: the terms that happen to
+become identical as the result of these rules are the equivalence
+classes.   It is only easy to write rules of this sort that
+remove characters. Since the equivalence classes are implicit, it is not
+obvious when you might want to add characters.  For instance, it would be
+hard to know to turn <I>antidiscriminatory</I> into <I>anti-discriminatory</I>.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:asymmetricexpansion"></A><A NAME="p:asymmetricexpansion"></A><A NAME="2281"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 2.6:</STRONG>
+An example of how asymmetric expansion of query terms can
+  usefully model users' expectations.</CAPTION>
+<TR><TD><IMG
+ WIDTH="424" HEIGHT="73" BORDER="0"
+ SRC="img96.png"
+ ALT="\begin{figure}\begin{tabular}{ll}
+\textbf{Query term} &amp; \textbf{Terms in documen...
+... Windows, windows, window \\
+window &amp; window, windows
+\end{tabular}\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+An alternative to creating equivalence classes is to maintain
+relations between unnormalized tokens.  This method can be extended to
+hand-constructed lists of synonyms such as <I>car</I> and
+<I>automobile</I>, a topic we discuss further in Chapter <A HREF="relevance-feedback-and-query-expansion-1.html#ch:queryexpansion">9</A> .
+These term relationships can be achieved in two ways.
+The usual way is to index unnormalized tokens and to maintain a query 
+expansion list of multiple vocabulary entries to consider for a certain
+query term.  A query term is then effectively a disjunction of several
+postings lists.  The alternative is to perform the expansion during
+index construction.  When the document contains automobile, we
+index it under car as well (and, usually, also vice-versa).
+Use of either of these methods is considerably less efficient
+than equivalence classing, as there are more postings to store and merge.
+The first method adds a query expansion dictionary and requires more
+processing at query time, while the second method requires more space
+for storing postings.  Traditionally, expanding the space
+required for the postings lists was seen as more disadvantageous, 
+but with modern storage costs, the increased flexibility that comes
+from distinct postings lists is appealing.
+
+<P>
+These approaches are more flexible than equivalence classes because the 
+expansion lists can overlap while not being identical.  This means
+there can be an asymmetry in expansion.  An example of how such
+an asymmetry can be exploited is shown in Figure <A HREF="#fig:asymmetricexpansion">2.6</A> :
+if the user enters windows, we wish to allow matches with the
+capitalized <I>Windows</I> operating system, but this is not plausible
+if the user enters window, even though it is plausible for this
+query to also match lowercase <I>windows</I>.
+
+<P>
+The best amount of equivalence classing or query expansion to do is a
+fairly open 
+question.  Doing some
+definitely seems a good idea.  But doing a lot can easily have
+unexpected consequences of broadening queries in unintended ways.  For
+instance, equivalence-classing <I>U.S.A.</I> and <I>USA</I> to the
+latter by deleting periods from tokens might at first seem very
+reasonable, given the prevalent pattern of optional use of periods in
+acronyms.  However, if I put in as my query term <I>C.A.T.</I>, I might
+be rather upset if it matches every appearance of the word <I>cat</I> in
+documents.<A NAME="tex2html21"
+  HREF="footnode.html#foot2862"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A>
+<P>
+Below we present some of the forms of
+normalization that are commonly employed and how they are implemented.
+In many cases they seem helpful, but they can also do harm.  In fact, you can
+worry about many details of 
+equivalence classing, but it often turns out that providing processing
+is done consistently to the query and to documents, the fine details
+may not have much aggregate effect on performance.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><UL>
+<LI><A NAME="tex2html1133"
+  HREF="accents-and-diacritics-1.html">Accents and diacritics.</A>
+<LI><A NAME="tex2html1134"
+  HREF="capitalizationcase-folding-1.html">Capitalization/case-folding.</A>
+<LI><A NAME="tex2html1135"
+  HREF="other-issues-in-english-1.html">Other issues in English.</A>
+<LI><A NAME="tex2html1136"
+  HREF="other-languages-1.html">Other languages.</A>
+</UL></UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1131"
+  HREF="accents-and-diacritics-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1125"
+  HREF="determining-the-vocabulary-of-terms-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1119"
+  HREF="dropping-common-terms-stop-words-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1127"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1129"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1132"
+  HREF="accents-and-diacritics-1.html">Accents and diacritics.</A>
+<B> Up:</B> <A NAME="tex2html1126"
+  HREF="determining-the-vocabulary-of-terms-1.html">Determining the vocabulary of</A>
+<B> Previous:</B> <A NAME="tex2html1120"
+  HREF="dropping-common-terms-stop-words-1.html">Dropping common terms: stop</A>
+ &nbsp; <B>  <A NAME="tex2html1128"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1130"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/normalization-equivalence-classing-of-terms-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:22:39 GMT -->
+</HTML>

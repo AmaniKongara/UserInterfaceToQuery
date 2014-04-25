@@ -1,0 +1,196 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/probabilistic-information-retrieval-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:21:35 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Probabilistic information retrieval</TITLE>
+<META NAME="description" CONTENT="Probabilistic information retrieval">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="language-models-for-information-retrieval-1.html">
+<LINK REL="previous" HREF="xml-retrieval-1.html">
+<LINK REL="up" HREF="irbook.html">
+<LINK REL="next" HREF="review-of-basic-probability-theory-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2983"
+  HREF="review-of-basic-probability-theory-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2977"
+  HREF="irbook.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2971"
+  HREF="exercises-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2979"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2981"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2984"
+  HREF="review-of-basic-probability-theory-1.html">Review of basic probability</A>
+<B> Up:</B> <A NAME="tex2html2978"
+  HREF="irbook.html">irbook</A>
+<B> Previous:</B> <A NAME="tex2html2972"
+  HREF="exercises-1.html">Exercises</A>
+ &nbsp; <B>  <A NAME="tex2html2980"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2982"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001600000000000000000"></A><A NAME="ch:probir"></A>
+<BR>
+Probabilistic information retrieval
+</H1> 
+
+<P>
+During the discussion of relevance feedback in Section <A HREF="probabilistic-relevance-feedback-1.html#sec:probrelfeedback">9.1.2</A> , we observed that if we have some known relevant
+and nonrelevant documents, then we can straightforwardly start to
+estimate the probability of a term <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$"> appearing in a relevant document
+<IMG
+ WIDTH="80" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img674.png"
+ ALT="$P(t\vert R=1)$">, and that this could be the basis of a classifier that
+decides whether documents are relevant or not. In this chapter, we
+more systematically introduce this probabilistic approach to IR, which provides
+a different formal basis for a retrieval model and results in different techniques for setting term
+weights.
+
+<P>
+Users start with <I>information needs</I>, which they translate into <I>query representations</I>. Similarly, there are <I>documents</I>, which are converted into <I>document representations</I> (the latter differing at least by how text is tokenized, but perhaps containing fundamentally less information, as when a non-positional index is used). Based on these two representations, a system tries to determine how well documents satisfy information needs. In the Boolean or vector space models of IR, matching is done in a formally defined but semantically imprecise calculus of index terms. Given only a query, an IR system has an uncertain understanding of the information need. Given the query and document representations, a system has an uncertain guess of
+whether a document has content relevant to the information need. Probability theory provides a principled foundation for such reasoning under uncertainty. This chapter provides one answer as to how to exploit this foundation to estimate how likely it is that a document is relevant to an information need.
+
+<P>
+There is more than one possible retrieval model which has a
+probabilistic basis. Here, we will introduce probability theory
+and the Probability Ranking Principle
+(Sections <A HREF="review-of-basic-probability-theory-1.html#sec:probirsec">11.1</A> -<A HREF="the-probability-ranking-principle-1.html#sec:probabilityrp">11.2</A> ), and then concentrate on the
+<A NAME="13890"></A> <I>Binary Independence Model</I>  (Section <A HREF="the-binary-independence-model-1.html#sec:bim">11.3</A> ), which is the
+original and still most influential
+probabilistic retrieval model.  Finally, we will introduce
+related but extended methods which use term counts, including the
+empirically successful Okapi BM25 weighting scheme, and Bayesian Network
+models for IR (Section <A HREF="an-appraisal-and-some-extensions-1.html#sec:probir-extensions">11.4</A> ).  In Chapter <A HREF="language-models-for-information-retrieval-1.html#ch:lmodels">12</A> ,
+we then present the alternative probabilistic language modeling
+approach to IR,
+which has been developed with considerable success in recent years.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html2985"
+  HREF="review-of-basic-probability-theory-1.html">Review of basic probability theory</A>
+<LI><A NAME="tex2html2986"
+  HREF="the-probability-ranking-principle-1.html">The Probability Ranking Principle</A>
+<UL>
+<LI><A NAME="tex2html2987"
+  HREF="the-10-loss-case-1.html">The 1/0 loss case</A>
+<LI><A NAME="tex2html2988"
+  HREF="the-prp-with-retrieval-costs-1.html">The PRP with retrieval costs</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html2989"
+  HREF="the-binary-independence-model-1.html">The Binary Independence Model</A>
+<UL>
+<LI><A NAME="tex2html2990"
+  HREF="deriving-a-ranking-function-for-query-terms-1.html">Deriving a ranking function for query terms</A>
+<LI><A NAME="tex2html2991"
+  HREF="probability-estimates-in-theory-1.html">Probability estimates in theory</A>
+<LI><A NAME="tex2html2992"
+  HREF="probability-estimates-in-practice-1.html">Probability estimates in practice</A>
+<LI><A NAME="tex2html2993"
+  HREF="probabilistic-approaches-to-relevance-feedback-1.html">Probabilistic approaches to relevance feedback</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html2994"
+  HREF="an-appraisal-and-some-extensions-1.html">An appraisal and some extensions</A>
+<UL>
+<LI><A NAME="tex2html2995"
+  HREF="an-appraisal-of-probabilistic-models-1.html">An appraisal of probabilistic models</A>
+<LI><A NAME="tex2html2996"
+  HREF="tree-structured-dependencies-between-terms-1.html">Tree-structured dependencies between terms</A>
+<LI><A NAME="tex2html2997"
+  HREF="okapi-bm25-a-non-binary-model-1.html">Okapi BM25: a non-binary model</A>
+<LI><A NAME="tex2html2998"
+  HREF="bayesian-network-approaches-to-ir-1.html">Bayesian network approaches to IR</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html2999"
+  HREF="references-and-further-reading-11.html">References and further reading</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2983"
+  HREF="review-of-basic-probability-theory-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2977"
+  HREF="irbook.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2971"
+  HREF="exercises-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2979"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2981"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2984"
+  HREF="review-of-basic-probability-theory-1.html">Review of basic probability</A>
+<B> Up:</B> <A NAME="tex2html2978"
+  HREF="irbook.html">irbook</A>
+<B> Previous:</B> <A NAME="tex2html2972"
+  HREF="exercises-1.html">Exercises</A>
+ &nbsp; <B>  <A NAME="tex2html2980"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2982"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/probabilistic-information-retrieval-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:21:35 GMT -->
+</HTML>

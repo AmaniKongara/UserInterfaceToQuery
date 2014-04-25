@@ -1,0 +1,338 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/xml-retrieval-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:21:35 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>XML retrieval</TITLE>
+<META NAME="description" CONTENT="XML retrieval">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="probabilistic-information-retrieval-1.html">
+<LINK REL="previous" HREF="relevance-feedback-and-query-expansion-1.html">
+<LINK REL="up" HREF="irbook.html">
+<LINK REL="next" HREF="basic-xml-concepts-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2848"
+  HREF="basic-xml-concepts-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2842"
+  HREF="irbook.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2836"
+  HREF="references-and-further-reading-9.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2844"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2846"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2849"
+  HREF="basic-xml-concepts-1.html">Basic XML concepts</A>
+<B> Up:</B> <A NAME="tex2html2843"
+  HREF="irbook.html">irbook</A>
+<B> Previous:</B> <A NAME="tex2html2837"
+  HREF="references-and-further-reading-9.html">References and further reading</A>
+ &nbsp; <B>  <A NAME="tex2html2845"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2847"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001500000000000000000"></A><A NAME="ch:xml"></A>
+<BR>
+XML retrieval
+</H1> 
+
+<P>
+Information retrieval systems are often contrasted with
+<A NAME="12105"></A><A NAME="12106"></A>relational databases. Traditionally, IR systems have retrieved information from
+<I>unstructured text</I> - by which we mean ``raw'' text
+without markup. Databases are designed for querying
+<I>relational data</I>: sets of records that have values for
+predefined attributes such as employee number, title and
+salary.  There are fundamental differences between
+information retrieval and database systems in terms of
+retrieval model, data structures and query language as shown
+in Table <A HREF="#tab:dbvsir">10.1</A> .<A NAME="tex2html91"
+  HREF="footnode.html#foot12110"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A>
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">RDB search</TD>
+<TD ALIGN="LEFT">unstructured retrieval</TD>
+<TD ALIGN="LEFT">structured
+retrieval</TD>
+</TR>
+<TR><TD ALIGN="LEFT">objects</TD>
+<TD ALIGN="LEFT">records</TD>
+<TD ALIGN="LEFT">unstructured documents</TD>
+<TD ALIGN="LEFT">trees with text at
+leaves</TD>
+</TR>
+<TR><TD ALIGN="LEFT">model</TD>
+<TD ALIGN="LEFT">relational model</TD>
+<TD ALIGN="LEFT">vector space &amp; others</TD>
+<TD ALIGN="LEFT">?</TD>
+</TR>
+<TR><TD ALIGN="LEFT">main data structure</TD>
+<TD ALIGN="LEFT">table</TD>
+<TD ALIGN="LEFT">inverted index</TD>
+<TD ALIGN="LEFT">?</TD>
+</TR>
+<TR><TD ALIGN="LEFT">queries</TD>
+<TD ALIGN="LEFT">SQL</TD>
+<TD ALIGN="LEFT"><A NAME="12114"></A>free text queries</TD>
+<TD ALIGN="LEFT">?</TD>
+</TR>
+</TABLE>
+RDB (relational database) search, unstructured
+  information retrieval and
+structured information retrieval.
+There is no consensus yet as to which 
+methods work best for
+structured
+retrieval although many researchers believe that XQuery
+(page <A HREF="text-centric-vs-data-centric-xml-retrieval-1.html#p:xquery">10.5</A> )
+will become the standard for structured queries.
+
+<A NAME="tab:dbvsir"></A> <A NAME="p:dbvsir"></A> 
+
+</DIV>
+<BR>
+
+<P>
+Some highly structured text search problems are most
+efficiently handled by
+a relational database, for example, if the
+employee table contains an attribute for short textual job
+descriptions and you want to find all employees who are
+involved with invoicing.  In this case, the SQL query:
+<BLOCKQUOTE>
+<code>select lastname from employees where job_desc like 'invoic%';</code>
+
+</BLOCKQUOTE>
+may be sufficient to satisfy your information need with high
+precision and recall.
+
+<P>
+However, many structured data sources containing text
+are best modeled as structured documents rather than
+relational data.  We call the search over such structured
+documents <A NAME="p:strretrieval"></A> <A NAME="12124"></A> <I>structured retrieval</I> . Queries in
+structured retrieval can be either structured or
+unstructured, but we will assume in this chapter that the
+collection consists only of structured documents.
+Applications of
+structured retrieval include <A NAME="12126"></A> <I>digital
+libraries</I> , <A NAME="12128"></A> <I>patent databases</I> , <A NAME="12130"></A>  , text in which
+entities<A NAME="p:ner-ref"></A>  like persons and locations have been tagged
+(in a process called 
+<A NAME="12133"></A>  )
+and output from office
+suites like OpenOffice that save documents as marked up
+text. In all of these applications, we want to be able to
+run queries that combine textual criteria with structural
+criteria.
+Examples of such queries are
+give me a full-length article on fast fourier
+  transforms (digital libraries),
+give me patents whose claims mention RSA public key
+  encryption and that cite US patent 4,405,829 (patents), or
+give me articles about sightseeing tours of 
+the Vatican and the Coliseum (entity-tagged text).
+These three queries are  structured queries that
+cannot be answered well by an unranked retrieval system. As we argued in
+westlaw unranked retrieval models like the
+Boolean model suffer from low recall.
+For instance, an unranked system would return a
+potentially large number of articles that mention
+the Vatican, the Coliseum and sightseeing tours without ranking the ones that are most
+relevant for the query first. Most users are also
+notoriously bad at precisely stating structural
+constraints. For instance, users may not know for which
+structured elements the search system supports search.
+In our
+example, the user may be unsure whether to issue the query
+as sightseeing AND
+(COUNTRY:Vatican
+OR
+LANDMARK:Coliseum)
+, as
+sightseeing AND
+(STATE:Vatican
+OR
+BUILDING:Coliseum)
+ or in some other form.
+Users may also be completely unfamiliar with structured search and
+advanced search interfaces or unwilling to use them.
+In this chapter, we look at how ranked retrieval methods
+can be adapted to structured
+documents to address these problems.
+
+<P>
+We will only look at one standard for encoding structured documents:
+<A NAME="12147"></A> <I>Extensible Markup Language</I> 
+or <A NAME="12149"></A> <I>XML</I> , which is
+currently the most widely used such standard.
+We will not cover
+the specifics that distinguish XML from other types of markup
+such as HTML and SGML. But most of what we say in this
+chapter is applicable to
+markup languages in general.
+
+<P>
+In the context of information retrieval, we are only
+interested in XML as a language for encoding text and
+documents. A perhaps more widespread use of
+XML is to encode non-text data. For example, we may want to
+export data in XML format from an enterprise
+resource planning system and then read them into an
+analytics program to produce graphs for a presentation.
+This type of application of XML is called
+<A NAME="12151"></A> <I>data-centric</I> 
+because
+ numerical and
+non-text attribute-value data dominate and text is usually a small
+fraction of the overall data. Most data-centric XML is
+stored in databases - in contrast to the
+inverted index-based methods for text-centric XML that we present in this chapter.
+
+<P>
+We call XML retrieval <A NAME="12153"></A>
+<I>structured retrieval</I> in this chapter.  Some
+researchers prefer the term <A NAME="12155"></A> <I>semistructured retrieval</I> 
+to distinguish XML retrieval from database querying.  We
+have adopted the terminology that is widespread in the XML
+retrieval community.  For instance, the standard way of
+referring to XML queries is <A NAME="12157"></A> <I>structured queries</I> , not <A NAME="12159"></A> <I>semistructured queries</I> .  The
+term <I>structured retrieval</I> is rarely used for database
+querying and it always refers to XML retrieval in this book.
+
+<P>
+There is a second type of information retrieval problem that
+is intermediate between unstructured retrieval and querying
+a relational database: <A NAME="12162"></A><A NAME="12163"></A>parametric and zone search, which
+we discussed in Section&nbsp;<A HREF="parametric-and-zone-indexes-1.html#sec:parametricsection">6.1</A> (page&nbsp;<A HREF="parametric-and-zone-indexes-1.html#p:parametricsection"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>).  In the data
+model of parametric and zone search, there are 
+parametric fields (relational attributes
+like date or file-size) and
+zones - text attributes that
+each take a chunk of unstructured text as value, e.g.,
+author and title in
+Figure&nbsp;<A HREF="parametric-and-zone-indexes-1.html#fig:parametric">6.1</A> (page&nbsp;<A HREF="parametric-and-zone-indexes-1.html#p:parametric"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>).
+The data model is
+flat, that is, there is no nesting of attributes. 
+The number of attributes is small.
+In
+contrast, XML documents have the more complex tree structure
+that we see in Figure <A HREF="basic-xml-concepts-1.html#fig:xmldom">10.2</A>  in which attributes are
+nested. The number of attributes and nodes is greater than
+in parametric and zone search.
+
+<P>
+After presenting the basic concepts of XML in Section <A HREF="basic-xml-concepts-1.html#sec:xmlbasic">10.1</A> ,
+this chapter first discusses the challenges we face in
+XML retrieval (Section <A HREF="challenges-in-xml-retrieval-1.html#sec:xmlchallenge">10.2</A> ). Next we describe a
+vector space model for XML retrieval (Section <A HREF="a-vector-space-model-for-xml-retrieval-1.html#sec:xmlvector">10.3</A> ).
+Section <A HREF="evaluation-of-xml-retrieval-1.html#sec:inex">10.4</A>  presents INEX, a shared task evaluation that
+has been held for a number of years and currently is the
+most important venue for XML retrieval research.
+We discuss the differences between data-centric and
+text-centric approaches to XML in Section <A HREF="text-centric-vs-data-centric-xml-retrieval-1.html#sec:xmladvanced">10.5</A> . 
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html2850"
+  HREF="basic-xml-concepts-1.html">Basic XML concepts</A>
+<LI><A NAME="tex2html2851"
+  HREF="challenges-in-xml-retrieval-1.html">Challenges in XML retrieval</A>
+<LI><A NAME="tex2html2852"
+  HREF="a-vector-space-model-for-xml-retrieval-1.html">A vector space model for XML retrieval</A>
+<LI><A NAME="tex2html2853"
+  HREF="evaluation-of-xml-retrieval-1.html">Evaluation of XML retrieval</A>
+<LI><A NAME="tex2html2854"
+  HREF="text-centric-vs-data-centric-xml-retrieval-1.html">Text-centric vs. data-centric XML retrieval</A>
+<LI><A NAME="tex2html2855"
+  HREF="references-and-further-reading-10.html">References and further reading</A>
+<LI><A NAME="tex2html2856"
+  HREF="exercises-1.html">Exercises</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2848"
+  HREF="basic-xml-concepts-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2842"
+  HREF="irbook.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2836"
+  HREF="references-and-further-reading-9.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2844"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2846"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2849"
+  HREF="basic-xml-concepts-1.html">Basic XML concepts</A>
+<B> Up:</B> <A NAME="tex2html2843"
+  HREF="irbook.html">irbook</A>
+<B> Previous:</B> <A NAME="tex2html2837"
+  HREF="references-and-further-reading-9.html">References and further reading</A>
+ &nbsp; <B>  <A NAME="tex2html2845"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2847"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/xml-retrieval-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:21:35 GMT -->
+</HTML>

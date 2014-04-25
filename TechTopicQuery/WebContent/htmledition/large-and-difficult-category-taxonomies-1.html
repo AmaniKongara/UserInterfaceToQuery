@@ -1,0 +1,162 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/large-and-difficult-category-taxonomies-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:34:19 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Large and difficult category taxonomies</TITLE>
+<META NAME="description" CONTENT="Large and difficult category taxonomies">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="features-for-text-1.html">
+<LINK REL="previous" HREF="improving-classifier-performance-1.html">
+<LINK REL="up" HREF="improving-classifier-performance-1.html">
+<LINK REL="next" HREF="features-for-text-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3987"
+  HREF="features-for-text-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3981"
+  HREF="improving-classifier-performance-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3975"
+  HREF="improving-classifier-performance-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3983"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3985"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3988"
+  HREF="features-for-text-1.html">Features for text</A>
+<B> Up:</B> <A NAME="tex2html3982"
+  HREF="improving-classifier-performance-1.html">Improving classifier performance</A>
+<B> Previous:</B> <A NAME="tex2html3976"
+  HREF="improving-classifier-performance-1.html">Improving classifier performance</A>
+ &nbsp; <B>  <A NAME="tex2html3984"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3986"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H3><A NAME="SECTION002032100000000000000"></A>
+<A NAME="sec:difficult-textclassification"></A> <A NAME="p:difficult-textclassification"></A>
+<BR>
+Large and difficult category taxonomies
+</H3> 
+
+<P>
+If a text classification problem consists of a small number of
+well-separated categories, then many classification algorithms are
+likely to work well.  But many real classification problems consist of
+a very large number of often very similar categories. The reader might
+think of examples like web directories (the Yahoo! Directory or the
+Open Directory Project), library classification schemes (Dewey Decimal
+or Library of Congress) or the classification schemes used in legal or
+medical applications.  For instance, the Yahoo! Directory consists of over 200,000 categories in a deep hierarchy.  Accurate classification over large sets of
+closely related classes is inherently difficult.
+
+<P>
+Most large sets of categories have a hierarchical structure, and
+attempting to exploit the hierarchy by doing
+<A NAME="22945"></A> <I>hierarchical classification</I>  is a 
+promising approach.  
+However, at present the effectiveness gains from doing this
+rather than just working with the classes that are the leaves of the
+hierarchy remain modest.<A NAME="tex2html173"
+  HREF="footnode.html#foot23225"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A>But the technique can be very useful simply to improve
+the scalability of building classifiers over large hierarchies.  
+Another simple way to improve the scalability of
+classifiers over large hierarchies is the use of aggressive feature
+selection. 
+We provide references to some work on hierarchical classification
+in Section <A HREF="references-and-further-reading-15.html#sec:svm-refs">15.5</A> .
+
+<P>
+A general result in machine learning is that you can
+always get a small boost in classification accuracy by combining
+multiple classifiers, provided only that the mistakes that they make
+are at least somewhat independent.  There is now a large literature on
+techniques such as voting, bagging, and boosting multiple
+classifiers.  Again, there are some pointers in the references.
+Nevertheless, ultimately a hybrid automatic/manual solution may be
+needed to achieve sufficient classification accuracy.  A common
+approach in such situations is to run a classifier first, and to
+accept all its high confidence decisions, but to put low confidence
+decisions in a queue for manual review.  Such a process also
+automatically leads to the production of new training data which can
+be used in future
+versions of the machine learning classifier.  However, note that this
+is a case in point where the resulting training data is clearly
+<I>not</I> randomly sampled from the space of documents.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3987"
+  HREF="features-for-text-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3981"
+  HREF="improving-classifier-performance-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3975"
+  HREF="improving-classifier-performance-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3983"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3985"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3988"
+  HREF="features-for-text-1.html">Features for text</A>
+<B> Up:</B> <A NAME="tex2html3982"
+  HREF="improving-classifier-performance-1.html">Improving classifier performance</A>
+<B> Previous:</B> <A NAME="tex2html3976"
+  HREF="improving-classifier-performance-1.html">Improving classifier performance</A>
+ &nbsp; <B>  <A NAME="tex2html3984"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3986"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/large-and-difficult-category-taxonomies-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:34:19 GMT -->
+</HTML>

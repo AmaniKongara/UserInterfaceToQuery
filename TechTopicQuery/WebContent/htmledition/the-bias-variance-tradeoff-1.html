@@ -1,0 +1,1098 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/the-bias-variance-tradeoff-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:32:48 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>The bias-variance tradeoff</TITLE>
+<META NAME="description" CONTENT="The bias-variance tradeoff">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="references-and-further-reading-14.html">
+<LINK REL="previous" HREF="classification-with-more-than-two-classes-1.html">
+<LINK REL="up" HREF="vector-space-classification-1.html">
+<LINK REL="next" HREF="references-and-further-reading-14.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3762"
+  HREF="references-and-further-reading-14.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3756"
+  HREF="vector-space-classification-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3750"
+  HREF="classification-with-more-than-two-classes-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3758"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3760"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3763"
+  HREF="references-and-further-reading-14.html">References and further reading</A>
+<B> Up:</B> <A NAME="tex2html3757"
+  HREF="vector-space-classification-1.html">Vector space classification</A>
+<B> Previous:</B> <A NAME="tex2html3751"
+  HREF="classification-with-more-than-two-classes-1.html">Classification with more than</A>
+ &nbsp; <B>  <A NAME="tex2html3759"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3761"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001960000000000000000"></A>
+<A NAME="sec:secbiasvariance"></A> <A NAME="p:secbiasvariance"></A>
+<BR>
+The bias-variance tradeoff
+</H1> 
+
+<P>
+Nonlinear classifiers are more powerful than linear
+classifiers. For some problems, there exists a nonlinear
+classifier with zero classification error, but no such
+linear classifier. Does that mean that we should always use nonlinear
+classifiers for optimal effectiveness in statistical text
+classification? 
+
+<P>
+To answer this question, we introduce the bias-variance
+tradeoff in this section,
+one of the most important concepts in machine
+learning. The tradeoff helps explain why there is no universally
+optimal learning method. 
+Selecting an appropriate learning method is therefore an
+unavoidable part of solving a text classification problem.
+
+<P>
+Throughout this section, we use linear and nonlinear classifiers as
+prototypical examples of ``less powerful'' and ``more powerful''
+learning, respectively. This is a simplification for
+a number of reasons. First, many nonlinear models subsume
+linear models as a special case. For instance, a nonlinear learning method like
+kNN will in some cases produce a linear classifier.
+Second, there are nonlinear models that are less complex
+than linear models. For instance, a quadratic polynomial
+with two parameters
+is less powerful than a 10,000-dimensional linear classifier.
+Third, the complexity of learning is not really a property of
+the classifier because there are many aspects of learning (such as
+feature selection, cf. feature,
+regularization, and constraints such as margin
+maximization in Chapter <A HREF="support-vector-machines-and-machine-learning-on-documents-1.html#ch:svm">15</A> )
+that make a learning method either more powerful or less
+powerful without affecting the type of classifier that is
+the final result of learning  - regardless of whether that
+classifier is linear or nonlinear.
+We refer the reader to the publications listed in Section <A HREF="references-and-further-reading-14.html#sec:vclassfurther">14.7</A> 
+for a treatment of the bias-variance tradeoff that takes
+into account these complexities. In this section, linear
+and nonlinear classifiers will simply serve as proxies for weaker and stronger
+learning methods in text classification.
+
+<P>
+We first need to state our objective in text classification
+more precisely. In Section&nbsp;<A HREF="the-text-classification-problem-1.html#sec:classificationproblem">13.1</A> (page&nbsp;<A HREF="the-text-classification-problem-1.html#p:classificationproblem"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>), we
+said that we want to minimize classification
+error on the test set. The implicit assumption was that
+training documents and test documents are generated
+according to
+the same underlying
+distribution. We will denote this distribution	<!-- MATH
+ $P(\langle d,c\rangle)$
+ -->
+<IMG
+ WIDTH="64" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1197.png"
+ ALT="$P(\langle d,c\rangle)$">
+ where <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$"> is the document and <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img252.png"
+ ALT="$c$"> its label or class.
+graphclassmodelbernoulligraph were examples of
+<A NAME="20573"></A>generative models that decompose
+<!-- MATH
+ $P(\langle d,c\rangle)$
+ -->
+<IMG
+ WIDTH="64" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1197.png"
+ ALT="$P(\langle d,c\rangle)$"> into the product of <IMG
+ WIDTH="35" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img870.png"
+ ALT="$P(c)$"> and
+<IMG
+ WIDTH="48" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1187.png"
+ ALT="$P(d\vert c)$">. 
+typicallineartypicalnonlinear depict generative
+models for 
+<!-- MATH
+ $\langle d,c\rangle$
+ -->
+<IMG
+ WIDTH="39" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1198.png"
+ ALT="$\langle d,c\rangle$"> with
+<!-- MATH
+ $d \in \mathbb{R}^2$
+ -->
+<IMG
+ WIDTH="52" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1199.png"
+ ALT="$d \in \mathbb{R}^2$"> and <!-- MATH
+ $c \in \{\mbox{square},\mbox{solid circle} \}$
+ -->
+<IMG
+ WIDTH="177" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1200.png"
+ ALT="$c \in \{\mbox{square},\mbox{solid circle} \}$">.
+
+<P>
+In this section, instead of using the number of
+correctly classified test documents (or, equivalently, the
+error rate on test documents) as evaluation measure, we
+adopt
+an evaluation measure that
+addresses the inherent uncertainty of labeling.  In
+many text classification problems, a given document
+representation can 
+arise from documents belonging to
+different classes. This is
+because documents from different classes can be mapped to
+the same document representation. For example, the
+one-sentence documents China sues France and
+France sues China are mapped to the same
+document representation <!-- MATH
+ $d' = \{ \mbox{\term{China}} ,
+\mbox{\term{France}} , \mbox{\term{sues}} \}$
+ -->
+<IMG
+ WIDTH="180" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1201.png"
+ ALT="$d' = \{ \mbox{\term{China}} ,
+\mbox{\term{France}} , \mbox{\term{sues}} \}$"> in a bag of
+words model. But only the latter document is relevant to the
+class <IMG
+ WIDTH="33" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1202.png"
+ ALT="$c'=$"> legal actions brought by France (which
+might be defined, for example, as a standing query by an
+international trade lawyer).
+
+<P>
+To simplify the calculations in this section, we 
+do not count the number of errors on the test set
+when evaluating a classifier, but instead
+look at how well
+the classifier estimates the conditional probability <IMG
+ WIDTH="48" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img868.png"
+ ALT="$P(c\vert d)$">
+of a document being in a class.  In the above example, we
+might have <!-- MATH
+ $P(c'|d') = 0.5$
+ -->
+<IMG
+ WIDTH="99" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1203.png"
+ ALT="$P(c'\vert d') = 0.5$">. 
+
+<P>
+Our goal in text classification then is to find a classifier
+<IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img12.png"
+ ALT="$\gamma $"> such that, averaged over documents <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">,
+<IMG
+ WIDTH="36" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1204.png"
+ ALT="$\gamma(d)$"> is as close as possible to
+the true probability <IMG
+ WIDTH="48" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img868.png"
+ ALT="$P(c\vert d)$">.
+We measure this using mean squared error:
+<BR>
+<DIV ALIGN="CENTER">
+
+<!-- MATH
+ \begin{eqnarray}
+\mbox{MSE}(\gamma) = 
+E_{\onedoc}
+[\gamma(\onedoc)
+- P(c|\onedoc)]^2
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="213" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1205.png"
+ ALT="$\displaystyle \mbox{MSE}(\gamma) =
+E_{\onedoc}
+[\gamma(\onedoc)
+- P(c\vert\onedoc)]^2$"></TD>
+<TD>&nbsp;</TD>
+<TD>&nbsp;</TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(148)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+where  <IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1206.png"
+ ALT="$E_{\onedoc}$"> is the expectation with respect to 
+<IMG
+ WIDTH="36" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img815.png"
+ ALT="$P(d)$">.
+The mean squared error term gives partial
+credit for decisions by <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img12.png"
+ ALT="$\gamma $"> that are close if not completely right.
+
+<P>
+We define a classifier <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img12.png"
+ ALT="$\gamma $">
+to be  <A NAME="20590"></A> <I>optimal</I>  for a distribution
+<!-- MATH
+ $P(\onedoclabeled)$
+ -->
+<IMG
+ WIDTH="64" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1207.png"
+ ALT="$P(\onedoclabeled)$"> if it minimizes <!-- MATH
+ $\mbox{MSE}(\gamma)$
+ -->
+<IMG
+ WIDTH="61" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1208.png"
+ ALT="$\mbox{MSE}(\gamma)$">.
+
+<P>
+Minimizing MSE is a desideratum for <I>classifiers</I>.
+We also need a criterion for <I>learning methods</I>.  Recall that we defined a
+learning method <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img861.png"
+ ALT="$\Gamma$"> as a function that takes a labeled
+training set <!-- MATH
+ $\docsetlabeled$
+ -->
+<IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img856.png"
+ ALT="$\docsetlabeled$"> as input and returns a
+classifier <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img12.png"
+ ALT="$\gamma $">.
+
+<P>
+For learning methods, we adopt
+as our goal 
+to find a <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img861.png"
+ ALT="$\Gamma$"> that, averaged over training sets,
+learns classifiers <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img12.png"
+ ALT="$\gamma $"> with minimal MSE. We can
+formalize this as minimizing
+<A NAME="20595"></A> <I>learning error</I> :
+<BR>
+<DIV ALIGN="CENTER"><A NAME="p:learningerror"></A><A NAME="learningerror"></A>
+<!-- MATH
+ \begin{eqnarray}
+\mbox{learning-error}(\Gamma) = E_{\docsetlabeled}
+[\mbox{MSE}(\Gamma(\docsetlabeled))]
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="264" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1209.png"
+ ALT="$\displaystyle \mbox{learning-error}(\Gamma) = E_{\docsetlabeled}
+[\mbox{MSE}(\Gamma(\docsetlabeled))]$"></TD>
+<TD>&nbsp;</TD>
+<TD>&nbsp;</TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(149)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+where <!-- MATH
+ $E_{\docsetlabeled}$
+ -->
+<IMG
+ WIDTH="26" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1210.png"
+ ALT="$E_{\docsetlabeled}$"> is the expectation over
+labeled training sets. 
+To keep things simple, we can
+assume that training sets have a fixed
+size - the distribution <!-- MATH
+ $P(\onedoclabeled)$
+ -->
+<IMG
+ WIDTH="64" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1207.png"
+ ALT="$P(\onedoclabeled)$">
+then defines a distribution <!-- MATH
+ $P(\docsetlabeled)$
+ -->
+<IMG
+ WIDTH="43" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1211.png"
+ ALT="$P(\docsetlabeled)$"> over
+training sets.
+
+<P>
+We can use learning error as
+a criterion for selecting a
+learning method in statistical text classification.
+A learning method <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img861.png"
+ ALT="$\Gamma$"> is
+<A NAME="20605"></A> <I>optimal</I>  for a distribution <!-- MATH
+ $P(\docsetlabeled)$
+ -->
+<IMG
+ WIDTH="43" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1211.png"
+ ALT="$P(\docsetlabeled)$"> if it minimizes the
+learning error.
+
+<P>
+<BR>
+<DIV ALIGN="CENTER"><A NAME="basicidentity"></A><A NAME="bvdecomposition"></A>
+<!-- MATH
+ \begin{eqnarray}
+E[x-\alpha]^2 & = & E x^2 -2Ex\alpha +\alpha^2\\
+& = & (Ex)^2 -2Ex\alpha +\alpha^2\\
+& & + E x^2 - 2(Ex)^2 +(Ex)^2\\
+& = & [Ex-\alpha]^2\\
+& & + E x^2 - E2x(Ex) +E(Ex)^2\\
+& = & [Ex-\alpha]^2 +
+E[x-Ex]^2\\
+\\
+E_\docsetlabeled E_d[ \Gamma_\docsetlabeled
+(\onedoc)-P(c|d)]^2 
+& = & 
+E_d E_\docsetlabeled[\Gamma_\docsetlabeled (\onedoc)-P(c|d)]^2 \\
+& = & 
+E_d[\ \ 
+[E_\docsetlabeled\Gamma_\docsetlabeled (\onedoc)-P(c|d)]^2
+\\
+&&+
+E_\docsetlabeled[\Gamma_\docsetlabeled
+  (\onedoc)-E_\docsetlabeled\Gamma_\docsetlabeled
+  (\onedoc)]^2\ \  ]
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="68" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1212.png"
+ ALT="$\displaystyle E[x-\alpha]^2$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="120" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1213.png"
+ ALT="$\displaystyle E x^2 -2Ex\alpha +\alpha^2$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(150)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT">&nbsp;</TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="134" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1214.png"
+ ALT="$\displaystyle (Ex)^2 -2Ex\alpha +\alpha^2$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(151)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT">&nbsp;</TD>
+<TD>&nbsp;</TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="169" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1215.png"
+ ALT="$\displaystyle + E x^2 - 2(Ex)^2 +(Ex)^2$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(152)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT">&nbsp;</TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="68" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1216.png"
+ ALT="$\displaystyle [Ex-\alpha]^2$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(153)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT">&nbsp;</TD>
+<TD>&nbsp;</TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="192" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1217.png"
+ ALT="$\displaystyle + E x^2 - E2x(Ex) +E(Ex)^2$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(154)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT">&nbsp;</TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="162" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1218.png"
+ ALT="$\displaystyle [Ex-\alpha]^2 +
+E[x-Ex]^2$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(155)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT">&nbsp;</TD>
+<TD>&nbsp;</TD>
+<TD>&nbsp;</TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(156)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="167" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1219.png"
+ ALT="$\displaystyle E_\docsetlabeled E_d[ \Gamma_\docsetlabeled
+(\onedoc)-P(c\vert d)]^2$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="167" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1220.png"
+ ALT="$\displaystyle E_d E_\docsetlabeled[\Gamma_\docsetlabeled (\onedoc)-P(c\vert d)]^2$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(157)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT">&nbsp;</TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="180" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1221.png"
+ ALT="$\displaystyle E_d[\ \
+[E_\docsetlabeled\Gamma_\docsetlabeled (\onedoc)-P(c\vert d)]^2$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(158)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT">&nbsp;</TD>
+<TD>&nbsp;</TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="196" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1222.png"
+ ALT="$\displaystyle +
+E_\docsetlabeled[\Gamma_\docsetlabeled
+(\onedoc)-E_\docsetlabeled\Gamma_\docsetlabeled
+(\onedoc)]^2\ \ ]$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(159)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+Arithmetic transformations for the
+bias-variance decomposition.
+For the derivation of Equation&nbsp;<A HREF="#bvdecomposition">157</A>, 
+we set <!-- MATH
+ $\alpha =
+  P(c|d)$
+ -->
+<IMG
+ WIDTH="79" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1223.png"
+ ALT="$\alpha =
+P(c\vert d)$"> and <!-- MATH
+ $x=\Gamma_\docsetlabeled (d)$
+ -->
+<IMG
+ WIDTH="78" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1224.png"
+ ALT="$x=\Gamma_\docsetlabeled (d)$"> in Equation&nbsp;<A HREF="#basicidentity">150</A>.
+<A NAME="fig:biasvarmath"></A> <A NAME="p:biasvarmath"></A> 
+
+<P>
+Writing
+<!-- MATH
+ $\Gamma_\docsetlabeled$
+ -->
+<IMG
+ WIDTH="25" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1225.png"
+ ALT="$\Gamma_\docsetlabeled$"> for
+<!-- MATH
+ $\Gamma(\docsetlabeled)$
+ -->
+<IMG
+ WIDTH="41" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1226.png"
+ ALT="$\Gamma(\docsetlabeled)$"> for better readability,
+we can transform
+Equation <A HREF="#learningerror">149</A>  as follows:
+<BR>
+<DIV ALIGN="CENTER"><A NAME="eqn:biasvarraw"></A><A NAME="eqn:biasvar"></A>
+<!-- MATH
+ \begin{eqnarray}
+\mbox{learning-error}(\Gamma) &= &E_{\docsetlabeled}
+[\mbox{MSE}(\Gamma_\docsetlabeled)]
+ \\
+&= &
+E_{\docsetlabeled} 
+E_{\onedoc}
+[\Gamma_\docsetlabeled (\onedoc)
+- P(c|\onedoc)]^2\\
+&= & 
+E_{\onedoc}
+[\mbox{bias}(\Gamma,\onedoc) +
+\mbox{variance}(\Gamma,\onedoc) ]\\
+\mbox{bias} (\Gamma,\onedoc)
+& = &
+[
+P(c|\onedoc)
+- 
+E_{\docsetlabeled}
+\Gamma_\docsetlabeled (\onedoc)
+]^2
+\\
+\mbox{variance}(\Gamma,\onedoc)
+& = &
+E_{\docsetlabeled}
+[
+\Gamma_\docsetlabeled (\onedoc)
+-
+E_{\docsetlabeled}
+\Gamma_\docsetlabeled (\onedoc)
+]^2
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="126" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1227.png"
+ ALT="$\displaystyle \mbox{learning-error}(\Gamma)$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="104" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1228.png"
+ ALT="$\displaystyle E_{\docsetlabeled}
+[\mbox{MSE}(\Gamma_\docsetlabeled)]$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(160)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT">&nbsp;</TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="167" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1229.png"
+ ALT="$\displaystyle E_{\docsetlabeled}
+E_{\onedoc}
+[\Gamma_\docsetlabeled (\onedoc)
+- P(c\vert\onedoc)]^2$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(161)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT">&nbsp;</TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="214" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1230.png"
+ ALT="$\displaystyle E_{\onedoc}
+[\mbox{bias}(\Gamma,\onedoc) +
+\mbox{variance}(\Gamma,\onedoc) ]$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(162)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="70" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1231.png"
+ ALT="$\displaystyle \mbox{bias} (\Gamma,\onedoc)$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="149" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1232.png"
+ ALT="$\displaystyle [
+P(c\vert\onedoc)
+-
+E_{\docsetlabeled}
+\Gamma_\docsetlabeled (\onedoc)
+]^2$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(163)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="102" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1233.png"
+ ALT="$\displaystyle \mbox{variance}(\Gamma,\onedoc)$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="170" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1234.png"
+ ALT="$\displaystyle E_{\docsetlabeled}
+[
+\Gamma_\docsetlabeled (\onedoc)
+-
+E_{\docsetlabeled}
+\Gamma_\docsetlabeled (\onedoc)
+]^2$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(164)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+where the equivalence between
+ and <A HREF="#eqn:biasvar">162</A> 
+is shown in Equation&nbsp;<A HREF="#bvdecomposition">157</A> in Figure <A HREF="#fig:biasvarmath">14.6</A> .
+Note that <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img994.png"
+ ALT="$\onedoc$"> and <!-- MATH
+ $\docsetlabeled$
+ -->
+<IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img856.png"
+ ALT="$\docsetlabeled$"> are independent of
+each other. In general, for a random document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img994.png"
+ ALT="$\onedoc$"> and
+a random training set <!-- MATH
+ $\docsetlabeled$
+ -->
+<IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img856.png"
+ ALT="$\docsetlabeled$">, <!-- MATH
+ $\docsetlabeled$
+ -->
+<IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img856.png"
+ ALT="$\docsetlabeled$"> does not contain a
+labeled instance of <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img994.png"
+ ALT="$\onedoc$">.
+
+<P>
+<A NAME="20637"></A> <I>Bias</I>  is the squared difference between
+<IMG
+ WIDTH="48" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img868.png"
+ ALT="$P(c\vert d)$">, the true conditional probability of <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$"> being in
+<IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img252.png"
+ ALT="$c$">, and <!-- MATH
+ $\Gamma_\docsetlabeled (\onedoc)$
+ -->
+<IMG
+ WIDTH="47" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1235.png"
+ ALT="$\Gamma_\docsetlabeled (\onedoc)$">, the prediction
+of the learned classifier, averaged over training
+sets.  Bias
+is large if the learning method produces classifiers that
+are consistently wrong. Bias is small if (i) the classifiers
+are consistently right or (ii) different training sets
+cause errors on different documents or (iii) different
+training sets cause positive and negative errors on the same
+documents, but that average out to close to 0. If one of these
+three conditions holds,
+then
+<!-- MATH
+ $E_\docsetlabeled\Gamma_\docsetlabeled (\onedoc)$
+ -->
+<IMG
+ WIDTH="69" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1236.png"
+ ALT="$E_\docsetlabeled\Gamma_\docsetlabeled (\onedoc)$">, the expectation over all
+training sets, is close to <IMG
+ WIDTH="48" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img868.png"
+ ALT="$P(c\vert d)$">.
+
+<P>
+Linear methods like Rocchio and Naive Bayes have a high bias
+for nonlinear problems because they can only model one type
+of class boundary, a linear hyperplane. If the
+<A NAME="20639"></A> <I>generative model</I>  <!-- MATH
+ $P(\onedoclabeled)$
+ -->
+<IMG
+ WIDTH="64" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1207.png"
+ ALT="$P(\onedoclabeled)$"> has a
+complex nonlinear class boundary, the bias term in
+Equation&nbsp;<A HREF="#eqn:biasvar">162</A> will be high because a large number of
+points will be consistently misclassified.  For example, the
+circular enclave in Figure <A HREF="linear-versus-nonlinear-classifiers-1.html#fig:typicalnonlinear">14.11</A>  does not fit a
+linear model and will be misclassified consistently by
+linear classifiers.
+
+<P>
+We can think of bias as resulting from our domain knowledge
+(or lack thereof) that we build into the classifier.  If we
+know that the true boundary between the two classes is
+linear, then a learning method that produces linear
+classifiers is more likely to succeed than a nonlinear
+method.  But if the true class boundary is not linear and we
+incorrectly bias the classifier to be linear, then
+classification accuracy will be low on average.
+
+<P>
+Nonlinear methods like kNN have low bias.  We can see in
+Figure <A HREF="rocchio-classification-1.html#fig:knnboundaries">14.6</A>  that the decision boundaries of kNN
+are variable - depending on the distribution of documents
+in the training set, learned decision boundaries can vary
+greatly.  As a result, each document has a chance of being
+classified correctly for some training sets.  The average
+prediction <!-- MATH
+ $E_\docsetlabeled\Gamma_\docsetlabeled (\onedoc)$
+ -->
+<IMG
+ WIDTH="69" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1236.png"
+ ALT="$E_\docsetlabeled\Gamma_\docsetlabeled (\onedoc)$">
+is therefore closer to <IMG
+ WIDTH="48" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1237.png"
+ ALT="$P(c\vert\onedoc)$"> and bias is smaller
+than for a linear learning method.
+
+<P>
+<A NAME="20644"></A> <I>Variance</I>  is the variation
+of the prediction of learned classifiers: the average
+squared difference between <!-- MATH
+ $\Gamma_\docsetlabeled (d)$
+ -->
+<IMG
+ WIDTH="47" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1238.png"
+ ALT="$\Gamma_\docsetlabeled (d)$"> and
+its average <!-- MATH
+ $E_\docsetlabeled \Gamma_\docsetlabeled (d)$
+ -->
+<IMG
+ WIDTH="69" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1239.png"
+ ALT="$E_\docsetlabeled \Gamma_\docsetlabeled (d)$">.
+Variance is large if different training sets
+<!-- MATH
+ $\docsetlabeled$
+ -->
+<IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img856.png"
+ ALT="$\docsetlabeled$"> give rise to very different classifiers
+<!-- MATH
+ $\Gamma_\docsetlabeled$
+ -->
+<IMG
+ WIDTH="25" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1225.png"
+ ALT="$\Gamma_\docsetlabeled$">.  It is small if the training set
+has a minor effect on the classification decisions
+<!-- MATH
+ $\Gamma_\docsetlabeled$
+ -->
+<IMG
+ WIDTH="25" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1225.png"
+ ALT="$\Gamma_\docsetlabeled$"> makes, be they correct or incorrect.
+Variance measures how inconsistent the decisions are, not
+whether they are correct or incorrect.
+
+<P>
+Linear learning methods have low variance because
+most randomly drawn
+training sets produce similar decision hyperplanes.
+The decision lines produced by linear learning methods in
+ and <A HREF="linear-versus-nonlinear-classifiers-1.html#fig:typicalnonlinear">14.11</A>  will deviate
+slightly from the main class boundaries, depending on the
+training set, but the class assignment for
+the vast majority of documents  (with the exception of those close to
+the main boundary) will not be affected. The circular enclave
+in Figure <A HREF="linear-versus-nonlinear-classifiers-1.html#fig:typicalnonlinear">14.11</A>  will be consistently misclassified.
+
+<P>
+Nonlinear methods like kNN have high variance.  It is
+apparent from Figure <A HREF="rocchio-classification-1.html#fig:knnboundaries">14.6</A>  that kNN can model very
+complex boundaries between two classes. It is therefore
+sensitive to noise documents of the sort depicted in
+Figure <A HREF="linear-versus-nonlinear-classifiers-1.html#fig:typicallinear">14.10</A> .  As a result the variance term in
+Equation&nbsp;<A HREF="#eqn:biasvar">162</A> is large for kNN: Test documents are sometimes
+misclassified - if they happen to be close to a noise
+document in the training set - and sometimes correctly
+classified - if there are no noise documents in the
+training set near them. This results in high variation from
+training set to training set.
+
+<P>
+High-variance learning methods are prone to 
+<A NAME="20651"></A> <I>overfitting</I>  the training data.
+The goal in classification is to fit the training data to
+the extent that we capture true properties of the underlying
+distribution <!-- MATH
+ $P(\onedoclabeled)$
+ -->
+<IMG
+ WIDTH="64" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1207.png"
+ ALT="$P(\onedoclabeled)$">. In overfitting, the
+learning method also learns from noise.  Overfitting increases
+MSE and frequently is a problem for
+high-variance learning methods.
+
+<P>
+We can also think of variance as the 
+<A NAME="20653"></A> <I>model complexity</I> 
+or, equivalently, <A NAME="20655"></A> <I>memory capacity</I> 
+of the learning method - how detailed a characterization of the
+training set it can remember and then apply to new
+data. This capacity corresponds to
+the number of
+independent parameters available to fit the training set.
+Each kNN neighborhood <IMG
+ WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1240.png"
+ ALT="$S_k$"> makes an
+independent classification decision. The parameter in this
+case is the estimate <!-- MATH
+ $\hat{P}(c|S_k)$
+ -->
+<IMG
+ WIDTH="56" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1241.png"
+ ALT="$\hat{P}(c\vert S_k)$"> from
+Figure <A HREF="k-nearest-neighbor-1.html#fig:knnalgorithm">14.7</A> . Thus, kNN's
+capacity is only limited by the size of the training set. It can memorize arbitrarily large
+training sets. In contrast,
+the number of parameters of Rocchio is fixed
+- <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img27.png"
+ ALT="$J$">
+parameters per dimension, one for each centroid - and
+independent of the size of the training
+set. The Rocchio classifier (in form of the centroids
+defining it) cannot ``remember'' fine-grained details of the
+distribution of the documents in the training set.
+
+<P>
+According to Equation&nbsp;<A HREF="#learningerror">149</A>, our goal in selecting a
+learning method is to minimize learning error.  The
+fundamental insight captured by Equation&nbsp;<A HREF="#eqn:biasvar">162</A>, which
+we can succinctly state as: learning-error = bias +
+variance, is that the learning error has two components,
+bias and variance, which in general cannot be minimized
+simultaneously.  When comparing two learning methods
+<IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1242.png"
+ ALT="$\Gamma_1$"> and <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1243.png"
+ ALT="$\Gamma_2$">, in most cases the comparison
+comes down to one method having higher bias and lower
+variance and the other lower bias and higher variance.  The
+decision for one learning method vs. another is then not
+simply a matter of selecting the one that reliably produces
+good classifiers across training sets (small variance) or
+the one that can learn classification
+problems with very difficult decision boundaries (small bias).
+Instead, we have to weigh the respective
+merits of bias and variance in our application and choose
+accordingly. This tradeoff is called the
+<A NAME="p:biasvariance"></A> <A NAME="20662"></A> <I>bias-variance tradeoff</I> .
+
+<P>
+Figure <A HREF="linear-versus-nonlinear-classifiers-1.html#fig:typicallinear">14.10</A>  provides an illustration, which is
+somewhat contrived, but will be useful as an example for the
+tradeoff. Some Chinese text contains English words written
+in the Roman alphabet like CPU, ONLINE, and
+GPS. Consider the task of distinguishing Chinese-only
+web pages from mixed Chinese-English web pages. A search
+engine might offer Chinese users without knowledge of
+English (but who understand loanwords like CPU) the
+option of filtering out mixed pages. We use two features for
+this classification task: number of Roman alphabet
+characters and number of Chinese characters on the web
+page. As stated earlier, the distribution <!-- MATH
+ $P(\onedoclabeled$
+ -->
+<IMG
+ WIDTH="56" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1244.png"
+ ALT="$P(\onedoclabeled$">) of the generative
+model generates most mixed (respectively, Chinese) documents
+above (respectively, below) the short-dashed line,
+but there are a few noise documents.
+
+<P>
+In Figure <A HREF="linear-versus-nonlinear-classifiers-1.html#fig:typicallinear">14.10</A> , we see three classifiers:
+
+<UL>
+<LI><B>One-feature classifier.</B> Shown as a dotted
+horizontal line. This classifier
+uses
+only one feature, the number of Roman alphabet
+characters. Assuming a learning method that minimizes the
+number of misclassifications in the training set, the
+position of the horizontal decision boundary is not greatly
+affected by differences in the training set (e.g., noise
+documents). So a learning method producing this type of classifier has low variance. But its
+bias is high since it will consistently misclassify squares in the lower
+left corner and ``solid circle'' documents with more than
+50 Roman characters.
+</LI>
+<LI><B>Linear classifier.</B> Shown as a dashed line with
+long dashes. Learning linear classifiers has less bias since 
+only  noise documents and possibly
+a few documents close to the boundary between the two
+classes are misclassified. The variance is higher than for the one-feature
+classifiers, but still small: The dashed line with
+long dashes deviates only slightly from the true boundary between
+the two classes, and so will almost all linear decision boundaries learned
+from training sets. Thus, very few documents (documents
+close to the class boundary) will be inconsistently
+classified.
+</LI>
+<LI><B>``Fit-training-set-perfectly'' classifier.</B> Shown as a
+solid line. Here, the learning method constructs a decision boundary
+that perfectly separates the classes in the training
+set. This method
+has the lowest bias because there is no document that is
+consistently misclassified - the classifiers sometimes even get
+noise documents in the test set right. But the variance of
+this learning method is high. Because noise documents can move the
+decision boundary arbitrarily, test documents 
+close to noise documents in the
+training set
+will be misclassified - something that a linear
+learning method is unlikely  to do.
+</LI>
+</UL>
+
+<P>
+It is perhaps surprising that so many of the best-known text
+classification algorithms are linear.
+Some of these methods, in particular linear SVMs, regularized
+logistic regression and regularized linear regression, are
+among the most effective known methods.
+The bias-variance tradeoff provides insight into their success.
+Typical classes in text classification are complex and seem
+unlikely to be modeled well linearly. However, this
+intuition is misleading for the high-dimensional spaces that we
+typically encounter in text applications. With increased
+dimensionality, the likelihood of linear separability
+increases rapidly
+(Exercise <A HREF="exercises-2.html#ex:separablehigh">14.8</A> ). Thus, linear
+models in high-dimensional spaces are quite powerful despite
+their linearity. Even more powerful nonlinear learning methods
+can model decision boundaries that are more complex than a
+hyperplane, but they are also more sensitive to noise in the
+training data. Nonlinear learning methods
+sometimes perform better if the training set is large, but by no means
+in all cases.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3762"
+  HREF="references-and-further-reading-14.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3756"
+  HREF="vector-space-classification-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3750"
+  HREF="classification-with-more-than-two-classes-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3758"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3760"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3763"
+  HREF="references-and-further-reading-14.html">References and further reading</A>
+<B> Up:</B> <A NAME="tex2html3757"
+  HREF="vector-space-classification-1.html">Vector space classification</A>
+<B> Previous:</B> <A NAME="tex2html3751"
+  HREF="classification-with-more-than-two-classes-1.html">Classification with more than</A>
+ &nbsp; <B>  <A NAME="tex2html3759"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3761"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/the-bias-variance-tradeoff-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:33:15 GMT -->
+</HTML>

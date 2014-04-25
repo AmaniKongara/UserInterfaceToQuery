@@ -1,0 +1,291 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/k-gram-indexes-for-spelling-correction-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:23:17 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>k-gram indexes for spelling correction</TITLE>
+<META NAME="description" CONTENT="k-gram indexes for spelling correction">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="context-sensitive-spelling-correction-1.html">
+<LINK REL="previous" HREF="edit-distance-1.html">
+<LINK REL="up" HREF="spelling-correction-1.html">
+<LINK REL="next" HREF="context-sensitive-spelling-correction-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1484"
+  HREF="context-sensitive-spelling-correction-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1478"
+  HREF="spelling-correction-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1472"
+  HREF="edit-distance-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1480"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1482"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1485"
+  HREF="context-sensitive-spelling-correction-1.html">Context sensitive spelling correction</A>
+<B> Up:</B> <A NAME="tex2html1479"
+  HREF="spelling-correction-1.html">Spelling correction</A>
+<B> Previous:</B> <A NAME="tex2html1473"
+  HREF="edit-distance-1.html">Edit distance</A>
+ &nbsp; <B>  <A NAME="tex2html1481"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1483"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00834000000000000000"></A>
+<A NAME="sec:kgram-spell"></A> <A NAME="p:kgram-spell"></A>
+<BR>
+k-gram indexes for spelling correction
+</H2> 
+
+<P>
+To further limit the set of vocabulary terms for which we compute edit distances to the query term, we now show how to invoke the <A NAME="4063"></A> <I><IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">-gram index</I>  of Section&nbsp;<A HREF="k-gram-indexes-for-wildcard-queries-1.html#sec:kgram">3.2.2</A> (page&nbsp;<A HREF="k-gram-indexes-for-wildcard-queries-1.html#p:kgram"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>) to assist with retrieving vocabulary terms with low edit distance to the query <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$">. Once we retrieve such terms, we can then find the ones of least edit distance from <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$">.
+
+<P>
+In fact, we will use the <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">-gram index to retrieve vocabulary terms that have many <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">-grams in common with the query. We will argue that for reasonable definitions of ``many <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">-grams in common,'' the retrieval process is essentially that of a single scan through the postings for the <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">-grams in the query string&nbsp;<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$">.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:2gram"></A><A NAME="p:2gram"></A><A NAME="4268"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure:</STRONG>
+Matching at least two of the three 2-grams in the query bord.</CAPTION>
+<TR><TD><IMG
+ WIDTH="551" HEIGHT="154" BORDER="0"
+ SRC="img166.png"
+ ALT="\begin{figure}\begin{picture}(700,150)\thicklines
+\put(10,20){\framebox{(}50,...
+...10){\vector(1,0){20}}
+\put(270,110){\vector(1,0){20}}
+\end{picture}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The 2-gram (or <EM>bigram</EM>) index in Figure <A HREF="#fig:2gram">3.7</A>  shows (a portion of) the postings for the three bigrams in the query bord. Suppose we wanted to retrieve vocabulary terms that contained at least two of these three bigrams. A single scan of the postings (much as in Chapter <A HREF="boolean-retrieval-1.html#ch:intro">1</A> ) would let us enumerate all such terms; in the example of Figure <A HREF="#fig:2gram">3.7</A>  we would enumerate aboard, boardroom and border.
+
+<P>
+This straightforward application of the linear scan intersection of postings immediately reveals the shortcoming of simply requiring matched vocabulary terms to contain a fixed number of <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">-grams from the query <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$">: terms like boardroom, an implausible ``correction'' of bord, get enumerated. Consequently, we require more nuanced measures of the overlap in <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">-grams between a vocabulary term and <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$">. The linear scan intersection can be adapted when the measure of overlap is the <A NAME="p:jaccard"></A> <A NAME="4111"></A> <I>Jaccard coefficient</I>  for measuring the overlap between two sets <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img167.png"
+ ALT="$A$"> and <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img168.png"
+ ALT="$B$">, defined to be <A NAME="p:setcard-notation"></A> <!-- MATH
+ $|A \cap B|/|A \cup B|$
+ -->
+<IMG
+ WIDTH="116" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img169.png"
+ ALT="$\vert A \cap B\vert/\vert A \cup B\vert$">. The two sets we consider are the set of <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">-grams in the query <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$">, and the set of <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">-grams in a vocabulary term. As the scan proceeds, we proceed from one vocabulary term <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$"> to the next, computing on the fly the Jaccard coefficient between <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$"> and <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$"><A NAME="t-notation"></A>. If the coefficient exceeds a preset threshold, we add <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$"> to the output; if not, we move on to the next term in the postings. To compute the Jaccard coefficient, we need the set of <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">-grams in <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$"> and <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$">.
+
+<P>
+Since we are scanning the postings for all <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">-grams in <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$">, we immediately have these <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">-grams on hand. What about the <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">-grams of <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$">? In principle, we could enumerate
+  these on the fly from <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$">; in practice this is not only
+  slow but potentially infeasible since, in all likelihood,
+  the postings entries themselves do not contain the
+  complete string <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$"> but rather some encoding of <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$">.
+  The crucial observation is that to compute the Jaccard coefficient, we only need the length of
+  the string <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$">. To see this, recall the example of Figure <A HREF="#fig:2gram">3.7</A>  and
+  consider the point when the postings scan for query <IMG
+ WIDTH="29" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img170.png"
+ ALT="$q=$">
+  bord reaches term <IMG
+ WIDTH="27" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img171.png"
+ ALT="$t=$"> boardroom. We know that two bigrams match. If the postings stored the (pre-computed) number of bigrams in boardroom (namely, 8), we have all the information we require to compute the Jaccard coefficient to be <IMG
+ WIDTH="98" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img172.png"
+ ALT="$2/(8+3-2)$">; the numerator is obtained from the number of postings hits (2, from bo and rd) while the denominator
+  is the sum of the number of bigrams in bord and boardroom, less the number of postings hits.
+
+<P>
+We could replace the Jaccard coefficient by other measures that allow efficient on the fly computation
+during postings scans. How do we use these for spelling
+correction? One method that has some empirical support is
+to first use the <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">-gram index to enumerate a set of candidate vocabulary terms that are potential corrections of <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$">. We then compute the edit distance from <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$"> to each term in this set, selecting terms from the set with small edit distance to&nbsp;<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$">.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1484"
+  HREF="context-sensitive-spelling-correction-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1478"
+  HREF="spelling-correction-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1472"
+  HREF="edit-distance-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1480"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1482"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1485"
+  HREF="context-sensitive-spelling-correction-1.html">Context sensitive spelling correction</A>
+<B> Up:</B> <A NAME="tex2html1479"
+  HREF="spelling-correction-1.html">Spelling correction</A>
+<B> Previous:</B> <A NAME="tex2html1473"
+  HREF="edit-distance-1.html">Edit distance</A>
+ &nbsp; <B>  <A NAME="tex2html1481"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1483"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/k-gram-indexes-for-spelling-correction-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:23:21 GMT -->
+</HTML>

@@ -1,0 +1,273 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/critiques-and-justifications-of-the-concept-of-relevance-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:27:04 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Critiques and justifications of the concept of relevance</TITLE>
+<META NAME="description" CONTENT="Critiques and justifications of the concept of relevance">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="assessing-relevance-1.html">
+<LINK REL="up" HREF="assessing-relevance-1.html">
+<LINK REL="next" HREF="a-broader-perspective-system-quality-and-user-utility-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2472"
+  HREF="a-broader-perspective-system-quality-and-user-utility-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2466"
+  HREF="assessing-relevance-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2462"
+  HREF="assessing-relevance-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2468"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2470"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2473"
+  HREF="a-broader-perspective-system-quality-and-user-utility-1.html">A broader perspective: System</A>
+<B> Up:</B> <A NAME="tex2html2467"
+  HREF="assessing-relevance-1.html">Assessing relevance</A>
+<B> Previous:</B> <A NAME="tex2html2463"
+  HREF="assessing-relevance-1.html">Assessing relevance</A>
+ &nbsp; <B>  <A NAME="tex2html2469"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2471"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001351000000000000000"></A><A NAME="sec:relevance"></A> <A NAME="p:relevance"></A>
+<BR>
+Critiques and justifications of the concept of relevance
+</H2>  
+
+<P>
+The advantage of system evaluation, as enabled by the standard model of
+relevant and nonrelevant documents, is that we have a fixed setting
+in which we can vary IR systems and system parameters to carry out comparative
+experiments.  Such formal testing is much less expensive and allows
+clearer diagnosis of the effect of changing system parameters than doing user
+studies of retrieval effectiveness.
+Indeed, once we have a formal measure that we
+have confidence in, we can
+proceed to optimize effectiveness by machine learning 
+methods, rather than tuning parameters by hand.  
+Of course, if the formal measure poorly describes what users
+actually want, doing this will not be effective in 
+improving user satisfaction.  Our
+perspective is that, in practice, the 
+standard formal measures for IR evaluation, although a simplification,
+are good enough, and 
+recent work in optimizing formal evaluation measures 
+in IR has succeeded brilliantly.  There are numerous examples of
+techniques developed in formal evaluation settings, which improve
+effectiveness in operational settings, such as the development of
+document length normalization methods within the context of TREC
+( and <A HREF="okapi-bm25-a-non-binary-model-1.html#sec:okapi-bm25">11.4.3</A> ) and machine learning methods for
+adjusting parameter weights in scoring (Section <A HREF="learning-weights-1.html#sec:mlr">6.1.2</A> ). 
+
+<P>
+That is not to say that there are not problems
+latent within the abstractions used.  The relevance of one document is
+treated as 
+independent of the relevance of other documents in the collection.
+(This assumption is actually built into most retrieval systems -
+documents are scored against queries, not against each other - as well
+as being assumed in the evaluation methods.)
+Assessments are
+binary: there aren't any nuanced assessments of relevance.
+Relevance of a document to an information need is treated as an
+absolute, objective decision. But judgments of relevance are
+subjective, varying across people, as we discussed above.  In
+practice, human assessors are also imperfect measuring instruments,
+susceptible to failures of understanding and attention. We also have
+to assume that users' 
+information needs do not change as they start looking at retrieval
+results.  Any results based on one collection are heavily skewed by
+the choice of collection, queries, and relevance judgment set: the results 
+may not translate from one domain to another or to a different user population.
+
+<P>
+Some of these problems may be fixable.  A number of recent evaluations,
+including INEX, some TREC tracks, and NTCIR 
+have adopted an ordinal notion of relevance with documents divided
+into 3 or 4 classes, distinguishing slightly relevant documents from
+highly relevant documents.  See Section&nbsp;<A HREF="evaluation-of-xml-retrieval-1.html#sec:inex">10.4</A> (page&nbsp;<A HREF="evaluation-of-xml-retrieval-1.html#p:inex"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>) for a detailed discussion
+of how this is implemented in the INEX evaluations.
+
+<P>
+One clear problem with the relevance-based assessment that we have
+presented is the distinction between relevance and <A NAME="p:marginalrelevance"></A> <A NAME="10890"></A> <I>marginal relevance</I> :
+whether a document still has distinctive usefulness after the user has looked
+at certain other documents (<A
+ HREF="bibliography-1.html#carbonell98mmr">Carbonell and Goldstein, 1998</A>).  Even if a document
+is highly relevant, its 
+information can be completely redundant with other documents which have
+already been examined.  The most extreme case of this is documents that
+are duplicates - a phenomenon that is actually very common on the World
+Wide Web - but it can also easily occur when several documents provide a
+similar precis of an event.  In such circumstances, marginal relevance
+is clearly a better measure of utility to the user.  Maximizing
+marginal relevance requires returning documents that exhibit diversity
+and novelty.  One way to approach measuring this is by using distinct
+facts or entities as 
+evaluation units.  This perhaps more directly measures true utility to
+the user but doing this makes it harder to create a test collection.
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI>Below is a table showing how two human judges rated the relevance of a
+set of 12 documents to a particular information need (0 = nonrelevant, 1
+= relevant).  Let us assume that you've written an IR system that for
+this query returns the set of documents {4, 5, 6, 7, 8}.
+<BLOCKQUOTE>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="RIGHT">docID</TD>
+<TD ALIGN="LEFT">Judge 1</TD>
+<TD ALIGN="LEFT">Judge 2</TD>
+</TR>
+<TR><TD ALIGN="RIGHT">1</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+</TR>
+<TR><TD ALIGN="RIGHT">2</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+</TR>
+<TR><TD ALIGN="RIGHT">3</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">1</TD>
+</TR>
+<TR><TD ALIGN="RIGHT">4</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">1</TD>
+</TR>
+<TR><TD ALIGN="RIGHT">5</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">0</TD>
+</TR>
+<TR><TD ALIGN="RIGHT">6</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">0</TD>
+</TR>
+<TR><TD ALIGN="RIGHT">7</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">0</TD>
+</TR>
+<TR><TD ALIGN="RIGHT">8</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">0</TD>
+</TR>
+<TR><TD ALIGN="RIGHT">9</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">1</TD>
+</TR>
+<TR><TD ALIGN="RIGHT">10</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">1</TD>
+</TR>
+<TR><TD ALIGN="RIGHT">11</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">1</TD>
+</TR>
+<TR><TD ALIGN="RIGHT">12</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">1</TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<OL>
+<LI>Calculate the kappa measure between the two judges.
+</LI>
+<LI>Calculate precision, recall, and <IMG
+ WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img522.png"
+ ALT="$F_1$"> of your system if a
+  document is considered relevant only if the two judges agree.
+</LI>
+<LI>Calculate precision, recall, and <IMG
+ WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img522.png"
+ ALT="$F_1$"> of your system if a
+  document is considered relevant if either judge thinks it is relevant.
+</LI>
+</OL>
+
+<P>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2472"
+  HREF="a-broader-perspective-system-quality-and-user-utility-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2466"
+  HREF="assessing-relevance-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2462"
+  HREF="assessing-relevance-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2468"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2470"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2473"
+  HREF="a-broader-perspective-system-quality-and-user-utility-1.html">A broader perspective: System</A>
+<B> Up:</B> <A NAME="tex2html2467"
+  HREF="assessing-relevance-1.html">Assessing relevance</A>
+<B> Previous:</B> <A NAME="tex2html2463"
+  HREF="assessing-relevance-1.html">Assessing relevance</A>
+ &nbsp; <B>  <A NAME="tex2html2469"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2471"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/critiques-and-justifications-of-the-concept-of-relevance-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:27:04 GMT -->
+</HTML>

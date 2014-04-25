@@ -1,0 +1,260 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/results-snippets-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:27:04 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Results snippets</TITLE>
+<META NAME="description" CONTENT="Results snippets">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="references-and-further-reading-8.html">
+<LINK REL="previous" HREF="a-broader-perspective-system-quality-and-user-utility-1.html">
+<LINK REL="up" HREF="evaluation-in-information-retrieval-1.html">
+<LINK REL="next" HREF="references-and-further-reading-8.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2543"
+  HREF="references-and-further-reading-8.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2537"
+  HREF="evaluation-in-information-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2531"
+  HREF="refining-a-deployed-system-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2539"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2541"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2544"
+  HREF="references-and-further-reading-8.html">References and further reading</A>
+<B> Up:</B> <A NAME="tex2html2538"
+  HREF="evaluation-in-information-retrieval-1.html">Evaluation in information retrieval</A>
+<B> Previous:</B> <A NAME="tex2html2532"
+  HREF="refining-a-deployed-system-1.html">Refining a deployed system</A>
+ &nbsp; <B>  <A NAME="tex2html2540"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2542"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001370000000000000000"></A><A NAME="sec:snippets"></A> <A NAME="p:snippets"></A>
+<BR>
+Results snippets
+</H1> 
+
+<P>
+Having chosen or ranked the documents matching a query, we wish to
+present a results list that will be informative to the user.  In many
+cases the user will not want to examine all the returned documents and
+so we want to make the results list informative enough that the user
+can do a final ranking of the documents for themselves based on
+relevance to their information need.<A NAME="tex2html83"
+  HREF="footnode.html#foot11025"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A>The standard way of doing this is to provide a <A NAME="10927"></A> <I>snippet</I> , a short
+summary of the document, which is designed so as to allow the user to
+decide its relevance.  Typically, the snippet consists of the document title
+and a short summary, which is automatically extracted. The question is
+how to design the summary so as to maximize its usefulness to the
+user. 
+
+<P>
+The two basic kinds of summaries are 
+<A NAME="10929"></A> <I>static</I> , which are always the
+same regardless of the query, and <A NAME="10931"></A> <I>dynamic</I>  (or
+query-dependent), which are
+customized according to the user's information need as deduced from a
+query.  Dynamic summaries attempt to explain why a particular document
+was retrieved 
+for the query at hand. 
+
+<P>
+A static summary is generally comprised of either or both a subset of
+the document and <A NAME="10933"></A> <I>metadata</I>  associated with the document.  The simplest
+form of summary takes the first two sentences or 50 words of a document,
+or extracts particular zones of a document, such as the title and
+author.  Instead of zones of a document, the summary can instead use
+metadata associated with the document.  This may be an alternative way
+to provide an author or date, or may include elements which are designed
+to give a summary, such as the <TT>description</TT> metadata
+which can appear in the <TT>meta</TT> element 
+of a web HTML page.  This summary is typically
+extracted and cached at indexing time, in such a way that it can be
+retrieved and presented quickly when displaying search results, whereas
+having to access the actual document content might be a relatively
+expensive operation.
+
+<P>
+<A NAME="11026"></A>
+There has been extensive work within <A NAME="10938"></A> <I>natural language processing</I>  (NLP)
+on better ways to do <A NAME="10940"></A> <I>text summarization</I> . Most such work still aims only
+to choose sentences from the original document to present and
+concentrates on how to select good sentences. 
+
+<P>
+The models typically
+combine positional factors, favoring the first and last paragraphs of
+documents and the first and last sentences of paragraphs, with content
+factors, emphasizing sentences with key terms, which have low
+document frequency in the collection as a whole, but high frequency and good
+distribution across the particular document being returned.  In 
+sophisticated NLP approaches, the system synthesizes sentences for a
+summary, either by doing full text generation or by editing and perhaps
+combining sentences used in the document.  For example, it might delete
+a relative clause or replace a pronoun with the noun phrase that it
+refers to.  This last class of methods
+remains in the realm of research and is seldom used for search results:
+it is easier, safer, and often even better to just use sentences from
+the original document. 
+
+<P>
+Dynamic summaries display one or more ``windows'' on the
+document, aiming to present the pieces that have the most utility to the
+user in evaluating the document with respect to their information
+need. Usually these windows contain one or several of the query 
+terms, and so are often referred to as <A NAME="10942"></A> <I>keyword-in-context</I>  (<A NAME="11027"></A>  )
+snippets, though sometimes they may still be pieces of the text such as the
+title 
+that are selected for their query-independent information value just as in the case of static
+summarization.  Dynamic summaries are generated in conjunction with
+scoring. 
+If the query is found as a phrase, occurrences of the phrase in the
+document will be shown as the summary.  If not, windows within the document
+that contain multiple query terms will be selected. 
+Commonly these windows may just stretch some number of words to the left
+and right of the query terms. This is a place where NLP
+techniques can usefully be employed: users prefer snippets that read
+well because they contain complete phrases.
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:snippet"></A><A NAME="p:snippet"></A></P><IMG
+ WIDTH="556" HEIGHT="327" BORDER="0"
+ SRC="img566.png"
+ ALT="\begin{figure}
+% latex2html id marker 10946
+\raggedright
+\ldots\ \textbf{\emph{I...
+...where the selected snippet text
+occurred in the original document.}\end{figure}">
+</DIV>
+
+<P>
+Dynamic summaries are generally regarded as greatly improving the
+usability of IR systems, but they 
+present a complication for IR system design.  A
+dynamic summary cannot be precomputed, but, on the other hand, 
+if a system has only a positional index, then it cannot easily 
+reconstruct the context surrounding search engine hits in order to
+generate such a dynamic summary.  This is one reason for 
+using static summaries.  The standard solution to this in a
+world of large and cheap disk drives is to 
+locally cache all the documents at index time (notwithstanding that this
+approach raises various legal, information security and control
+issues that are far from resolved) as shown in Figure&nbsp;<A HREF="putting-it-all-together-1.html#fig:systemdiagram">7.5</A> (page&nbsp;<A HREF="putting-it-all-together-1.html#p:systemdiagram"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>). Then, a system can simply scan a document
+which is about to appear in a
+displayed results list to find snippets containing the query words.
+Beyond simply access to the text, 
+producing a good KWIC snippet requires some care.  Given a variety of
+keyword occurrences in a document, the goal is to choose fragments which
+are: (i)&nbsp;maximally informative about the discussion of those terms in the
+document, (ii)&nbsp;self-contained enough to be easy to read, and
+(iii)&nbsp;short enough to fit within the normally strict constraints on the
+space available for summaries.
+
+<P>
+Generating snippets must be fast since the
+system is typically generating many snippets for each query that it handles.
+Rather than caching an
+entire document, it is common to cache only a generous but fixed size
+prefix of the document, such as perhaps 10,000 characters.  For most
+common, short documents, the entire document is thus cached, but huge
+amounts of local storage will not be wasted on potentially vast
+documents.  Summaries of documents whose length exceeds the
+prefix size will be based on material in the
+prefix only, which is in general a useful zone in which to look for a
+document summary  
+anyway.  
+
+<P>
+If a document has been updated since it was last processed
+by a crawler and indexer, these
+changes will be neither in the cache nor
+in the index. In these circumstances, neither the index nor the summary
+will accurately reflect the current contents of the document, but it is the
+differences between the summary and the actual document content that will
+be more glaringly obvious to the end user.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2543"
+  HREF="references-and-further-reading-8.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2537"
+  HREF="evaluation-in-information-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2531"
+  HREF="refining-a-deployed-system-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2539"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2541"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2544"
+  HREF="references-and-further-reading-8.html">References and further reading</A>
+<B> Up:</B> <A NAME="tex2html2538"
+  HREF="evaluation-in-information-retrieval-1.html">Evaluation in information retrieval</A>
+<B> Previous:</B> <A NAME="tex2html2532"
+  HREF="refining-a-deployed-system-1.html">Refining a deployed system</A>
+ &nbsp; <B>  <A NAME="tex2html2540"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2542"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/results-snippets-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:27:05 GMT -->
+</HTML>

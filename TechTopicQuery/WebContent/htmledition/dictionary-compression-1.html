@@ -1,0 +1,181 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/dictionary-compression-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:24:09 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Dictionary compression</TITLE>
+<META NAME="description" CONTENT="Dictionary compression">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="postings-file-compression-1.html">
+<LINK REL="previous" HREF="statistical-properties-of-terms-in-information-retrieval-1.html">
+<LINK REL="up" HREF="index-compression-1.html">
+<LINK REL="next" HREF="dictionary-as-a-string-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1721"
+  HREF="dictionary-as-a-string-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1715"
+  HREF="index-compression-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1709"
+  HREF="zipfs-law-modeling-the-distribution-of-terms-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1717"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1719"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1722"
+  HREF="dictionary-as-a-string-1.html">Dictionary as a string</A>
+<B> Up:</B> <A NAME="tex2html1716"
+  HREF="index-compression-1.html">Index compression</A>
+<B> Previous:</B> <A NAME="tex2html1710"
+  HREF="zipfs-law-modeling-the-distribution-of-terms-1.html">Zipf's law: Modeling the</A>
+ &nbsp; <B>  <A NAME="tex2html1718"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1720"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001020000000000000000"></A>
+<A NAME="sec:dictcompression"></A> <A NAME="p:dictcompression"></A>
+<BR>
+Dictionary compression
+</H1> 
+
+<P>
+This section presents a series of dictionary data structures
+that achieve increasingly higher compression ratios. The
+dictionary is small compared with the postings file as 
+suggested by Table <A HREF="statistical-properties-of-terms-in-information-retrieval-1.html#tab:icompresstb5">5.1</A> .
+So why compress it if it is
+responsible for only a small percentage of the overall space
+requirements of the IR system?
+
+<P>
+One of the primary factors in determining the
+response time of an IR system is the number of disk seeks necessary to
+process a query. If parts of the dictionary are on disk,
+then many more disk seeks are necessary in query evaluation.
+Thus, the main goal of compressing the dictionary is to fit it in
+main memory, or at least a large portion of it, to
+support high query throughput.  
+Although dictionaries of very large
+collections fit into the memory of a standard
+desktop machine, this is not true of many other application
+scenarios.  For example, an enterprise search server for a
+large corporation may have to index a multiterabyte
+collection with a comparatively large vocabulary because of
+the presence of documents in many different languages.  We
+also want to be able to design search systems for limited
+hardware such as mobile phones and onboard computers. Other
+reasons for wanting to conserve memory are fast startup time
+and having to share resources with other applications. The
+search system on your PC must get along with the
+memory-hogging word processing suite you are using at the
+same time.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:icompressfg5"></A><A NAME="p:icompressfg5"></A><A NAME="6011"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 5.3:</STRONG>
+
+Storing the dictionary as an array of fixed-width entries.
+</CAPTION>
+<TR><TD><IMG
+ WIDTH="404" HEIGHT="133" BORDER="0"
+ SRC="img255.png"
+ ALT="\begin{figure}\begin{tabular}{@{}l\vert lp{2cm}p{2cm}\vert}\cline{2-4}
+&amp;term &amp; d...
+...0} bytes &amp; 4 bytes &amp;
+\multicolumn{1}{l}{4 bytes}
+\\
+\end{tabular}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+<A NAME="6015"></A> 
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html1723"
+  HREF="dictionary-as-a-string-1.html">Dictionary as a string</A>
+<LI><A NAME="tex2html1724"
+  HREF="blocked-storage-1.html">Blocked storage</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1721"
+  HREF="dictionary-as-a-string-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1715"
+  HREF="index-compression-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1709"
+  HREF="zipfs-law-modeling-the-distribution-of-terms-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1717"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1719"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1722"
+  HREF="dictionary-as-a-string-1.html">Dictionary as a string</A>
+<B> Up:</B> <A NAME="tex2html1716"
+  HREF="index-compression-1.html">Index compression</A>
+<B> Previous:</B> <A NAME="tex2html1710"
+  HREF="zipfs-law-modeling-the-distribution-of-terms-1.html">Zipf's law: Modeling the</A>
+ &nbsp; <B>  <A NAME="tex2html1718"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1720"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/dictionary-compression-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:24:09 GMT -->
+</HTML>

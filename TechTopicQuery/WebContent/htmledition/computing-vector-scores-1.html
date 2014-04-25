@@ -1,0 +1,247 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/computing-vector-scores-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:25:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Computing vector scores</TITLE>
+<META NAME="description" CONTENT="Computing vector scores">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="queries-as-vectors-1.html">
+<LINK REL="up" HREF="the-vector-space-model-for-scoring-1.html">
+<LINK REL="next" HREF="variant-tf-idf-functions-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1992"
+  HREF="variant-tf-idf-functions-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1986"
+  HREF="the-vector-space-model-for-scoring-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1982"
+  HREF="queries-as-vectors-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1988"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1990"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1993"
+  HREF="variant-tf-idf-functions-1.html">Variant tf-idf functions</A>
+<B> Up:</B> <A NAME="tex2html1987"
+  HREF="the-vector-space-model-for-scoring-1.html">The vector space model</A>
+<B> Previous:</B> <A NAME="tex2html1983"
+  HREF="queries-as-vectors-1.html">Queries as vectors</A>
+ &nbsp; <B>  <A NAME="tex2html1989"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1991"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001133000000000000000"></A>
+<A NAME="sec:pseudocode"></A> <A NAME="p:pseudocode"></A>
+<BR>
+Computing vector scores
+</H2> 
+In a typical setting we have a collection of documents each represented by a vector, a <A NAME="8253"></A> <I>free text query</I>  represented by a vector, and a positive integer <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">.  We seek the <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$"> documents of the collection with the highest vector space scores on the given query.  We now initiate the study of determining the <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$"> documents with the highest vector space scores for a query. Typically, we seek these <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$"> top documents in ordered by decreasing score; for instance many search engines use <IMG
+ WIDTH="53" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img441.png"
+ ALT="$K=10$"> to retrieve and rank-order the first page of the ten best results.  Here we give the basic algorithm for this computation; we develop a fuller treatment of efficient techniques and approximations in Chapter <A HREF="computing-scores-in-a-complete-search-system-1.html#ch:cosine">7</A> .
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:cosinealg"></A><A NAME="p:cosinealg"></A><A NAME="8286"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 6.14:</STRONG>
+The basic algorithm for computing vector space scores.</CAPTION>
+<TR><TD><IMG
+ WIDTH="343" HEIGHT="208" BORDER="0"
+ SRC="img442.png"
+ ALT="\begin{figure}\begin{algorithm}{CosineScore}{q}
+\text{float} Scores[N] = 0\\
+\t...
+...RETURN{\mbox{Top }K \mbox{ components of }Scores[]}
+\end{algorithm}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Figure <A HREF="#fig:cosinealg">6.14</A>  gives the basic algorithm for computing vector space scores.  The array Length holds the lengths (normalization factors) for each of the <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$N$"> documents, whereas the array Scores holds the scores for each of the documents.  When the scores are finally computed in Step 9, all that remains in Step 10 is to pick off the <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$"> documents with the highest scores.
+
+<P>
+The outermost loop beginning Step 3 repeats the updating of Scores, iterating over each query term <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$"> in turn. In Step 5 we calculate the weight in the query vector for term <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$">.  Steps 6-8 update the score of each document by adding in the contribution from term <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$">.  This process of adding in contributions one query term at a time is sometimes known as <A NAME="8291"></A> <I>term-at-a-time</I>  scoring or accumulation, and the <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$N$"> elements of the array <IMG
+ WIDTH="47" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img443.png"
+ ALT="$Scores$"> are therefore known as <A NAME="8293"></A> <I>accumulators</I> .  For this purpose, it would appear necessary to store, with each postings entry, the weight <!-- MATH
+ $\mbox{wf}_{t,d}$
+ -->
+<IMG
+ WIDTH="37" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img444.png"
+ ALT="$\mbox{wf}_{t,d}$"><A NAME="wf-notation"></A> of term <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$"> in document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$"> (we have thus far used either tf or tf-idf for this weight, but leave open the possibility of other functions to be developed in Section <A HREF="variant-tf-idf-functions-1.html#sec:variantsintfidf">6.4</A> ).  In fact this is wasteful, since storing this weight may require a floating point number.  Two ideas help alleviate this space problem. First, if we are using <A NAME="8299"></A> <I>inverse document frequency</I> , we need not precompute <IMG
+ WIDTH="29" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img445.png"
+ ALT="$\mbox{idf}_t$">; it suffices to store <IMG
+ WIDTH="48" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img446.png"
+ ALT="$N/\mbox{df}_t$"> at the head of the postings for <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$">.  Second, we store the term frequency <!-- MATH
+ $\mbox{tf}_{t,d}$
+ -->
+<IMG
+ WIDTH="29" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img400.png"
+ ALT="$\mbox{tf}_{t,d}$"> for each postings entry.  Finally, Step 12 extracts the top <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$"> scores - this requires a priority queue data structure, often implemented using a heap.  Such a heap takes no more than <IMG
+ WIDTH="26" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img447.png"
+ ALT="$2N$"> comparisons to construct, following which each of the <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$"> top scores can be extracted from the heap at a cost of <IMG
+ WIDTH="68" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img448.png"
+ ALT="$O(\log N)$"> comparisons.
+
+<P>
+Note that the general algorithm of Figure <A HREF="#fig:cosinealg">6.14</A>  does not prescribe a specific implementation of how we traverse the postings lists of the various query terms; we may traverse them one term at a time as in the loop beginning at Step 3, or we could in fact traverse them concurrently as in Figure <A HREF="processing-boolean-queries-1.html#fig:postings-merge-algorithm">1.6</A> .  
+In such a concurrent postings traversal we compute the scores of one document at a time, so that it is sometimes called <A NAME="8307"></A> <I>document-at-a-time</I>  scoring.  We will say more about this in Section <A HREF="impact-ordering-1.html#sec:impactordered">7.1.5</A> .
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI>If we were to stem jealous and jealousy to a common stem before setting up the vector space, detail how the definitions of tf and idf should be modified.
+
+<P>
+</LI>
+<LI><A NAME="ex:normtfidf"></A>Recall the tf-idf weights computed in Exercise&nbsp;<A HREF="tf-idf-weighting-1.html#ex:tfidf">6.2.2</A>.  Compute the Euclidean normalized document vectors for each of the documents, where each vector has four components, one for each of the four terms.
+
+<P>
+</LI>
+<LI>Verify that the sum of the squares of the components of each of the document vectors in Exercise&nbsp;<A HREF="#ex:normtfidf">6.3.3</A> is 1 (to within rounding error).  Why is this the case?
+
+<P>
+</LI>
+<LI>With term weights as computed in Exercise&nbsp;<A HREF="#ex:normtfidf">6.3.3</A>, rank the three documents by computed score for the query car insurance, for each of the following cases of term weighting in the query:
+
+<OL>
+<LI>The weight of a term is 1 if present in the query, 0 otherwise.
+</LI>
+<LI>Euclidean normalized idf.
+</LI>
+</OL>
+
+<P>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1992"
+  HREF="variant-tf-idf-functions-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1986"
+  HREF="the-vector-space-model-for-scoring-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1982"
+  HREF="queries-as-vectors-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1988"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1990"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1993"
+  HREF="variant-tf-idf-functions-1.html">Variant tf-idf functions</A>
+<B> Up:</B> <A NAME="tex2html1987"
+  HREF="the-vector-space-model-for-scoring-1.html">The vector space model</A>
+<B> Previous:</B> <A NAME="tex2html1983"
+  HREF="queries-as-vectors-1.html">Queries as vectors</A>
+ &nbsp; <B>  <A NAME="tex2html1989"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1991"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/computing-vector-scores-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:25:57 GMT -->
+</HTML>

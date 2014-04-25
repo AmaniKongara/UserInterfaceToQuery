@@ -1,0 +1,1114 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/properties-of-naive-bayes-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:30:23 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Properties of Naive Bayes</TITLE>
+<META NAME="description" CONTENT="Properties of Naive Bayes">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="feature-selection-1.html">
+<LINK REL="previous" HREF="the-bernoulli-model-1.html">
+<LINK REL="up" HREF="text-classification-and-naive-bayes-1.html">
+<LINK REL="next" HREF="a-variant-of-the-multinomial-model-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3502"
+  HREF="a-variant-of-the-multinomial-model-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3496"
+  HREF="text-classification-and-naive-bayes-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3490"
+  HREF="the-bernoulli-model-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3498"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3500"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3503"
+  HREF="a-variant-of-the-multinomial-model-1.html">A variant of the</A>
+<B> Up:</B> <A NAME="tex2html3497"
+  HREF="text-classification-and-naive-bayes-1.html">Text classification and Naive</A>
+<B> Previous:</B> <A NAME="tex2html3491"
+  HREF="the-bernoulli-model-1.html">The Bernoulli model</A>
+ &nbsp; <B>  <A NAME="tex2html3499"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3501"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001840000000000000000"></A>
+<A NAME="16688"></A> <A NAME="sec:generativemodel2"></A> <A NAME="p:generativemodel2"></A>
+<BR>
+Properties of Naive Bayes
+</H1> 
+To gain a better understanding of the two models and the assumptions they make, let
+us go back and examine how we derived their classification
+rules in Chapters <A HREF="probabilistic-information-retrieval-1.html#ch:probir">11</A> <A HREF="language-models-for-information-retrieval-1.html#ch:lmodels">12</A> .
+We decide class membership of a document
+by assigning it to the class with the
+<A NAME="16693"></A>   probability
+(cf. probtheory), which we compute as
+follows:
+<BR>
+<DIV ALIGN="CENTER"><A NAME="naivebayeseq8"></A><A NAME="naivebayeseq1"></A>
+<!-- MATH
+ \begin{eqnarray}
+c_{map} & = & \argmax_{\tcjclass \in \mathbb{C}} \ P( \tcjclass|d)\\
+&=&\argmax_{\tcjclass \in \mathbb{C}} \ \frac{P(d|\tcjclass) P(\tcjclass)}{P(d)}\\
+&=&\argmax_{\tcjclass \in \mathbb{C}} \ P(d|\tcjclass) P(\tcjclass),
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="34" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img936.png"
+ ALT="$\displaystyle c_{map}$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="111" HEIGHT="44" ALIGN="MIDDLE" BORDER="0"
+ SRC="img937.png"
+ ALT="$\displaystyle \argmax_{\tcjclass \in \mathbb{C}} \ P( \tcjclass\vert d)$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(121)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT">&nbsp;</TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="145" HEIGHT="56" ALIGN="MIDDLE" BORDER="0"
+ SRC="img938.png"
+ ALT="$\displaystyle \argmax_{\tcjclass \in \mathbb{C}} \ \frac{P(d\vert\tcjclass) P(\tcjclass)}{P(d)}$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(122)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT">&nbsp;</TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="146" HEIGHT="44" ALIGN="MIDDLE" BORDER="0"
+ SRC="img939.png"
+ ALT="$\displaystyle \argmax_{\tcjclass \in \mathbb{C}} \ P(d\vert\tcjclass) P(\tcjclass),$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(123)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+where Bayes' rule (Equation&nbsp;<A HREF="review-of-basic-probability-theory-1.html#eqn:bayesrule">59</A>, page <A HREF="review-of-basic-probability-theory-1.html#p:bayesrule">59</A> ) is applied in
+(<A HREF="#naivebayeseq8">122</A>) and
+we drop the denominator in the last step because <IMG
+ WIDTH="36" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img815.png"
+ ALT="$P(d)$"> is
+the same for all classes and does not affect the argmax.
+
+<P>
+We can interpret
+Equation <A HREF="#naivebayeseq1">123</A>  as a  description of the
+generative process we assume in Bayesian text
+classification. To generate a document, we first choose 
+class <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img884.png"
+ ALT="$\tcjclass$"> with probability <IMG
+ WIDTH="35" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img878.png"
+ ALT="$P(\tcjclass)$"> (top nodes in
+ and <A HREF="#fig:bernoulligraph">13.5</A> ).
+The two models 
+differ in the formalization of the second step, the
+generation of the document given the class, corresponding to
+the conditional distribution
+<!-- MATH
+ $P(d|\tcjclass)$
+ -->
+<IMG
+ WIDTH="48" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img940.png"
+ ALT="$P(d\vert\tcjclass)$">:
+<BR>
+<DIV ALIGN="CENTER"><A NAME="naivebayeseq9"></A><A NAME="naivebayeseq9b"></A>
+<!-- MATH
+ \begin{eqnarray}
+{\bf Multinomial} \quad
+P(d|\tcjclass) &= &P(\langle \tcword_1,\ldots,\tcword_\tcposindex,\ldots,\tcword_{n_d}\rangle |\tcjclass)\\
+{\bf Bernoulli} \quad
+P(d|\tcjclass) &= &P(\langle  e_1,\ldots,e_i,\ldots,e_M \rangle |\tcjclass),
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="161" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img941.png"
+ ALT="$\displaystyle {\bf Multinomial} \quad
+P(d\vert\tcjclass)$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="166" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img942.png"
+ ALT="$\displaystyle P(\langle \tcword_1,\ldots,\tcword_\tcposindex,\ldots,\tcword_{n_d}\rangle \vert\tcjclass)$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(124)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="137" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img943.png"
+ ALT="$\displaystyle {\bf Bernoulli} \quad
+P(d\vert\tcjclass)$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="170" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img944.png"
+ ALT="$\displaystyle P(\langle e_1,\ldots,e_i,\ldots,e_M \rangle \vert\tcjclass),$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(125)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+where <!-- MATH
+ $\langle \tcword_1,\ldots,\tcword_{n_d}\rangle$
+ -->
+<IMG
+ WIDTH="84" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img945.png"
+ ALT="$\langle \tcword_1,\ldots,\tcword_{n_d}\rangle $"> is the sequence of terms as it
+occurs in <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$"> (minus terms that were excluded from the vocabulary)
+and <!-- MATH
+ $\langle  e_1,\ldots,
+e_i, \ldots,e_M \rangle$
+ -->
+<IMG
+ WIDTH="130" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img946.png"
+ ALT="$\langle e_1,\ldots,
+e_i, \ldots,e_M \rangle $"> is a binary vector of
+dimensionality <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img186.png"
+ ALT="$M$"> that indicates for each term whether it
+occurs in <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$"> or not.
+
+<P>
+It should now be clearer why we introduced the
+ document space
+<IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img854.png"
+ ALT="$\mathbb{X}$"> in Equation&nbsp;<A HREF="the-text-classification-problem-1.html#eqn:gammadef">112</A> when we defined the classification problem.
+A critical step
+in solving a text classification problem
+is to choose the document
+representation. 
+<!-- MATH
+ $\langle \tcword_1,\ldots,\tcword_{n_d}\rangle$
+ -->
+<IMG
+ WIDTH="84" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img945.png"
+ ALT="$\langle \tcword_1,\ldots,\tcword_{n_d}\rangle $"> and
+<!-- MATH
+ $\langle  e_1,\ldots,e_M \rangle$
+ -->
+<IMG
+ WIDTH="85" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img947.png"
+ ALT="$\langle e_1,\ldots,e_M \rangle $"> are two different
+ document representations.
+In the first case, 
+<IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img854.png"
+ ALT="$\mathbb{X}$"> is the set of all term sequences (or, more
+precisely, sequences of term tokens).
+In the second case, 
+<IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img854.png"
+ ALT="$\mathbb{X}$"> is
+<IMG
+ WIDTH="57" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img948.png"
+ ALT="$\{0,1\}^M$">.
+
+<P>
+We cannot use
+ and <A HREF="#naivebayeseq9b">125</A>  for text
+classification directly.
+For the Bernoulli model,
+we would have to estimate <!-- MATH
+ $2^M |\mathbb{C}|$
+ -->
+<IMG
+ WIDTH="47" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img949.png"
+ ALT="$2^M \vert\mathbb{C}\vert$"> different
+parameters, one for each possible combination of <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img186.png"
+ ALT="$M$">
+values <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img950.png"
+ ALT="$e_i$"> and a class. The number of parameters
+in the
+multinomial case has the same order of
+magnitude.<A NAME="tex2html128"
+  HREF="footnode.html#foot16726"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A>This being a very large
+quantity, estimating these parameters reliably is
+infeasible.
+
+<P>
+To reduce the number of parameters,
+we make 
+the Naive Bayes <A NAME="16727"></A> <A NAME="16728"></A> <I>conditional independence
+assumption</I> . We assume that attribute values are independent of
+each other given the class:
+<BR>
+<DIV ALIGN="CENTER"><A NAME="condindep"></A>
+<!-- MATH
+ \begin{eqnarray}
+{\bf Multinomial} \quad
+P(d|\tcjclass) &=& P(\langle \tcword_1,\ldots,\tcword_{n_d}\rangle |\tcjclass) = \prod_{1 \leq \tcposindex \leq n_d} P(X_\tcposindex=\tcword_\tcposindex|\tcjclass)\\
+{\bf Bernoulli} \quad
+P(d|\tcjclass) &=& P(\langle  e_1,\ldots,e_M \rangle |\tcjclass) =
+\prod_{1 \leq i \leq M} P(U_i=e_i|c).
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="161" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img941.png"
+ ALT="$\displaystyle {\bf Multinomial} \quad
+P(d\vert\tcjclass)$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="278" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img951.png"
+ ALT="$\displaystyle P(\langle \tcword_1,\ldots,\tcword_{n_d}\rangle \vert\tcjclass) =...
+...1 \leq \tcposindex \leq n_d} P(X_\tcposindex=\tcword_\tcposindex\vert\tcjclass)$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(126)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="137" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img943.png"
+ ALT="$\displaystyle {\bf Bernoulli} \quad
+P(d\vert\tcjclass)$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="277" HEIGHT="49" ALIGN="MIDDLE" BORDER="0"
+ SRC="img952.png"
+ ALT="$\displaystyle P(\langle e_1,\ldots,e_M \rangle \vert\tcjclass) =
+\prod_{1 \leq i \leq M} P(U_i=e_i\vert c).$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(127)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+We <A NAME="16738"></A>
+have introduced two random variables here to make the
+two different generative models explicit.
+<A NAME="p:xvar"></A> 
+<A NAME="16740"></A> <I><!-- MATH
+ $\xvar_\tcposindex$
+ -->
+<IMG
+ WIDTH="22" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img954.png"
+ ALT="$\xvar_\tcposindex$"></I>  is the random variable for position
+<IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img955.png"
+ ALT="$\tcposindex$"> in the document and takes as values terms from the
+vocabulary. 
+<!-- MATH
+ $P(\xvar_\tcposindex=\tcword|\tcjclass)$
+ -->
+<IMG
+ WIDTH="86" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img956.png"
+ ALT="$P(\xvar_\tcposindex=\tcword\vert\tcjclass)$"> is the probability that in a document of
+class <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img884.png"
+ ALT="$\tcjclass$"> the term <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img891.png"
+ ALT="$\tcword$"> will occur in position <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img955.png"
+ ALT="$\tcposindex$">.
+<A NAME="p:wvar"></A> 
+<A NAME="16743"></A> <I><IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img958.png"
+ ALT="$\wvar_i$"></I>  is the random variable for
+vocabulary term
+<IMG
+ WIDTH="8" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="$i$"> and takes as values 0 (absence) and 1 (presence). 
+<!-- MATH
+ $\hat{P}(\wvar_i=1|\tcjclass)$
+ -->
+<IMG
+ WIDTH="87" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img959.png"
+ ALT="$\hat{P}(\wvar_i=1\vert\tcjclass)$"> 
+is the probability that in a document of
+class <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img884.png"
+ ALT="$\tcjclass$"> the term <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img960.png"
+ ALT="$\tcword_i$"> will occur - in any position and possibly
+multiple times.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:graphclassmodel"></A><A NAME="p:graphclassmodel"></A><A NAME="16761"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 13.4:</STRONG>
+The multinomial NB model.</CAPTION>
+<TR><TD><IMG
+ WIDTH="470" HEIGHT="117" BORDER="0"
+ SRC="img961.png"
+ ALT="\begin{figure}\psset{unit=0.75cm}
+\begin{pspicture}(-0.5,0.5)(14.5,5)
+\psellipse...
+...(7,2)
+\psline{-&gt;}(7,4)(10,2)
+\psline{-&gt;}(7,4)(13,2)
+\end{pspicture}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:bernoulligraph"></A><A NAME="p:bernoulligraph"></A><A NAME="16782"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 13.5:</STRONG>
+The Bernoulli NB model.</CAPTION>
+<TR><TD><IMG
+ WIDTH="572" HEIGHT="119" BORDER="0"
+ SRC="img962.png"
+ ALT="\begin{figure}\psset{unit=0.75cm}
+\begin{pspicture}(-2,0.5)(16,5)
+\psellipse(-0....
+...)
+\psline{-&gt;}(7,4)(11.5,2)
+\psline{-&gt;}(7,4)(14.5,2)
+\end{pspicture}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+We illustrate
+the conditional
+independence assumption in
+ and <A HREF="#fig:bernoulligraph">13.5</A> . The class
+China
+generates values for each of the five term attributes (multinomial) or
+six binary attributes (Bernoulli) with a certain
+probability, independent of the values of the other attributes.
+The fact that a document in the class
+China contains the term Taipei does not
+make it more likely or less likely that it also contains
+Beijing. 
+
+<P>
+In reality, the conditional independence assumption does not
+hold for text data. Terms <I>are</I> conditionally dependent
+on each other. But as we will discuss shortly, NB models
+perform well despite the conditional independence
+assumption.
+
+<P>
+Even when assuming conditional independence, we still have
+too many parameters for the multinomial model if
+we assume a different probability distribution
+for each position <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img955.png"
+ ALT="$\tcposindex$"> in the
+document. The position of a term in a document by itself
+does not carry information about the class. Although there is a
+difference between China sues France and France
+sues China, the occurrence of China in position 1
+versus position 3 of the document is not useful in NB
+classification because we look at each term separately. 
+The conditional independence assumption commits
+us to this way of processing the evidence.
+
+<P>
+Also, if we assumed different term distributions for each
+position <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img955.png"
+ ALT="$\tcposindex$">, we would have to estimate a different set of
+parameters for each <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img955.png"
+ ALT="$\tcposindex$">. The probability of bean
+appearing as the first term of a coffee document
+could be different from it appearing as the second term, and
+so on.
+This again causes problems in estimation owing to
+data sparseness.
+
+<P>
+For these reasons, we make a second
+independence assumption for the multinomial model,
+<A NAME="16797"></A> 
+<A NAME="16798"></A> <I>positional independence</I> :
+The conditional probabilities for a term are the same
+independent of position in the document.
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+P(\xvar_{\tcposindex_1}=\tcword | \tcjclass) = P(\xvar_{\tcposindex_2} = \tcword| \tcjclass)
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="196" HEIGHT="30" BORDER="0"
+ SRC="img963.png"
+ ALT="\begin{displaymath}
+P(\xvar_{\tcposindex_1}=\tcword \vert \tcjclass) = P(\xvar_{\tcposindex_2} = \tcword\vert \tcjclass)
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(128)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+for all positions <!-- MATH
+ $\tcposindex_1, \tcposindex_2$
+ -->
+<IMG
+ WIDTH="39" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img964.png"
+ ALT="$\tcposindex_1, \tcposindex_2$">, terms <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img891.png"
+ ALT="$\tcword$"> and classes
+<IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img884.png"
+ ALT="$\tcjclass$">. Thus, we have a single distribution of
+terms that is valid for all positions <IMG
+ WIDTH="16" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img965.png"
+ ALT="$\tcposindex_i$"> and we can use
+<IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img953.png"
+ ALT="$\xvar$"> as its symbol.<A NAME="tex2html131"
+  HREF="footnode.html#foot17810"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A>Positional
+independence is equivalent to adopting the <A NAME="16808"></A> <I>bag of
+words</I>  model, which we introduced in the context of ad hoc
+retrieval in Chapter <A HREF="scoring-term-weighting-and-the-vector-space-model-1.html#ch:termvspace">6</A>  (page <A HREF="term-frequency-and-weighting-1.html#p:bagofwords">6.2</A> ).
+
+<P>
+With conditional and positional independence assumptions, we only need to estimate
+<!-- MATH
+ $\Theta(M |\mathbb{C}|)$
+ -->
+<IMG
+ WIDTH="68" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img966.png"
+ ALT="$\Theta(M \vert\mathbb{C}\vert)$"> parameters <!-- MATH
+ $P(\tcword_\tcposindex|\tcjclass)$
+ -->
+<IMG
+ WIDTH="52" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img879.png"
+ ALT="$P(\tcword_\tcposindex\vert\tcjclass)$"> (multinomial model) or
+<!-- MATH
+ $P(e_i|\tcjclass)$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img967.png"
+ ALT="$P(e_i\vert\tcjclass)$"> (Bernoulli model), one for each term-class
+combination, rather than a number that is at least exponential in
+<IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img186.png"
+ ALT="$M$">, the size of the vocabulary.
+The independence
+assumptions reduce the number of parameters to be estimated
+by several orders of magnitude.
+
+<P>
+To summarize, we generate a document in the multinomial
+model (Figure <A HREF="#fig:graphclassmodel">13.4</A> ) by first picking a class <IMG
+ WIDTH="44" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img968.png"
+ ALT="$C=\tcjclass$">
+with <IMG
+ WIDTH="35" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img878.png"
+ ALT="$P(\tcjclass)$"> where <A NAME="16814"></A> <A NAME="p:crandomvar"></A> <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img616.png"
+ ALT="$C$"> is a
+<A NAME="16816"></A>  random variable taking values
+from <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img969.png"
+ ALT="$\mathbb{C}$"> as values. Next we generate term <!-- MATH
+ $\tcword_\tcposindex$
+ -->
+<IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img867.png"
+ ALT="$\tcword_\tcposindex$"> in position <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img955.png"
+ ALT="$\tcposindex$">
+with <!-- MATH
+ $P(X_\tcposindex=\tcword_\tcposindex|\tcjclass)$
+ -->
+<IMG
+ WIDTH="92" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img970.png"
+ ALT="$P(X_\tcposindex=\tcword_\tcposindex\vert\tcjclass)$"> for each of the <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img872.png"
+ ALT="$n_d$"> positions of the
+document. The <IMG
+ WIDTH="22" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img971.png"
+ ALT="$X_\tcposindex$"> all have the same 
+distribution over terms for a given <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img884.png"
+ ALT="$\tcjclass$">. In the example in
+Figure <A HREF="#fig:graphclassmodel">13.4</A> , we show the generation
+of <!-- MATH
+ $\langle \tcword_1,\tcword_2,\tcword_3,\tcword_4,\tcword_5\rangle  = 
+\langle \term{Beijing}, \term{and},
+\term{Taipei}, \term{join}, \term {WTO}\rangle$
+ -->
+<IMG
+ WIDTH="326" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img972.png"
+ ALT="$\langle \tcword_1,\tcword_2,\tcword_3,\tcword_4,\tcword_5\rangle =
+\langle \term{Beijing}, \term{and},
+\term{Taipei}, \term{join}, \term {WTO}\rangle $">, corresponding to
+the one-sentence document
+Beijing and Taipei join WTO.
+
+<P>
+For a completely specified document generation model, we
+would also have to define a distribution <!-- MATH
+ $P(n_d|\tcjclass)$
+ -->
+<IMG
+ WIDTH="56" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img973.png"
+ ALT="$P(n_d\vert\tcjclass)$"> over
+lengths. Without it, the multinomial model is 
+a token generation model rather than a document
+generation model.
+
+<P>
+We generate a document in the Bernoulli model
+(Figure <A HREF="#fig:bernoulligraph">13.5</A> ) by first picking a class <IMG
+ WIDTH="44" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img968.png"
+ ALT="$C=\tcjclass$"> with
+<IMG
+ WIDTH="35" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img878.png"
+ ALT="$P(\tcjclass)$"> and then generating a binary indicator <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img950.png"
+ ALT="$e_i$"> for
+each term <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img960.png"
+ ALT="$\tcword_i$"> of the vocabulary
+(<!-- MATH
+ $1 \leq i \leq M$
+ -->
+<IMG
+ WIDTH="77" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img974.png"
+ ALT="$1 \leq i \leq M$">).
+In the example in
+Figure <A HREF="#fig:bernoulligraph">13.5</A> , we show the generation
+of <!-- MATH
+ $\langle e_1,e_2,e_3,e_4,e_5,e_6\rangle =
+\langle 0,1,0,1,1,1\rangle$
+ -->
+<IMG
+ WIDTH="248" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img975.png"
+ ALT="$\langle e_1,e_2,e_3,e_4,e_5,e_6\rangle =
+\langle 0,1,0,1,1,1\rangle $">, corresponding, again, to the one-sentence document
+Beijing and Taipei join WTO where we have
+assumed that
+and is a stop word.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+
+<A NAME="17811"></A>
+<TABLE CELLPADDING=3 BORDER="1">
+<CAPTION><STRONG>Table 13.3:</STRONG>
+Multinomial versus Bernoulli model.  
+</CAPTION>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">multinomial model</TD>
+<TD ALIGN="LEFT">Bernoulli model</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">event model</TD>
+<TD ALIGN="LEFT">generation of token</TD>
+<TD ALIGN="LEFT">generation of document</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">random variable(s)</TD>
+<TD ALIGN="LEFT"><IMG
+ WIDTH="44" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img976.png"
+ ALT="$\xvar=\tcword$"> iff <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img891.png"
+ ALT="$\tcword$"> occurs at given pos</TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $\wvar_\tcword=1$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img977.png"
+ ALT="$\wvar_\tcword=1$"> iff <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img891.png"
+ ALT="$\tcword$"> occurs in doc</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">document representation</TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $\onedoc=\langle  \tcword_1,\ldots,\tcword_\tcposindex,\ldots,\tcword_{n_d} \rangle , \tcword_\tcposindex \in V$
+ -->
+<IMG
+ WIDTH="212" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img978.png"
+ ALT="$\onedoc=\langle \tcword_1,\ldots,\tcword_\tcposindex,\ldots,\tcword_{n_d} \rangle , \tcword_\tcposindex \in V$"></TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $\onedoc=\langle  e_1,\ldots,e_i,\ldots,e_M \rangle ,$
+ -->
+<IMG
+ WIDTH="165" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img979.png"
+ ALT="$\onedoc=\langle e_1,\ldots,e_i,\ldots,e_M \rangle ,$"></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;&nbsp;&nbsp;&nbsp;<!-- MATH
+ $e_i \in \{ 0,1\}$
+ -->
+<IMG
+ WIDTH="75" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img980.png"
+ ALT="$e_i \in \{ 0,1\}$"></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">parameter estimation</TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $\hat{P}(\xvar=\tcword|\tcjclass)$
+ -->
+<IMG
+ WIDTH="80" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img981.png"
+ ALT="$\hat{P}(\xvar=\tcword\vert\tcjclass)$"></TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $\hat{P}(\wvar_i=e|\tcjclass)$
+ -->
+<IMG
+ WIDTH="85" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img982.png"
+ ALT="$\hat{P}(\wvar_i=e\vert\tcjclass)$"> </TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">decision rule: maximize</TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $\hat{P}(\tcjclass) \prod_{1 \leq \tcposindex \leq n_d} \hat{P}(\xvar=\tcword_\tcposindex|\tcjclass)$
+ -->
+<IMG
+ WIDTH="183" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img983.png"
+ ALT="$\hat{P}(\tcjclass) \prod_{1 \leq \tcposindex \leq n_d} \hat{P}(\xvar=\tcword_\tcposindex\vert\tcjclass)$"></TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $\hat{P}(\tcjclass) \prod_{\tcword_i \in V} \hat{P}(\wvar_{i}=e_i|\tcjclass)$
+ -->
+<IMG
+ WIDTH="167" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img984.png"
+ ALT="$\hat{P}(\tcjclass) \prod_{\tcword_i \in V} \hat{P}(\wvar_{i}=e_i\vert\tcjclass)$"></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">multiple occurrences</TD>
+<TD ALIGN="LEFT">taken into account</TD>
+<TD ALIGN="LEFT">ignored</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">length of docs</TD>
+<TD ALIGN="LEFT">can handle
+longer docs</TD>
+<TD ALIGN="LEFT">works best for short docs</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"># features</TD>
+<TD ALIGN="LEFT">can handle more</TD>
+<TD ALIGN="LEFT">works best with fewer</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">estimate for term the</TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $\hat{P}(\xvar=\mbox{the}|\tcjclass) \approx 0.05$
+ -->
+<IMG
+ WIDTH="147" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img985.png"
+ ALT="$\hat{P}(\xvar=\mbox{the}\vert\tcjclass) \approx 0.05$"></TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $\hat{P}(\wvar_{the}=1|\tcjclass) \approx 1.0$
+ -->
+<IMG
+ WIDTH="140" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img986.png"
+ ALT="$\hat{P}(\wvar_{the}=1\vert\tcjclass) \approx 1.0 $"></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+</TABLE>
+</DIV>
+<BR>
+
+<P>
+We compare the two
+models in Table <A HREF="#tab:nbmodelcomparison">13.3</A> , including estimation
+equations and decision rules.
+
+<P>
+<A NAME="sec:nbproperties"></A> <A NAME="p:nbproperties"></A>  Naive Bayes is so called because the
+independence assumptions we have just made are indeed very
+naive for a model of natural language. The conditional
+independence assumption states that features are independent
+of each other given the class. This is hardly ever true for
+terms in documents. In many cases, the opposite is true.
+The pairs hong and kong or london and
+english in Figure <A HREF="mutual-information-1.html#fig:mifeatures">13.7</A>  are examples of highly
+dependent terms. In addition, the multinomial model makes an
+assumption of positional independence. The Bernoulli model
+ignores positions in documents altogether because it only
+cares about absence or presence.  This <A NAME="16861"></A> <I>bag-of-words</I> 
+model discards all information that is communicated by the
+order of words in natural language sentences.  
+How can NB be a good text classifier when its model of natural
+language is so oversimplified?
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+
+<A NAME="17813"></A>
+<TABLE CELLPADDING=3 BORDER="1">
+<CAPTION><STRONG>Table 13.4:</STRONG>
+  
+Correct estimation implies accurate prediction, but accurate
+prediction does not imply correct estimation.</CAPTION>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img657.png"
+ ALT="$c_1$"></TD>
+<TD ALIGN="LEFT"><IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img987.png"
+ ALT="$c_2$"></TD>
+<TD ALIGN="LEFT">class selected</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">true probability <IMG
+ WIDTH="48" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img868.png"
+ ALT="$P(c\vert d)$"></TD>
+<TD ALIGN="LEFT">0.6</TD>
+<TD ALIGN="LEFT">0.4</TD>
+<TD ALIGN="LEFT"><IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img657.png"
+ ALT="$c_1$"></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><!-- MATH
+ $\hat{P}(c)\prod_{1 \leq \tcposindex \leq n_d} \hat{P}(\tcword_\tcposindex|\tcjclass)$
+ -->
+<IMG
+ WIDTH="148" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img988.png"
+ ALT="$\hat{P}(c)\prod_{1 \leq \tcposindex \leq n_d} \hat{P}(\tcword_\tcposindex\vert\tcjclass)$">
+ (Equation&nbsp;<A HREF="#condindep">126</A>)</TD>
+<TD ALIGN="LEFT">0.00099</TD>
+<TD ALIGN="LEFT">0.00001</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">NB estimate <IMG
+ WIDTH="48" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img989.png"
+ ALT="$\hat{P}(c\vert d)$"></TD>
+<TD ALIGN="LEFT">0.99</TD>
+<TD ALIGN="LEFT">0.01</TD>
+<TD ALIGN="LEFT"><IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img657.png"
+ ALT="$c_1$"></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+</TABLE>
+</DIV>
+<BR>
+
+<P>
+<A NAME="p:badprobabilities"></A>  The answer is that
+even though the <I>probability estimates</I> of
+NB are of low quality, its <I>classification
+decisions</I> are surprisingly good.  Consider a document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">
+with true probabilities
+<IMG
+ WIDTH="97" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img990.png"
+ ALT="$P(c_1\vert d)= 0.6$"> and
+<IMG
+ WIDTH="97" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img991.png"
+ ALT="$P(c_2\vert d)= 0.4$"> as shown in Table <A HREF="#tab:badnbprobs">13.4</A> .
+Assume that <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$"> contains
+many terms that are positive indicators for <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img657.png"
+ ALT="$c_1$">
+and many terms that are negative indicators for <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img987.png"
+ ALT="$c_2$">. 
+Thus, when using the
+multinomial model in Equation&nbsp;<A HREF="#condindep">126</A>,
+<!-- MATH
+ $\hat{P}(c_1)\prod_{1 \leq \tcposindex \leq n_d} \hat{P}(\tcword_\tcposindex|c_1)$
+ -->
+<IMG
+ WIDTH="162" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img992.png"
+ ALT="$\hat{P}(c_1)\prod_{1 \leq \tcposindex \leq n_d} \hat{P}(\tcword_\tcposindex\vert c_1)$">
+will be much larger than 
+<!-- MATH
+ $\hat{P}(c_2)\prod_{1 \leq \tcposindex \leq n_d}
+\hat{P}(\tcword_\tcposindex|c_2)$
+ -->
+<IMG
+ WIDTH="162" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img993.png"
+ ALT="$\hat{P}(c_2)\prod_{1 \leq \tcposindex \leq n_d}
+\hat{P}(\tcword_\tcposindex\vert c_2)$"> (0.00099 vs. 0.00001 in the table).
+After division by 0.001 to get well-formed probabilities
+for <IMG
+ WIDTH="48" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img868.png"
+ ALT="$P(c\vert d)$">, we end up with one estimate that is close to
+1.0 and one that is close to 0.0. This is common:
+The winning class in NB classification
+usually has a much larger probability than the other
+classes and the estimates diverge very significantly from
+the true probabilities. But the
+classification decision is based on which class gets the
+highest score. It does not matter how accurate the
+estimates are. Despite the bad estimates, NB 
+estimates a
+higher probability for <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img657.png"
+ ALT="$c_1$"> and therefore assigns <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img994.png"
+ ALT="$\onedoc$">
+to the correct class in Table <A HREF="#tab:badnbprobs">13.4</A> .  <I>Correct estimation implies
+accurate prediction, but accurate prediction does not imply
+correct estimation.</I> NB classifiers estimate badly,
+but often classify well.
+
+<P>
+Even if it is not the method with the highest accuracy for
+text, NB has many virtues that make it a strong
+contender for text classification. It excels if there are
+many equally important features that jointly contribute to
+the classification decision. It is also somewhat robust to
+<A NAME="16889"></A>noise features (as defined in the next
+section) and <A NAME="16890"></A><A NAME="16891"></A> <I>concept
+drift</I> <A NAME="p:concept-drift"></A>  - the gradual change over
+time of the concept underlying a class like US
+president from Bill Clinton to George W. Bush (see
+Section <A HREF="references-and-further-reading-13.html#sec:further2">13.7</A> ). Classifiers like
+<A NAME="17815"></A> kNN 
+knn
+can be carefully tuned to idiosyncratic properties of a
+particular time period. This will then hurt them when
+documents in the following time period have slightly
+different properties.
+
+<P>
+The Bernoulli model is particularly robust with respect to
+concept drift.
+We will see in Figure <A HREF="mutual-information-1.html#fig:mccallum">13.8</A>  that it can
+have decent performance when using fewer than a dozen
+terms. The most important indicators for a class are less
+likely to change. Thus, a model that only relies on these
+features is more likely to maintain a certain level of
+accuracy in concept drift.
+
+<P>
+NB's main strength is its efficiency:
+Training and classification can be accomplished with one
+pass over the data. Because it combines efficiency with good
+accuracy it is often used as a baseline in text
+classification research. It is often the method of choice if
+(i) squeezing out a few extra percentage points of
+accuracy is not worth the trouble in a text classification
+application, (ii) a very large amount of training data is
+available and there is more to be gained from training on a
+lot of data than using a better classifier on a smaller
+training set, or (iii) if its robustness to concept drift
+can be exploited.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+
+<A NAME="17816"></A>
+<TABLE CELLPADDING=3>
+<CAPTION><STRONG>Table 13.5:</STRONG>
+   A set of documents for which
+the NB independence assumptions are problematic.</CAPTION>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">(1)</TD>
+<TD ALIGN="LEFT">He moved from London, Ontario, to London, England.</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">(2)</TD>
+<TD ALIGN="LEFT">He moved from London, England, to London, Ontario.</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">(3)</TD>
+<TD ALIGN="LEFT">He moved from England to London, Ontario.</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+</TABLE>
+</DIV>
+<BR>
+
+<P>
+In this book, we discuss NB as a classifier for
+text. The independence assumptions do not hold for
+text. However, it can be shown that NB is an
+<A NAME="16907"></A> <I>optimal classifier</I>  <A NAME="16909"></A>
+(in the sense of minimal error rate on
+new data) for data where the independence
+assumptions do hold.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html3504"
+  HREF="a-variant-of-the-multinomial-model-1.html">A variant of the multinomial model</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3502"
+  HREF="a-variant-of-the-multinomial-model-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3496"
+  HREF="text-classification-and-naive-bayes-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3490"
+  HREF="the-bernoulli-model-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3498"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3500"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3503"
+  HREF="a-variant-of-the-multinomial-model-1.html">A variant of the</A>
+<B> Up:</B> <A NAME="tex2html3497"
+  HREF="text-classification-and-naive-bayes-1.html">Text classification and Naive</A>
+<B> Previous:</B> <A NAME="tex2html3491"
+  HREF="the-bernoulli-model-1.html">The Bernoulli model</A>
+ &nbsp; <B>  <A NAME="tex2html3499"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3501"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/properties-of-naive-bayes-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:30:56 GMT -->
+</HTML>

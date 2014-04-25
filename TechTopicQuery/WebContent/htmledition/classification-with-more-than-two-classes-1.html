@@ -1,0 +1,450 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/classification-with-more-than-two-classes-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:32:44 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Classification with more than two classes</TITLE>
+<META NAME="description" CONTENT="Classification with more than two classes">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="the-bias-variance-tradeoff-1.html">
+<LINK REL="previous" HREF="linear-versus-nonlinear-classifiers-1.html">
+<LINK REL="up" HREF="vector-space-classification-1.html">
+<LINK REL="next" HREF="the-bias-variance-tradeoff-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3748"
+  HREF="the-bias-variance-tradeoff-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3742"
+  HREF="vector-space-classification-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3736"
+  HREF="linear-versus-nonlinear-classifiers-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3744"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3746"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3749"
+  HREF="the-bias-variance-tradeoff-1.html">The bias-variance tradeoff</A>
+<B> Up:</B> <A NAME="tex2html3743"
+  HREF="vector-space-classification-1.html">Vector space classification</A>
+<B> Previous:</B> <A NAME="tex2html3737"
+  HREF="linear-versus-nonlinear-classifiers-1.html">Linear versus nonlinear classifiers</A>
+ &nbsp; <B>  <A NAME="tex2html3745"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3747"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001950000000000000000"></A><A NAME="sec:more-than-two-classes"></A> <A NAME="p:more-than-two-classes"></A> 
+<A NAME="sec:morethantwo"></A> <A NAME="p:morethantwo"></A>
+<BR>
+Classification with more than two classes
+</H1> 
+We can extend two-class linear classifiers to
+<IMG
+ WIDTH="41" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1127.png"
+ ALT="$J&gt;2$"> classes. The method to use
+depends on whether the classes are mutually exclusive
+or not.
+
+<P>
+Classification for classes that are not mutually exclusive
+is called <A NAME="20475"></A> <I>any-of</I> , <A NAME="20477"></A> <I>multilabel</I> , or <A NAME="20479"></A> <I>multivalue classification</I> .  In this
+case, a document can belong to several classes
+simultaneously, or to a single class, or to none of the
+classes.  A decision on one class leaves all options open
+for the others.  It is sometimes said that the classes are
+<I>independent</I> of each other, but this is misleading
+since the classes are rarely statistically independent in
+the sense defined on page <A HREF="feature-selectionchi2-feature-selection-1.html#p:statindependence">13.5.2</A> .  In terms
+of the formal definition of the classification problem in
+Equation&nbsp;<A HREF="the-text-classification-problem-1.html#eqn:gammadef">112</A> (page <A HREF="the-text-classification-problem-1.html#p:gammadef">112</A> ), we learn <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img27.png"
+ ALT="$J$">
+different classifiers <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1190.png"
+ ALT="$\gamma_j$"> in any-of classification,
+each returning either <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1191.png"
+ ALT="$c_j$"> or <!-- MATH
+ $\overline{c}_j$
+ -->
+<IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1192.png"
+ ALT="$\overline{c}_j$">:
+<!-- MATH
+ $\gamma_j( \onedoc) \in
+\{c_j,\overline{c}_j \}$
+ -->
+<IMG
+ WIDTH="109" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1193.png"
+ ALT="$\gamma_j( \onedoc) \in
+\{c_j,\overline{c}_j \}$">.
+
+<P>
+<A NAME="p:anyof"></A> 
+Solving an any-of classification task with linear
+classifiers is straightforward:
+
+<OL>
+<LI>Build a classifier for each class,
+where the training set consists of the set of documents in
+the class (positive labels) and its complement (negative
+labels). 
+</LI>
+<LI>Given the test document, apply each
+classifier separately. The decision of one classifier has no
+influence on the decisions of the other classifiers.
+</LI>
+</OL>
+
+<P>
+The second type of classification with more than two classes
+is 
+<A NAME="20490"></A> <I>one-of classification</I> . Here, the classes are
+mutually exclusive.
+Each document must belong to exactly one of
+the classes. 
+One-of classification is also called
+<A NAME="20492"></A> <I>multinomial</I> ,
+<A NAME="20494"></A> <I>polytomous</I> <A NAME="tex2html159"
+  HREF="footnode.html#foot20867"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A>,
+<A NAME="20499"></A> <I>multiclass</I> ,
+or
+<A NAME="20501"></A> <I>single-label classification</I> .
+Formally, there is a single classification function <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img12.png"
+ ALT="$\gamma $"> in
+one-of classification whose range is <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img969.png"
+ ALT="$\mathbb{C}$">, i.e.,
+<!-- MATH
+ $\gamma ( \onedoc ) \in 
+\{c_1,\ldots,c_J\}$
+ -->
+<IMG
+ WIDTH="135" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1194.png"
+ ALT="$\gamma ( \onedoc ) \in
+\{c_1,\ldots,c_J\}$">.
+kNN is a (nonlinear) one-of classifier.
+
+<P>
+True one-of problems are less common in text classification
+than any-of problems.  With classes like UK,
+China, poultry, or coffee, a
+document can be relevant to many topics simultaneously - as
+when the prime minister of the UK visits China to talk about
+the coffee and poultry trade.
+
+<P>
+Nevertheless, we will often make a one-of assumption, as we
+did in Figure <A HREF="vector-space-classification-1.html#fig:classesinvspace">14.1</A> , even if classes are not
+really mutually exclusive. For the classification problem of
+identifying the language of a document, the one-of
+assumption is a good approximation as most text is written
+in only one language. In such cases, imposing a one-of constraint
+can increase the classifier's effectiveness because errors
+that are due to the fact that the any-of classifiers
+assigned a document to either no class or more than one class are eliminated.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:vclasscomposing"></A><A NAME="p:vclasscomposing"></A><A NAME="20513"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 14.12:</STRONG>
+<IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img27.png"
+ ALT="$J$"> hyperplanes
+do not divide space into <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img27.png"
+ ALT="$J$"> disjoint regions.</CAPTION>
+<TR><TD><IMG
+ WIDTH="246" HEIGHT="234" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1195.png"
+ ALT="\includegraphics[width=7cm]{linearvsmulti.eps}"></TD></TR>
+</TABLE>
+</DIV>
+
+<IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img27.png"
+ ALT="$J$"> hyperplanes do not divide <!-- MATH
+ $\mathbb{R}^{|V|}$
+ -->
+<IMG
+ WIDTH="34" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1086.png"
+ ALT="$\mathbb{R}^{\vert V\vert}$"> 
+into <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img27.png"
+ ALT="$J$">
+distinct regions as illustrated in Figure <A HREF="#fig:vclasscomposing">14.12</A> . Thus, we must use
+a combination method when using two-class linear classifiers for one-of classification.
+The simplest method is to rank classes
+and then select the top-ranked
+class. Geometrically, the ranking can be with
+respect to the distances from the <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img27.png"
+ ALT="$J$"> linear separators.
+Documents close to
+a class's separator are more likely to be misclassified, so the
+greater the distance from the separator, the more plausible
+it is that a positive classification decision is correct.
+Alternatively, we can use a direct measure of confidence to
+rank classes, e.g., probability of class membership.
+We can state this algorithm
+for one-of classification with linear classifiers
+as follows:
+
+<P>
+
+<OL>
+<LI>Build a classifier for each class,
+where the training
+set consists of the set of documents in the class (positive labels) and its
+complement (negative labels).
+</LI>
+<LI>Given the test document, 
+apply each classifier separately.
+</LI>
+<LI>Assign the document to the class with
+
+<UL>
+<LI>the maximum score,
+</LI>
+<LI>the maximum confidence value,
+</LI>
+<LI>or the maximum probability.
+</LI>
+</UL>
+</LI>
+</OL>
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">assigned class</TD>
+<TD ALIGN="LEFT">money-fx</TD>
+<TD ALIGN="LEFT">trade</TD>
+<TD ALIGN="LEFT">interest</TD>
+<TD ALIGN="LEFT">wheat</TD>
+<TD ALIGN="LEFT">corn</TD>
+<TD ALIGN="LEFT">grain</TD>
+</TR>
+<TR><TD ALIGN="LEFT">true class</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT">money-fx</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">95</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">10</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+</TR>
+<TR><TD ALIGN="LEFT">trade</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">90</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">0</TD>
+</TR>
+<TR><TD ALIGN="LEFT">interest</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">13</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+</TR>
+<TR><TD ALIGN="LEFT">wheat</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">34</TD>
+<TD ALIGN="LEFT">3</TD>
+<TD ALIGN="LEFT">7</TD>
+</TR>
+<TR><TD ALIGN="LEFT">corn</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">2</TD>
+<TD ALIGN="LEFT">13</TD>
+<TD ALIGN="LEFT">26</TD>
+<TD ALIGN="LEFT">5</TD>
+</TR>
+<TR><TD ALIGN="LEFT">grain</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">2</TD>
+<TD ALIGN="LEFT">14</TD>
+<TD ALIGN="LEFT">5</TD>
+<TD ALIGN="LEFT">10</TD>
+</TR>
+</TABLE>
+A confusion matrix for Reuters-21578.For example, 14 documents from
+grain were incorrectly assigned to wheat.
+Adapted from <A
+ HREF="bibliography-1.html#picca06nonlinear">Picca et&nbsp;al. (2006)</A>.
+
+<A NAME="tab:confusion"></A> <A NAME="p:confusion"></A> 
+
+</DIV>
+<BR>
+
+<P>
+An important tool for analyzing the performance of a 
+classifier for <IMG
+ WIDTH="41" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1127.png"
+ ALT="$J&gt;2$"> classes is the <A NAME="20547"></A> <I>confusion matrix</I> . The
+confusion matrix shows for each pair of classes <!-- MATH
+ $\langle c_1,c_2\rangle$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1196.png"
+ ALT="$\langle c_1,c_2\rangle$">, how many
+documents from <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img657.png"
+ ALT="$c_1$"> were incorrectly assigned to <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img987.png"
+ ALT="$c_2$">. In
+Table <A HREF="#tab:confusion">14.5</A> , 
+the classifier manages to distinguish the three
+financial classes money-fx,
+trade, and
+interest from the three agricultural classes
+wheat,
+corn, and
+grain, but makes many errors within these two
+groups. 
+The confusion matrix can help pinpoint opportunities
+for improving 
+the accuracy of the system. For example, to address the
+second largest error in Table <A HREF="#tab:confusion">14.5</A>  (14 in the row <I>grain</I>), one could attempt to
+introduce features that distinguish wheat documents
+from grain documents.
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI>Create a training set of 300 documents, 100 each
+from three different languages (e.g., English, French,
+Spanish). Create a test set by the same procedure, but also add
+100 documents from a fourth language. 
+Train (i) a one-of
+classifier (ii) an any-of
+classifier on this training set and
+evaluate it on the test set.
+(iii) Are there any interesting
+differences in how the two classifiers behave on this task?
+
+<P>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3748"
+  HREF="the-bias-variance-tradeoff-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3742"
+  HREF="vector-space-classification-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3736"
+  HREF="linear-versus-nonlinear-classifiers-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3744"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3746"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3749"
+  HREF="the-bias-variance-tradeoff-1.html">The bias-variance tradeoff</A>
+<B> Up:</B> <A NAME="tex2html3743"
+  HREF="vector-space-classification-1.html">Vector space classification</A>
+<B> Previous:</B> <A NAME="tex2html3737"
+  HREF="linear-versus-nonlinear-classifiers-1.html">Linear versus nonlinear classifiers</A>
+ &nbsp; <B>  <A NAME="tex2html3745"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3747"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/classification-with-more-than-two-classes-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:32:48 GMT -->
+</HTML>

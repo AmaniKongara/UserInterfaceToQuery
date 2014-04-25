@@ -1,0 +1,185 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/index-construction-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:21:31 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Index construction</TITLE>
+<META NAME="description" CONTENT="Index construction">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="index-compression-1.html">
+<LINK REL="previous" HREF="dictionaries-and-tolerant-retrieval-1.html">
+<LINK REL="up" HREF="irbook.html">
+<LINK REL="next" HREF="hardware-basics-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1536"
+  HREF="hardware-basics-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1530"
+  HREF="irbook.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1524"
+  HREF="references-and-further-reading-3.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1532"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1534"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1537"
+  HREF="hardware-basics-1.html">Hardware basics</A>
+<B> Up:</B> <A NAME="tex2html1531"
+  HREF="irbook.html">irbook</A>
+<B> Previous:</B> <A NAME="tex2html1525"
+  HREF="references-and-further-reading-3.html">References and further reading</A>
+ &nbsp; <B>  <A NAME="tex2html1533"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1535"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00900000000000000000"></A><A NAME="ch:iconst"></A>
+<BR>
+Index construction
+</H1> 
+
+<P>
+In this chapter, we look at how to construct an inverted
+index.  We call this process <A NAME="4886"></A> <A NAME="4887"></A> <I>index construction</I>  or <A NAME="4889"></A> <I>indexing</I> ;
+the process or machine that performs it the
+<A NAME="4891"></A> <A NAME="4892"></A> <I>indexer</I> . The design of indexing algorithms is
+governed by hardware constraints. We therefore begin
+this chapter with a review of the basics of computer
+hardware that are relevant for indexing.
+We then introduce blocked sort-based indexing (Section <A HREF="blocked-sort-based-indexing-1.html#sec:constructlarge">4.2</A> ), an efficient
+single-machine algorithm designed for static collections
+that can be viewed as a more scalable version of the basic
+sort-based indexing algorithm we introduced in
+Chapter <A HREF="boolean-retrieval-1.html#ch:intro">1</A> . 
+Section <A HREF="single-pass-in-memory-indexing-1.html#sec:spimi">4.3</A>  describes 
+single-pass in-memory indexing, an algorithm that has even
+better scaling properties because it does not hold the vocabulary
+in memory.
+For very large collections like
+the web, indexing has to be distributed over
+computer clusters
+with hundreds or thousands of machines. We discuss this in
+Section <A HREF="distributed-indexing-1.html#sec:distributedindexing">4.4</A> . Collections with frequent
+changes require <I>dynamic indexing</I>
+introduced in Section <A HREF="dynamic-indexing-1.html#sec:dynamicindexing">4.5</A>  so that changes in
+the collection are immediately reflected in the index.  Finally, we cover some complicating
+issues that can arise in indexing - such as security and
+indexes for ranked retrieval - in
+Section <A HREF="other-types-of-indexes-1.html#sec:otherindexing">4.6</A> .
+
+<P>
+Index construction interacts with several topics covered in
+other chapters.
+The indexer needs raw
+text, but documents are encoded in many ways (see
+Chapter <A HREF="the-term-vocabulary-and-postings-lists-1.html#ch:dictionary">2</A> ).  Indexers compress and decompress
+intermediate files and the final index (see Chapter <A HREF="index-compression-1.html#ch:icompress">5</A> ).
+In web search,
+documents are not on a local file system, but
+have to be spidered or crawled
+(see Chapter <A HREF="web-crawling-and-indexes-1.html#ch:chapter-crawling">20</A> ).  In <A NAME="4904"></A><A NAME="4905"></A> <I>enterprise search</I> ,
+most documents are encapsulated in varied content
+management systems, email applications, and databases. We
+give some examples in Section <A HREF="references-and-further-reading-4.html#sec:iconstfurther">4.7</A> .  Although most
+of these applications can be accessed via http, native Application Programming Interfaces (APIs)
+are usually more efficient.  The reader should be aware that
+building the subsystem that feeds raw text to the indexing
+process can in itself be a challenging problem.
+
+<P>
+<A NAME="4908"></A>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html1538"
+  HREF="hardware-basics-1.html">Hardware basics</A>
+<LI><A NAME="tex2html1539"
+  HREF="blocked-sort-based-indexing-1.html">Blocked sort-based indexing</A>
+<LI><A NAME="tex2html1540"
+  HREF="single-pass-in-memory-indexing-1.html">Single-pass in-memory indexing</A>
+<LI><A NAME="tex2html1541"
+  HREF="distributed-indexing-1.html">Distributed indexing</A>
+<LI><A NAME="tex2html1542"
+  HREF="dynamic-indexing-1.html">Dynamic indexing</A>
+<LI><A NAME="tex2html1543"
+  HREF="other-types-of-indexes-1.html">Other types of indexes</A>
+<LI><A NAME="tex2html1544"
+  HREF="references-and-further-reading-4.html">References and further reading</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1536"
+  HREF="hardware-basics-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1530"
+  HREF="irbook.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1524"
+  HREF="references-and-further-reading-3.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1532"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1534"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1537"
+  HREF="hardware-basics-1.html">Hardware basics</A>
+<B> Up:</B> <A NAME="tex2html1531"
+  HREF="irbook.html">irbook</A>
+<B> Previous:</B> <A NAME="tex2html1525"
+  HREF="references-and-further-reading-3.html">References and further reading</A>
+ &nbsp; <B>  <A NAME="tex2html1533"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1535"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/index-construction-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:21:31 GMT -->
+</HTML>

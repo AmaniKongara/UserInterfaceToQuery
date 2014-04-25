@@ -1,0 +1,367 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/the-bernoulli-model-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:30:17 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>The Bernoulli model</TITLE>
+<META NAME="description" CONTENT="The Bernoulli model">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="properties-of-naive-bayes-1.html">
+<LINK REL="previous" HREF="naive-bayes-text-classification-1.html">
+<LINK REL="up" HREF="text-classification-and-naive-bayes-1.html">
+<LINK REL="next" HREF="properties-of-naive-bayes-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3488"
+  HREF="properties-of-naive-bayes-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3482"
+  HREF="text-classification-and-naive-bayes-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3476"
+  HREF="relation-to-multinomial-unigram-language-model-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3484"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3486"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3489"
+  HREF="properties-of-naive-bayes-1.html">Properties of Naive Bayes</A>
+<B> Up:</B> <A NAME="tex2html3483"
+  HREF="text-classification-and-naive-bayes-1.html">Text classification and Naive</A>
+<B> Previous:</B> <A NAME="tex2html3477"
+  HREF="relation-to-multinomial-unigram-language-model-1.html">Relation to multinomial unigram</A>
+ &nbsp; <B>  <A NAME="tex2html3485"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3487"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001830000000000000000"></A>
+<A NAME="16555"></A><A NAME="sec:twomodels"></A> <A NAME="p:twomodels"></A>
+<BR>
+The Bernoulli model
+</H1> 
+
+<P>
+There are two different ways we can set up an NB
+classifier. The model we introduced in the previous section
+is the
+<A NAME="16558"></A> <I>multinomial model</I> . It generates one term from the
+vocabulary in each position of the document, where we assume
+a generative model that will be discussed in more detail in
+Section <A HREF="properties-of-naive-bayes-1.html#sec:generativemodel2">13.4</A> 
+(see also
+page <A HREF="finite-automata-and-language-models-1.html#p:generativemodel">12.1.1</A> ).
+
+<P>
+An alternative to the multinomial model
+is the 
+<A NAME="16562"></A> <I>multivariate Bernoulli model</I>  
+or
+<A NAME="16564"></A> <I>Bernoulli model</I> . It is equivalent to the
+binary independence model
+of Section&nbsp;<A HREF="the-binary-independence-model-1.html#sec:bim">11.3</A> (page&nbsp;<A HREF="the-binary-independence-model-1.html#p:bim"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>), which generates an
+indicator for each term of the vocabulary, either 
+<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img291.png"
+ ALT="$1$"> indicating presence of the term in
+the document
+or <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img455.png"
+ ALT="$0$">
+indicating absence.  Figure <A HREF="#fig:bernoullialg">13.3</A>  presents training and
+testing algorithms for the Bernoulli model. The Bernoulli model
+has the same time complexity as the multinomial model.
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:bernoullialg"></A><A NAME="p:bernoullialg"></A></P><IMG
+ WIDTH="555" HEIGHT="449" BORDER="0"
+ SRC="img926.png"
+ ALT="\begin{figure}
+% latex2html id marker 16569
+\begin{algorithm}{TrainBernoulliNB}{...
+...n Line 8 (top) is
+in analogy to Equation~\ref{laplace} with $B=2$.}
+\end{figure}">
+</DIV>
+
+<P>
+The different generation models imply different estimation
+strategies and different classification rules. The Bernoulli model estimates
+<!-- MATH
+ $\hat{P}(\tcword|\tcjclass)$
+ -->
+<IMG
+ WIDTH="46" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img927.png"
+ ALT="$\hat{P}(\tcword\vert\tcjclass)$"> as the <I>fraction of documents</I> of
+class <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img884.png"
+ ALT="$\tcjclass$"> that contain term <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img891.png"
+ ALT="$\tcword$"> (Figure <A HREF="#fig:bernoullialg">13.3</A> ,
+T<SMALL>RAIN</SMALL>B<SMALL>ERNOULLI</SMALL>NB, line 8).  In contrast, the
+multinomial model estimates <!-- MATH
+ $\hat{P}(\tcword|\tcjclass)$
+ -->
+<IMG
+ WIDTH="46" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img927.png"
+ ALT="$\hat{P}(\tcword\vert\tcjclass)$"> as the
+<I>fraction of tokens</I> or <I>fraction of positions</I> in
+documents of class <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img884.png"
+ ALT="$\tcjclass$"> that contain term <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img891.png"
+ ALT="$\tcword$">
+(Equation&nbsp;<A HREF="naive-bayes-text-classification-1.html#laplace">119</A>).  
+When classifying a test document, the
+Bernoulli model uses binary occurrence information, ignoring
+the number of occurrences, whereas the multinomial model
+keeps track of multiple occurrences. As a result, the
+Bernoulli model typically makes many mistakes when
+classifying long documents. For example, it may assign an
+entire book to the class China because of a single
+occurrence of the term China.
+
+<P>
+The models also differ in how nonoccurring terms are used
+in classification. They do not affect the classification
+decision in the multinomial model; but in the Bernoulli model
+the probability of nonoccurrence is factored in when
+computing <IMG
+ WIDTH="48" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img868.png"
+ ALT="$P(c\vert d)$"> (Figure <A HREF="#fig:bernoullialg">13.3</A> , A<SMALL>PPLY</SMALL>B<SMALL>ERNOULLI</SMALL>NB, Line 7).  This is because only the
+Bernoulli NB model models absence of terms explicitly.
+
+<P>
+<B>Worked example.</B> Applying the Bernoulli model to
+the example in Table <A HREF="#tab:nbtoy">13.1</A> , we have the same estimates
+for the priors as before:
+<!-- MATH
+ $\hat{P}(c) = 3/4$
+ -->
+<IMG
+ WIDTH="83" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img900.png"
+ ALT="$\hat{P}(c) = 3/4$">,
+<!-- MATH
+ $\hat{P}(\overline{c})
+= 1/4$
+ -->
+<IMG
+ WIDTH="83" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img901.png"
+ ALT="$\hat{P}(\overline{c}) = 1/4$">. The conditional probabilities are:
+
+<P>
+<P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{eqnarray*}
+\hat{P}(\term{Chinese}|c)&=& (3+1)/(3+2) = 4/5\\
+\hat{P}(\term{Japan}|c) = \hat{P}(\term{Tokyo}|c) &=& (0+1)/(3+2) = 1/5\\
+\hat{P}(\term{Beijing}|c) = \hat{P}(\term{Macao}|c) =
+\hat{P}(\term{Shanghai}|c) &=& (1+1)/(3+2) = 2/5\\
+\hat{P}(\term{Chinese}|\overline{c}) &=& (1+1)/(1+2) = 2/3\\
+\hat{P}(\term{Japan}|\overline{c}) = \hat{P}(\term{Tokyo}|\overline{c}) &=& (1+1)/(1+2) = 2/3\\
+\hat{P}(\term{Beijing}|\overline{c}) =
+\hat{P}(\term{Macao}|\overline{c}) =
+\hat{P}(\term{Shanghai}|\overline{c}) &=& (0+1)/(1+2) = 1/3
+\end{eqnarray*}
+ -->
+<IMG
+ WIDTH="498" HEIGHT="147" BORDER="0"
+ SRC="img928.png"
+ ALT="\begin{eqnarray*}
+\hat{P}(\term{Chinese}\vert c)&amp;=&amp; (3+1)/(3+2) = 4/5\\
+\hat{P}...
+...
+\hat{P}(\term{Shanghai}\vert\overline{c}) &amp;=&amp; (0+1)/(1+2) = 1/3
+\end{eqnarray*}"></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+The denominators are <IMG
+ WIDTH="53" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img929.png"
+ ALT="$(3+2)$"> and <IMG
+ WIDTH="53" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img930.png"
+ ALT="$(1+2)$"> because 
+there are three documents in <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img252.png"
+ ALT="$c$"> and one document in <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img931.png"
+ ALT="$\overline{c}$">
+and because 
+the constant <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img168.png"
+ ALT="$B$"> in
+Equation&nbsp;<A HREF="naive-bayes-text-classification-1.html#laplace">119</A> is 2 - there are two cases to consider for
+each term, occurrence and nonoccurrence.
+
+<P>
+The scores of the
+test document for the two classes are 
+<P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{eqnarray*}
+\hat{P}(c|d_5) &\propto& \hat{P}(c) \cdot
+\hat{P}(\term{Chinese}|c)\cdot
+\hat{P}(\term{Japan}|c)\cdot
+\hat{P}(\term{Tokyo}|c)\\&&\cdot
+\,(1-\hat{P}(\term{Beijing}|c))\cdot
+(1-\hat{P}(\term{Shanghai}|c))\cdot
+(1-\hat{P}(\term{Macao}|c))\\
+&=& 3/4
+\cdot
+4/5 \cdot 1/5 \cdot 1/5 \cdot (1\! - \!2/5) \cdot (1\! - \!2/5) \cdot (1\! - \!2/5)\\
+&\approx& 0.005
+\end{eqnarray*}
+ -->
+<IMG
+ WIDTH="500" HEIGHT="96" BORDER="0"
+ SRC="img932.png"
+ ALT="\begin{eqnarray*}
+\hat{P}(c\vert d_5) &amp;\propto&amp; \hat{P}(c) \cdot
+\hat{P}(\term{C...
+...!2/5) \cdot (1\! - \!2/5) \cdot (1\! - \!2/5)\\
+&amp;\approx&amp; 0.005
+\end{eqnarray*}"></DIV>
+<BR CLEAR="ALL"><P></P>
+and, analogously,
+<P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{eqnarray*}
+\hat{P}(\overline{c}|d_5) &\propto& 1/4 \cdot
+2/3 \cdot 2/3 \cdot 2/3 \cdot (1\! - \!1/3) \cdot (1\! - \!1/3) \cdot (1\! - \!1/3)\\
+&\approx& 0.022
+\end{eqnarray*}
+ -->
+<IMG
+ WIDTH="450" HEIGHT="48" BORDER="0"
+ SRC="img933.png"
+ ALT="\begin{eqnarray*}
+\hat{P}(\overline{c}\vert d_5) &amp;\propto&amp; 1/4 \cdot
+2/3 \cdot 2...
+...!1/3) \cdot (1\! - \!1/3) \cdot (1\! - \!1/3)\\
+&amp;\approx&amp; 0.022
+\end{eqnarray*}"></DIV>
+<BR CLEAR="ALL"><P></P>
+Thus,
+the classifier assigns the test document to <!-- MATH
+ $\overline{c} =$
+ -->
+<IMG
+ WIDTH="28" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img934.png"
+ ALT="$\overline{c} =$">
+not-China.
+When looking only at binary occurrence and not at term
+frequency,
+Japan and Tokyo are indicators for <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img931.png"
+ ALT="$\overline{c}$"> (<IMG
+ WIDTH="78" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img935.png"
+ ALT="$2/3&gt;1/5$">)
+and the conditional probabilities of
+Chinese for <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img252.png"
+ ALT="$c$"> and <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img931.png"
+ ALT="$\overline{c}$"> are not different enough
+(4/5 vs. 2/3) to affect the classification decision<A NAME="16685"></A>. <B>End worked example.</B>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3488"
+  HREF="properties-of-naive-bayes-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3482"
+  HREF="text-classification-and-naive-bayes-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3476"
+  HREF="relation-to-multinomial-unigram-language-model-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3484"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3486"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3489"
+  HREF="properties-of-naive-bayes-1.html">Properties of Naive Bayes</A>
+<B> Up:</B> <A NAME="tex2html3483"
+  HREF="text-classification-and-naive-bayes-1.html">Text classification and Naive</A>
+<B> Previous:</B> <A NAME="tex2html3477"
+  HREF="relation-to-multinomial-unigram-language-model-1.html">Relation to multinomial unigram</A>
+ &nbsp; <B>  <A NAME="tex2html3485"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3487"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/the-bernoulli-model-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:30:23 GMT -->
+</HTML>

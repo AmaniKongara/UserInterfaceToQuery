@@ -1,0 +1,754 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/linear-versus-nonlinear-classifiers-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:32:28 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Linear versus nonlinear classifiers</TITLE>
+<META NAME="description" CONTENT="Linear versus nonlinear classifiers">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="classification-with-more-than-two-classes-1.html">
+<LINK REL="previous" HREF="k-nearest-neighbor-1.html">
+<LINK REL="up" HREF="vector-space-classification-1.html">
+<LINK REL="next" HREF="classification-with-more-than-two-classes-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3734"
+  HREF="classification-with-more-than-two-classes-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3728"
+  HREF="vector-space-classification-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3722"
+  HREF="time-complexity-and-optimality-of-knn-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3730"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3732"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3735"
+  HREF="classification-with-more-than-two-classes-1.html">Classification with more than</A>
+<B> Up:</B> <A NAME="tex2html3729"
+  HREF="vector-space-classification-1.html">Vector space classification</A>
+<B> Previous:</B> <A NAME="tex2html3723"
+  HREF="time-complexity-and-optimality-of-knn-1.html">Time complexity and optimality</A>
+ &nbsp; <B>  <A NAME="tex2html3731"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3733"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001940000000000000000"></A>
+<A NAME="sec:linearvclass"></A> <A NAME="p:linearvclass"></A>
+<BR>
+Linear versus nonlinear classifiers
+</H1>  
+
+<P>
+In this section, we show that the two learning methods Naive
+Bayes and Rocchio are instances of linear classifiers, the
+perhaps most important group of text classifiers, and
+contrast them with nonlinear classifiers.  To simplify the
+discussion, we will only consider two-class classifiers in
+this section and define a <A NAME="20294"></A> <I>linear classifier</I>  as a
+two-class classifier that decides class membership by
+comparing a linear combination of the features to a
+threshold.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:vclassline"></A><A NAME="p:vclassline"></A><A NAME="20300"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 14.8:</STRONG>
+There are an infinite number of
+hyperplanes that separate two linearly separable classes.</CAPTION>
+<TR><TD><IMG
+ WIDTH="225" HEIGHT="202" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1161.png"
+ ALT="\includegraphics[width=6cm]{vclassline.eps}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+In two dimensions, a linear classifier is a line. Five
+examples are shown in Figure <A HREF="#fig:vclassline">14.8</A> . These lines have
+the functional form <!-- MATH
+ $w_1x_1+w_2x_2=b$
+ -->
+<IMG
+ WIDTH="122" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1101.png"
+ ALT="$w_1x_1+w_2x_2=b$">.  The classification
+rule of a linear classifier is to assign a document to <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img252.png"
+ ALT="$c$">
+if <!-- MATH
+ $w_1x_1+w_2x_2>b$
+ -->
+<IMG
+ WIDTH="121" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1162.png"
+ ALT="$w_1x_1+w_2x_2&gt;b$"> and to <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img931.png"
+ ALT="$\overline{c}$"> if
+<!-- MATH
+ $w_1x_1+w_2x_2\leq b$
+ -->
+<IMG
+ WIDTH="122" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1163.png"
+ ALT="$w_1x_1+w_2x_2\leq b$">.  Here, <!-- MATH
+ $(x_1, x_2)^{T}$
+ -->
+<IMG
+ WIDTH="64" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1164.png"
+ ALT="$(x_1, x_2)^{T}$"> is the
+two-dimensional vector representation of the document and
+<!-- MATH
+ $(w_1, w_2)^{T}$
+ -->
+<IMG
+ WIDTH="71" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1165.png"
+ ALT="$(w_1, w_2)^{T}$"> is the parameter vector that defines (together
+with <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img137.png"
+ ALT="$b$">) the decision boundary. An alternative geometric
+interpretation of a linear classifier is provided
+in Figure&nbsp;<A HREF="a-simple-example-of-machine-learned-scoring-1.html#fig:mlr1">15.7</A> (page&nbsp;<A HREF="a-simple-example-of-machine-learned-scoring-1.html#p:mlr1"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>).
+
+<P>
+We can generalize this 2D linear classifier to higher
+dimensions by defining a hyperplane as we did in
+Equation&nbsp;<A HREF="rocchio-classification-1.html#linearclassifier">140</A>, repeated here as
+Equation&nbsp;<A HREF="#linearclassifier2">144</A>:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\vec{w}^{T}\vec{x} = b
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="linearclassifier2"></A><IMG
+ WIDTH="59" HEIGHT="24" BORDER="0"
+ SRC="img1166.png"
+ ALT="\begin{displaymath}
+\vec{w}^{T}\vec{x} = b
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(144)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+The assignment criterion then is:
+assign to <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img252.png"
+ ALT="$c$"> if <!-- MATH
+ $\vec{w}^{T}\vec{x} > b$
+ -->
+<IMG
+ WIDTH="63" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1167.png"
+ ALT="$\vec{w}^{T}\vec{x} &gt; b$"> and to
+<IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img931.png"
+ ALT="$\overline{c}$"> if <!-- MATH
+ $\vec{w}^{T}\vec{x} \leq b$
+ -->
+<IMG
+ WIDTH="63" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1168.png"
+ ALT="$\vec{w}^{T}\vec{x} \leq b$">.  We
+call a hyperplane that we use as a linear classifier a
+<A NAME="p:decisionhyperplane"></A> <A NAME="20326"></A> <I>decision hyperplane</I> .
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:linearalgorithm"></A><A NAME="p:linearalgorithm"></A><A NAME="20340"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 14.9:</STRONG>
+Linear classification algorithm.</CAPTION>
+<TR><TD><IMG
+ WIDTH="237" HEIGHT="89" BORDER="0"
+ SRC="img1169.png"
+ ALT="\begin{figure}\begin{algorithm}{ApplyLinearClassifier}{\vec{w},b,\vec{x}}
+score ...
+...in{IF}{score&gt;b}
+\RETURN{1}
+\ELSE
+\RETURN{0}
+\end{IF}\end{algorithm}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The corresponding algorithm for linear classification in <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img186.png"
+ ALT="$M$"> dimensions is
+shown in Figure <A HREF="#fig:linearalgorithm">14.9</A> .
+Linear classification at first seems trivial given the
+simplicity of this algorithm. However,
+the difficulty is in training the linear classifier, that
+is, in determining the parameters <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1099.png"
+ ALT="$\vec{w}$">
+and <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img137.png"
+ ALT="$b$"> based on the training set. In general, some learning
+methods compute much better parameters than others where our
+criterion for evaluating the quality of a learning method is
+the effectiveness of the learned linear classifier on new data.
+
+<P>
+We now show that Rocchio and Naive Bayes are linear classifiers.
+To see this for Rocchio,
+observe that a vector <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img701.png"
+ ALT="$\vec{x}$"> is on the decision boundary if it
+has equal distance
+to the two class centroids:
+<BR>
+<DIV ALIGN="CENTER"><A NAME="rocchiolinear"></A>
+<!-- MATH
+ \begin{eqnarray}
+| \vec{\mu}(c_1) - \vec{x}| = |\vec{\mu}(c_2) - \vec{x} |
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="176" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1170.png"
+ ALT="$\displaystyle \vert \vec{\mu}(c_1) - \vec{x}\vert = \vert\vec{\mu}(c_2) - \vec{x} \vert$"></TD>
+<TD>&nbsp;</TD>
+<TD>&nbsp;</TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(145)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+Some basic arithmetic shows that
+this corresponds to a
+linear classifier with normal vector <!-- MATH
+ $\vec{w}=
+\vec{\mu}(c_1)-\vec{\mu}(c_2)$
+ -->
+<IMG
+ WIDTH="132" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1171.png"
+ ALT="$\vec{w}=
+\vec{\mu}(c_1)-\vec{\mu}(c_2)$"> and <!-- MATH
+ $b=0.5*(|\vec{\mu}(c_1)
+|^2-|\vec{\mu}(c_2) |^2)$
+ -->
+<IMG
+ WIDTH="209" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1172.png"
+ ALT="$b=0.5*(\vert\vec{\mu}(c_1)
+\vert^2-\vert\vec{\mu}(c_2) \vert^2)$"> (Exercise <A HREF="exercises-2.html#ex:exrocchiolinear">14.8</A> ).
+
+<P>
+We can derive the linearity of Naive Bayes from its decision
+rule, which chooses the category <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img252.png"
+ ALT="$c$"> with the largest
+<!-- MATH
+ $\hat{P}(c|\onedoc)$
+ -->
+<IMG
+ WIDTH="48" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1173.png"
+ ALT="$\hat{P}(c\vert\onedoc)$"> (Figure <A HREF="naive-bayes-text-classification-1.html#fig:multinomialalg">13.2</A> ,
+page <A HREF="naive-bayes-text-classification-1.html#p:multinomialalg">13.2</A> ) where:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\hat{P}(c|\onedoc) \propto
+\hat{P}(c) \prod_{1 \leq k \leq n_d}
+\hat{P}(\twasx_k|c)
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="191" HEIGHT="46" BORDER="0"
+ SRC="img1174.png"
+ ALT="\begin{displaymath}
+\hat{P}(c\vert\onedoc) \propto
+\hat{P}(c) \prod_{1 \leq k \leq n_d}
+\hat{P}(\twasx_k\vert c)
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(146)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+and <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img872.png"
+ ALT="$n_d$"> is the number of tokens in the document that
+are part of the vocabulary.
+Denoting the complement category as <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1175.png"
+ ALT="$\bar{c}$">, we obtain
+for the log odds:
+<BR>
+<DIV ALIGN="CENTER"><A NAME="bayeslinear"></A>
+<!-- MATH
+ \begin{eqnarray}
+\log \frac{\hat{P}(c|\onedoc)}{\hat{P}(\bar{c}|\onedoc)} = 
+\log  \frac{\hat{P}(c)}{\hat{P}(\bar{c})} + \sum_{1 \leq k
+\leq n_d} \log
+\frac{\hat{P}(\twasx_k|c)}{\hat{P}(\twasx_k|\bar{c})}
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="302" HEIGHT="58" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1176.png"
+ ALT="$\displaystyle \log \frac{\hat{P}(c\vert\onedoc)}{\hat{P}(\bar{c}\vert\onedoc)} ...
+...k
+\leq n_d} \log
+\frac{\hat{P}(\twasx_k\vert c)}{\hat{P}(\twasx_k\vert\bar{c})}$"></TD>
+<TD>&nbsp;</TD>
+<TD>&nbsp;</TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(147)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+We choose class <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img252.png"
+ ALT="$c$"> if the odds are greater than 1 or,
+equivalently, if the log odds are greater than 0. It is
+easy to see that
+Equation&nbsp;<A HREF="#bayeslinear">147</A> is an instance of Equation&nbsp;<A HREF="#linearclassifier2">144</A> for 
+<!-- MATH
+ $w_i = 
+\log
+[\hat{P}(\twasx_i|c)/\hat{P}(\twasx_i|\bar{c})]$
+ -->
+<IMG
+ WIDTH="177" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1177.png"
+ ALT="$w_i =
+\log
+[\hat{P}(\twasx_i\vert c)/\hat{P}(\twasx_i\vert\bar{c})]$">, <IMG
+ WIDTH="34" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1178.png"
+ ALT="$x_i =$"> number of
+occurrences of <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img997.png"
+ ALT="$t_i$"> in <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img994.png"
+ ALT="$\onedoc$">, 
+and
+<!-- MATH
+ $b = -\log  [ \hat{P}(c) / \hat{P}(\bar{c})]$
+ -->
+<IMG
+ WIDTH="154" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1179.png"
+ ALT="$b = -\log [ \hat{P}(c) / \hat{P}(\bar{c})] $">.
+Here, the index <IMG
+ WIDTH="8" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="$i$">, <!-- MATH
+ $1 \leq i \leq M$
+ -->
+<IMG
+ WIDTH="77" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img974.png"
+ ALT="$1 \leq i \leq M$">, refers to terms of
+the vocabulary (not to positions in <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$"> as <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> does; cf. variantmultinomial) and
+<IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img701.png"
+ ALT="$\vec{x}$"> and <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1099.png"
+ ALT="$\vec{w}$"> are <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img186.png"
+ ALT="$M$">-dimensional vectors.
+So in log space, Naive Bayes is a linear
+classifier.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT"><IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1180.png"
+ ALT="$\twasx_i$"></TD>
+<TD ALIGN="LEFT"><IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1181.png"
+ ALT="$w_i$"></TD>
+<TD ALIGN="LEFT"><IMG
+ WIDTH="22" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1182.png"
+ ALT="$d_{1i}$"></TD>
+<TD ALIGN="LEFT"><IMG
+ WIDTH="23" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1183.png"
+ ALT="$d_{2i}$"></TD>
+<TD ALIGN="LEFT"><IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1180.png"
+ ALT="$\twasx_i$"></TD>
+<TD ALIGN="LEFT"><IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1181.png"
+ ALT="$w_i$"></TD>
+<TD ALIGN="LEFT"><IMG
+ WIDTH="22" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1182.png"
+ ALT="$d_{1i}$"></TD>
+<TD ALIGN="LEFT"><IMG
+ WIDTH="23" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1183.png"
+ ALT="$d_{2i}$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT">prime</TD>
+<TD ALIGN="LEFT">0.70</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">dlrs</TD>
+<TD ALIGN="LEFT">-0.71</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">1</TD>
+</TR>
+<TR><TD ALIGN="LEFT">rate</TD>
+<TD ALIGN="LEFT">0.67</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">world</TD>
+<TD ALIGN="LEFT">-0.35</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">0</TD>
+</TR>
+<TR><TD ALIGN="LEFT">interest</TD>
+<TD ALIGN="LEFT">0.63</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">sees</TD>
+<TD ALIGN="LEFT">-0.33</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+</TR>
+<TR><TD ALIGN="LEFT">rates</TD>
+<TD ALIGN="LEFT">0.60</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">year</TD>
+<TD ALIGN="LEFT">-0.25</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+</TR>
+<TR><TD ALIGN="LEFT">discount</TD>
+<TD ALIGN="LEFT">0.46</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">group</TD>
+<TD ALIGN="LEFT">-0.24</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+</TR>
+<TR><TD ALIGN="LEFT">bundesbank</TD>
+<TD ALIGN="LEFT">0.43</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">dlr</TD>
+<TD ALIGN="LEFT">-0.24</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+</TR>
+</TABLE>
+A linear classifier.
+The dimensions <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1180.png"
+ ALT="$\twasx_i$"> and parameters <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1181.png"
+ ALT="$w_i$"> of a linear
+classifier for the class interest (as in
+interest rate) in Reuters-21578. The threshold is <IMG
+ WIDTH="42" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img777.png"
+ ALT="$b = 0$">. Terms like
+dlr and world have negative weights
+because they are indicators for the competing class currency.
+<A NAME="tab:linclassexample"></A> <A NAME="p:linclassexample"></A> 
+
+</DIV>
+<BR>
+
+<P>
+<B>Worked example.</B>
+Table <A HREF="#tab:linclassexample">14.4</A>  defines a linear
+classifier for the category interest in Reuters-21578 (see
+Section <A HREF="evaluation-of-text-classification-1.html#sec:textcat-eval">13.6</A> , page <A HREF="evaluation-of-text-classification-1.html#p:reuters21578">13.6</A> ). We assign document
+<IMG
+ WIDTH="19" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1104.png"
+ ALT="$\vec{d}_1$"> ``rate discount dlrs
+world'' to interest since
+<!-- MATH
+ $\vec{w}^{T}\vec{d}_1 = 0.67 \cdot 1 + 0.46 \cdot 1 +
+(-0.71) \cdot 1 + (-0.35) \cdot 1 = 0.07 >0= b$
+ -->
+<IMG
+ WIDTH="472" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1184.png"
+ ALT="$\vec{w}^{T}\vec{d}_1 = 0.67 \cdot 1 + 0.46 \cdot 1 +
+(-0.71) \cdot 1 + (-0.35) \cdot 1 = 0.07 &gt;0= b$">. 
+We assign 
+<IMG
+ WIDTH="19" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1105.png"
+ ALT="$\vec{d}_2$"> ``prime dlrs'' to the complement
+class (not in interest) since <!-- MATH
+ $\vec{w}^{T}\vec{d}_2 =
+-0.01 \leq b$
+ -->
+<IMG
+ WIDTH="133" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1185.png"
+ ALT="$\vec{w}^{T}\vec{d}_2 =
+-0.01 \leq b$">.
+For
+simplicity, we assume a simple binary vector representation
+in this example: 1 for occurring terms, 0 for non-occurring
+terms.
+<B>End worked example.</B>
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:typicallinear"></A><A NAME="p:typicallinear"></A></P><IMG
+ WIDTH="407" HEIGHT="373" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1186.png"
+ ALT="\includegraphics[width=9cm]{newbiasvar.eps}">
+A linear problem with noise.
+In this hypothetical web page classification scenario,
+Chinese-only web pages are solid circles and
+mixed Chinese-English web pages  are squares. The two
+classes are separated by a linear class boundary (dashed
+line, short dashes), except for three noise documents (marked with arrows).
+
+</DIV>
+
+<P>
+Figure <A HREF="#fig:typicallinear">14.10</A> 
+is a graphical example of a
+<A NAME="20435"></A><I>linear problem</I>, which we define
+to mean that the underlying distributions <IMG
+ WIDTH="48" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1187.png"
+ ALT="$P(d\vert c)$"> and
+<!-- MATH
+ $P(d|\overline{c})$
+ -->
+<IMG
+ WIDTH="48" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1188.png"
+ ALT="$P(d\vert\overline{c})$"> of the two classes are separated by a
+line. We call this separating line the <A NAME="20438"></A> <I>class boundary</I> . It is
+the ``true'' boundary of the two classes and we distinguish
+it from the <A NAME="20440"></A> <I>decision boundary</I>  that the
+learning method computes to approximate the class boundary.
+
+<P>
+As is typical in text classification, there are
+some <A NAME="20442"></A> <I>noise
+documents</I>  in Figure <A HREF="#fig:typicallinear">14.10</A>  (marked with arrows) that do not fit well into
+the overall distribution of the classes.  In
+Section <A HREF="feature-selection-1.html#sec:feature">13.5</A>  (page <A HREF="feature-selection-1.html#p:noisefeature">13.5</A> ), we defined a
+noise feature as a misleading feature that, when included in
+the document representation, on average increases the
+classification error. Analogously, a noise document is a
+document that, when included in the training set, misleads
+the learning method and increases classification error.
+Intuitively, the underlying distribution partitions the
+representation space into areas with mostly homogeneous
+class assignments. A document that does not conform with the
+dominant class in its area is a noise document.
+
+<P>
+Noise documents are one reason why training a linear
+classifier is hard. If we pay too much attention to
+noise documents when choosing the decision hyperplane of the
+classifier, then it will be inaccurate on new data. More
+fundamentally, it is usually difficult to determine which documents are
+noise documents and therefore potentially misleading.
+
+<P>
+If there exists a hyperplane that perfectly separates the
+two classes, then we call the two classes 
+<A NAME="20447"></A> <I>linearly separable</I> .
+In fact,
+if linear separability holds, then there is an infinite
+number of linear separators (Exercise <A HREF="#ex:numberlinsep">14.4</A> ) as
+illustrated by Figure <A HREF="#fig:vclassline">14.8</A> , where 
+the number of possible separating hyperplanes is infinite.
+
+<P>
+Figure <A HREF="#fig:vclassline">14.8</A>  illustrates another challenge in
+training a linear classifier. If we are dealing with a
+linearly separable problem, then we need a 
+criterion for selecting among all decision hyperplanes that
+perfectly separate the training data. In general, some of these hyperplanes will
+do well on new data, some will not.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:typicalnonlinear"></A><A NAME="p:typicalnonlinear"></A><A NAME="20454"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 14.11:</STRONG>
+A nonlinear problem.</CAPTION>
+<TR><TD><IMG
+ WIDTH="278" HEIGHT="251" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1189.png"
+ ALT="\includegraphics[width=7cm]{nonlinear.eps}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+An example of a <A NAME="20458"></A> <I>nonlinear classifier</I>  is kNN. The
+nonlinearity of kNN  is intuitively clear when
+looking at examples like Figure <A HREF="rocchio-classification-1.html#fig:knnboundaries">14.6</A> . The decision boundaries
+of kNN (the double lines in Figure <A HREF="rocchio-classification-1.html#fig:knnboundaries">14.6</A> ) are locally linear segments, but in general
+have a complex shape that is not equivalent to a line in 2D or
+a hyperplane in higher dimensions.
+
+<P>
+Figure <A HREF="#fig:typicalnonlinear">14.11</A>  is another example of a
+<A NAME="20463"></A>nonlinear problem: there is
+no good linear separator between the distributions <IMG
+ WIDTH="48" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1187.png"
+ ALT="$P(d\vert c)$">
+and <!-- MATH
+ $P(d|\overline{c})$
+ -->
+<IMG
+ WIDTH="48" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1188.png"
+ ALT="$P(d\vert\overline{c})$"> because of the circular ``enclave''
+in the upper left part of the graph.  Linear classifiers
+misclassify the enclave, whereas a nonlinear classifier like
+kNN will be highly accurate for this type of problem if the
+training set is large enough.
+
+<P>
+If a problem is nonlinear and its class
+boundaries cannot be approximated well with linear
+hyperplanes, then nonlinear classifiers are often more
+accurate than linear classifiers.
+If a problem is linear, it is best to use a simpler linear
+classifier. 
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI><A NAME="ex:numberlinsep"></A> <A NAME="p:numberlinsep"></A>  Prove that the number of
+linear separators of two classes is either infinite or zero.
+
+<P>
+</LI>
+</UL><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3734"
+  HREF="classification-with-more-than-two-classes-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3728"
+  HREF="vector-space-classification-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3722"
+  HREF="time-complexity-and-optimality-of-knn-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3730"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3732"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3735"
+  HREF="classification-with-more-than-two-classes-1.html">Classification with more than</A>
+<B> Up:</B> <A NAME="tex2html3729"
+  HREF="vector-space-classification-1.html">Vector space classification</A>
+<B> Previous:</B> <A NAME="tex2html3723"
+  HREF="time-complexity-and-optimality-of-knn-1.html">Time complexity and optimality</A>
+ &nbsp; <B>  <A NAME="tex2html3731"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3733"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/linear-versus-nonlinear-classifiers-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:32:44 GMT -->
+</HTML>

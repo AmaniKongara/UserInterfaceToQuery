@@ -1,0 +1,286 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/references-and-further-reading-8.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:27:05 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>References and further reading</TITLE>
+<META NAME="description" CONTENT="References and further reading">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="results-snippets-1.html">
+<LINK REL="up" HREF="evaluation-in-information-retrieval-1.html">
+<LINK REL="next" HREF="relevance-feedback-and-query-expansion-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2555"
+  HREF="relevance-feedback-and-query-expansion-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2549"
+  HREF="evaluation-in-information-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2545"
+  HREF="results-snippets-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2551"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2553"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2556"
+  HREF="relevance-feedback-and-query-expansion-1.html">Relevance feedback and query</A>
+<B> Up:</B> <A NAME="tex2html2550"
+  HREF="evaluation-in-information-retrieval-1.html">Evaluation in information retrieval</A>
+<B> Previous:</B> <A NAME="tex2html2546"
+  HREF="results-snippets-1.html">Results snippets</A>
+ &nbsp; <B>  <A NAME="tex2html2552"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2554"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001380000000000000000">
+References and further reading</A>
+</H1>
+
+<P>
+Definition and implementation of the notion of relevance to a query
+got off to a rocky start in 1953.  <A
+ HREF="bibliography-1.html#swanson88historical">Swanson (1988)</A> reports
+that in an evaluation in that year between two teams, they agreed that 1390
+documents were variously relevant to a set of 98 questions, but
+disagreed on a further 1577 documents, and the disagreements were
+never resolved.  
+
+<P>
+Rigorous formal testing of IR systems was first completed in the
+Cranfield experiments, beginning in the late 1950s.  A
+retrospective discussion of the Cranfield test collection
+and experimentation with it can be found in
+(<A
+ HREF="bibliography-1.html#cleverdon91cranfield">Cleverdon, 1991</A>).  The other seminal series of
+early IR experiments were those on the SMART system by
+Gerard Salton and colleagues
+(<A NAME="tex2html2557"
+  HREF="bibliography-1.html#salton71smart">Salton, 1971b</A>;<A NAME="tex2html2558"
+  HREF="bibliography-1.html#salton91panel">1991</A>).  The TREC evaluations
+are described in detail by <A
+ HREF="bibliography-1.html#voorhees05experiment">Voorhees and Harman (2005)</A>.
+Online information is available at
+<TT><A NAME="tex2html84"
+  HREF="http://trec.nist.gov/">http://trec.nist.gov/</A></TT>.  
+Initially, few researchers computed the statistical
+significance of their experimental results, but 
+the IR community increasingly demands this (<A
+ HREF="bibliography-1.html#hull93using">Hull, 1993</A>).
+User studies of IR system
+effectiveness began more recently
+(<A NAME="tex2html2559"
+  HREF="bibliography-1.html#saracevic88users">Saracevic and Kantor, 1988</A>;<A NAME="tex2html2560"
+  HREF="bibliography-1.html#saracevic88">1996</A>).
+
+<P>
+The notions of recall and precision were first used by
+<A
+ HREF="bibliography-1.html#kent55operational">Kent et&nbsp;al. (1955)</A>, although the term <I>precision</I> did not
+appear until later.
+The <A NAME="10966"></A>   (or, rather
+its complement <IMG
+ WIDTH="74" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img567.png"
+ ALT="$E = 1 - F$">) was introduced by <A
+ HREF="bibliography-1.html#rij79">van&nbsp;Rijsbergen (1979)</A>.
+He provides an extensive theoretical discussion, which shows
+how adopting a principle of decreasing marginal relevance
+(at some point a user will be unwilling to sacrifice a unit
+of precision for an added unit of recall) leads to the
+harmonic mean being the appropriate method for combining
+precision and recall (and hence to its adoption rather than
+the minimum or geometric mean).
+
+<P>
+<A
+ HREF="bibliography-1.html#buckley00evaluating">Buckley and Voorhees (2000)</A> compare several evaluation measures,
+including precision at <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">, MAP, and R-precision, and evaluate the
+error rate of each measure.
+<A NAME="10970"></A>   was adopted
+ as the official evaluation metric in the TREC HARD track
+ (<A
+ HREF="bibliography-1.html#allan05hard">Allan, 2005</A>).  <A
+ HREF="bibliography-1.html#aslam05geometric">Aslam and Yilmaz (2005)</A> examine its
+surprisingly close correlation to MAP, which had been noted in earlier studies 
+(<A NAME="tex2html2561"
+  HREF="bibliography-1.html#buckley00evaluating">Buckley and Voorhees, 2000</A>, <A NAME="tex2html2562"
+  HREF="bibliography-1.html#tague-sutcliffe95statistical">Tague-Sutcliffe and Blustein, 1995</A>).
+  A standard program for
+ evaluating IR systems which computes many measures of
+ ranked retrieval effectiveness is Chris Buckley's <A NAME="10975"></A><code>trec_eval</code>
+ program used in the TREC evaluations. It can be downloaded
+ from: <TT><A NAME="tex2html85"
+  HREF="http://trec.nist.gov/trec_eval/">http://trec.nist.gov/trec_eval/</A></TT>.
+
+<P>
+<A
+ HREF="bibliography-1.html#kekalainen02graded">Kek&#228;l&#228;inen and J&#228;rvelin (2002)</A> argue for the superiority of graded
+relevance judgments when dealing with very large document
+collections, and <A
+ HREF="bibliography-1.html#jarvelin02cumulated">J&#228;rvelin and Kek&#228;l&#228;inen (2002)</A> introduce cumulated
+gain-based methods for IR system evaluation in this context.
+<A
+ HREF="bibliography-1.html#sakai07reliability">Sakai (2007)</A> does a study of the stability and
+sensitivity of evaluation measures based on graded relevance
+judgments from <A NAME="10980"></A> <I>NTCIR</I>  tasks, and concludes that NDCG is
+best for evaluating document ranking.
+
+<P>
+<A
+ HREF="bibliography-1.html#schamber90re-examination">Schamber et&nbsp;al. (1990)</A> examine the concept of relevance,
+stressing its multidimensional and context-specific nature, but also
+arguing that it can be measured effectively.
+(<A
+ HREF="bibliography-1.html#voorhees00variations">Voorhees, 2000</A>) is the standard article for
+examining variation in relevance judgments and their
+effects on retrieval system scores and ranking for the TREC
+Ad Hoc task.  <A
+ HREF="bibliography-1.html#voorhees00variations">Voorhees</A> concludes that although the numbers
+change, the rankings are quite stable.   <A
+ HREF="bibliography-1.html#hersh94ohsumed">Hersh et&nbsp;al. (1994)</A>
+present similar analysis for a medical IR collection.
+In contrast,
+<A
+ HREF="bibliography-1.html#kekalainen05relevance">Kek&#228;l&#228;inen (2005)</A> analyze some of the later
+TRECs, exploring a 4-way relevance judgment and the notion
+of cumulative gain, arguing that the relevance measure used
+does substantially affect system rankings.  See also
+<A
+ HREF="bibliography-1.html#harter98relevance">Harter (1998)</A>.  <A
+ HREF="bibliography-1.html#zobel98reliable">Zobel (1998)</A> studies whether
+the <A NAME="10989"></A> <I>pooling</I>  method used by TREC to collect a subset of
+documents that will be evaluated for relevance is reliable and fair, and
+concludes that it is.
+
+<P>
+The <A NAME="10991"></A>   and its use for language-related purposes is
+discussed by <A
+ HREF="bibliography-1.html#carletta96kappa">Carletta (1996)</A>.  Many standard sources (e.g., <A
+ HREF="bibliography-1.html#siegel88nonparametric">Siegel and Castellan, 1988</A>) present pooled calculation of the expected agreement, but <A
+ HREF="bibliography-1.html#dieugenio04kappa">Di Eugenio (2004)</A> argue for preferring the unpooled agreement (though perhaps presenting multiple measures).  For further discussion of alternative measures of agreement, which may in fact be better, see <A
+ HREF="bibliography-1.html#lombard02content">Lombard et&nbsp;al. (2002)</A> and <A
+ HREF="bibliography-1.html#krippendorff03content">Krippendorff (2003)</A>.
+
+<P>
+Text summarization has been actively explored for many
+years.  Modern work on sentence selection was initiated by
+<A
+ HREF="bibliography-1.html#kupiec95">Kupiec et&nbsp;al. (1995)</A>.  More recent work includes
+(<A
+ HREF="bibliography-1.html#barzilay97chains">Barzilay and Elhadad, 1997</A>) and (<A
+ HREF="bibliography-1.html#jing00reduction">Jing, 2000</A>),
+together with a broad selection of work appearing at the
+yearly DUC conferences and at other NLP venues.
+<A
+ HREF="bibliography-1.html#tombros98advantages">Tombros and Sanderson (1998)</A> demonstrate
+the advantages of dynamic summaries in the IR context.
+<A
+ HREF="bibliography-1.html#turpin07fast">Turpin et&nbsp;al. (2007)</A> address how to generate snippets efficiently.
+
+<P>
+Clickthrough log analysis is studied in
+(<A NAME="tex2html2563"
+  HREF="bibliography-1.html#joachims02clickthrough">Joachims, 2002b</A>, <A NAME="tex2html2564"
+  HREF="bibliography-1.html#joachims05clickthrough">Joachims et&nbsp;al., 2005</A>). 
+
+<P>
+In a series of papers, Hersh, Turpin and colleagues show how
+improvements in formal retrieval effectiveness, as evaluated in batch
+experiments, do not always translate into an improved system for users
+(<A NAME="tex2html2565"
+  HREF="bibliography-1.html#hersh00further">Hersh et&nbsp;al., 2000b</A>, <A NAME="tex2html2566"
+  HREF="bibliography-1.html#turpin02user">Turpin and Hersh, 2002</A>, <A NAME="tex2html2567"
+  HREF="bibliography-1.html#hersh00batch">Hersh et&nbsp;al., 2000a</A>;<A NAME="tex2html2568"
+  HREF="bibliography-1.html#hersh01challenging">2001</A>, <A NAME="tex2html2569"
+  HREF="bibliography-1.html#turpin01why">Turpin and Hersh, 2001</A>).
+
+<P>
+User interfaces for IR and human factors such as models of
+human information seeking and usability testing are outside
+the scope of what we cover in this book.  More information
+on these topics can be found in other textbooks, including
+(<A
+ HREF="bibliography-1.html#baezayates99">Baeza-Yates and Ribeiro-Neto, 1999</A>, ch.&nbsp;10) and (<A
+ HREF="bibliography-1.html#korfhage97">Korfhage, 1997</A>), and
+collections focused on cognitive aspects
+(<A
+ HREF="bibliography-1.html#spink05cognitive">Spink and Cole, 2005</A>).
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2555"
+  HREF="relevance-feedback-and-query-expansion-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2549"
+  HREF="evaluation-in-information-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2545"
+  HREF="results-snippets-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2551"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2553"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2556"
+  HREF="relevance-feedback-and-query-expansion-1.html">Relevance feedback and query</A>
+<B> Up:</B> <A NAME="tex2html2550"
+  HREF="evaluation-in-information-retrieval-1.html">Evaluation in information retrieval</A>
+<B> Previous:</B> <A NAME="tex2html2546"
+  HREF="results-snippets-1.html">Results snippets</A>
+ &nbsp; <B>  <A NAME="tex2html2552"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2554"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/references-and-further-reading-8.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:27:06 GMT -->
+</HTML>

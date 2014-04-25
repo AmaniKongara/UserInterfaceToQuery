@@ -1,0 +1,939 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/latent-semantic-indexing-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:38:16 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Latent semantic indexing</TITLE>
+<META NAME="description" CONTENT="Latent semantic indexing">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="references-and-further-reading-18.html">
+<LINK REL="previous" HREF="low-rank-approximations-1.html">
+<LINK REL="up" HREF="matrix-decompositions-and-latent-semantic-indexing-1.html">
+<LINK REL="next" HREF="references-and-further-reading-18.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4583"
+  HREF="references-and-further-reading-18.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4577"
+  HREF="matrix-decompositions-and-latent-semantic-indexing-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4571"
+  HREF="low-rank-approximations-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4579"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4581"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4584"
+  HREF="references-and-further-reading-18.html">References and further reading</A>
+<B> Up:</B> <A NAME="tex2html4578"
+  HREF="matrix-decompositions-and-latent-semantic-indexing-1.html">Matrix decompositions and latent</A>
+<B> Previous:</B> <A NAME="tex2html4572"
+  HREF="low-rank-approximations-1.html">Low-rank approximations</A>
+ &nbsp; <B>  <A NAME="tex2html4580"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4582"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION002340000000000000000">
+Latent semantic indexing</A>
+</H1>
+We now discuss the approximation of a term-document matrix <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$\lsimatrix$"> by one of lower rank using the SVD.  The low-rank approximation to <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$\lsimatrix$"> yields a new representation for each document in the collection.  We will cast queries into this low-rank representation as well, enabling us to compute query-document similarity scores in this low-rank representation.  This process is known as <A NAME="28928"></A> <I>latent semantic indexing</I>  (generally abbreviated LSI).
+
+<P>
+But first, we motivate such an approximation. Recall the vector space representation of documents and queries introduced in Section&nbsp;<A HREF="the-vector-space-model-for-scoring-1.html#sec:vsm">6.3</A> (page&nbsp;<A HREF="the-vector-space-model-for-scoring-1.html#p:vsm"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>). This vector space representation enjoys a number of advantages including the uniform treatment of queries and documents as vectors, the induced score computation based on cosine similarity, the ability to weight different terms differently, and its extension beyond document retrieval to such applications as clustering and classification. The vector space representation suffers, however, from its inability to cope with two classic problems arising in natural languages: <I>synonymy</I> and <I>polysemy</I>. Synonymy refers to a case where two different words (say car and automobile) have the same meaning. Because the vector space representation fails to capture the relationship between synonymous terms such as car and automobile - according each a separate dimension in the vector space. Consequently the computed similarity <!-- MATH
+ $\vec{q}\cdot \vec{d}$
+ -->
+<IMG
+ WIDTH="32" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1780.png"
+ ALT="$\vec{q}\cdot \vec{d}$"> between a query <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img572.png"
+ ALT="$\vec{q}$"> (say, car) and a document <IMG
+ WIDTH="13" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1594.png"
+ ALT="$\vec{d}$"> containing both car and automobile underestimates the true similarity that a user would perceive. Polysemy on the other hand refers to the case where a term such as charge has multiple meanings, so that the computed similarity <!-- MATH
+ $\vec{q}\cdot \vec{d}$
+ -->
+<IMG
+ WIDTH="32" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1780.png"
+ ALT="$\vec{q}\cdot \vec{d}$"> overestimates the similarity that a user would perceive. Could we use the co-occurrences of terms (whether, for instance, charge occurs in a document containing steed versus in a document containing electron) to capture the latent semantic associations of terms and alleviate these problems?
+
+<P>
+Even for a collection of modest size, the term-document matrix <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$\lsimatrix$"> is likely to have several tens of thousand of rows and columns, and a rank in the tens of thousands as well. In latent semantic indexing (sometimes referred to as <A NAME="28951"></A> <I>latent semantic analysis (LSA)</I> ), we use the SVD to construct a low-rank approximation <IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1742.png"
+ ALT="$\lsimatrix_k$"> to the term-document matrix, for a value of <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> that is far smaller than the original rank of <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$\lsimatrix$">. In the experimental work cited later in this section, <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> is generally chosen to be in the low hundreds. We thus map each row/column (respectively corresponding to a term/document) to a <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">-dimensional space; this space is defined by the <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> principal eigenvectors (corresponding to the largest eigenvalues) of <!-- MATH
+ $\lsimatrix\lsimatrix^T$
+ -->
+<IMG
+ WIDTH="35" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1719.png"
+ ALT="$\lsimatrix\lsimatrix^T$"> and <!-- MATH
+ $\lsimatrix^T\lsimatrix$
+ -->
+<IMG
+ WIDTH="35" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1721.png"
+ ALT="$\lsimatrix^T\lsimatrix$">. Note that the matrix <IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1742.png"
+ ALT="$\lsimatrix_k$"> is itself still an <!-- MATH
+ $\lsinoterms\times \lsinodocs$
+ -->
+<IMG
+ WIDTH="53" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1664.png"
+ ALT="$\lsinoterms\times \lsinodocs$"> matrix, irrespective of <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">.
+
+<P>
+Next, we use the new <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">-dimensional LSI representation as we did the original representation - to compute similarities between vectors. A query vector <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img572.png"
+ ALT="$\vec{q}$"> is mapped into its representation in the LSI space by the transformation
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\vec{q}_k=\Sigma_k^{-1}U_k^T\vec{q}.
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eqn:svdquery"></A><IMG
+ WIDTH="98" HEIGHT="30" BORDER="0"
+ SRC="img1781.png"
+ ALT="\begin{displaymath}
+\vec{q}_k=\Sigma_k^{-1}U_k^T\vec{q}.
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(244)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+Now, we may use cosine similarities as in Section&nbsp;<A HREF="dot-products-1.html#sec:inner">6.3.1</A> (page&nbsp;<A HREF="dot-products-1.html#p:inner"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>) to compute the similarity between a query and a document, between two documents, or between two terms.  Note especially that Equation&nbsp;<A HREF="#eqn:svdquery">244</A> does not in any way depend on <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img572.png"
+ ALT="$\vec{q}$"> being a query; it is simply a vector in the space of terms.  This means that if we have an LSI representation of a collection of documents, a new document not in the collection can be ``folded in'' to this representation using Equation&nbsp;<A HREF="#eqn:svdquery">244</A>.  This allows us to incrementally add documents to an LSI representation.  Of course, such incremental addition fails to capture the co-occurrences of the newly added documents (and even ignores any new terms they contain).  As such, the quality of the LSI representation will degrade as more documents are added and will eventually require a recomputation of the LSI representation.
+
+<P>
+The fidelity of the approximation of <IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1742.png"
+ ALT="$\lsimatrix_k$"> to <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$\lsimatrix$"> leads us to hope that the relative values of cosine similarities are preserved: if a query is close to a document in the original space, it remains relatively close in the <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">-dimensional space. But this in itself is not sufficiently interesting, especially given that the sparse query vector <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img572.png"
+ ALT="$\vec{q}$"> turns into a dense query vector <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1782.png"
+ ALT="$\vec{q}_k$"> in the low-dimensional space. This has a significant computational cost, when compared with the cost of processing <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img572.png"
+ ALT="$\vec{q}$"> in its native form.
+
+<P>
+<B>Worked example.</B>
+<A NAME="eg:lsi56"></A>Consider the term-document matrix <IMG
+ WIDTH="33" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1783.png"
+ ALT="$\lsimatrix=$">
+<BLOCKQUOTE>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"><IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img412.png"
+ ALT="$d_1$"></TD>
+<TD ALIGN="LEFT"><IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img413.png"
+ ALT="$d_2$"></TD>
+<TD ALIGN="LEFT"><IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img623.png"
+ ALT="$d_3$"></TD>
+<TD ALIGN="LEFT"><IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img630.png"
+ ALT="$d_4$"></TD>
+<TD ALIGN="LEFT"><IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img908.png"
+ ALT="$d_5$"></TD>
+<TD ALIGN="LEFT"><IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1784.png"
+ ALT="$d_6$"></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">ship</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">boat</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">ocean</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">voyage</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">trip</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">0</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+Its singular value decomposition is the product of three matrices as below.  First we have <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1702.png"
+ ALT="$U$"> which in this example is:
+<BLOCKQUOTE>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="RIGHT">1</TD>
+<TD ALIGN="RIGHT">2</TD>
+<TD ALIGN="RIGHT">3</TD>
+<TD ALIGN="RIGHT">4</TD>
+<TD ALIGN="RIGHT">5</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">ship</TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1785.png"
+ ALT="$-0.44$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1786.png"
+ ALT="$-0.30$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="32" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1787.png"
+ ALT="$0.57$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="31" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1788.png"
+ ALT="$0.58$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="32" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1789.png"
+ ALT="$0.25$"></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">boat</TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1790.png"
+ ALT="$-0.13$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1791.png"
+ ALT="$-0.33$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1792.png"
+ ALT="$-0.59$"></TD>
+<TD ALIGN="RIGHT">0.00</TD>
+<TD ALIGN="RIGHT">0.73</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">ocean</TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1793.png"
+ ALT="$-0.48$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1794.png"
+ ALT="$-0.51$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1795.png"
+ ALT="$-0.37$"></TD>
+<TD ALIGN="RIGHT">0.00</TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1796.png"
+ ALT="$-0.61$"></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">voyage</TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1797.png"
+ ALT="$-0.70$"></TD>
+<TD ALIGN="RIGHT">0.35</TD>
+<TD ALIGN="RIGHT">0.15</TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1798.png"
+ ALT="$-0.58$"></TD>
+<TD ALIGN="RIGHT">0.16</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">trip</TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1799.png"
+ ALT="$-0.26$"></TD>
+<TD ALIGN="RIGHT">0.65</TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1800.png"
+ ALT="$-0.41$"></TD>
+<TD ALIGN="RIGHT">0.58</TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1801.png"
+ ALT="$-0.09$"></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+When applying the SVD to a term-document matrix, <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1702.png"
+ ALT="$U$"> is known as the <I>SVD term matrix</I>.  The singular values are <IMG
+ WIDTH="32" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1802.png"
+ ALT="$\Sigma=$">
+<BLOCKQUOTE>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">2.16</TD>
+<TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">0.00</TD>
+</TR>
+<TR><TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">1.59</TD>
+<TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">0.00</TD>
+</TR>
+<TR><TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">1.28</TD>
+<TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">0.00</TD>
+</TR>
+<TR><TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">1.00</TD>
+<TD ALIGN="LEFT">0.00</TD>
+</TR>
+<TR><TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">0.39</TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+Finally we have <IMG
+ WIDTH="25" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1734.png"
+ ALT="$V^T$">, which in the context of a term-document matrix is known as the <I>SVD document matrix</I>:
+<BLOCKQUOTE>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img412.png"
+ ALT="$d_1$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img413.png"
+ ALT="$d_2$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img623.png"
+ ALT="$d_3$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img630.png"
+ ALT="$d_4$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img908.png"
+ ALT="$d_5$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1784.png"
+ ALT="$d_6$"></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">1</TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1803.png"
+ ALT="$-0.75$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1804.png"
+ ALT="$-0.28$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1805.png"
+ ALT="$-0.20$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1806.png"
+ ALT="$-0.45$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1791.png"
+ ALT="$-0.33$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1807.png"
+ ALT="$-0.12$"></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">2</TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1808.png"
+ ALT="$-0.29$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1809.png"
+ ALT="$-0.53$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1810.png"
+ ALT="$-0.19$"></TD>
+<TD ALIGN="RIGHT">0.63</TD>
+<TD ALIGN="RIGHT">0.22</TD>
+<TD ALIGN="RIGHT">0.41</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">3</TD>
+<TD ALIGN="RIGHT">0.28</TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1803.png"
+ ALT="$-0.75$"></TD>
+<TD ALIGN="RIGHT">0.45</TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1805.png"
+ ALT="$-0.20$"></TD>
+<TD ALIGN="RIGHT">0.12</TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1791.png"
+ ALT="$-0.33$"></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">4</TD>
+<TD ALIGN="RIGHT">0.00</TD>
+<TD ALIGN="RIGHT">0.00</TD>
+<TD ALIGN="RIGHT">0.58</TD>
+<TD ALIGN="RIGHT">0.00</TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1798.png"
+ ALT="$-0.58$"></TD>
+<TD ALIGN="RIGHT">0.58</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">5</TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1809.png"
+ ALT="$-0.53$"></TD>
+<TD ALIGN="RIGHT">0.29</TD>
+<TD ALIGN="RIGHT">0.63</TD>
+<TD ALIGN="RIGHT">0.19</TD>
+<TD ALIGN="RIGHT">0.41</TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1811.png"
+ ALT="$-0.22$"></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+By ``zeroing out'' all but the two largest singular values of <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img793.png"
+ ALT="$\Sigma$">, we obtain <IMG
+ WIDTH="39" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1812.png"
+ ALT="$\Sigma_2=$">
+<BLOCKQUOTE>
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">2.16</TD>
+<TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">0.00</TD>
+</TR>
+<TR><TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">1.59</TD>
+<TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">0.00</TD>
+</TR>
+<TR><TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">0.00</TD>
+</TR>
+<TR><TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">0.00</TD>
+</TR>
+<TR><TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">0.00</TD>
+<TD ALIGN="LEFT">0.00</TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+From this, we compute <IMG
+ WIDTH="39" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1813.png"
+ ALT="$\lsimatrix_2=$">
+<BLOCKQUOTE>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img412.png"
+ ALT="$d_1$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img413.png"
+ ALT="$d_2$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img623.png"
+ ALT="$d_3$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img630.png"
+ ALT="$d_4$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img908.png"
+ ALT="$d_5$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1784.png"
+ ALT="$d_6$"></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">1</TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1814.png"
+ ALT="$-1.62$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1815.png"
+ ALT="$-0.60$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1785.png"
+ ALT="$-0.44$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1816.png"
+ ALT="$-0.97$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1797.png"
+ ALT="$-0.70$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1799.png"
+ ALT="$-0.26$"></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">2</TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1817.png"
+ ALT="$-0.46$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1818.png"
+ ALT="$-0.84$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1786.png"
+ ALT="$-0.30$"></TD>
+<TD ALIGN="RIGHT">1.00</TD>
+<TD ALIGN="RIGHT">0.35</TD>
+<TD ALIGN="RIGHT">0.65</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">3</TD>
+<TD ALIGN="RIGHT">0.00</TD>
+<TD ALIGN="RIGHT">0.00</TD>
+<TD ALIGN="RIGHT">0.00</TD>
+<TD ALIGN="RIGHT">0.00</TD>
+<TD ALIGN="RIGHT">0.00</TD>
+<TD ALIGN="RIGHT">0.00</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">4</TD>
+<TD ALIGN="RIGHT">0.00</TD>
+<TD ALIGN="RIGHT">0.00</TD>
+<TD ALIGN="RIGHT">0.00</TD>
+<TD ALIGN="RIGHT">0.00</TD>
+<TD ALIGN="RIGHT">0.00</TD>
+<TD ALIGN="RIGHT">0.00</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">5</TD>
+<TD ALIGN="RIGHT">0.00</TD>
+<TD ALIGN="RIGHT">0.00</TD>
+<TD ALIGN="RIGHT">0.00</TD>
+<TD ALIGN="RIGHT">0.00</TD>
+<TD ALIGN="RIGHT">0.00</TD>
+<TD ALIGN="RIGHT">0.00</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+Notice that the low-rank approximation, unlike the original matrix <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$\lsimatrix$">, can have negative entries.
+<B>End worked example.</B>
+
+<P>
+Examination of <IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1819.png"
+ ALT="$\lsimatrix_2$"> and <IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1778.png"
+ ALT="$\Sigma_2$"> in Example&nbsp;<A HREF="#eg:lsi56">18.4</A> shows that the last 3 rows of each of these matrices are populated entirely by zeros.  This suggests that the SVD product <IMG
+ WIDTH="49" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1820.png"
+ ALT="$U\Sigma V^T$"> in Equation&nbsp;<A HREF="low-rank-approximations-1.html#eqn:usigmavt">241</A> can be carried out with only two rows in the representations of <IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1778.png"
+ ALT="$\Sigma_2$"> and <IMG
+ WIDTH="25" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1734.png"
+ ALT="$V^T$">; we may then replace these matrices by their truncated versions <!-- MATH
+ $\Sigma_2^\prime$
+ -->
+<IMG
+ WIDTH="22" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1821.png"
+ ALT="$\Sigma_2^\prime$"> and <IMG
+ WIDTH="44" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img33.png"
+ ALT="$(V^\prime )^T$">.  For instance, the <A NAME="29009"></A> <I>truncated SVD</I>  document matrix <IMG
+ WIDTH="44" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img33.png"
+ ALT="$(V^\prime )^T$"> in this example is:
+<BLOCKQUOTE>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img412.png"
+ ALT="$d_1$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img413.png"
+ ALT="$d_2$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img623.png"
+ ALT="$d_3$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img630.png"
+ ALT="$d_4$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img908.png"
+ ALT="$d_5$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1784.png"
+ ALT="$d_6$"></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">1</TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1814.png"
+ ALT="$-1.62$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1815.png"
+ ALT="$-0.60$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1785.png"
+ ALT="$-0.44$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1816.png"
+ ALT="$-0.97$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1797.png"
+ ALT="$-0.70$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1799.png"
+ ALT="$-0.26$"></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">2</TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1817.png"
+ ALT="$-0.46$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1818.png"
+ ALT="$-0.84$"></TD>
+<TD ALIGN="RIGHT"><IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1786.png"
+ ALT="$-0.30$"></TD>
+<TD ALIGN="RIGHT">1.00</TD>
+<TD ALIGN="RIGHT">0.35</TD>
+<TD ALIGN="RIGHT">0.65</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+Figure <A HREF="#fig:2dlsiexample">18.3</A>  illustrates the documents in <IMG
+ WIDTH="44" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img33.png"
+ ALT="$(V^\prime )^T$"> in two dimensions.  Note also that <IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1819.png"
+ ALT="$\lsimatrix_2$"> is dense relative to <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$\lsimatrix$">.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:2dlsiexample"></A><A NAME="p:2dlsiexample"></A><A NAME="29147"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 18.3:</STRONG>
+The documents of Example&nbsp;<A HREF="#eg:lsi56">18.4</A> reduced to two dimensions in <IMG
+ WIDTH="44" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img33.png"
+ ALT="$(V^\prime )^T$">.</CAPTION>
+<TR><TD><IMG
+ WIDTH="285" HEIGHT="314" BORDER="0"
+ SRC="img1822.png"
+ ALT="\begin{figure}\psset{xunit=3cm,yunit=3cm}
+\begin{pspicture}(-2,-1.5)(1,1.5)
+\psa...
+...}(0,0)(-0.897,0.442)
+\psline{-&gt;}(0,0)(-0.371,0.928)
+\end{pspicture}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+We may in general view the low-rank approximation of <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$\lsimatrix$"> by <IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1742.png"
+ ALT="$\lsimatrix_k$"> as a <I>constrained optimization</I> problem: subject to the constraint that <IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1742.png"
+ ALT="$\lsimatrix_k$"> have rank at most <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">, we seek a representation of the terms and documents comprising <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$\lsimatrix$"> with low Frobenius norm for the error <!-- MATH
+ $\lsimatrix-\lsimatrix_k$
+ -->
+<IMG
+ WIDTH="52" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1751.png"
+ ALT="$\lsimatrix-\lsimatrix_k$">. When forced to squeeze the terms/documents down to a <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">-dimensional space, the SVD should bring together terms with similar co-occurrences. This intuition suggests, then, that not only should retrieval quality not suffer too much from the dimension reduction, but in fact may <I>improve</I>.
+
+<P>
+<A
+ HREF="bibliography-1.html#dumais93">Dumais (1993)</A> and <A
+ HREF="bibliography-1.html#Dum-95">Dumais (1995)</A> conducted experiments with LSI on TREC documents and tasks, using the commonly-used Lanczos algorithm to compute the SVD.  At the time of their work in the early 1990's, the LSI computation on tens of thousands of documents took approximately a day on one machine.  On these experiments, they achieved precision at or above that of the median TREC participant.  On about 20% of TREC topics their system was the top scorer, and reportedly slightly better on average than standard vector spaces for LSI at about 350 dimensions.  Here are some conclusions on LSI first suggested by their work, and subsequently verified by many other experiments.
+
+<P>
+
+<UL>
+<LI>The computational cost of the SVD is significant; at the time of this writing, we know of no successful experiment with over one million documents. This has been the biggest obstacle to the widespread adoption to LSI.  One approach to this obstacle is to build the LSI representation on a randomly sampled subset of the documents in the collection, following which the remaining documents are ``folded in'' as detailed with Equation&nbsp;<A HREF="#eqn:svdquery">244</A>.
+</LI>
+<LI>As we reduce <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">, recall tends to increase, as expected.
+</LI>
+<LI>Most surprisingly, a value of <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> in the low hundreds can actually <I>increase</I> precision on some query benchmarks. This appears to suggest that for a suitable value of <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">, LSI addresses some of the challenges of synonymy.
+</LI>
+<LI>LSI works best in applications where there is little overlap between queries and documents.
+</LI>
+</UL>
+
+<P>
+The experiments also documented some modes where LSI failed to match the effectiveness of more traditional indexes and score computations. Most notably (and perhaps obviously), LSI shares two basic drawbacks of vector space retrieval: there is no good way of expressing negations (find documents that contain german but not shepherd), and no way of enforcing Boolean conditions.
+
+<P>
+<A NAME="p:lsiasclustering"></A> LSI can be viewed as <A NAME="29052"></A> <I>soft clustering</I>  by interpreting each dimension of the reduced space as a cluster and the value that a document has on that dimension as its fractional membership in that cluster.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4583"
+  HREF="references-and-further-reading-18.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4577"
+  HREF="matrix-decompositions-and-latent-semantic-indexing-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4571"
+  HREF="low-rank-approximations-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4579"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4581"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4584"
+  HREF="references-and-further-reading-18.html">References and further reading</A>
+<B> Up:</B> <A NAME="tex2html4578"
+  HREF="matrix-decompositions-and-latent-semantic-indexing-1.html">Matrix decompositions and latent</A>
+<B> Previous:</B> <A NAME="tex2html4572"
+  HREF="low-rank-approximations-1.html">Low-rank approximations</A>
+ &nbsp; <B>  <A NAME="tex2html4580"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4582"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/latent-semantic-indexing-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:38:40 GMT -->
+</HTML>

@@ -1,0 +1,306 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/review-of-basic-probability-theory-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:27:58 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Review of basic probability theory</TITLE>
+<META NAME="description" CONTENT="Review of basic probability theory">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="the-probability-ranking-principle-1.html">
+<LINK REL="previous" HREF="probabilistic-information-retrieval-1.html">
+<LINK REL="up" HREF="probabilistic-information-retrieval-1.html">
+<LINK REL="next" HREF="the-probability-ranking-principle-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3012"
+  HREF="the-probability-ranking-principle-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3006"
+  HREF="probabilistic-information-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3000"
+  HREF="probabilistic-information-retrieval-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3008"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3010"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3013"
+  HREF="the-probability-ranking-principle-1.html">The Probability Ranking Principle</A>
+<B> Up:</B> <A NAME="tex2html3007"
+  HREF="probabilistic-information-retrieval-1.html">Probabilistic information retrieval</A>
+<B> Previous:</B> <A NAME="tex2html3001"
+  HREF="probabilistic-information-retrieval-1.html">Probabilistic information retrieval</A>
+ &nbsp; <B>  <A NAME="tex2html3009"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3011"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001610000000000000000"></A><A NAME="sec:probirsec"></A> <A NAME="p:probirsec"></A>
+<BR>
+Review of basic probability theory
+</H1> 
+
+<P>
+We hope that the reader has seen a little basic probability
+theory previously.  We will give a very quick review; some
+references for further reading appear at the end of the
+chapter. A variable <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img167.png"
+ ALT="$A$"> represents an event (a subset of the
+space of possible outcomes).  Equivalently, we can represent
+the subset via a <A NAME="13898"></A> <I>random
+variable</I> <A NAME="p:rv-defn"></A> , which is a function from
+outcomes to real numbers; the subset is the domain over which
+the random variable <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img167.png"
+ ALT="$A$"> has a particular
+value. 
+Often we
+will not know with certainty whether an event is true in the
+world.  We can ask the probability of the event <!-- MATH
+ $0 \le P(A)
+\le 1$
+ -->
+<IMG
+ WIDTH="101" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img675.png"
+ ALT="$0 \le P(A)
+\le 1$"><A NAME="Pr-notation"></A>. For two events <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img167.png"
+ ALT="$A$"> and <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img168.png"
+ ALT="$B$">, the
+joint event of both events occurring is described by the joint probability
+<IMG
+ WIDTH="57" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img676.png"
+ ALT="$P(A,B)$">. The conditional probability <IMG
+ WIDTH="56" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img677.png"
+ ALT="$P(A\vert B)$"> expresses
+the probability of event <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img167.png"
+ ALT="$A$"> given that event <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img168.png"
+ ALT="$B$"> occurred.
+The fundamental relationship between joint and
+conditional probabilities is given by the <A NAME="13902"></A> <I>chain
+rule</I> :
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+P(A, B) = P(A \cap B) = P(A|B)P(B) = P(B|A)P(A)
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="chain-rule"></A><IMG
+ WIDTH="359" HEIGHT="28" BORDER="0"
+ SRC="img678.png"
+ ALT="\begin{displaymath}
+P(A, B) = P(A \cap B) = P(A\vert B)P(B) = P(B\vert A)P(A)
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(56)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+Without making any assumptions, the probability of a joint event equals the probability of one of the events multiplied by the probability of the other event conditioned on knowing the first event happened.
+
+<P>
+Writing <!-- MATH
+ $P(\overline{A})$
+ -->
+<IMG
+ WIDTH="41" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img679.png"
+ ALT="$P(\overline{A})$"> for the complement of an event, we similarly have:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+P(\overline{A},B) = P(B| \overline{A})P(\overline{A})
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="163" HEIGHT="28" BORDER="0"
+ SRC="img680.png"
+ ALT="\begin{displaymath}
+P(\overline{A},B) = P(B\vert \overline{A})P(\overline{A})
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(57)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+Probability theory also has a <A NAME="13913"></A> <I>partition rule</I> , which says that if an event <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img168.png"
+ ALT="$B$"> can be divided into an exhaustive set of disjoint subcases, then the probability of <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img168.png"
+ ALT="$B$"> is the sum of the probabilities of the subcases.  A special case of this rule gives that:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+P(B) = P(A,B) + P(\overline{A}, B)
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="181" HEIGHT="28" BORDER="0"
+ SRC="img681.png"
+ ALT="\begin{displaymath}
+P(B) = P(A,B) + P(\overline{A}, B)
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(58)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+
+<P>
+From these we can derive <A NAME="13918"></A> <I>Bayes' Rule</I>  for inverting conditional probabilities:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+P(A|B) = \frac{P(B|A)P(A)}{P(B)} = \left[\frac{P(B|A)}{\sum_{X \in \{ A, \overline{A}\}} P(B|X)P(X)}\right]P(A)
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="p:bayesrule"></A><A NAME="eqn:bayesrule"></A><IMG
+ WIDTH="344" HEIGHT="72" BORDER="0"
+ SRC="img682.png"
+ ALT="\begin{displaymath}P(A\vert B) = \frac{P(B\vert A)P(A)}{P(B)} = \left[\frac{P(...
+...{\sum_{X \in \{ A, \overline{A}\}} P(B\vert X)P(X)}\right]P(A)
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(59)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+This equation can also be thought of as a way of updating probabilities.  We start off with an initial estimate of how likely the event <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img167.png"
+ ALT="$A$"> is when we do not have any other information; this is the <A NAME="13928"></A> <I>prior probability</I>  <IMG
+ WIDTH="41" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img563.png"
+ ALT="$P(A)$">.  Bayes' rule lets us derive a <A NAME="13930"></A> <I>posterior probability</I>  <IMG
+ WIDTH="56" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img677.png"
+ ALT="$P(A\vert B)$"> after having seen the evidence <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img168.png"
+ ALT="$B$">, based on the <A NAME="13932"></A> <I>likelihood</I>  of <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img168.png"
+ ALT="$B$"> occurring in the two cases that <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img167.png"
+ ALT="$A$"> does or does not hold.<A NAME="tex2html112"
+  HREF="footnode.html#foot14463"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A>
+<P>
+Finally, it is often useful to talk about the <A NAME="13936"></A> <I>odds</I>  of an event, which provide a kind of multiplier for how probabilities change:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\mbox{Odds:\qquad } O(A) = \frac{P(A)}{P(\overline{A})} = \frac{P(A)}{1 - P(A)}
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="O-notation"></A><IMG
+ WIDTH="265" HEIGHT="46" BORDER="0"
+ SRC="img683.png"
+ ALT="\begin{displaymath}
+\mbox{Odds:\qquad } O(A) = \frac{P(A)}{P(\overline{A})} = \frac{P(A)}{1 - P(A)}
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(60)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3012"
+  HREF="the-probability-ranking-principle-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3006"
+  HREF="probabilistic-information-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3000"
+  HREF="probabilistic-information-retrieval-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3008"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3010"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3013"
+  HREF="the-probability-ranking-principle-1.html">The Probability Ranking Principle</A>
+<B> Up:</B> <A NAME="tex2html3007"
+  HREF="probabilistic-information-retrieval-1.html">Probabilistic information retrieval</A>
+<B> Previous:</B> <A NAME="tex2html3001"
+  HREF="probabilistic-information-retrieval-1.html">Probabilistic information retrieval</A>
+ &nbsp; <B>  <A NAME="tex2html3009"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3011"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/review-of-basic-probability-theory-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:28:03 GMT -->
+</HTML>

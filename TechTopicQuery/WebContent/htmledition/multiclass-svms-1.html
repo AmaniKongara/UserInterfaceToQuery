@@ -1,0 +1,180 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/multiclass-svms-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:34:01 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Multiclass SVMs</TITLE>
+<META NAME="description" CONTENT="Multiclass SVMs">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="nonlinear-svms-1.html">
+<LINK REL="previous" HREF="soft-margin-classification-1.html">
+<LINK REL="up" HREF="extensions-to-the-svm-model-1.html">
+<LINK REL="next" HREF="nonlinear-svms-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3891"
+  HREF="nonlinear-svms-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3885"
+  HREF="extensions-to-the-svm-model-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3879"
+  HREF="soft-margin-classification-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3887"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3889"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3892"
+  HREF="nonlinear-svms-1.html">Nonlinear SVMs</A>
+<B> Up:</B> <A NAME="tex2html3886"
+  HREF="extensions-to-the-svm-model-1.html">Extensions to the SVM</A>
+<B> Previous:</B> <A NAME="tex2html3880"
+  HREF="soft-margin-classification-1.html">Soft margin classification</A>
+ &nbsp; <B>  <A NAME="tex2html3888"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3890"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION002022000000000000000"></A><A NAME="sec:structural-svm"></A> <A NAME="p:structural-svm"></A>
+<BR>
+Multiclass SVMs
+</H2> 
+
+<P>
+<A NAME="22713"></A>SVMs are inherently two-class
+classifiers.  The traditional way to do 
+multiclass classification with SVMs is to use one of the methods discussed in
+Section <A HREF="classification-with-more-than-two-classes-1.html#sec:more-than-two-classes">14.5</A>  (page <A HREF="classification-with-more-than-two-classes-1.html#p:more-than-two-classes">14.5</A> ).
+In particular, the most common technique in practice has been to build 
+<IMG
+ WIDTH="26" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img913.png"
+ ALT="$\vert\mathbb{C}\vert$"> one-versus-rest classifiers (commonly referred to as
+``one-versus-all'' or OVA classification), and to choose the class
+which classifies the test datum with greatest margin.  Another
+strategy is to build a set of one-versus-one classifiers, and to
+choose the class that is selected by the most classifiers.  While this
+involves building <!-- MATH
+ $|\mathbb{C}|(|\mathbb{C}|-1)/2$
+ -->
+<IMG
+ WIDTH="106" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1327.png"
+ ALT="$\vert\mathbb{C}\vert(\vert\mathbb{C}\vert-1)/2$"> classifiers, the time for
+training classifiers may actually decrease, since the
+training data set for each classifier is much smaller.
+
+<P>
+However, these are not very elegant approaches to solving multiclass
+problems. 
+A better alternative is provided by the construction of multiclass SVMs,
+where we build a two-class classifier over a feature vector
+<!-- MATH
+ $\Phi(\vec{x}, y)$
+ -->
+<IMG
+ WIDTH="54" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1328.png"
+ ALT="$\Phi(\vec{x}, y)$"> derived
+from the pair consisting of the input features and the class of the datum.
+At test time, the classifier chooses the class 
+<!-- MATH
+ $y = \argmax_{y'} \vec{w}^{T}\Phi(\vec{x},y')$
+ -->
+<IMG
+ WIDTH="179" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1329.png"
+ ALT="$y = \argmax_{y'} \vec{w}^{T}\Phi(\vec{x},y')$">.  The margin
+during training is the gap between this value for the
+correct class and for the nearest other class, and so the quadratic
+program formulation will require that 
+<!-- MATH
+ $\forall i\; \forall y \ne y_i\; \vec{w}^{T}\Phi(\vec{x_i}, y_i) -
+\vec{w}^{T}\Phi(\vec{x_i}, y) \ge 1 - \xi_i$
+ -->
+<IMG
+ WIDTH="317" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1330.png"
+ ALT="$\forall i\; \forall y \ne y_i\; \vec{w}^{T}\Phi(\vec{x_i}, y_i) -
+\vec{w}^{T}\Phi(\vec{x_i}, y) \ge 1 - \xi_i$">.
+This general method can be extended to give a multiclass formulation of
+various kinds of linear classifiers.  It is also a simple instance
+of a generalization of classification where the classes are not just
+a set of independent, categorical labels, but may be arbitrary
+structured objects with relationships defined between them.  In the
+SVM world, such work comes under the label of <A NAME="22730"></A> <I>structural SVMs</I> .
+We mention them again in Section <A HREF="result-ranking-by-machine-learning-1.html#sec:ranking-svm">15.4.2</A> .
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3891"
+  HREF="nonlinear-svms-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3885"
+  HREF="extensions-to-the-svm-model-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3879"
+  HREF="soft-margin-classification-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3887"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3889"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3892"
+  HREF="nonlinear-svms-1.html">Nonlinear SVMs</A>
+<B> Up:</B> <A NAME="tex2html3886"
+  HREF="extensions-to-the-svm-model-1.html">Extensions to the SVM</A>
+<B> Previous:</B> <A NAME="tex2html3880"
+  HREF="soft-margin-classification-1.html">Soft margin classification</A>
+ &nbsp; <B>  <A NAME="tex2html3888"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3890"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/multiclass-svms-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:34:03 GMT -->
+</HTML>

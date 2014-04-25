@@ -1,0 +1,171 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/choosing-a-document-unit-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:22:26 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Choosing a document unit</TITLE>
+<META NAME="description" CONTENT="Choosing a document unit">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="obtaining-the-character-sequence-in-a-document-1.html">
+<LINK REL="up" HREF="document-delineation-and-character-sequence-decoding-1.html">
+<LINK REL="next" HREF="determining-the-vocabulary-of-terms-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1067"
+  HREF="determining-the-vocabulary-of-terms-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1061"
+  HREF="document-delineation-and-character-sequence-decoding-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1057"
+  HREF="obtaining-the-character-sequence-in-a-document-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1063"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1065"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1068"
+  HREF="determining-the-vocabulary-of-terms-1.html">Determining the vocabulary of</A>
+<B> Up:</B> <A NAME="tex2html1062"
+  HREF="document-delineation-and-character-sequence-decoding-1.html">Document delineation and character</A>
+<B> Previous:</B> <A NAME="tex2html1058"
+  HREF="obtaining-the-character-sequence-in-a-document-1.html">Obtaining the character sequence</A>
+ &nbsp; <B>  <A NAME="tex2html1064"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1066"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00712000000000000000"></A><A NAME="sec:documentunit"></A> <A NAME="p:documentunit"></A>
+<BR>
+Choosing a document unit
+</H2> 
+
+<P>
+The next phase is to determine what the 
+<A NAME="2060"></A> <I>document unit</I>  for
+indexing is.  Thus far we have assumed that documents are fixed units for
+the purposes of indexing.  For example, we take each file in a
+folder as a document. But there are many cases in which you might want to do
+something different.  A traditional Unix (mbox-format) email file stores
+a sequence of email messages (an email folder) in one file, but you might wish
+to regard each email message as a separate document.  Many email messages now
+contain attached documents, and you might then want to regard the email
+message and each contained attachment as separate documents.  If an email
+message has an attached zip file, you might want to decode the zip file
+and regard each file it contains as a separate document.  
+Going in the
+opposite direction, various pieces of web software (such as
+<I>latex2html</I>) take things that you  
+might regard as a single document (e.g., a Powerpoint file or a L<SUP><SMALL>A</SMALL></SUP>T<SMALL>E</SMALL>X document) and split them into separate HTML pages for each slide or
+subsection, stored as separate files.  In these cases, you might want to
+combine multiple files into a single document.
+
+<P>
+More generally, for very long documents, the issue of indexing
+<A NAME="2063"></A> <I>granularity</I>  arises. 
+For a collection of books, it would usually
+be a bad idea to index an entire book as a document. A search for
+Chinese toys might bring up a book that mentions China in
+the first chapter and toys in the last chapter, but this does not make
+it relevant to the query. 
+Instead, we may well wish to
+index each chapter or paragraph as a mini-document.
+Matches are then more likely to be relevant, and since the documents are
+smaller it will be much easier for the user to find the relevant
+passages in the document.  
+But why stop there?  We could treat individual sentences as
+mini-documents.  It becomes clear that there is a precisionrecall 
+tradeoff here. If the units get too small, we are likely to
+miss important passages because terms were distributed over
+several mini-documents, while if units are too large we tend to get
+spurious matches and the relevant information is hard for the user to find. 
+
+<P>
+The problems with large document units can be alleviated by use of
+explicit or implicit proximity search
+( and <A HREF="query-term-proximity-1.html#sec:proximity">7.2.2</A> ), and the tradeoffs in resulting
+system performance that we are hinting at are discussed in 
+Chapter <A HREF="evaluation-in-information-retrieval-1.html#ch:evaluation">8</A> .  The issue of index
+granularity, and in particular a need to simultaneously index documents
+at multiple levels of granularity, appears prominently in XML
+retrieval, and is taken up again in Chapter <A HREF="xml-retrieval-1.html#ch:xml">10</A> .
+An IR system should be designed to offer choices of granularity.
+For this choice to be made well, the person who is deploying the system must
+have a good understanding of the document collection, the users, and their 
+likely information needs and usage patterns.
+For now, we will henceforth assume that a suitable size
+document unit has been chosen, together
+with an appropriate way of dividing or aggregating files, if needed.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1067"
+  HREF="determining-the-vocabulary-of-terms-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1061"
+  HREF="document-delineation-and-character-sequence-decoding-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1057"
+  HREF="obtaining-the-character-sequence-in-a-document-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1063"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1065"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1068"
+  HREF="determining-the-vocabulary-of-terms-1.html">Determining the vocabulary of</A>
+<B> Up:</B> <A NAME="tex2html1062"
+  HREF="document-delineation-and-character-sequence-decoding-1.html">Document delineation and character</A>
+<B> Previous:</B> <A NAME="tex2html1058"
+  HREF="obtaining-the-character-sequence-in-a-document-1.html">Obtaining the character sequence</A>
+ &nbsp; <B>  <A NAME="tex2html1064"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1066"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/choosing-a-document-unit-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:22:26 GMT -->
+</HTML>

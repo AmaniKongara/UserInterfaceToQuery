@@ -1,0 +1,320 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/the-extended-boolean-model-versus-ranked-retrieval-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:22:25 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>The extended Boolean model versus ranked retrieval</TITLE>
+<META NAME="description" CONTENT="The extended Boolean model versus ranked retrieval">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="references-and-further-reading-1.html">
+<LINK REL="previous" HREF="processing-boolean-queries-1.html">
+<LINK REL="up" HREF="boolean-retrieval-1.html">
+<LINK REL="next" HREF="references-and-further-reading-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html978"
+  HREF="references-and-further-reading-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html972"
+  HREF="boolean-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html966"
+  HREF="processing-boolean-queries-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html974"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html976"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html979"
+  HREF="references-and-further-reading-1.html">References and further reading</A>
+<B> Up:</B> <A NAME="tex2html973"
+  HREF="boolean-retrieval-1.html">Boolean retrieval</A>
+<B> Previous:</B> <A NAME="tex2html967"
+  HREF="processing-boolean-queries-1.html">Processing Boolean queries</A>
+ &nbsp; <B>  <A NAME="tex2html975"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html977"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00640000000000000000"></A>
+<A NAME="sec:boolean-querying"></A> <A NAME="p:boolean-querying"></A>
+<BR>
+The extended Boolean model versus ranked retrieval
+</H1> 
+
+<P>
+The Boolean retrieval model contrasts with
+<A NAME="1437"></A> <I>ranked retrieval models</I>  such as the vector space model (Section <A HREF="the-vector-space-model-for-scoring-1.html#sec:vsm">6.3</A> ),
+in which users largely use
+<A NAME="1440"></A> <I>free text queries</I> , that is, just
+typing one or more words rather than using a precise
+language with operators for building up query expressions, and the
+system decides which
+documents best satisfy the query.
+Despite decades of academic research on the advantages of ranked retrieval,
+systems implementing the Boolean retrieval model were the main or only
+search option
+provided by large commercial
+information providers for three decades until the early 1990s (approximately the date of arrival of the World Wide Web).
+However, these systems did not have just the basic Boolean operations
+(AND, OR, and NOT) which we have presented so far.
+A strict Boolean expression over terms with an unordered results set is
+too limited for many of the information needs that people have, and these
+systems implemented extended Boolean retrieval models by incorporating
+additional operators such as term proximity operators.
+A <A NAME="1445"></A> <I>proximity operator</I>  is a way of specifying that two terms in a
+query must occur close to each other in a document, where closeness may
+be measured by limiting the allowed number of intervening words or by
+reference to a structural unit such as a sentence or paragraph.
+
+<P>
+<A NAME="p:westlawex"></A> 
+
+<P>
+<B>Worked example.</B> Commercial Boolean searching: Westlaw.westlaw
+
+<P>
+Westlaw
+(<TT><A NAME="tex2html14"
+  HREF="http://www.westlaw.com/">http://www.westlaw.com/</A></TT>) is
+the largest commercial legal search service (in terms of the number of
+paying subscribers), with over half a million subscribers performing
+millions of searches a day over tens of
+terabytes of text data.  The service was started in 1975.
+In 2005, Boolean search (called ``Terms and Connectors'' by Westlaw) was
+still the default,
+and used by a large percentage of users, although ranked
+free text querying (called ``Natural Language'' by Westlaw) was added in 1992.
+Here are some example Boolean queries on Westlaw:
+<P>
+<BLOCKQUOTE><I>Information need:</I> Information on the legal theories involved
+in preventing the disclosure of trade secrets by employees formerly
+employed by a competing company.
+<I>Query:</I> "trade secret" /s disclos! /s prevent /s employe!
+<BR>
+<BR>
+<BR>
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE><I>Information need:</I> Requirements for disabled people to be able to
+access a workplace. 
+<BR><I>Query:</I> disab! /p access! /s work-site work-place (employment /3 place)
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE>
+<BR>
+<BR>
+<BR>
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE><I>Information need:</I> Cases about a host's responsibility for drunk guests.
+<BR><I>Query:</I> host! /p (responsib! liab!) /p (intoxicat! drunk!) /p guest
+</BLOCKQUOTE>
+<P>
+Note the long, precise
+queries and the use of proximity operators, both uncommon in web search.
+Submitted queries average about ten words in length.
+Unlike web search conventions, a space between words represents
+disjunction (the tightest binding operator), &amp; is AND and /s,
+/p, and /<IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> ask for matches in the same sentence, same paragraph or
+within <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> words respectively.  Double quotes give a <A NAME="1463"></A> <I>phrase search</I> 
+(consecutive words); see Section&nbsp;<A HREF="positional-postings-and-phrase-queries-1.html#sec:phrasequery">2.4</A> (page&nbsp;<A HREF="positional-postings-and-phrase-queries-1.html#p:phrasequery"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>). The exclamation mark (!) gives a
+trailing wildcard query wildcard; thus liab! matches all
+words starting with liab.  Additionally work-site
+matches any of <I>worksite</I>, <I>work-site</I> or <I>work site</I>;
+see Section&nbsp;<A HREF="tokenization-1.html#sec:tokenization">2.2.1</A> (page&nbsp;<A HREF="tokenization-1.html#p:tokenization"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>).
+Typical expert
+queries are usually carefully defined and incrementally developed until
+they obtain what look to be good results to the user.
+
+<P>
+Many users, particularly professionals, prefer Boolean query models.
+Boolean queries are precise: a document either matches the query or it
+does not.  This offers the user greater control and transparency
+over what is
+retrieved.  And some domains, such as legal materials, allow an effective
+means of document ranking within a Boolean model: Westlaw returns
+documents in reverse chronological order, which is in practice quite
+effective.  In 2007, the majority of law librarians still seem to
+recommend terms and connectors for high recall searches, and the majority of
+legal users think they are getting greater control by using them.
+However, this does not mean that Boolean queries are more
+effective for professional searchers. Indeed, experimenting on a Westlaw
+subcollection, <A
+ HREF="bibliography-1.html#turtle94boolean">Turtle (1994)</A>
+found that free text queries produced better results than Boolean
+queries prepared by Westlaw's own reference librarians for the majority
+of the information needs in his experiments.  A general problem with
+Boolean search is that using AND operators tends to produce
+high precision but low recall searches, while using OR
+operators gives low precision but high recall searches, and it is
+difficult or impossible to find a satisfactory middle ground.
+<B>End worked example.</B>
+
+<P>
+In this chapter, we have looked at the structure and construction of a
+basic inverted index, comprising a dictionary and postings lists.
+We introduced the Boolean retrieval model, and examined how to do
+efficient retrieval via linear time merges and simple query optimization.
+In dictionaryranking-ir-system we will consider in
+detail richer query models and
+the sort of augmented index structures that are needed to handle them
+efficiently.  Here we just mention a few of the main additional things
+we would like to be able to do:
+
+<OL>
+<LI>We would like to better determine the set of terms in the
+  dictionary and to provide retrieval that is tolerant to spelling
+  mistakes and inconsistent choice of words.
+
+<P>
+</LI>
+<LI>It is often useful to search for compounds or phrases that denote a
+concept such as ``operating system''.  As the Westlaw examples
+show, we might
+also wish to do proximity queries such as
+Gates near Microsoft.  To answer such queries, the
+index has to be augmented to capture the proximities of terms
+in documents.
+
+<P>
+</LI>
+<LI>A Boolean model only records term presence or absence, but often
+we would like to accumulate evidence, giving more weight to documents that have
+a term several times as opposed to ones that contain it only once. To
+be able to do this we need <A NAME="1487"></A> <I>term frequency</I>  information (the number of
+times a term occurs in a document) in postings lists.
+
+<P>
+</LI>
+<LI>Boolean queries just retrieve a set of matching
+documents, but commonly we wish to have an effective method to order
+(or ``rank'') the returned results.  This requires having a mechanism
+for determining a document score which encapsulates how good a match a
+document is for a query.
+
+<P>
+</LI>
+</OL>
+
+<P>
+With these additional ideas, we will have seen most of the basic
+technology that supports ad hoc searching over unstructured information.
+Ad hoc searching over documents has recently
+conquered the world, powering not only web search engines but the kind
+of unstructured search that lies behind the large eCommerce websites.
+Although the main web search engines differ by emphasizing
+<A NAME="1490"></A> <I>free text
+querying</I> , most of the basic issues and technologies of
+indexing and querying remain the same, as we will see in later chapters.
+Moreover, over time, web
+search engines have added at least partial implementations of some of
+the most popular operators from extended Boolean models: phrase search
+is especially popular and most have a very partial implementation
+of Boolean operators.  Nevertheless, while these options are liked by
+expert searchers, they are little used by most people and are not the
+main focus in work on trying to improve web search engine performance.
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI>Write a query using Westlaw syntax which would find any of the words professor, teacher, or lecturer in the same sentence as a form of the verb explain.
+
+<P>
+</LI>
+<LI>Try using the Boolean search features on a couple of major web search
+engines.  For instance, choose a word, such as burglar, and
+submit the queries (i)&nbsp;burglar, (ii)&nbsp;burglar AND
+  burglar, and (iii)&nbsp;burglar OR burglar.  Look at the
+estimated number of results and top hits.  Do they make sense in terms of Boolean
+logic?  Often they haven't for major search engines.  Can you make
+sense of what is going on?  What about if you try different words?
+For example, query for (i)&nbsp;knight, (ii)&nbsp;conquer, and
+then (iii)&nbsp;knight OR conquer. What bound should the number of
+results from the first two queries place on the third query?  Is this
+bound observed?
+
+<P>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html978"
+  HREF="references-and-further-reading-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html972"
+  HREF="boolean-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html966"
+  HREF="processing-boolean-queries-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html974"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html976"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html979"
+  HREF="references-and-further-reading-1.html">References and further reading</A>
+<B> Up:</B> <A NAME="tex2html973"
+  HREF="boolean-retrieval-1.html">Boolean retrieval</A>
+<B> Previous:</B> <A NAME="tex2html967"
+  HREF="processing-boolean-queries-1.html">Processing Boolean queries</A>
+ &nbsp; <B>  <A NAME="tex2html975"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html977"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/the-extended-boolean-model-versus-ranked-retrieval-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:22:25 GMT -->
+</HTML>

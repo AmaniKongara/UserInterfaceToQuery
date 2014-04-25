@@ -1,0 +1,626 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/term-document-matrices-and-singular-value-decompositions-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:37:41 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Term-document matrices and singular value decompositions</TITLE>
+<META NAME="description" CONTENT="Term-document matrices and singular value decompositions">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="low-rank-approximations-1.html">
+<LINK REL="previous" HREF="linear-algebra-review-1.html">
+<LINK REL="up" HREF="matrix-decompositions-and-latent-semantic-indexing-1.html">
+<LINK REL="next" HREF="low-rank-approximations-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4555"
+  HREF="low-rank-approximations-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4549"
+  HREF="matrix-decompositions-and-latent-semantic-indexing-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4543"
+  HREF="matrix-decompositions-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4551"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4553"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4556"
+  HREF="low-rank-approximations-1.html">Low-rank approximations</A>
+<B> Up:</B> <A NAME="tex2html4550"
+  HREF="matrix-decompositions-and-latent-semantic-indexing-1.html">Matrix decompositions and latent</A>
+<B> Previous:</B> <A NAME="tex2html4544"
+  HREF="matrix-decompositions-1.html">Matrix decompositions</A>
+ &nbsp; <B>  <A NAME="tex2html4552"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4554"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION002320000000000000000"></A>
+<A NAME="sec:svd"></A> <A NAME="p:svd"></A>
+<BR>
+Term-document matrices and singular value decompositions
+</H1> 
+The decompositions we have been studying thus far apply to square matrices. However, the matrix we are interested in is the <!-- MATH
+ $\lsinoterms\times \lsinodocs$
+ -->
+<IMG
+ WIDTH="53" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1664.png"
+ ALT="$\lsinoterms\times \lsinodocs$"> term-document matrix <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$\lsimatrix$"> where (barring a rare coincidence) <!-- MATH
+ $\lsinoterms\neq \lsinodocs$
+ -->
+<IMG
+ WIDTH="56" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1718.png"
+ ALT="$\lsinoterms\neq \lsinodocs$">; furthermore, <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$\lsimatrix$"> is very unlikely to be symmetric. To this end we first describe an extension of the symmetric diagonal decomposition known as the <A NAME="28691"></A> <I>singular value decomposition</I> . We then show in Section <A HREF="low-rank-approximations-1.html#sec:lsi">18.3</A>  how this can be used to construct an approximate version of <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$\lsimatrix$">.  It is beyond the scope of this book to develop a full treatment of the mathematics underlying singular value decompositions; following the statement of Theorem&nbsp;<A HREF="#thm:svd">18.2</A> we relate the singular value decomposition to the <A NAME="28695"></A>   from Section <A HREF="matrix-decompositions-1.html#sec:matdecomp">18.1.1</A> .
+Given <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$\lsimatrix$">, let <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1702.png"
+ ALT="$U$"> be the <!-- MATH
+ $\lsinoterms\times \lsinoterms$
+ -->
+<IMG
+ WIDTH="56" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1669.png"
+ ALT="$\lsinoterms\times \lsinoterms$"> matrix whose columns are the orthogonal eigenvectors of <!-- MATH
+ $\lsimatrix\lsimatrix^T$
+ -->
+<IMG
+ WIDTH="35" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1719.png"
+ ALT="$\lsimatrix\lsimatrix^T$">, and <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img162.png"
+ ALT="$V$"> be the <!-- MATH
+ $\lsinodocs\times \lsinodocs$
+ -->
+<IMG
+ WIDTH="51" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1720.png"
+ ALT="$\lsinodocs\times \lsinodocs$"> matrix whose columns are the orthogonal eigenvectors of <!-- MATH
+ $\lsimatrix^T\lsimatrix$
+ -->
+<IMG
+ WIDTH="35" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1721.png"
+ ALT="$\lsimatrix^T\lsimatrix$">.  Denote by <IMG
+ WIDTH="24" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1722.png"
+ ALT="$\lsimatrix^T$"> the transpose of a matrix <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$\lsimatrix$">.
+
+<P>
+<B>Theorem.</B>
+<A NAME="thm:svd"></A>Let <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img28.png"
+ ALT="$r$"> be the rank of the <!-- MATH
+ $\lsinoterms\times \lsinodocs$
+ -->
+<IMG
+ WIDTH="53" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1664.png"
+ ALT="$\lsinoterms\times \lsinodocs$"> matrix <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$\lsimatrix$">. Then, there is a <I>singular-value decomposition</I> (<A NAME="28701"></A> <I>SVD</I>  for short) of <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$\lsimatrix$"> of the form
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\lsimatrix=U\Sigma V^T,
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eqn:svd"></A><IMG
+ WIDTH="82" HEIGHT="26" BORDER="0"
+ SRC="img1723.png"
+ ALT="\begin{displaymath}
+\lsimatrix=U\Sigma V^T,
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(232)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+where
+
+<OL>
+<LI>The eigenvalues <!-- MATH
+ $\lambda_1,\ldots , \lambda_r$
+ -->
+<IMG
+ WIDTH="71" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1724.png"
+ ALT="$\lambda_1,\ldots , \lambda_r$"> of <!-- MATH
+ $\lsimatrix\lsimatrix^T$
+ -->
+<IMG
+ WIDTH="35" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1719.png"
+ ALT="$\lsimatrix\lsimatrix^T$"> are the same as the eigenvalues of <!-- MATH
+ $\lsimatrix^T\lsimatrix$
+ -->
+<IMG
+ WIDTH="35" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1721.png"
+ ALT="$\lsimatrix^T\lsimatrix$">;
+</LI>
+<LI>For <IMG
+ WIDTH="68" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1725.png"
+ ALT="$1\leq i\leq r$">, let <!-- MATH
+ $\sigma_i=\sqrt{\lambda_i}$
+ -->
+<IMG
+ WIDTH="67" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1726.png"
+ ALT="$\sigma_i=\sqrt{\lambda_i}$"><A NAME="sigma-notation"></A>, with <!-- MATH
+ $\lambda_i\geq \lambda_{i+1}$
+ -->
+<IMG
+ WIDTH="71" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1727.png"
+ ALT="$\lambda_i\geq \lambda_{i+1}$">. Then the <!-- MATH
+ $\lsinoterms\times \lsinodocs$
+ -->
+<IMG
+ WIDTH="53" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1664.png"
+ ALT="$\lsinoterms\times \lsinodocs$"> matrix <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img793.png"
+ ALT="$\Sigma$"> is composed by setting <!-- MATH
+ $\Sigma_{ii}=\sigma_i$
+ -->
+<IMG
+ WIDTH="58" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1728.png"
+ ALT="$\Sigma_{ii}=\sigma_i$"> for <IMG
+ WIDTH="68" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1725.png"
+ ALT="$1\leq i\leq r$">, and zero otherwise.
+</LI>
+</OL>
+<B>End theorem.</B>
+
+<P>
+The values <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1729.png"
+ ALT="$\sigma_i$"> are referred to as the <I>singular values</I> of <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$\lsimatrix$">.  It is instructive to examine the relationship of Theorem&nbsp;<A HREF="#thm:svd">18.2</A> to Theorem&nbsp;<A HREF="matrix-decompositions-1.html#thm:symmeigendecomp">18.1.1</A>; we do this rather than derive the general proof of Theorem&nbsp;<A HREF="#thm:svd">18.2</A>, which is beyond the scope of this book.
+
+<P>
+By multiplying Equation&nbsp;<A HREF="#eqn:svd">232</A> by its transposed version, we have
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\lsimatrix\lsimatrix^T=U\Sigma V^T \; V\Sigma U^T = U\Sigma^2 U^T.
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eqn:svdeigen"></A><IMG
+ WIDTH="226" HEIGHT="24" BORDER="0"
+ SRC="img1730.png"
+ ALT="\begin{displaymath}
+\lsimatrix\lsimatrix^T=U\Sigma V^T \; V\Sigma U^T = U\Sigma^2 U^T.
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(233)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+
+<P>
+Note now that in Equation&nbsp;<A HREF="#eqn:svdeigen">233</A>, the left-hand side is a square symmetric matrix real-valued matrix, and the right-hand side represents its <A NAME="28722"></A> <I>symmetric diagonal decomposition</I>  as in Theorem&nbsp;<A HREF="matrix-decompositions-1.html#thm:symmeigendecomp">18.1.1</A>.  What does the left-hand side <!-- MATH
+ $\lsimatrix\lsimatrix^T$
+ -->
+<IMG
+ WIDTH="35" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1719.png"
+ ALT="$\lsimatrix\lsimatrix^T$"> represent?  It is a square matrix with a row and a column corresponding to each of the <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1673.png"
+ ALT="$\lsinoterms$"> terms.  The entry <IMG
+ WIDTH="34" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="$(i,j)$"> in the matrix is a measure of the overlap between the <IMG
+ WIDTH="8" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="$i$">th and <IMG
+ WIDTH="9" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img9.png"
+ ALT="$j$">th terms, based on their co-occurrence in documents.  The precise mathematical meaning depends on the manner in which <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$\lsimatrix$"> is constructed based on term weighting.  Consider the case where <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$\lsimatrix$"> is the term-document <A NAME="28725"></A> <I>incidence matrix</I>  of page <A HREF="an-example-information-retrieval-problem-1.html#p:incidencematrix">1.1</A> , illustrated in Figure <A HREF="an-example-information-retrieval-problem-1.html#fig:termdoc">1.1</A> .  Then the entry <IMG
+ WIDTH="34" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="$(i,j)$"> in <!-- MATH
+ $\lsimatrix\lsimatrix^T$
+ -->
+<IMG
+ WIDTH="35" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1719.png"
+ ALT="$\lsimatrix\lsimatrix^T$"> is the number of documents in which both term <IMG
+ WIDTH="8" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="$i$"> and term <IMG
+ WIDTH="9" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img9.png"
+ ALT="$j$"> occur.
+
+<P>
+
+<DIV ALIGN="CENTER">
+<IMG
+ WIDTH="555" HEIGHT="278" BORDER="0"
+ SRC="img1731.png"
+ ALT="\begin{figure}
+% latex2html id marker 28729
+\begin{picture}(600,150)
+\multiput(6...
+...cs$. The lower half illustrates the case $\lsinoterms&lt;\lsinodocs$.}
+\end{figure}">
+</DIV>
+
+<P>
+When writing down the numerical values of the SVD, it is conventional to represent <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img793.png"
+ ALT="$\Sigma$"> as an <IMG
+ WIDTH="37" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1667.png"
+ ALT="$r\times r$"> matrix with the singular values on the diagonals, since all its entries outside this sub-matrix are zeros.  Accordingly, it is conventional to omit the rightmost <IMG
+ WIDTH="46" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1732.png"
+ ALT="$M-r$"> columns of <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1702.png"
+ ALT="$U$"> corresponding to these omitted rows of <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img793.png"
+ ALT="$\Sigma$">; likewise the rightmost <IMG
+ WIDTH="44" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1733.png"
+ ALT="$N-r$"> columns of <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img162.png"
+ ALT="$V$"> are omitted since they correspond in <IMG
+ WIDTH="25" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1734.png"
+ ALT="$V^T$"> to the rows that will be multiplied by the <IMG
+ WIDTH="44" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1733.png"
+ ALT="$N-r$"> columns of zeros in <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img793.png"
+ ALT="$\Sigma$">.  This written form of the SVD is sometimes known as the <A NAME="28770"></A> <I>reduced SVD</I>  or <A NAME="28772"></A> <I>truncated SVD</I>  and we will encounter it again in Exercise <A HREF="low-rank-approximations-1.html#ex:reduced">18.3</A> .  Henceforth, our numerical examples and exercises will use this reduced form.
+
+<P>
+<B>Worked example.</B>
+<A NAME="example:svd"></A>We now illustrate the singular-value decomposition of a <IMG
+ WIDTH="39" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1735.png"
+ ALT="$4\times 2$"> matrix of rank 2; the singular values are <!-- MATH
+ $\Sigma_{11}=2.236$
+ -->
+<IMG
+ WIDTH="85" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1736.png"
+ ALT="$\Sigma_{11}=2.236$"> and <IMG
+ WIDTH="58" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1737.png"
+ ALT="$\Sigma_{22}=1$">.
+
+<P>
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\lsimatrix=\left(
+      \begin{array}{cc}
+        1 & -1 \\
+        0 & 1 \\
+        1 & 0 \\
+        -1 & 1\\
+      \end{array}
+    \right) =
+    \left(
+      \begin{array}{cc}
+        -0.632& 0.000\\
+ 0.316 & -0.707\\
+-0.316 & -0.707\\
+ 0.632 & 0.000\\
+      \end{array}
+    \right)
+    \left(
+      \begin{array}{cc}
+        2.236 & 0.000\\
+        0.000 & 1.000 \\
+      \end{array}
+    \right)
+    \left(
+      \begin{array}{cc}
+        -0.707 & 0.707\\
+        -0.707 & -0.707 \\
+      \end{array}
+    \right).
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eqn:svdexample"></A><IMG
+ WIDTH="609" HEIGHT="83" BORDER="0"
+ SRC="img1738.png"
+ ALT="\begin{displaymath}
+\lsimatrix=\left(
+\begin{array}{cc}
+1 &amp; -1 \\
+0 &amp; 1 \\ ...
+...
+-0.707 &amp; 0.707\\
+-0.707 &amp; -0.707 \\
+\end{array} \right).
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(234)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+
+<P>
+<B>End worked example.</B>
+
+<P>
+As with the matrix decompositions defined in Section <A HREF="matrix-decompositions-1.html#sec:matdecomp">18.1.1</A> , the singular value decomposition of a matrix can be computed by a variety of algorithms, many of which have been publicly available software implementations; pointers to these are given in Section <A HREF="references-and-further-reading-18.html#sec:furtherlsi">18.5</A> .
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI>Let <BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\lsimatrix=\left(
+      \begin{array}{cc}
+        1 & 1 \\
+        0 & 1 \\
+        1 & 0 \\
+      \end{array}
+    \right)
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eqn:svdexercise"></A><IMG
+ WIDTH="104" HEIGHT="64" BORDER="0"
+ SRC="img1739.png"
+ ALT="\begin{displaymath}
+\lsimatrix=\left(
+\begin{array}{cc}
+1 &amp; 1 \\
+0 &amp; 1 \\
+1 &amp; 0 \\
+\end{array} \right)
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(235)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+be the term-document incidence matrix for a collection.  Compute the co-occurrence matrix <!-- MATH
+ $\lsimatrix\lsimatrix^T$
+ -->
+<IMG
+ WIDTH="35" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1719.png"
+ ALT="$\lsimatrix\lsimatrix^T$">.  What is the interpretation of the diagonal entries of <!-- MATH
+ $\lsimatrix\lsimatrix^T$
+ -->
+<IMG
+ WIDTH="35" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1719.png"
+ ALT="$\lsimatrix\lsimatrix^T$"> when <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$\lsimatrix$"> is a term-document incidence matrix?
+
+<P>
+</LI>
+<LI>Verify that the SVD of the matrix in Equation&nbsp;<A HREF="#eqn:svdexercise">235</A> is
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+U=\left(
+      \begin{array}{cc}
+        -0.816 & 0.000 \\
+        -0.408 & -0.707 \\
+        -0.408 & 0.707 \\
+      \end{array}
+    \right),
+    \Sigma=\left(
+      \begin{array}{cc}
+       1.732 & 0.000 \\
+       0.000 & 1.000\\
+      \end{array}
+    \right) \mbox{ and }
+    V^T=\left(
+      \begin{array}{cc}
+        -0.707 & -0.707 \\
+        0.707 & -0.707\\
+      \end{array}
+    \right),
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eqn:svdexercise2"></A><IMG
+ WIDTH="605" HEIGHT="64" BORDER="0"
+ SRC="img1740.png"
+ ALT="\begin{displaymath}
+U=\left(
+\begin{array}{cc}
+-0.816 &amp; 0.000 \\
+-0.408 &amp; -...
+...
+-0.707 &amp; -0.707 \\
+0.707 &amp; -0.707\\
+\end{array} \right),
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(236)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+by verifying all of the properties in the statement of Theorem&nbsp;<A HREF="#thm:svd">18.2</A>.
+
+<P>
+</LI>
+<LI>Suppose that <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$\lsimatrix$"> is a binary term-document incidence matrix.  What do the entries of <!-- MATH
+ $\lsimatrix^T\lsimatrix$
+ -->
+<IMG
+ WIDTH="35" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1721.png"
+ ALT="$\lsimatrix^T\lsimatrix$"> represent?
+
+<P>
+</LI>
+<LI>Let <BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\lsimatrix=\left(
+      \begin{array}{ccc}
+        0 & 2 & 1 \\
+        0 & 3 & 0 \\
+        2 & 1 & 0 \\
+      \end{array}
+    \right)
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eqn:svdexercise3"></A><IMG
+ WIDTH="128" HEIGHT="64" BORDER="0"
+ SRC="img1741.png"
+ ALT="\begin{displaymath}
+\lsimatrix=\left(
+\begin{array}{ccc}
+0 &amp; 2 &amp; 1 \\
+0 &amp; 3 &amp; 0 \\
+2 &amp; 1 &amp; 0 \\
+\end{array} \right)
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(237)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+be a term-document matrix whose entries are term frequencies; thus term 1 occurs 2 times in document 2 and once in document 3.  Compute <!-- MATH
+ $\lsimatrix\lsimatrix^T$
+ -->
+<IMG
+ WIDTH="35" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1719.png"
+ ALT="$\lsimatrix\lsimatrix^T$">; observe that its entries are largest where two terms have their most frequent occurrences together in the same document.
+
+<P>
+</LI>
+</UL><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4555"
+  HREF="low-rank-approximations-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4549"
+  HREF="matrix-decompositions-and-latent-semantic-indexing-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4543"
+  HREF="matrix-decompositions-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4551"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4553"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4556"
+  HREF="low-rank-approximations-1.html">Low-rank approximations</A>
+<B> Up:</B> <A NAME="tex2html4550"
+  HREF="matrix-decompositions-and-latent-semantic-indexing-1.html">Matrix decompositions and latent</A>
+<B> Previous:</B> <A NAME="tex2html4544"
+  HREF="matrix-decompositions-1.html">Matrix decompositions</A>
+ &nbsp; <B>  <A NAME="tex2html4552"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4554"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/term-document-matrices-and-singular-value-decompositions-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:37:55 GMT -->
+</HTML>

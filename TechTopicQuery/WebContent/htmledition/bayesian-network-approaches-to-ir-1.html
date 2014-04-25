@@ -1,0 +1,132 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/bayesian-network-approaches-to-ir-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:29:02 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Bayesian network approaches to IR</TITLE>
+<META NAME="description" CONTENT="Bayesian network approaches to IR">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="okapi-bm25-a-non-binary-model-1.html">
+<LINK REL="up" HREF="an-appraisal-and-some-extensions-1.html">
+<LINK REL="next" HREF="references-and-further-reading-11.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3198"
+  HREF="references-and-further-reading-11.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3192"
+  HREF="an-appraisal-and-some-extensions-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3188"
+  HREF="okapi-bm25-a-non-binary-model-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3194"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3196"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3199"
+  HREF="references-and-further-reading-11.html">References and further reading</A>
+<B> Up:</B> <A NAME="tex2html3193"
+  HREF="an-appraisal-and-some-extensions-1.html">An appraisal and some</A>
+<B> Previous:</B> <A NAME="tex2html3189"
+  HREF="okapi-bm25-a-non-binary-model-1.html">Okapi BM25: a non-binary</A>
+ &nbsp; <B>  <A NAME="tex2html3195"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3197"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001644000000000000000">
+Bayesian network approaches to IR</A>
+</H2>
+
+<P>
+<A NAME="tex2html3200"
+  HREF="bibliography-1.html#turtle89">Turtle and Croft (1989</A>;<A NAME="tex2html3201"
+  HREF="bibliography-1.html#turtle91">1991)</A> introduced into information retrieval the use of <A NAME="14442"></A> <I>Bayesian networks</I>  (<A
+ HREF="bibliography-1.html#jensen01bayesian">Jensen and Jensen, 2001</A>), a form of probabilistic graphical model. We skip the details because fully introducing the formalism of Bayesian networks would require much too much space, but conceptually, Bayesian networks use directed graphs to show probabilistic dependencies between variables, as in Figure <A HREF="tree-structured-dependencies-between-terms-1.html#fig:rijsbergen-tree">11.1</A> , and have led to the development of sophisticated algorithms for propagating influence so as to allow learning and inference with arbitrary knowledge within arbitrary directed acyclic graphs.
+Turtle and Croft used a sophisticated network to better model the complex dependencies between a document and a user's information need.
+
+<P>
+The model decomposes into two parts: a document collection network and a query network. The document collection network is large, but can be precomputed: it maps from documents to terms to concepts. The concepts are a thesaurus-based expansion of the terms appearing in the document. The query network is relatively small but a new network needs to be built each time a query comes in, and then attached to the document network. The query network maps from query terms, to query subexpressions (built using probabilistic or ``noisy'' versions of AND and OR operators), to the user's information need.
+
+<P>
+The result is a flexible probabilistic network which can generalize
+various simpler Boolean and probabilistic models. Indeed, this is  the
+primary case of a statistical ranked retrieval model that naturally supports
+structured query operators.  The system allowed
+efficient large-scale retrieval, and was the basis of the InQuery text
+retrieval system, built at the University of Massachusetts.  This
+system performed very well in TREC evaluations and for a time was sold commercially. On the other hand, the model still used various approximations and independence assumptions to make parameter estimation and computation possible. There has not been much follow-on work along these lines, but we would note that this model was actually built very early on in the modern era of using Bayesian networks, and there have been many subsequent developments in the theory, and the time is perhaps right for a new generation of Bayesian network-based information retrieval systems.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3198"
+  HREF="references-and-further-reading-11.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3192"
+  HREF="an-appraisal-and-some-extensions-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3188"
+  HREF="okapi-bm25-a-non-binary-model-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3194"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3196"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3199"
+  HREF="references-and-further-reading-11.html">References and further reading</A>
+<B> Up:</B> <A NAME="tex2html3193"
+  HREF="an-appraisal-and-some-extensions-1.html">An appraisal and some</A>
+<B> Previous:</B> <A NAME="tex2html3189"
+  HREF="okapi-bm25-a-non-binary-model-1.html">Okapi BM25: a non-binary</A>
+ &nbsp; <B>  <A NAME="tex2html3195"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3197"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/bayesian-network-approaches-to-ir-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:29:02 GMT -->
+</HTML>

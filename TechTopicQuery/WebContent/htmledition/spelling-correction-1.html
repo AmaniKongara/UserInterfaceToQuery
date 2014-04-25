@@ -1,0 +1,107 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/spelling-correction-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:23:08 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Spelling correction</TITLE>
+<META NAME="description" CONTENT="Spelling correction">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="phonetic-correction-1.html">
+<LINK REL="previous" HREF="wildcard-queries-1.html">
+<LINK REL="up" HREF="dictionaries-and-tolerant-retrieval-1.html">
+<LINK REL="next" HREF="implementing-spelling-correction-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1423"
+  HREF="implementing-spelling-correction-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1417"
+  HREF="dictionaries-and-tolerant-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1411"
+  HREF="k-gram-indexes-for-wildcard-queries-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1419"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1421"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1424"
+  HREF="implementing-spelling-correction-1.html">Implementing spelling correction</A>
+<B> Up:</B> <A NAME="tex2html1418"
+  HREF="dictionaries-and-tolerant-retrieval-1.html">Dictionaries and tolerant retrieval</A>
+<B> Previous:</B> <A NAME="tex2html1412"
+  HREF="k-gram-indexes-for-wildcard-queries-1.html">k-gram indexes for wildcard</A>
+ &nbsp; <B>  <A NAME="tex2html1420"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1422"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00830000000000000000"></A>
+<A NAME="sec:spelling"></A> <A NAME="p:spelling"></A>
+<BR>
+Spelling correction
+</H1> 
+
+<P>
+We next look at the problem of correcting spelling errors in queries. For instance, we may wish to retrieve documents containing the term carrot when the user types the query carot. Google reports (<TT><A NAME="tex2html32"
+  HREF="http://www.google.com/jobs/britney.html">http://www.google.com/jobs/britney.html</A></TT>) that the following are all treated as misspellings of the query britney spears: britian spears, britney's spears, brandy spears and prittany spears. We look at two steps to solving this problem: the first based on <I>edit distance</I> and the second based on <I><IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">-gram overlap</I>. Before getting into the algorithmic details of these methods, we first review how search engines provide spell-correction as part of a user experience.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html1425"
+  HREF="implementing-spelling-correction-1.html">Implementing spelling correction</A>
+<LI><A NAME="tex2html1426"
+  HREF="forms-of-spelling-correction-1.html">Forms of spelling correction</A>
+<LI><A NAME="tex2html1427"
+  HREF="edit-distance-1.html">Edit distance</A>
+<LI><A NAME="tex2html1428"
+  HREF="k-gram-indexes-for-spelling-correction-1.html">k-gram indexes for spelling correction</A>
+<LI><A NAME="tex2html1429"
+  HREF="context-sensitive-spelling-correction-1.html">Context sensitive spelling correction</A>
+</UL>
+<!--End of Table of Child-Links-->
+<BR><HR>
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/spelling-correction-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:23:08 GMT -->
+</HTML>

@@ -1,0 +1,312 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/references-and-further-reading-17.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:37:10 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>References and further reading</TITLE>
+<META NAME="description" CONTENT="References and further reading">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="exercises-4.html">
+<LINK REL="previous" HREF="implementation-notes-1.html">
+<LINK REL="up" HREF="hierarchical-clustering-1.html">
+<LINK REL="next" HREF="exercises-4.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4463"
+  HREF="exercises-4.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4457"
+  HREF="hierarchical-clustering-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4451"
+  HREF="implementation-notes-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4459"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4461"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4464"
+  HREF="exercises-4.html">Exercises</A>
+<B> Up:</B> <A NAME="tex2html4458"
+  HREF="hierarchical-clustering-1.html">Hierarchical clustering</A>
+<B> Previous:</B> <A NAME="tex2html4452"
+  HREF="implementation-notes-1.html">Implementation notes</A>
+ &nbsp; <B>  <A NAME="tex2html4460"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4462"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION002290000000000000000"></A><A NAME="sec:hclstfurther"></A> <A NAME="p:hclstfurther"></A>
+<BR>
+References and further reading
+</H1> 
+
+<P>
+An excellent general review of clustering
+is (<A
+ HREF="bibliography-1.html#jain99data">Jain et&nbsp;al., 1999</A>).
+Early references for specific HAC algorithms are (<A
+ HREF="bibliography-1.html#king67stepwise">King, 1967</A>) (single-link),
+(<A
+ HREF="bibliography-1.html#sneath73numerical">Sneath and Sokal, 1973</A>) (complete-link, GAAC) and
+(<A
+ HREF="bibliography-1.html#lance67general">Lance and Williams, 1967</A>) (discussing a large variety of
+hierarchical clustering algorithms). The single-link
+algorithm in Figure <A HREF="time-complexity-of-hac-1.html#fig:singlecomplexity">17.9</A>  is similar to
+<A NAME="27194"></A> <I>Kruskal's algorithm</I>  for
+constructing a
+<A NAME="27196"></A>minimum spanning
+tree. A graph-theoretical proof of the correctness of
+Kruskal's algorithm (which is
+analogous to the proof in Section <A HREF="optimality-of-hac-1.html#sec:optimality">17.5</A> ) is provided by
+<A
+ HREF="bibliography-1.html#cormen90algorithms">Cormen et&nbsp;al. (1990, Theorem 23.1)</A>. See Exercise <A HREF="exercises-4.html#ex:minspan">17.10</A> 
+for the connection between minimum spanning trees and
+single-link clusterings.
+
+<P>
+It is often claimed that hierarchical clustering algorithms
+produce better clusterings than flat algorithms
+(<A
+ HREF="bibliography-1.html#jain88algorithms">Jain and Dubes (1988, p. 140)</A>,
+<A NAME="tex2html4465"
+  HREF="bibliography-1.html#cutting92scattergather">Cutting et&nbsp;al. (1992)</A>, <A NAME="tex2html4466"
+  HREF="bibliography-1.html#larsen99fast">Larsen and Aone (1999)</A>) although more
+recently there have been experimental results suggesting the
+opposite (<A
+ HREF="bibliography-1.html#zhao02evaluation">Zhao and Karypis, 2002</A>). Even without a consensus
+on average behavior, there is no doubt that results of EM
+and  <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means are highly variable since they will often
+converge to a local optimum of poor quality.  The
+HAC algorithms we have presented here are
+deterministic and thus more predictable.
+
+<P>
+The complexity of complete-link, group-average and centroid
+clustering is sometimes given as <IMG
+ WIDTH="51" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1579.png"
+ ALT="$\Theta(N^2)$">
+(<A NAME="tex2html4467"
+  HREF="bibliography-1.html#day84efficient">Day and Edelsbrunner, 1984</A>, <A NAME="tex2html4468"
+  HREF="bibliography-1.html#murtagh83survey">Murtagh, 1983</A>, <A NAME="tex2html4469"
+  HREF="bibliography-1.html#voorhees85effectiveness">Voorhees, 1985b</A>) because a document similarity computation
+is an order of magnitude more expensive than a simple
+comparison, the main operation executed in the merging steps
+after the <IMG
+ WIDTH="51" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1555.png"
+ ALT="$N \times N$"> similarity matrix has been computed.
+
+<P>
+The centroid algorithm described here is due to
+<A
+ HREF="bibliography-1.html#voorhees85effectiveness">Voorhees (1985b)</A>.  Voorhees recommends
+complete-link and centroid clustering over single-link for a
+retrieval application.  The Buckshot algorithm was
+originally published by <A
+ HREF="bibliography-1.html#CKP93">Cutting et&nbsp;al. (1993)</A>. 
+<A
+ HREF="bibliography-1.html#allan98online">Allan et&nbsp;al. (1998)</A> 
+apply
+single-link clustering to <A NAME="27208"></A> <I>first story detection</I> .
+
+<P>
+An important HAC technique not discussed here is
+<A NAME="27210"></A> <I>Ward's method</I> 
+(<A NAME="tex2html4470"
+  HREF="bibliography-1.html#elhamdouchi86hierarchic">El-Hamdouchi and Willett, 1986</A>, <A NAME="tex2html4471"
+  HREF="bibliography-1.html#ward63hierarchical">Ward Jr., 1963</A>), also
+called 
+<A NAME="27213"></A> <I>minimum variance clustering</I> . In each step, it
+selects the merge with the smallest RSS
+(Chapter <A HREF="flat-clustering-1.html#ch:flatclust">16</A> , page <A HREF="k-means-1.html#p:rss">191</A> ).  The merge criterion
+in Ward's method (a function of all individual distances
+from the centroid) is closely related to the merge criterion
+in GAAC (a function of all individual similarities to the
+centroid).
+
+<P>
+Despite its importance for making the results of clustering
+useful, comparatively little work has been done on labeling
+clusters. <A
+ HREF="bibliography-1.html#popescul00automatic">Popescul and Ungar (2000)</A> obtain good results
+with a combination of <IMG
+ WIDTH="21" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$\chi ^2$"> and collection frequency of a
+term.  <A
+ HREF="bibliography-1.html#glover02structure">Glover et&nbsp;al. (2002b)</A> use information gain for
+labeling clusters of web pages.  
+<A
+ HREF="bibliography-1.html#stein04topic">Stein and zu&nbsp;Eissen</A>'s approach is ontology-based (<A
+ HREF="bibliography-1.html#stein04topic">2004</A>).
+The more complex problem of
+labeling nodes in a hierarchy (which requires distinguishing
+more general labels for parents from more specific labels
+for children) is tackled by <A
+ HREF="bibliography-1.html#glover02inferring">Glover et&nbsp;al. (2002a)</A> and
+<A
+ HREF="bibliography-1.html#treeratpituk06experimental">Treeratpituk and Callan (2006)</A>.  Some clustering
+algorithms attempt to find a set of labels first and then
+build (often overlapping) clusters around the labels,
+thereby avoiding the problem of labeling altogether
+(<A NAME="tex2html4472"
+  HREF="bibliography-1.html#weiss05concept">Osinski and Weiss, 2005</A>, <A NAME="tex2html4473"
+  HREF="bibliography-1.html#zamir99grouper">Zamir and Etzioni, 1999</A>, <A NAME="tex2html4474"
+  HREF="bibliography-1.html#kaki05findex">K&#228;ki, 2005</A>).  We know of no
+comprehensive study that compares the quality of such
+``label-based'' clustering to the clustering algorithms
+discussed in this chapter and in Chapter <A HREF="flat-clustering-1.html#ch:flatclust">16</A> .  In principle,
+work on multi-document <A NAME="27225"></A> <I>summarization</I> 
+(<A
+ HREF="bibliography-1.html#mckeown95generating">McKeown and Radev, 1995</A>) is also applicable to cluster
+labeling, but multi-document summaries are usually longer
+than the short text fragments needed when labeling
+clusters (cf. snippets). Presenting clusters in a way that users can understand is a UI problem. We
+recommend reading (<A
+ HREF="bibliography-1.html#baezayates99">Baeza-Yates and Ribeiro-Neto, 1999</A>, ch.&nbsp;10) for an
+introduction to user interfaces in IR.
+
+<P>
+An example of an efficient divisive algorithm is bisecting
+ <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means (<A
+ HREF="bibliography-1.html#steinbach00comparison">Steinbach et&nbsp;al., 2000</A>).  
+<A NAME="27232"></A> <I>Spectral clustering</I>  algorithms
+(<A NAME="tex2html4475"
+  HREF="bibliography-1.html#kannan00clusterings">Kannan et&nbsp;al., 2000</A>, <A NAME="tex2html4476"
+  HREF="bibliography-1.html#dhillon01coclustering">Dhillon, 2001</A>, <A NAME="tex2html4477"
+  HREF="bibliography-1.html#zha01bipartite">Zha et&nbsp;al., 2001</A>, <A NAME="tex2html4478"
+  HREF="bibliography-1.html#ng01spectral">Ng et&nbsp;al., 2001a</A>),
+including
+<A NAME="27235"></A> <I>principal direction divisive partitioning</I>  (PDDP)
+(whose bisecting decisions are based on
+<A NAME="27237"></A> <I>SVD</I> , see Chapter <A HREF="matrix-decompositions-and-latent-semantic-indexing-1.html#ch:lsi">18</A> )
+(<A NAME="tex2html4479"
+  HREF="bibliography-1.html#boley98principal">Boley, 1998</A>, <A NAME="tex2html4480"
+  HREF="bibliography-1.html#savaresi04pddp">Savaresi and Boley, 2004</A>),
+are computationally more expensive than
+bisecting
+ <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means, but have the advantage of being deterministic.
+
+<P>
+Unlike  <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means and EM, most hierarchical clustering
+algorithms do not have a probabilistic
+interpretation. Model-based hierarchical clustering
+(<A NAME="tex2html4481"
+  HREF="bibliography-1.html#kamvar02interpreting">Kamvar et&nbsp;al., 2002</A>, <A NAME="tex2html4482"
+  HREF="bibliography-1.html#vaithyanathan00modelbased">Vaithyanathan and Dom, 2000</A>, <A NAME="tex2html4483"
+  HREF="bibliography-1.html#castro04likelihood">Castro et&nbsp;al., 2004</A>) is an exception.
+
+<P>
+The evaluation methodology described in
+Section <A HREF="evaluation-of-clustering-1.html#sec:clustereval">16.3</A>  (page <A HREF="evaluation-of-clustering-1.html#p:clustereval">16.3</A> )
+is also applicable to hierarchical clustering. Specialized
+evaluation measures for hierarchies are
+discussed by 
+<A
+ HREF="bibliography-1.html#fowlkes83clusterings">Fowlkes and Mallows (1983)</A>,
+<A
+ HREF="bibliography-1.html#larsen99fast">Larsen and Aone (1999)</A>
+and 
+<A
+ HREF="bibliography-1.html#sahoo06incremental">Sahoo et&nbsp;al. (2006)</A>.
+
+<P>
+The R environment (<A
+ HREF="bibliography-1.html#r05r">R Development Core Team, 2005</A>) offers good support for
+hierarchical clustering.  The R function hclust
+implements single-link, complete-link, group-average, and
+centroid clustering; and Ward's method.  Another option
+provided is median clustering which represents each
+cluster by its medoid (cf. k-medoids in
+Chapter <A HREF="flat-clustering-1.html#ch:flatclust">16</A> , page <A HREF="k-means-1.html#p:kmedoid">16.4</A> ).  Support for
+clustering vectors in high-dimensional spaces is provided by
+the software package CLUTO
+(<TT><A NAME="tex2html194"
+  HREF="http://glaros.dtc.umn.edu/gkhome/views/cluto">http://glaros.dtc.umn.edu/gkhome/views/cluto</A></TT>).
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4463"
+  HREF="exercises-4.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4457"
+  HREF="hierarchical-clustering-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4451"
+  HREF="implementation-notes-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4459"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4461"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4464"
+  HREF="exercises-4.html">Exercises</A>
+<B> Up:</B> <A NAME="tex2html4458"
+  HREF="hierarchical-clustering-1.html">Hierarchical clustering</A>
+<B> Previous:</B> <A NAME="tex2html4452"
+  HREF="implementation-notes-1.html">Implementation notes</A>
+ &nbsp; <B>  <A NAME="tex2html4460"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4462"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/references-and-further-reading-17.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:37:10 GMT -->
+</HTML>

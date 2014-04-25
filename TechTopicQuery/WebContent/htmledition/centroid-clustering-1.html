@@ -1,0 +1,367 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/centroid-clustering-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:36:44 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Centroid clustering</TITLE>
+<META NAME="description" CONTENT="Centroid clustering">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="optimality-of-hac-1.html">
+<LINK REL="previous" HREF="group-average-agglomerative-clustering-1.html">
+<LINK REL="up" HREF="hierarchical-clustering-1.html">
+<LINK REL="next" HREF="optimality-of-hac-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4393"
+  HREF="optimality-of-hac-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4387"
+  HREF="hierarchical-clustering-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4381"
+  HREF="group-average-agglomerative-clustering-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4389"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4391"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4394"
+  HREF="optimality-of-hac-1.html">Optimality of HAC</A>
+<B> Up:</B> <A NAME="tex2html4388"
+  HREF="hierarchical-clustering-1.html">Hierarchical clustering</A>
+<B> Previous:</B> <A NAME="tex2html4382"
+  HREF="group-average-agglomerative-clustering-1.html">Group-average agglomerative clustering</A>
+ &nbsp; <B>  <A NAME="tex2html4390"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4392"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION002240000000000000000"></A>
+<A NAME="sec:centroidsec"></A> <A NAME="p:centroidsec"></A>
+<BR>
+Centroid clustering
+</H1> 
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:centroidexample"></A><A NAME="p:centroidexample"></A></P><IMG
+ WIDTH="555" HEIGHT="247" BORDER="0"
+ SRC="img1614.png"
+ ALT="\begin{figure}
+% latex2html id marker 26865
+\par
+\psset{unit=0.75cm}
+\par
+\begin...
+...ach
+iteration merges the two clusters whose centroids
+are closest.}
+\end{figure}">
+</DIV>
+In centroid clustering, the similarity of two clusters is
+defined as the similarity of their centroids:
+<BR>
+<DIV ALIGN="CENTER"><A NAME="inter-sim"></A><A NAME="inter-sim2"></A>
+<!-- MATH
+ \begin{eqnarray}
+\mbox{{\sc sim-cent}}(\omega_i,\omega_j) &=& \vec{\mu}( \omega_i )
+\cdot \vec{\mu}( \omega_j )\\
+&=&(\frac{1}{N_i}\sum_{d_\mthatwask \in \omega_i}
+\vec{d}_\mthatwask) \cdot (\frac{1}{N_j}\sum_{d_\nthatwasell
+\in \omega_j} \vec{d}_\nthatwasell)\\
+&=& \frac{1}{N_iN_j} \sum_{d_\mthatwask \in \omega_i} \sum_{d_\nthatwasell
+\in \omega_j}
+\vec{d}_\mthatwask \cdot \vec{d}_\nthatwasell
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="128" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1615.png"
+ ALT="$\displaystyle \mbox{{\sc sim-cent}}(\omega_i,\omega_j)$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="95" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1616.png"
+ ALT="$\displaystyle \vec{\mu}( \omega_i )
+\cdot \vec{\mu}( \omega_j )$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(207)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT">&nbsp;</TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="201" HEIGHT="57" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1617.png"
+ ALT="$\displaystyle (\frac{1}{N_i}\sum_{d_\mthatwask \in \omega_i}
+\vec{d}_\mthatwask) \cdot (\frac{1}{N_j}\sum_{d_\nthatwasell
+\in \omega_j} \vec{d}_\nthatwasell)$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(208)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT">&nbsp;</TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="167" HEIGHT="57" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1618.png"
+ ALT="$\displaystyle \frac{1}{N_iN_j} \sum_{d_\mthatwask \in \omega_i} \sum_{d_\nthatwasell
+\in \omega_j}
+\vec{d}_\mthatwask \cdot \vec{d}_\nthatwasell$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(209)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+Equation <A HREF="#inter-sim">207</A>  is centroid similarity. Equation <A HREF="#inter-sim2">209</A> 
+shows that centroid similarity is equivalent to average
+similarity of all pairs of documents from <I>different</I>
+clusters. Thus, the difference between GAAC and centroid
+clustering is that GAAC considers all pairs of documents in
+computing average pairwise similarity 
+(Figure <A HREF="hierarchical-agglomerative-clustering-1.html#fig:clustersimilarities">17.3</A> , (d))
+whereas centroid
+clustering excludes pairs from the same cluster
+(Figure <A HREF="hierarchical-agglomerative-clustering-1.html#fig:clustersimilarities">17.3</A> , (c)).
+
+<P>
+Figure <A HREF="#fig:centroidexample">17.11</A>  shows the first three steps of a
+centroid clustering. 
+The first two iterations form the clusters
+<IMG
+ WIDTH="58" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1619.png"
+ ALT="$\{d_5,d_6\}$"> with centroid <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1620.png"
+ ALT="$\mu_1$"> 
+and
+<IMG
+ WIDTH="58" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1621.png"
+ ALT="$\{d_1,d_2\}$"> with centroid <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1622.png"
+ ALT="$\mu_2$"> 
+because the pairs
+ <!-- MATH
+ $\langle d_5,d_6 \rangle$
+ -->
+<IMG
+ WIDTH="55" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1623.png"
+ ALT="$\langle d_5,d_6 \rangle$"> and
+<!-- MATH
+ $\langle d_1,d_2 \rangle$
+ -->
+<IMG
+ WIDTH="54" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1624.png"
+ ALT="$\langle d_1,d_2 \rangle$"> have the highest centroid similarities. In the
+third iteration, the highest
+centroid similarity is between <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1620.png"
+ ALT="$\mu_1$"> and <IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img630.png"
+ ALT="$d_4$"> producing the
+cluster <!-- MATH
+ $\{d_4,d_5,d_6\}$
+ -->
+<IMG
+ WIDTH="80" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1625.png"
+ ALT="$\{d_4,d_5,d_6\}$"> with centroid <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1626.png"
+ ALT="$\mu_3$">.
+
+<P>
+Like GAAC,
+centroid clustering is not best-merge persistent and
+therefore <!-- MATH
+ $\Theta(N^2 \log N)$
+ -->
+<IMG
+ WIDTH="93" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1573.png"
+ ALT="$
+\Theta(N^2 \log N)$"> (Exercise <A HREF="exercises-4.html#ex:singlelinkbestmerge">17.10</A> ).
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:inversion"></A><A NAME="p:inversion"></A></P><IMG
+ WIDTH="555" HEIGHT="237" BORDER="0"
+ SRC="img1627.png"
+ ALT="\begin{figure}
+% latex2html id marker 26912
+\par
+\psset{unit=0.5cm}
+\par
+\hspace...
+...ecting merge line in the
+dendrogram. The intersection is circled.
+}
+\end{figure}">
+</DIV>
+
+<P>
+In contrast to the other three HAC algorithms,
+centroid clustering is not monotonic. 
+So-called 
+<A NAME="26939"></A> <I>inversions</I> 
+can occur: Similarity can
+increase during clustering as in the example in
+Figure <A HREF="#fig:inversion">17.12</A> , where we define similarity as negative distance.
+In the first merge, the similarity of <IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img412.png"
+ ALT="$d_1$"> and <IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img413.png"
+ ALT="$d_2$"> is <IMG
+ WIDTH="66" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1628.png"
+ ALT="$-(4-\epsilon)$">.
+In the second merge, the similarity of the
+centroid of <IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img412.png"
+ ALT="$d_1$"> and <IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img413.png"
+ ALT="$d_2$"> (the circle) and <IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img623.png"
+ ALT="$d_3$"> is
+<!-- MATH
+ $\approx -\cos(\pi/6)\times 4=-\sqrt{3}/2
+\times 4 \approx -3.46>-(4-\epsilon)$
+ -->
+<IMG
+ WIDTH="381" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1629.png"
+ ALT="$\approx -\cos(\pi/6)\times 4=-\sqrt{3}/2
+\times 4 \approx -3.46&gt;-(4-\epsilon)$">. This is an example of an
+inversion: similarity <I>increases</I> in this sequence of
+two clustering steps. In a monotonic HAC
+algorithm, similarity is monotonically <I>decreasing</I>
+from iteration to iteration.
+
+<P>
+Increasing similarity in a series of HAC clustering steps
+contradicts the fundamental assumption that small
+clusters are more coherent than large clusters. An inversion
+in a dendrogram shows up as a horizontal merge line that is
+<I>lower</I> than the previous merge line.
+All merge lines in
+ and <A HREF="single-link-and-complete-link-clustering-1.html#fig:rprojectcomplete">17.5</A>  are higher than
+their predecessors because single-link and complete-link
+clustering are monotonic clustering algorithms.
+
+<P>
+Despite its non-monotonicity, centroid clustering is often used
+because its similarity measure - the similarity of two
+centroids - is conceptually simpler than the average of all
+pairwise similarities in GAAC. Figure <A HREF="#fig:centroidexample">17.11</A>  is all one needs to
+understand centroid clustering. There is no equally simple
+graph that would explain how GAAC works.
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI><A NAME="ex:howmanysims"></A> <A NAME="p:howmanysims"></A>  For a fixed set of <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$N$"> documents there are up to <IMG
+ WIDTH="24" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1630.png"
+ ALT="$N^2$">
+distinct similarities between clusters in single-link and
+complete-link clustering. How many distinct cluster
+similarities are there in GAAC and centroid clustering?
+
+<P>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4393"
+  HREF="optimality-of-hac-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4387"
+  HREF="hierarchical-clustering-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4381"
+  HREF="group-average-agglomerative-clustering-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4389"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4391"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4394"
+  HREF="optimality-of-hac-1.html">Optimality of HAC</A>
+<B> Up:</B> <A NAME="tex2html4388"
+  HREF="hierarchical-clustering-1.html">Hierarchical clustering</A>
+<B> Previous:</B> <A NAME="tex2html4382"
+  HREF="group-average-agglomerative-clustering-1.html">Group-average agglomerative clustering</A>
+ &nbsp; <B>  <A NAME="tex2html4390"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4392"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/centroid-clustering-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:36:53 GMT -->
+</HTML>

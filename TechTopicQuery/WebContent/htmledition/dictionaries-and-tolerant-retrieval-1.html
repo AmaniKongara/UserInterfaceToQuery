@@ -1,0 +1,166 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/dictionaries-and-tolerant-retrieval-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:21:31 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Dictionaries and tolerant retrieval</TITLE>
+<META NAME="description" CONTENT="Dictionaries and tolerant retrieval">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="index-construction-1.html">
+<LINK REL="previous" HREF="the-term-vocabulary-and-postings-lists-1.html">
+<LINK REL="up" HREF="irbook.html">
+<LINK REL="next" HREF="search-structures-for-dictionaries-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1326"
+  HREF="search-structures-for-dictionaries-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1320"
+  HREF="irbook.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1314"
+  HREF="references-and-further-reading-2.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1322"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1324"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1327"
+  HREF="search-structures-for-dictionaries-1.html">Search structures for dictionaries</A>
+<B> Up:</B> <A NAME="tex2html1321"
+  HREF="irbook.html">irbook</A>
+<B> Previous:</B> <A NAME="tex2html1315"
+  HREF="references-and-further-reading-2.html">References and further reading</A>
+ &nbsp; <B>  <A NAME="tex2html1323"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1325"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00800000000000000000"></A>
+<A NAME="ch:spell"></A>
+<BR>
+Dictionaries and tolerant retrieval
+</H1> 
+
+<P>
+In Chapters <A HREF="boolean-retrieval-1.html#ch:intro">1</A> <A HREF="the-term-vocabulary-and-postings-lists-1.html#ch:dictionary">2</A>  we developed the ideas underlying inverted indexes for handling Boolean and proximity queries. Here, we develop techniques that are robust to typographical errors in the query, as well as alternative spellings.  In Section <A HREF="search-structures-for-dictionaries-1.html#sec:searchstructures">3.1</A>  we develop data structures that help the search for terms in the vocabulary in an inverted index.  In Section <A HREF="wildcard-queries-1.html#sec:wildcard">3.2</A>  we study the idea of a <A NAME="3616"></A> <I>wildcard query</I> : a query such as *a*e*i*o*u*, which seeks documents containing any term that includes all the five vowels in sequence. The * symbol indicates any (possibly empty) string of characters. Users pose such queries to a search engine when they are uncertain about how to spell a query term, or seek documents containing variants of a query term; for instance, the query automat* would seek documents containing any of the terms automatic, automation and automated.
+
+<P>
+We then turn to other forms of imprecisely posed queries, focusing on spelling errors in Section <A HREF="spelling-correction-1.html#sec:spelling">3.3</A> . Users make spelling errors either by accident, or because the term they are searching for (e.g., Herman) has no unambiguous spelling in the collection.  We detail a number of techniques for correcting spelling errors in queries, one term at a time as well as for an entire string of query terms.  Finally, in Section <A HREF="phonetic-correction-1.html#sec:soundex">3.4</A>  we study a method for seeking vocabulary terms that are phonetically close to the query term(s).  This can be especially useful in cases like the Herman example, where the user may not know how a proper name is spelled in documents in the collection.
+
+<P>
+Because we will develop many variants of inverted indexes in this chapter, we will use sometimes the phrase <I>standard inverted index</I> to mean the inverted index developed in Chapters <A HREF="boolean-retrieval-1.html#ch:intro">1</A> <A HREF="the-term-vocabulary-and-postings-lists-1.html#ch:dictionary">2</A> , in which each vocabulary term has a postings list with the documents in the collection.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html1328"
+  HREF="search-structures-for-dictionaries-1.html">Search structures for dictionaries</A>
+<LI><A NAME="tex2html1329"
+  HREF="wildcard-queries-1.html">Wildcard queries</A>
+<UL>
+<LI><A NAME="tex2html1330"
+  HREF="general-wildcard-queries-1.html">General wildcard queries</A>
+<UL>
+<LI><A NAME="tex2html1331"
+  HREF="permuterm-indexes-1.html">Permuterm indexes</A>
+</UL>
+<LI><A NAME="tex2html1332"
+  HREF="k-gram-indexes-for-wildcard-queries-1.html">k-gram indexes for wildcard queries</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1333"
+  HREF="spelling-correction-1.html">Spelling correction</A>
+<UL>
+<LI><A NAME="tex2html1334"
+  HREF="implementing-spelling-correction-1.html">Implementing spelling correction</A>
+<LI><A NAME="tex2html1335"
+  HREF="forms-of-spelling-correction-1.html">Forms of spelling correction</A>
+<LI><A NAME="tex2html1336"
+  HREF="edit-distance-1.html">Edit distance</A>
+<LI><A NAME="tex2html1337"
+  HREF="k-gram-indexes-for-spelling-correction-1.html">k-gram indexes for spelling correction</A>
+<LI><A NAME="tex2html1338"
+  HREF="context-sensitive-spelling-correction-1.html">Context sensitive spelling correction</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1339"
+  HREF="phonetic-correction-1.html">Phonetic correction</A>
+<LI><A NAME="tex2html1340"
+  HREF="references-and-further-reading-3.html">References and further reading</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1326"
+  HREF="search-structures-for-dictionaries-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1320"
+  HREF="irbook.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1314"
+  HREF="references-and-further-reading-2.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1322"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1324"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1327"
+  HREF="search-structures-for-dictionaries-1.html">Search structures for dictionaries</A>
+<B> Up:</B> <A NAME="tex2html1321"
+  HREF="irbook.html">irbook</A>
+<B> Previous:</B> <A NAME="tex2html1315"
+  HREF="references-and-further-reading-2.html">References and further reading</A>
+ &nbsp; <B>  <A NAME="tex2html1323"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1325"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/dictionaries-and-tolerant-retrieval-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:21:31 GMT -->
+</HTML>

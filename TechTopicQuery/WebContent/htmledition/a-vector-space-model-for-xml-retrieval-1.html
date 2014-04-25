@@ -1,0 +1,775 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/a-vector-space-model-for-xml-retrieval-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:27:34 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>A vector space model for XML retrieval</TITLE>
+<META NAME="description" CONTENT="A vector space model for XML retrieval">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="evaluation-of-xml-retrieval-1.html">
+<LINK REL="previous" HREF="challenges-in-xml-retrieval-1.html">
+<LINK REL="up" HREF="xml-retrieval-1.html">
+<LINK REL="next" HREF="evaluation-of-xml-retrieval-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2897"
+  HREF="evaluation-of-xml-retrieval-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2891"
+  HREF="xml-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2885"
+  HREF="challenges-in-xml-retrieval-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2893"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2895"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2898"
+  HREF="evaluation-of-xml-retrieval-1.html">Evaluation of XML retrieval</A>
+<B> Up:</B> <A NAME="tex2html2892"
+  HREF="xml-retrieval-1.html">XML retrieval</A>
+<B> Previous:</B> <A NAME="tex2html2886"
+  HREF="challenges-in-xml-retrieval-1.html">Challenges in XML retrieval</A>
+ &nbsp; <B>  <A NAME="tex2html2894"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2896"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001530000000000000000"></A>
+<A NAME="sec:xmlvector"></A> <A NAME="p:xmlvector"></A>
+<BR>
+A vector space model for XML retrieval
+</H1> 
+In this section, we present a simple vector space model for
+XML retrieval. It is not intended to be a complete
+description of a state-of-the-art system. Instead, we want
+to give the reader a flavor of how documents can be
+represented and retrieved in XML retrieval.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:maptostructural"></A><A NAME="p:maptostructural"></A><A NAME="12545"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 10.8:</STRONG>
+A mapping of an XML document (left) to a set of
+lexicalized subtrees (right).</CAPTION>
+<TR><TD><IMG
+ WIDTH="543" HEIGHT="257" ALIGN="BOTTOM" BORDER="0"
+ SRC="img632.png"
+ ALT="\includegraphics[width=12cm]{maptostructural.eps}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+To take account of structure in retrieval
+in
+Figure <A HREF="basic-xml-concepts-1.html#fig:xmlqueries">10.4</A> , we want
+a book entitled <I>Julius Caesar</I> to be a match for <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img366.png"
+ ALT="$q_1$">
+and no match (or a lower weighted match) for <IMG
+ WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img367.png"
+ ALT="$q_2$">.
+In unstructured retrieval, there would be a single dimension of
+the vector space for Caesar. In XML retrieval, we must
+separate the title word Caesar from the author name
+Caesar. One way of doing this is to have each
+dimension of the vector space encode a word together with its position within
+the XML tree.
+
+<P>
+Figure <A HREF="#fig:maptostructural">10.8</A>  illustrates this representation.
+We first take each text node (which in our setup is always a
+leaf) and break it into multiple nodes, one for each word.
+So the leaf node Bill Gates is split into two leaves
+Bill and
+Gates.
+Next we define
+the dimensions of the vector space to be
+<A NAME="12558"></A> <I>lexicalized subtrees</I> 
+ of documents - subtrees that contain at least one vocabulary
+term.
+A subset of these possible lexicalized
+subtrees is shown in the figure, but there are
+others - e.g., the subtree corresponding to the whole
+document with the leaf node Gates removed.
+We can now represent queries and documents as vectors in
+this space of lexicalized subtrees and compute matches between them.
+This means that we can use the vector space formalism from
+Chapter <A HREF="scoring-term-weighting-and-the-vector-space-model-1.html#ch:termvspace">6</A>  for XML retrieval. The main difference
+is that the dimensions of vector space in unstructured
+retrieval are vocabulary terms  whereas they are 
+lexicalized subtrees in XML retrieval.
+
+<P>
+There is a <A NAME="p:xmltradeoff"></A> tradeoff between the
+dimensionality of the space and accuracy of query results.
+If we trivially restrict dimensions to vocabulary terms, then
+we have a standard vector space retrieval system that will
+retrieve many documents that do not match the structure of
+the query (e.g., Gates in the title as opposed to the
+author element). If we create a separate dimension for each
+lexicalized subtree occurring in the collection, the dimensionality of
+the space becomes too large.
+A compromise is to index all
+paths that end in a single vocabulary term, in other words,
+all XML-contextterm pairs.  We call such an
+XML-contextterm pair a
+<A NAME="p:tstructural"></A> <A NAME="12565"></A> <I>structural term</I>  and denote
+it by <!-- MATH
+ $\langle c,t \rangle$
+ -->
+<IMG
+ WIDTH="37" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img633.png"
+ ALT="$\langle c,t \rangle$">: a pair of XML-context <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img252.png"
+ ALT="$c$"> and vocabulary term
+<IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$">.  The
+document in Figure <A HREF="#fig:maptostructural">10.8</A>  has nine structural
+terms. Seven are shown (e.g.,
+<code>"Bill"</code> and <code>Author#"Bill"</code>) and two are not
+shown: <code>/Book/Author#"Bill"</code> and
+<code>/Book/Author#"Gates"</code>. 
+The tree with the leaves
+Bill and Gates is a lexicalized subtree that is not a
+structural term.
+We use the previously introduced pseudo-XPath notation for
+structural terms.
+
+<P>
+As we discussed in the last section
+users are bad at remembering
+details about the schema and at constructing queries that
+comply with the schema.
+We will therefore interpret all queries as
+extended queries - that is, there can be an arbitrary
+number of intervening nodes  in the document for any
+parent-child node pair in the query.
+For example, we interpret <IMG
+ WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img629.png"
+ ALT="$q_5$"> in Figure <A HREF="challenges-in-xml-retrieval-1.html#fig:structmismatch">10.7</A>  as <IMG
+ WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img631.png"
+ ALT="$q_6$">.
+
+<P>
+But we still
+prefer documents that match the query structure closely by
+inserting fewer additional nodes. We ensure that retrieval
+results respect this preference by computing a weight for
+each match. A simple measure of the similarity of 
+a path <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img634.png"
+ ALT="$c_q$"> in a query
+and 
+a path <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img635.png"
+ ALT="$c_d$"> in a document 
+is the following <A NAME="12571"></A> <I>context resemblance</I>  function C<SMALL>R</SMALL>:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\mbox{\sc Cr}(c_q,c_d) = \left\{
+\begin{array}{ll}
+\frac{1+|c_q|}{1+|c_d|} & \mbox{if $c_q$\  matches $c_d$}\\
+0 & \mbox{if $c_q$\  does not match $c_d$}
+    \end{array}
+   \right.
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eqn:crdef"></A><IMG
+ WIDTH="322" HEIGHT="54" BORDER="0"
+ SRC="img636.png"
+ ALT="\begin{displaymath}
+\mbox{\sc Cr}(c_q,c_d) = \left\{
+\begin{array}{ll}
+\frac{1+\...
+...0 &amp; \mbox{if $c_q$\ does not match $c_d$}
+\end{array} \right.
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(52)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+where <IMG
+ WIDTH="28" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img637.png"
+ ALT="$\vert c_q\vert$"> and <IMG
+ WIDTH="28" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img638.png"
+ ALT="$\vert c_d\vert$"> are the number of nodes in  the query path
+and document path, respectively, and <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img634.png"
+ ALT="$c_q$"> matches <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img635.png"
+ ALT="$c_d$"> iff
+we can transform
+<IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img634.png"
+ ALT="$c_q$">
+into <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img635.png"
+ ALT="$c_d$"> by inserting additional nodes.
+Two examples from  Figure <A HREF="challenges-in-xml-retrieval-1.html#fig:xmlhetero">10.6</A>  are
+<!-- MATH
+ $\mbox{\sc Cr}(c_{q_4},c_{d_2}) = 3/4 = 0.75$
+ -->
+<IMG
+ WIDTH="182" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img639.png"
+ ALT="$\mbox{\sc Cr}(c_{q_4},c_{d_2}) = 3/4 = 0.75$"> and
+<!-- MATH
+ $\mbox{\sc Cr}(c_{q_4},c_{d_3}) = 3/5 = 0.6$
+ -->
+<IMG
+ WIDTH="174" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img640.png"
+ ALT="$\mbox{\sc Cr}(c_{q_4},c_{d_3}) = 3/5 = 0.6$"> where
+<!-- MATH
+ $c_{q_4}, c_{d_2}$
+ -->
+<IMG
+ WIDTH="49" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img641.png"
+ ALT="$c_{q_4}, c_{d_2}$"> and <IMG
+ WIDTH="23" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img642.png"
+ ALT="$c_{d_3}$"> are the relevant paths from top to
+leaf node in <IMG
+ WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img627.png"
+ ALT="$q_4$">, <IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img413.png"
+ ALT="$d_2$"> and <IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img623.png"
+ ALT="$d_3$">, respectively.
+The value of <!-- MATH
+ $\mbox{\sc Cr}(c_q,c_d)$
+ -->
+<IMG
+ WIDTH="73" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img643.png"
+ ALT="$\mbox{\sc Cr}(c_q,c_d)$">
+is <IMG
+ WIDTH="24" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img644.png"
+ ALT="$1.0$"> if <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$"> and <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$"> are identical.
+
+<P>
+The final score for a document is computed as a variant of
+the cosine measure (Equation&nbsp;<A HREF="dot-products-1.html#eqn:cosine">24</A>,
+page <A HREF="dot-products-1.html#p:eqncosine">6.3.1</A> ), 
+which we call S<SMALL>IM</SMALL>N<SMALL>O</SMALL>M<SMALL>ERGE</SMALL> for reasons that will
+become clear shortly.
+S<SMALL>IM</SMALL>N<SMALL>O</SMALL>M<SMALL>ERGE</SMALL> is defined as follows:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\mbox{\textsc{SimNoMerge}}(q,d)=
+\sum_{c_k \in B}
+\sum_{c_l \in B}
+\mbox{\sc Cr}(c_k,c_l)
+\sum_{t \in V}
+\mbox{weight}(q,t,c_k)
+\frac
+{
+\mbox{weight}(d,t,c_l)
+}
+{
+\sqrt
+{
+\sum_{c \in B,t \in V}\mbox{weight}^2(d,t,c)
+}
+}
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eqn:cosinexml1"></A><IMG
+ WIDTH="604" HEIGHT="57" BORDER="0"
+ SRC="img645.png"
+ ALT="\begin{displaymath}
+\mbox{\textsc{SimNoMerge}}(q,d)=
+\sum_{c_k \in B}
+\sum_{c_l ...
+...)
+}
+{
+\sqrt
+{
+\sum_{c \in B,t \in V}\mbox{weight}^2(d,t,c)
+}
+}
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(53)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+where <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img162.png"
+ ALT="$V$"> is the vocabulary of non-structural terms; <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img168.png"
+ ALT="$B$"> is
+the set of all XML contexts; and
+<!-- MATH
+ $\mbox{weight}(q,t,c)$
+ -->
+<IMG
+ WIDTH="100" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img646.png"
+ ALT="$\mbox{weight}(q,t,c)$">
+and
+<!-- MATH
+ $\mbox{weight}(d,t,c)$
+ -->
+<IMG
+ WIDTH="101" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img647.png"
+ ALT="$\mbox{weight}(d,t,c)$">
+are
+the weights of term <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$"> in XML context <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img252.png"
+ ALT="$c$"> in query <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$"> and
+document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">, respectively. We compute the weights
+using one of the weightings from Chapter <A HREF="scoring-term-weighting-and-the-vector-space-model-1.html#ch:termvspace">6</A> , such as
+<!-- MATH
+ $\mbox{idf}_t \cdot \mbox{wf}_{t,d}$
+ -->
+<IMG
+ WIDTH="73" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img648.png"
+ ALT="$\mbox{idf}_t \cdot \mbox{wf}_{t,d}$">.
+The inverse document frequency <IMG
+ WIDTH="29" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img445.png"
+ ALT="$\mbox{idf}_t$">
+depends on which elements we use to compute <IMG
+ WIDTH="24" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img402.png"
+ ALT="$\mbox{df}_t$"> as
+discussed in Section <A HREF="challenges-in-xml-retrieval-1.html#sec:xmlchallenge">10.2</A> .
+The similarity measure <!-- MATH
+ $\mbox{\textsc{SimNoMerge}}(q,d)$
+ -->
+<IMG
+ WIDTH="145" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img649.png"
+ ALT="$\mbox{\textsc{SimNoMerge}}(q,d)$"> is not a true cosine
+measure since its value can be larger than 1.0
+(Exercise <A HREF="exercises-1.html#ex:simcrlargerthan1">10.7</A> ).
+We divide by <!-- MATH
+ $\sqrt
+{
+\sum_{c \in B,t \in V}\mbox{weight}^2(d,t,c)
+}$
+ -->
+<IMG
+ WIDTH="187" HEIGHT="49" ALIGN="MIDDLE" BORDER="0"
+ SRC="img650.png"
+ ALT="$\sqrt
+{
+\sum_{c \in B,t \in V}\mbox{weight}^2(d,t,c)
+}$"> to normalize for document length
+(Section <A HREF="dot-products-1.html#sec:inner">6.3.1</A> , page <A HREF="dot-products-1.html#p:euclideanlength">6.3.1</A> ).
+We have omitted query length
+normalization to simplify the formula. It has no effect on
+ranking since, for a given query, the normalizer
+<!-- MATH
+ $\sqrt
+{
+\sum_{c \in B,t \in V}\mbox{weight}^2(q,t,c)
+}$
+ -->
+<IMG
+ WIDTH="187" HEIGHT="49" ALIGN="MIDDLE" BORDER="0"
+ SRC="img651.png"
+ ALT="$\sqrt
+{
+\sum_{c \in B,t \in V}\mbox{weight}^2(q,t,c)
+}$"> is the same for all documents.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:nomerge"></A><A NAME="p:nomerge"></A><A NAME="13053"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 10.9:</STRONG>
+The algorithm for scoring documents with S<SMALL>IM</SMALL>N<SMALL>O</SMALL>M<SMALL>ERGE</SMALL>.</CAPTION>
+<TR><TD><IMG
+ WIDTH="445" HEIGHT="261" BORDER="0"
+ SRC="img652.png"
+ ALT="\begin{figure}\begin{algorithm}{ScoreDocumentsWithSimNoMerge}{q,B,V,N,normalizer...
+...] / normalizer[n]
+\end{FOR}\\
+\RETURN{score}
+\end{algorithm}\par\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+The algorithm for computing
+S<SMALL>IM</SMALL>N<SMALL>O</SMALL>M<SMALL>ERGE</SMALL> for all documents in the collection is shown in Figure <A HREF="#fig:nomerge">10.9</A> .
+ The array <I>normalizer</I> in Figure <A HREF="#fig:nomerge">10.9</A> 
+  contains 
+<!-- MATH
+ $\sqrt{\sum_{c \in B,t \in V}\mbox{weight}^2(d,t,c)}$
+ -->
+<IMG
+ WIDTH="187" HEIGHT="49" ALIGN="MIDDLE" BORDER="0"
+ SRC="img650.png"
+ ALT="$\sqrt
+{
+\sum_{c \in B,t \in V}\mbox{weight}^2(d,t,c)
+}$">
+from Equation&nbsp;<A HREF="#eqn:cosinexml1">53</A> for each document.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:xmlinverted"></A><A NAME="p:xmlinverted"></A><A NAME="13060"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 10.10:</STRONG>
+
+Scoring of a query with one structural term in S<SMALL>IM</SMALL>N<SMALL>O</SMALL>M<SMALL>ERGE</SMALL>.
+</CAPTION>
+<TR><TD><IMG
+ WIDTH="537" HEIGHT="218" BORDER="0"
+ SRC="img653.png"
+ ALT="\begin{figure}\psset{unit=1cm}
+\begin{pspicture}(0,0.5)(14,5.5)
+\par
+\rput(1,5){...
+...dots \\
+\cline{1-1}\cline{3-6}
+\end{tabular}}
+\par
+\end{pspicture}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+We give an example of how S<SMALL>IM</SMALL>N<SMALL>O</SMALL>M<SMALL>ERGE</SMALL> computes
+query-document similarities
+in Figure <A HREF="#fig:xmlinverted">10.10</A> .
+<!-- MATH
+ $\langle c_1,t \rangle$
+ -->
+<IMG
+ WIDTH="43" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img654.png"
+ ALT="$\langle c_1,t \rangle$"> is one of the structural terms in the query.
+We successively retrieve all postings lists for structural
+terms <!-- MATH
+ $\langle c',t
+\rangle$
+ -->
+<IMG
+ WIDTH="41" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img655.png"
+ ALT="$\langle c',t
+\rangle$"> with the same vocabulary term <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$">.
+Three example postings lists are shown.
+For the first one, 
+we have
+<!-- MATH
+ $\mbox{\sc Cr}(c_1,c_1) = 1.0$
+ -->
+<IMG
+ WIDTH="115" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img656.png"
+ ALT="$\mbox{\sc Cr}(c_1,c_1) = 1.0$"> since the two contexts are identical.
+The next context has no context resemblance with <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img657.png"
+ ALT="$c_1$">:
+<!-- MATH
+ $\mbox{\sc Cr}(c_1,c_2) = 0$
+ -->
+<IMG
+ WIDTH="103" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img658.png"
+ ALT="$\mbox{\sc Cr}(c_1,c_2) = 0$"> and the corresponding postings
+list is ignored.
+The context match of <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img657.png"
+ ALT="$c_1$"> with <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img659.png"
+ ALT="$c_3$"> is 0.63&gt;0 and it will
+be processed.
+In this example, the highest ranking document is <IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img660.png"
+ ALT="$d_9$"> with a
+similarity of <!-- MATH
+ $1.0 \times 0.2+0.63 \times 0.6=0.578$
+ -->
+<IMG
+ WIDTH="208" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img661.png"
+ ALT="$1.0 \times 0.2+0.63 \times 0.6=0.578$">. To
+simplify the figure, the query
+weight of <!-- MATH
+ $\langle c_1,t \rangle$
+ -->
+<IMG
+ WIDTH="43" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img654.png"
+ ALT="$\langle c_1,t \rangle$"> is assumed to be 1.0.
+
+<P>
+The query-document similarity function in Figure <A HREF="#fig:nomerge">10.9</A> 
+is called S<SMALL>IM</SMALL>N<SMALL>O</SMALL>M<SMALL>ERGE</SMALL> because different XML contexts
+are kept separate for the purpose of weighting.  An
+alternative  similarity function is
+S<SMALL>IM</SMALL>M<SMALL>ERGE</SMALL> which relaxes the matching conditions of
+query and document further in the following three ways.
+
+<UL>
+<LI>We collect the 
+statistics used for computing
+<!-- MATH
+ $\mbox{weight}(q,t,c)$
+ -->
+<IMG
+ WIDTH="100" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img646.png"
+ ALT="$\mbox{weight}(q,t,c)$"> and
+<!-- MATH
+ $\mbox{weight}(d,t,c)$
+ -->
+<IMG
+ WIDTH="101" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img647.png"
+ ALT="$\mbox{weight}(d,t,c)$"> from <I>all</I> contexts that have a
+non-zero resemblance to <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img252.png"
+ ALT="$c$"> (as opposed to just from <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img252.png"
+ ALT="$c$"> as
+in 
+S<SMALL>IM</SMALL>N<SMALL>O</SMALL>M<SMALL>ERGE</SMALL>).  For instance, for
+computing the document frequency of the structural term
+<code>atl#"recognition"</code>, we also count
+occurrences of
+recognition in XML contexts <code>fm/atl</code>,
+<code>article//atl</code> etc.
+</LI>
+<LI>We modify  Equation&nbsp;<A HREF="#eqn:cosinexml1">53</A>
+by merging  all structural terms in the document that have a
+non-zero context resemblance to a given query structural term.
+For example, the contexts
+<code>/play/act/scene/title</code> and
+<code>/play/title</code> in the document will be merged when matching against the
+query term
+<code>/play/title#"Macbeth"</code>. 
+</LI>
+<LI>The context resemblance function is further relaxed:
+  Contexts have a non-zero resemblance in many cases where
+  the definition of C<SMALL>R</SMALL> in
+  Equation&nbsp;<A HREF="#eqn:crdef">52</A> returns 0.
+</LI>
+</UL>
+See the references in Section <A HREF="references-and-further-reading-10.html#sec:xmlfurther">10.6</A>  for details.
+
+<P>
+These three changes alleviate the problem of sparse term
+statistics discussed in Section <A HREF="challenges-in-xml-retrieval-1.html#sec:xmlchallenge">10.2</A>  and increase
+the robustness of the matching function against poorly posed
+structural queries. The evaluation of
+S<SMALL>IM</SMALL>N<SMALL>O</SMALL>M<SMALL>ERGE</SMALL> and S<SMALL>IM</SMALL>M<SMALL>ERGE</SMALL>
+in the
+next section shows that the relaxed
+matching conditions of S<SMALL>IM</SMALL>M<SMALL>ERGE</SMALL> increase the
+effectiveness of XML retrieval.
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI>Consider computing df for a structural term as the
+number of times that the structural term occurs under a
+particular parent node.  Assume the following: the
+structural term <!-- MATH
+ $\langle c,t\rangle=$
+ -->
+<IMG
+ WIDTH="54" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img662.png"
+ ALT="$\langle c,t\rangle=$"> <code>author#"Herbert"</code> occurs once as
+the child of the node squib; there are 10
+squib nodes in the collection; <!-- MATH
+ $\langle c,t\rangle$
+ -->
+<IMG
+ WIDTH="37" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img633.png"
+ ALT="$\langle c,t \rangle$"> occurs 1000
+times as the child of article; there are 1,000,000
+article nodes in the collection.  The idf weight of
+<!-- MATH
+ $\langle c,t\rangle$
+ -->
+<IMG
+ WIDTH="37" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img633.png"
+ ALT="$\langle c,t \rangle$"> then is <!-- MATH
+ $\log_2 10/1 \approx 3.3$
+ -->
+<IMG
+ WIDTH="112" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img663.png"
+ ALT="$\log_2 10/1 \approx 3.3$"> when occurring as
+the child of squib and <!-- MATH
+ $\log_2 1{,}000{,}000/1000
+\approx 10.0$
+ -->
+<IMG
+ WIDTH="191" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img664.png"
+ ALT="$\log_2 1{,}000{,}000/1000
+\approx 10.0$"> when occurring as the child of
+article. (i) Explain why this is not an appropriate
+weighting for <!-- MATH
+ $\langle c,t\rangle$
+ -->
+<IMG
+ WIDTH="37" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img633.png"
+ ALT="$\langle c,t \rangle$">. Why should <!-- MATH
+ $\langle c,t\rangle$
+ -->
+<IMG
+ WIDTH="37" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img633.png"
+ ALT="$\langle c,t \rangle$"> not receive a weight that
+is three times higher in articles than in squibs?  (ii) 
+Suggest a better way of computing idf.
+
+<P>
+</LI>
+<LI>Write down all the structural terms occurring in
+the XML document in Figure <A HREF="#fig:maptostructural">10.8</A> .
+
+<P>
+</LI>
+<LI>How many structural terms does the document in
+Figure <A HREF="basic-xml-concepts-1.html#fig:xmldocex">10.1</A>  yield?
+
+<P>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2897"
+  HREF="evaluation-of-xml-retrieval-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2891"
+  HREF="xml-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2885"
+  HREF="challenges-in-xml-retrieval-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2893"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2895"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2898"
+  HREF="evaluation-of-xml-retrieval-1.html">Evaluation of XML retrieval</A>
+<B> Up:</B> <A NAME="tex2html2892"
+  HREF="xml-retrieval-1.html">XML retrieval</A>
+<B> Previous:</B> <A NAME="tex2html2886"
+  HREF="challenges-in-xml-retrieval-1.html">Challenges in XML retrieval</A>
+ &nbsp; <B>  <A NAME="tex2html2894"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2896"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/a-vector-space-model-for-xml-retrieval-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:27:52 GMT -->
+</HTML>

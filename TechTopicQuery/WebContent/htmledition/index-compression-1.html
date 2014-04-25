@@ -1,0 +1,247 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/index-compression-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:21:31 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Index compression</TITLE>
+<META NAME="description" CONTENT="Index compression">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="scoring-term-weighting-and-the-vector-space-model-1.html">
+<LINK REL="previous" HREF="index-construction-1.html">
+<LINK REL="up" HREF="irbook.html">
+<LINK REL="next" HREF="statistical-properties-of-terms-in-information-retrieval-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1655"
+  HREF="statistical-properties-of-terms-in-information-retrieval-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1649"
+  HREF="irbook.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1643"
+  HREF="references-and-further-reading-4.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1651"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1653"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1656"
+  HREF="statistical-properties-of-terms-in-information-retrieval-1.html">Statistical properties of terms</A>
+<B> Up:</B> <A NAME="tex2html1650"
+  HREF="irbook.html">irbook</A>
+<B> Previous:</B> <A NAME="tex2html1644"
+  HREF="references-and-further-reading-4.html">References and further reading</A>
+ &nbsp; <B>  <A NAME="tex2html1652"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1654"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001000000000000000000"></A><A NAME="ch:icompress"></A>
+<BR>
+Index compression
+</H1> 
+
+<P>
+<A NAME="5835"></A>Chapter <A HREF="boolean-retrieval-1.html#ch:intro">1</A>  introduced the dictionary and the inverted
+index as the central data structures in information
+retrieval (IR).  In this chapter, we employ a number of
+compression techniques for dictionary and inverted index
+that are essential for efficient IR systems.
+
+<P>
+One benefit of compression is immediately clear.  We
+need less disk space. As we will see, compression ratios of
+1:4 are easy to achieve, potentially cutting the cost of
+storing the index by 75%. 
+
+<P>
+There are two
+more subtle benefits of compression. The first is increased use of
+caching. Search systems use some parts of the dictionary and
+the index much more than others.  For example, if we cache
+the postings list of a frequently used query term <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$">, then
+the computations necessary for responding to the one-term
+query <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$">
+can be entirely done in memory.
+With compression, we can fit a lot more information into
+main memory. Instead of having to expend a disk seek when
+processing a query with <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$">, we instead access its postings
+list in memory and decompress it. As we will see below,
+there are simple and efficient decompression methods,
+so that the penalty of having to
+decompress the postings list is small.  As a result, we are
+able to decrease the response time of the IR system
+substantially.  Because memory is a more expensive resource
+than disk space, increased speed owing to caching - rather
+than decreased space requirements - is often the prime
+motivator for compression.
+
+<P>
+The second more subtle advantage of compression is faster
+transfer of data from disk to memory.  Efficient decompression
+algorithms run so fast on modern hardware that the total
+time of transferring a compressed chunk of data from disk and then
+decompressing it is usually less than transferring the same chunk of
+data in uncompressed form. 
+For instance, we can reduce input/output (I/O) time by loading
+a much smaller compressed postings list, even when you add on
+the cost of decompression.  So, in most cases, the retrieval
+system runs faster on compressed postings lists than on
+uncompressed postings lists.
+
+<P>
+<A NAME="5837"></A> If the main goal of compression is to conserve disk space,
+then the speed of compression algorithms is of no
+concern. But for improved cache utilization and faster
+disk-to-memory transfer,  decompression speeds must be
+high. 
+The compression algorithms we discuss in
+this chapter are highly efficient and can therefore serve
+all three purposes of index compression.<A NAME="5838"></A> 
+
+<P>
+In this chapter, we
+define a <A NAME="5839"></A> <I>posting</I>  as a docID in a postings list.  For
+example, the postings list (6; 20, 45, 100), where 6 is the
+termID of the list's term, contains three postings. 
+As discussed in Section&nbsp;<A HREF="positional-indexes-1.html#sec:positional-index">2.4.2</A> (page&nbsp;<A HREF="positional-indexes-1.html#p:positional-index"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>),
+postings in
+most search systems also contain frequency and position
+information; but 
+we will only consider simple docID
+postings here. See
+Section <A HREF="references-and-further-reading-5.html#sec:icompresssecfurther">5.4</A>  for references on compressing
+frequencies and positions.
+
+<P>
+This chapter first gives a statistical characterization of
+the distribution of the entities we want to compress -
+terms and postings in large collections
+(Section <A HREF="statistical-properties-of-terms-in-information-retrieval-1.html#sec:statproperties">5.1</A> ).  We then look at compression of
+the dictionary, using the dictionary-as-a-string method and
+blocked storage (Section <A HREF="dictionary-compression-1.html#sec:dictcompression">5.2</A> ).
+Section <A HREF="postings-file-compression-1.html#sec:postingscompression">5.3</A>  describes two techniques for
+compressing the postings file, variable byte encoding and
+<IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img12.png"
+ ALT="$\gamma $"> encoding.
+
+<P>
+<A NAME="5847"></A> <BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html1657"
+  HREF="statistical-properties-of-terms-in-information-retrieval-1.html">Statistical properties of terms in information retrieval</A>
+<UL>
+<LI><A NAME="tex2html1658"
+  HREF="heaps-law-estimating-the-number-of-terms-1.html">Heaps' law: Estimating the number of terms</A>
+<LI><A NAME="tex2html1659"
+  HREF="zipfs-law-modeling-the-distribution-of-terms-1.html">Zipf's law: Modeling the distribution of terms</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1660"
+  HREF="dictionary-compression-1.html">Dictionary compression</A>
+<UL>
+<LI><A NAME="tex2html1661"
+  HREF="dictionary-as-a-string-1.html">Dictionary as a string</A>
+<LI><A NAME="tex2html1662"
+  HREF="blocked-storage-1.html">Blocked storage</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1663"
+  HREF="postings-file-compression-1.html">Postings file compression</A>
+<UL>
+<LI><A NAME="tex2html1664"
+  HREF="variable-byte-codes-1.html">Variable byte codes</A>
+<LI><A NAME="tex2html1665"
+  HREF="gamma-codes-1.html">Gamma codes</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html1666"
+  HREF="references-and-further-reading-5.html">References and further reading</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1655"
+  HREF="statistical-properties-of-terms-in-information-retrieval-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1649"
+  HREF="irbook.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1643"
+  HREF="references-and-further-reading-4.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1651"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1653"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1656"
+  HREF="statistical-properties-of-terms-in-information-retrieval-1.html">Statistical properties of terms</A>
+<B> Up:</B> <A NAME="tex2html1650"
+  HREF="irbook.html">irbook</A>
+<B> Previous:</B> <A NAME="tex2html1644"
+  HREF="references-and-further-reading-4.html">References and further reading</A>
+ &nbsp; <B>  <A NAME="tex2html1652"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1654"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/index-compression-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:21:33 GMT -->
+</HTML>

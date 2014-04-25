@@ -1,0 +1,551 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/feature-selectionchi2-feature-selection-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:31:22 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Feature selectionChi2 Feature selection</TITLE>
+<META NAME="description" CONTENT="Feature selectionChi2 Feature selection">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="frequency-based-feature-selection-1.html">
+<LINK REL="previous" HREF="mutual-information-1.html">
+<LINK REL="up" HREF="feature-selection-1.html">
+<LINK REL="next" HREF="assessing-as-a-feature-selection-methodassessing-chi-square-as-a-feature-selection-method-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3563"
+  HREF="assessing-as-a-feature-selection-methodassessing-chi-square-as-a-feature-selection-method-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3557"
+  HREF="feature-selection-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3551"
+  HREF="mutual-information-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3559"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3561"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3564"
+  HREF="assessing-as-a-feature-selection-methodassessing-chi-square-as-a-feature-selection-method-1.html">Assessing as a feature</A>
+<B> Up:</B> <A NAME="tex2html3558"
+  HREF="feature-selection-1.html">Feature selection</A>
+<B> Previous:</B> <A NAME="tex2html3552"
+  HREF="mutual-information-1.html">Mutual information</A>
+ &nbsp; <B>  <A NAME="tex2html3560"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3562"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001852000000000000000">
+<IMG
+ WIDTH="21" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$\chi ^2$"> Feature selectionChi2 Feature selection</A>
+</H2>
+<A NAME="17860"></A>
+<A NAME="sec:chisquare"></A> <A NAME="p:chisquare"></A> 
+Another popular feature selection
+method is <A NAME="17231"></A> <I><IMG
+ WIDTH="21" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$\chi ^2$"></I> .
+In statistics, the <IMG
+ WIDTH="21" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$\chi ^2$"> test is
+applied to test the independence of two events,
+where two events A and B are defined to be
+<A NAME="17233"></A> <A NAME="p:statindependence"></A> 
+<A NAME="17235"></A> <I>independent</I>  if <!-- MATH
+ $P(AB) = P(A)P(B)$
+ -->
+<IMG
+ WIDTH="144" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1044.png"
+ ALT="$P(AB) = P(A)P(B)$"> or, equivalently, 
+<IMG
+ WIDTH="115" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1045.png"
+ ALT="$P(A\vert B)=P(A)$"> and
+<IMG
+ WIDTH="113" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1046.png"
+ ALT="$P(B\vert A)=P(B)$">. In
+feature selection, the two events are occurrence of the
+term and occurrence of the class.
+We then rank terms with respect to the following
+quantity:
+<BR>
+<DIV ALIGN="CENTER"><A NAME="eqn:chisquare"></A>
+<!-- MATH
+ \begin{eqnarray}
+X^2(\docsetlabeled,\tcword,c) =
+\sum_{e_\tcword \in \{ 0,1 \} }
+\sum_{e_c \in \{ 0,1 \} }
+\frac{(\observationo_{e_\tcword e_c}-E_{e_\tcword e_c})^2}{E_{e_\tcword e_c}}
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="304" HEIGHT="58" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1047.png"
+ ALT="$\displaystyle X^2(\docsetlabeled,\tcword,c) =
+\sum_{e_\tcword \in \{ 0,1 \} }
+\...
+...}
+\frac{(\observationo_{e_\tcword e_c}-E_{e_\tcword e_c})^2}{E_{e_\tcword e_c}}$"></TD>
+<TD>&nbsp;</TD>
+<TD>&nbsp;</TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(133)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+where <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1022.png"
+ ALT="$e_\tcword$"> and <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1023.png"
+ ALT="$e_c$"> are defined as in Equation&nbsp;<A HREF="mutual-information-1.html#mifeatsel">130</A>.  <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1021.png"
+ ALT="$\observationo$">
+is the <I>observed</I> frequency in <!-- MATH
+ $\docsetlabeled$
+ -->
+<IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img856.png"
+ ALT="$\docsetlabeled$"> and <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1048.png"
+ ALT="$E$"> the
+<I>expected</I> frequency.  For example, <IMG
+ WIDTH="26" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1010.png"
+ ALT="$E_{11}$"> is the
+expected frequency of <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img891.png"
+ ALT="$\tcword$"> and <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img252.png"
+ ALT="$c$"> occurring together
+in a document assuming that term and class are independent.
+
+<P>
+<B>Worked example.</B> We first
+compute <IMG
+ WIDTH="26" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1010.png"
+ ALT="$E_{11}$"> for the
+data in Example&nbsp;<A HREF="mutual-information-1.html#miworkedeg">13.5.1</A>:
+
+<P>
+<BR>
+<DIV ALIGN="CENTER">
+
+<!-- MATH
+ \begin{eqnarray}
+E_{11} &= &N\times P(\tcword) \times P(c) = N\times \frac{\observationo_{11}+\observationo_{10}}{N} \times
+\frac{\observationo_{11}+\observationo_{01}}{N} \\
+ & = & N \times \frac{49+141}{N}
+\times \frac{49+27652}{N}\approx 6.6
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="27" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1049.png"
+ ALT="$\displaystyle E_{11}$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="340" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1050.png"
+ ALT="$\displaystyle N\times P(\tcword) \times P(c) = N\times \frac{\observationo_{11}+\observationo_{10}}{N} \times
+\frac{\observationo_{11}+\observationo_{01}}{N}$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(134)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT">&nbsp;</TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="241" HEIGHT="52" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1051.png"
+ ALT="$\displaystyle N \times \frac{49+141}{N}
+\times \frac{49+27652}{N}\approx 6.6$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(135)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+where <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$N$"> is the total number of documents as before.
+
+<P>
+We compute the other <!-- MATH
+ $E_{e_\tcword e_c}$
+ -->
+<IMG
+ WIDTH="33" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1052.png"
+ ALT="$E_{e_\tcword e_c}$"> in the same way:
+<BLOCKQUOTE>
+<A NAME="p:chisquareex"></A> 
+</BLOCKQUOTE>
+<P>
+<BLOCKQUOTE><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>&nbsp;</TD>
+<TD ALIGN="CENTER" COLSPAN=2><!-- MATH
+ $e_{\class{poultry}}=1$
+ -->
+<IMG
+ WIDTH="89" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1053.png"
+ ALT="$e_{\class{poultry}}=1$"></TD>
+<TD ALIGN="CENTER" COLSPAN=2><!-- MATH
+ $e_{\class{poultry}}=0$
+ -->
+<IMG
+ WIDTH="89" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1054.png"
+ ALT="$e_{\class{poultry}}=0$"></TD>
+<TD ALIGN="LEFT">&nbsp;&nbsp;&nbsp;&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD>
+</TR>
+<TR><TD ALIGN="LEFT"><!-- MATH
+ $e_{\term{export}} = 1$
+ -->
+<IMG
+ WIDTH="81" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1055.png"
+ ALT="$e_{\term{export}} = 1$"></TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $\observationo_{11} = 49$
+ -->
+<IMG
+ WIDTH="67" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1032.png"
+ ALT="$ \observationo_{11}=49$"></TD>
+<TD ALIGN="LEFT">&nbsp;&nbsp;&nbsp;&nbsp;</TD><TD ALIGN="LEFT"><!-- MATH
+ $E_{11}\approx 6.6$
+ -->
+<IMG
+ WIDTH="68" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1056.png"
+ ALT="$E_{11}\approx 6.6$"></TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $\observationo_{10} = 
+27{,}652$
+ -->
+<IMG
+ WIDTH="95" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1033.png"
+ ALT="$\observationo_{10} = 27{,}652$"></TD>
+<TD ALIGN="LEFT">&nbsp;&nbsp;&nbsp;&nbsp;</TD><TD ALIGN="LEFT"><!-- MATH
+ $E_{10}\approx 27{,}694.4$
+ -->
+<IMG
+ WIDTH="105" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1057.png"
+ ALT="$E_{10}\approx 27{,}694.4$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><!-- MATH
+ $e_{\term{export}} = 0$
+ -->
+<IMG
+ WIDTH="81" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1058.png"
+ ALT="$e_{\term{export}} = 0$"></TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $\observationo_{01} = 141$
+ -->
+<IMG
+ WIDTH="75" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1035.png"
+ ALT="$ \observationo_{01} = 141$"></TD>
+<TD ALIGN="LEFT">&nbsp;&nbsp;&nbsp;&nbsp;</TD><TD ALIGN="LEFT"><!-- MATH
+ $E_{01}\approx 183.4$
+ -->
+<IMG
+ WIDTH="85" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1059.png"
+ ALT="$E_{01}\approx 183.4$"></TD>
+<TD ALIGN="LEFT"><!-- MATH
+ $\observationo_{00} = 774{,}106$
+ -->
+<IMG
+ WIDTH="103" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1036.png"
+ ALT="$ \observationo_{00}=774{,}106$"></TD>
+<TD ALIGN="LEFT">&nbsp;&nbsp;&nbsp;&nbsp;</TD><TD ALIGN="LEFT"><!-- MATH
+ $E_{00}\approx 774{,}063.6$
+ -->
+<IMG
+ WIDTH="112" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1060.png"
+ ALT="$ E_{00}\approx 774{,}063.6$"></TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+Plugging these values into
+Equation&nbsp;<A HREF="#eqn:chisquare">133</A>, we get a <IMG
+ WIDTH="23" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1061.png"
+ ALT="$X^2$"> value of 284:
+<BR>
+<DIV ALIGN="CENTER">
+
+<!-- MATH
+ \begin{eqnarray}
+X^2(\docsetlabeled,\tcword,c) = \sum_{e_\tcword \in \{ 0,1 \} }
+\sum_{e_c \in \{ 0,1 \} }
+\frac{(\observationo_{e_\tcword e_c}-E_{e_\tcword e_c})^2}{E_{e_\tcword e_c}}
+\approx 284
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="350" HEIGHT="58" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1062.png"
+ ALT="$\displaystyle X^2(\docsetlabeled,\tcword,c) = \sum_{e_\tcword \in \{ 0,1 \} }
+\...
+...servationo_{e_\tcword e_c}-E_{e_\tcword e_c})^2}{E_{e_\tcword e_c}}
+\approx 284$"></TD>
+<TD>&nbsp;</TD>
+<TD>&nbsp;</TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(136)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+<B>End worked example.</B>
+
+<P>
+<IMG
+ WIDTH="23" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1061.png"
+ ALT="$X^2$"> is a measure of how much expected counts <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1048.png"
+ ALT="$E$"> and observed
+counts <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1021.png"
+ ALT="$\observationo$"> deviate from each other.  A high value of <IMG
+ WIDTH="23" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1061.png"
+ ALT="$X^2$"> 
+indicates that the hypothesis of independence, which implies
+that expected and observed counts are similar, is
+incorrect. In our example, <!-- MATH
+ $X^2 \approx 284 > 10.83$
+ -->
+<IMG
+ WIDTH="127" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1063.png"
+ ALT="$X^2 \approx 284 &gt; 10.83$">. Based
+on Table <A HREF="#tab:chicritical">13.6</A> , we can reject the hypothesis that
+poultry and export are independent with only
+a 0.001 chance of being wrong.<A NAME="tex2html141"
+  HREF="footnode.html#foot17916"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A>Equivalently, we say that the outcome <!-- MATH
+ $X^{\kern.5pt2} \approx 284 >
+10.83$
+ -->
+<IMG
+ WIDTH="128" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1065.png"
+ ALT="$X^{\kern.5pt2} \approx 284 &gt;
+10.83$"> is <A NAME="17315"></A> <A NAME="17316"></A> <I>statistically
+significant</I>  at the 0.001 level.  If the two events are
+dependent, then the occurrence of the term makes the occurrence
+of the class more likely (or less likely), so it should be
+helpful as a feature. This is the rationale of <IMG
+ WIDTH="21" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$\chi ^2$">
+feature selection.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+
+<A NAME="17873"></A>
+<TABLE CELLPADDING=3 BORDER="1">
+<CAPTION><STRONG>Table 13.6:</STRONG>
+Critical values of the <IMG
+ WIDTH="21" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$\chi ^2$">
+distribution with one degree of freedom. For example, if
+  the two events are
+independent, then <!-- MATH
+ $P(X^{\kern.5pt2}>6.63)<0.01$
+ -->
+<IMG
+ WIDTH="148" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img22.png"
+ ALT="$P(X^{\kern .5pt2}&gt;6.63)&lt;0.01$">. So for <!-- MATH
+ $X^{\kern.5pt2}>6.63$
+ -->
+<IMG
+ WIDTH="74" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img23.png"
+ ALT="$X^{\kern .5pt2}&gt;6.63$">
+the assumption of independence can be rejected with 99% confidence.  
+</CAPTION>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img181.png"
+ ALT="$p$"></TD>
+<TD ALIGN="LEFT"><IMG
+ WIDTH="21" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$\chi ^2$"> critical value</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">0.1</TD>
+<TD ALIGN="LEFT">2.71</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">0.05</TD>
+<TD ALIGN="LEFT">3.84</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">0.01</TD>
+<TD ALIGN="LEFT">6.63</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">0.005</TD>
+<TD ALIGN="LEFT">7.88</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">0.001</TD>
+<TD ALIGN="LEFT">10.83</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+</TABLE>
+</DIV>
+<BR>
+
+<P>
+An arithmetically simpler way of computing <!-- MATH
+ $X^{\kern.5pt2}$
+ -->
+<IMG
+ WIDTH="24" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1066.png"
+ ALT="$X^{\kern.5pt2}$"> is the
+following:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+X^2(\docsetlabeled,\tcword,c) = \frac{(\observationo_{11}+\observationo_{10}+\observationo_{01}+\observationo_{00})\times (\observationo_{11}\observationo_{00}-\observationo_{10}\observationo_{01})^2}{(\observationo_{11}+\observationo_{01})\times
+(\observationo_{11}+\observationo_{10})\times (\observationo_{10}+\observationo_{00})\times (\observationo_{01}+\observationo_{00})}
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eqn:chisquareform2"></A><IMG
+ WIDTH="492" HEIGHT="46" BORDER="0"
+ SRC="img1067.png"
+ ALT="\begin{displaymath}
+X^2(\docsetlabeled,\tcword,c) = \frac{(\observationo_{11}+\o...
+...ervationo_{00})\times (\observationo_{01}+\observationo_{00})}
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(137)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+This is equivalent to Equation&nbsp;<A HREF="#eqn:chisquare">133</A>
+(Exercise <A HREF="evaluation-of-text-classification-1.html#ex:chisquareformulas">13.6</A> ).
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html3565"
+  HREF="assessing-as-a-feature-selection-methodassessing-chi-square-as-a-feature-selection-method-1.html">Assessing
+    <IMG
+ WIDTH="21" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$\chi ^2$"> as a feature selection
+    methodAssessing chi-square as a feature
+    selection method</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3563"
+  HREF="assessing-as-a-feature-selection-methodassessing-chi-square-as-a-feature-selection-method-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3557"
+  HREF="feature-selection-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3551"
+  HREF="mutual-information-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3559"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3561"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3564"
+  HREF="assessing-as-a-feature-selection-methodassessing-chi-square-as-a-feature-selection-method-1.html">Assessing as a feature</A>
+<B> Up:</B> <A NAME="tex2html3558"
+  HREF="feature-selection-1.html">Feature selection</A>
+<B> Previous:</B> <A NAME="tex2html3552"
+  HREF="mutual-information-1.html">Mutual information</A>
+ &nbsp; <B>  <A NAME="tex2html3560"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3562"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/feature-selectionchi2-feature-selection-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:31:36 GMT -->
+</HTML>

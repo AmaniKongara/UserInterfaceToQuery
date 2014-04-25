@@ -1,0 +1,203 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/when-does-relevance-feedback-work-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:27:16 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>When does relevance feedback work?</TITLE>
+<META NAME="description" CONTENT="When does relevance feedback work?">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="relevance-feedback-on-the-web-1.html">
+<LINK REL="previous" HREF="probabilistic-relevance-feedback-1.html">
+<LINK REL="up" HREF="relevance-feedback-and-pseudo-relevance-feedback-1.html">
+<LINK REL="next" HREF="relevance-feedback-on-the-web-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2692"
+  HREF="relevance-feedback-on-the-web-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2686"
+  HREF="relevance-feedback-and-pseudo-relevance-feedback-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2680"
+  HREF="probabilistic-relevance-feedback-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2688"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2690"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2693"
+  HREF="relevance-feedback-on-the-web-1.html">Relevance feedback on the</A>
+<B> Up:</B> <A NAME="tex2html2687"
+  HREF="relevance-feedback-and-pseudo-relevance-feedback-1.html">Relevance feedback and pseudo</A>
+<B> Previous:</B> <A NAME="tex2html2681"
+  HREF="probabilistic-relevance-feedback-1.html">Probabilistic relevance feedback</A>
+ &nbsp; <B>  <A NAME="tex2html2689"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2691"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001413000000000000000">
+When does relevance feedback work?</A>
+</H2>
+
+<P>
+The success of relevance feedback depends on certain assumptions.
+Firstly, the user has to have sufficient knowledge to be able to make an
+initial
+query which is at least somewhere close to the documents they desire.
+This is needed anyhow for successful information retrieval in the basic
+case, but it is important to see the kinds of problems that relevance
+feedback cannot solve alone. Cases where relevance feedback alone is not
+sufficient include:
+
+<UL>
+<LI>Misspellings. If the user spells a term in a different way to the
+  way it is spelled in any document in the collection, then relevance
+  feedback is unlikely to be effective. This can be addressed by the spelling
+  correction techniques of Chapter <A HREF="dictionaries-and-tolerant-retrieval-1.html#ch:spell">3</A> .
+</LI>
+<LI>Cross-language information retrieval. Documents in another
+  language are not nearby in a vector space based on term distribution.
+  Rather, documents in the same language cluster more closely together.
+</LI>
+<LI>Mismatch of searcher's vocabulary versus collection vocabulary. If
+  the user searches for laptop but all the documents use the
+  term notebook computer, then the query will fail, and relevance
+  feedback is again most likely ineffective.
+</LI>
+</UL>
+
+<P>
+<A NAME="p:multimodal"></A> 
+
+<P>
+Secondly, the relevance feedback approach requires
+relevant documents to be similar to each other. That is, they should cluster.
+Ideally, the term distribution in all relevant documents
+will be similar to that in the documents marked by the users, while the
+term distribution in all nonrelevant documents will be different from those
+in relevant documents. Things will work well if
+all relevant documents are tightly clustered around a single
+prototype, or, at least, if there are different prototypes, if the relevant
+documents have
+significant vocabulary overlap, while similarities between relevant and
+nonrelevant documents are small. Implicitly, the Rocchio relevance
+feedback model treats relevant documents as a single
+<A NAME="11602"></A><I>cluster</I>, which it models via the centroid of the cluster.
+This approach does not work as well if the relevant documents are a
+multimodal class, 
+that is, they consist
+of several clusters of documents
+within the vector space. This
+can happen with:
+
+<UL>
+<LI>Subsets of the documents using different vocabulary, such as
+  Burma vs. Myanmar
+</LI>
+<LI>A query for which the answer set is inherently disjunctive, such
+  as Pop stars who once worked at Burger King.
+</LI>
+<LI>Instances of a general concept, which often appear as a disjunction
+  of more specific concepts, for example, felines.
+</LI>
+</UL>
+Good editorial content in the collection can often provide a solution to
+this problem. For example, an article on the attitudes of
+different groups to the situation in Burma could introduce the
+terminology used by different parties, thus linking the document clusters.
+
+<P>
+Relevance feedback is not necessarily popular with users. Users are
+often reluctant to provide explicit feedback, or in general do not wish
+to prolong the search interaction. Furthermore, it is often harder to
+understand why a particular document was retrieved after relevance
+feedback is applied.
+
+<P>
+Relevance feedback can also have practical problems. The long queries
+that are generated by straightforward application of relevance feedback
+techniques are inefficient for a typical IR system. This results in a
+high computing cost for the retrieval and potentially long response
+times for the user. A partial solution to this is to only reweight
+certain prominent terms in the relevant documents, such as perhaps the
+top 20 terms by term frequency. Some experimental results have also
+suggested that using a limited number of terms like this may give better
+results (<A
+ HREF="bibliography-1.html#harman92revisited">Harman, 1992</A>) though other work has suggested that
+using more terms is better in terms of retrieved document quality
+(<A
+ HREF="bibliography-1.html#buckley94relevance">Buckley et&nbsp;al., 1994b</A>).
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2692"
+  HREF="relevance-feedback-on-the-web-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2686"
+  HREF="relevance-feedback-and-pseudo-relevance-feedback-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2680"
+  HREF="probabilistic-relevance-feedback-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2688"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2690"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2693"
+  HREF="relevance-feedback-on-the-web-1.html">Relevance feedback on the</A>
+<B> Up:</B> <A NAME="tex2html2687"
+  HREF="relevance-feedback-and-pseudo-relevance-feedback-1.html">Relevance feedback and pseudo</A>
+<B> Previous:</B> <A NAME="tex2html2681"
+  HREF="probabilistic-relevance-feedback-1.html">Probabilistic relevance feedback</A>
+ &nbsp; <B>  <A NAME="tex2html2689"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2691"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/when-does-relevance-feedback-work-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:27:16 GMT -->
+</HTML>

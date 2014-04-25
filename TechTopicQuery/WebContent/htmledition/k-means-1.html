@@ -1,0 +1,683 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/k-means-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:35:01 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>K-means</TITLE>
+<META NAME="description" CONTENT="K-means">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="model-based-clustering-1.html">
+<LINK REL="previous" HREF="evaluation-of-clustering-1.html">
+<LINK REL="up" HREF="flat-clustering-1.html">
+<LINK REL="next" HREF="cluster-cardinality-in-k-means-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4225"
+  HREF="cluster-cardinality-in-k-means-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4219"
+  HREF="flat-clustering-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4213"
+  HREF="evaluation-of-clustering-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4221"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4223"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4226"
+  HREF="cluster-cardinality-in-k-means-1.html">Cluster cardinality in K-means</A>
+<B> Up:</B> <A NAME="tex2html4220"
+  HREF="flat-clustering-1.html">Flat clustering</A>
+<B> Previous:</B> <A NAME="tex2html4214"
+  HREF="evaluation-of-clustering-1.html">Evaluation of clustering</A>
+ &nbsp; <B>  <A NAME="tex2html4222"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4224"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION002140000000000000000"></A>
+<A NAME="sec:kmeans"></A> <A NAME="p:kmeans"></A>
+<BR>
+K-means
+</H1>   <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means is the most important flat
+clustering algorithm. Its objective is to minimize the
+average squared Euclidean distance 
+(Chapter <A HREF="scoring-term-weighting-and-the-vector-space-model-1.html#ch:termvspace">6</A> , page <A HREF="pivoted-normalized-document-length-1.html#p:euclideandistance">6.4.4</A> )
+of documents from their cluster
+centers where a cluster center is defined as the mean or
+<A NAME="24471"></A> <I>centroid</I>  <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1436.png"
+ ALT="$\vec{\mu}$"> of the documents in a cluster
+<IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img507.png"
+ ALT="$\omega$">:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\vec{\mu} (\omega) = \frac{1}{|\omega|} \sum_{\vec{x} \in \omega} \vec{x}
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="124" HEIGHT="48" BORDER="0"
+ SRC="img1437.png"
+ ALT="\begin{displaymath}
+\vec{\mu} (\omega) = \frac{1}{\vert\omega\vert} \sum_{\vec{x} \in \omega} \vec{x}
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(190)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+
+<P>
+The definition assumes that documents are represented as
+length-normalized vectors in a real-valued space in the familiar way. We used
+centroids for Rocchio classification in
+Chapter <A HREF="vector-space-classification-1.html#ch:vectorclass">14</A>  (page <A HREF="rocchio-classification-1.html#p:centroid">14.2</A> ). They play a
+similar role here.  The ideal cluster in  <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means
+is a sphere with the centroid as its center of gravity.
+Ideally, the clusters should not overlap.  Our desiderata
+for classes in Rocchio classification were the same.  The
+difference is that we have no labeled training set in
+clustering for which we know which documents should be in
+the same cluster.
+
+<P>
+A measure of how well the centroids represent the members of
+their clusters is the <A NAME="24484"></A> <I>residual sum of squares</I>  or
+<A NAME="24486"></A> <I>RSS</I> , the squared distance of each
+vector from its centroid summed over all vectors:
+<P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{eqnarray*}
+\mbox{RSS}_k = \sum_{\vec{x} \in \omega_k} |
+\vec{x}-\vec{\mu}(\omega_k)|^2
+\end{eqnarray*}
+ -->
+<A NAME="p:rss"></A><IMG
+ WIDTH="175" HEIGHT="46" BORDER="0"
+ SRC="img1438.png"
+ ALT="\begin{eqnarray*}
+\mbox{RSS}_k = \sum_{\vec{x} \in \omega_k} \vert
+\vec{x}-\vec{\mu}(\omega_k)\vert^2
+\end{eqnarray*}"></DIV>
+<BR CLEAR="ALL"><P></P>
+<BR>
+<DIV ALIGN="CENTER"><A NAME="eqn:rss"></A>
+<!-- MATH
+ \begin{eqnarray}
+\mbox{RSS} = \sum_{k=1}^K \mbox{RSS}_k
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="112" HEIGHT="64" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1439.png"
+ ALT="$\displaystyle \mbox{RSS} = \sum_{k=1}^K \mbox{RSS}_k$"></TD>
+<TD>&nbsp;</TD>
+<TD>&nbsp;</TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(191)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+RSS is the <A NAME="24501"></A> <I>objective function</I>  in
+ <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means and our goal is to minimize it. Since <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$N$"> is fixed,
+minimizing RSS is equivalent to
+minimizing the average squared distance, a measure of how
+well centroids represent their documents.
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:clusttb2"></A><A NAME="p:clusttb2"></A></P><IMG
+ WIDTH="555" HEIGHT="345" BORDER="0"
+ SRC="img1440.png"
+ ALT="\begin{figure}
+% latex2html id marker 24504
+\begin{algorithm}{K-means}{\{\vec{x}...
+...n and initialization are discussed on page \ref{p:seedselection} .}
+\end{figure}">
+</DIV>
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:clustfg4"></A><A NAME="p:clustfg4"></A></P><IMG
+ WIDTH="554" HEIGHT="743" BORDER="0"
+ SRC="img1441.png"
+ ALT="\begin{figure}
+% latex2html id marker 24554
+\par
+\psset{unit=0.75cm}
+\par
+\begin...
+...n
+as X's in the top four panels) converges after nine iterations. }
+\end{figure}">
+</DIV>
+The first step of 
+ <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means is to select as initial cluster
+centers <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$"> randomly selected documents, the
+<A NAME="24716"></A> <I>seeds</I> .  The algorithm then moves the cluster
+centers around in space in order to minimize RSS.  As shown
+in Figure <A HREF="#fig:clusttb2">16.5</A> , this is done iteratively by repeating
+two steps until a stopping criterion is met: reassigning
+documents to the cluster with the closest centroid; and
+recomputing each centroid based on the current members of
+its cluster.  Figure <A HREF="#fig:clustfg4">16.6</A>  shows snapshots from nine iterations of the
+ <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means algorithm for a set of points. The ``centroid'' column
+of Table <A HREF="cluster-labeling-1.html#tab:clabels">17.2</A>  (page <A HREF="cluster-labeling-1.html#p:clabels">17.2</A> ) shows examples of
+centroids.
+
+<P>
+<A NAME="p:kmeanstermination"></A>  We can apply one of the
+following termination conditions.
+
+<UL>
+<LI>A fixed number of iterations <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1399.png"
+ ALT="$I$"> has been
+completed. This condition limits the runtime of the
+clustering algorithm, but in some cases the quality of the
+clustering will be poor because of an insufficient number of
+iterations.
+</LI>
+<LI>Assignment of documents to clusters (the partitioning
+function <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img12.png"
+ ALT="$\gamma $">) does not change between iterations.
+Except for cases with a bad local minimum, this produces a
+good clustering, but runtimes may be unacceptably long.
+</LI>
+<LI>Centroids <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1442.png"
+ ALT="$\vec{\mu}_k$"> do not change between
+iterations. This is equivalent to <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img12.png"
+ ALT="$\gamma $"> not changing
+(Exercise <A HREF="cluster-cardinality-in-k-means-1.html#ex:kmeansconvergence">16.4.1</A> ).
+</LI>
+<LI><A NAME="p:kneecrit"></A> Terminate when RSS falls below a
+threshold. This criterion ensures that the clustering is
+of a desired quality after termination.  In practice, we
+need to combine it with a bound on the number of iterations
+to guarantee termination.
+</LI>
+<LI>Terminate when the decrease in RSS falls below a
+threshold <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img425.png"
+ ALT="$\theta$">. For small <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img425.png"
+ ALT="$\theta$">, this indicates that
+we are close to convergence.  Again, we need to combine it
+with a bound on the number of iterations to prevent very
+long runtimes.
+</LI>
+</UL>
+
+<P>
+We now show that  <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means converges by proving that  
+<IMG
+ WIDTH="31" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1443.png"
+ ALT="$\mbox{RSS}$"> monotonically decreases in each
+iteration. We will use <I>decrease</I> in the meaning
+<I>decrease or does not change</I> in this section.
+First, RSS decreases in the reassignment step
+since each vector is assigned to the closest centroid, so
+the distance it contributes to <IMG
+ WIDTH="31" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1443.png"
+ ALT="$\mbox{RSS}$"> decreases.
+Second, it decreases in the recomputation step
+because the new centroid is the vector <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img433.png"
+ ALT="$\vec{v}$">
+for which <IMG
+ WIDTH="37" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1444.png"
+ ALT="$\mbox{RSS}_k$"> reaches its minimum.
+<BR>
+<DIV ALIGN="CENTER">
+
+<!-- MATH
+ \begin{eqnarray}
+\mbox{RSS}_k(\vec{v}) & = & \sum_{\vec{x} \in \omega_k} | \vec{v}-\vec{x}|^2 =  \sum_{\vec{x} \in \omega_k} \sum_{m=1}^M (v_{m}-x_{m})^2\\
+\frac{\partial \mbox{RSS}_k(\vec{v})} {\partial v_m}  & = & 
+\sum_{\vec{x} \in \omega_k} 2 (v_{m}-x_{m})
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="60" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1445.png"
+ ALT="$\displaystyle \mbox{RSS}_k(\vec{v})$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="248" HEIGHT="64" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1446.png"
+ ALT="$\displaystyle \sum_{\vec{x} \in \omega_k} \vert \vec{v}-\vec{x}\vert^2 = \sum_{\vec{x} \in \omega_k} \sum_{m=1}^M (v_{m}-x_{m})^2$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(192)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="72" HEIGHT="56" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1447.png"
+ ALT="$\displaystyle \frac{\partial \mbox{RSS}_k(\vec{v})} {\partial v_m}$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="115" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1448.png"
+ ALT="$\displaystyle \sum_{\vec{x} \in \omega_k} 2 (v_{m}-x_{m})$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(193)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+where <IMG
+ WIDTH="23" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1449.png"
+ ALT="$x_m$"> and <IMG
+ WIDTH="22" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1450.png"
+ ALT="$v_m$"> 
+are the
+<IMG
+ WIDTH="28" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1451.png"
+ ALT="$m^{th}$"> components of their respective vectors.
+Setting the partial derivative to zero, we get:
+<BR>
+<DIV ALIGN="CENTER">
+
+<!-- MATH
+ \begin{eqnarray}
+v_m = \frac{1}{|\omega_k|} \sum_{\vec{x} \in \omega_k} x_{m}
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="131" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1452.png"
+ ALT="$\displaystyle v_m = \frac{1}{\vert\omega_k\vert} \sum_{\vec{x} \in \omega_k} x_{m}$"></TD>
+<TD>&nbsp;</TD>
+<TD>&nbsp;</TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(194)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+which is the componentwise definition of the centroid. Thus,
+we minimize
+<IMG
+ WIDTH="37" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1444.png"
+ ALT="$\mbox{RSS}_k$"> when the old centroid is replaced with the
+new centroid.
+<IMG
+ WIDTH="31" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1443.png"
+ ALT="$\mbox{RSS}$">, the sum of the <IMG
+ WIDTH="37" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1444.png"
+ ALT="$\mbox{RSS}_k$">, must then also decrease during
+recomputation. 
+
+<P>
+Since there is only a finite set of possible clusterings, a
+monotonically decreasing algorithm will eventually arrive at
+a (local) minimum. Take care, however, to break ties
+consistently, e.g., by assigning a document to the cluster
+with the lowest index if there are several equidistant
+centroids.  Otherwise, the algorithm can cycle forever in a
+loop of clusterings that have the same cost.
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:clustfg5"></A><A NAME="p:clustfg5"></A></P><IMG
+ WIDTH="556" HEIGHT="229" BORDER="0"
+ SRC="img1453.png"
+ ALT="\begin{figure}
+% latex2html id marker 24763
+\psset{unit=0.75cm}
+\begin{pspicture...
+...{d_1,d_2,d_4,d_5\}, \{d_3,d_6\}\}$, the global optimum for $K=2$.
+}
+\end{figure}">
+</DIV>
+
+<P>
+While this proves the convergence of
+ <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means, there is unfortunately no guarantee that a 
+<I>global minimum</I> in the objective function will be reached. This is a particular
+problem if a document set contains many
+<A NAME="24781"></A> <I>outliers</I> , documents that are far from any other documents and
+therefore do not fit well into any cluster. Frequently, if an
+outlier is chosen as an initial seed, then
+no other vector is assigned to it during
+subsequent iterations. Thus, we end up with a <A NAME="24783"></A> <I>singleton
+cluster</I>  (a cluster with only one document) even though
+there is probably a clustering with lower RSS.
+Figure <A HREF="#fig:clustfg5">16.7</A>  shows an example of a suboptimal
+clustering resulting from a bad choice of initial seeds.
+
+<P>
+Another type of suboptimal clustering that frequently occurs
+is one with empty clusters (Exercise <A HREF="exercises-3.html#ex:emptyclusters">16.7</A> ).
+
+<P>
+<A NAME="p:seedselection"></A> Effective heuristics for seed
+selection include (i) excluding outliers from the seed set;
+(ii) trying out multiple starting points and choosing the
+clustering with lowest cost; and (iii) obtaining seeds from
+another method such as hierarchical clustering. Since
+deterministic hierarchical clustering methods are more
+predictable than  <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means, a hierarchical
+clustering of a small random sample of size <IMG
+ WIDTH="20" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1454.png"
+ ALT="$i K$"> (e.g., for
+<IMG
+ WIDTH="39" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1455.png"
+ ALT="$i =5$"> or <IMG
+ WIDTH="46" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1456.png"
+ ALT="$i =10$">) often provides good seeds (see the
+description of the Buckshot algorithm, Chapter <A HREF="hierarchical-clustering-1.html#ch:hierclust">17</A> ,
+page <A HREF="implementation-notes-1.html#p:buckshot">17.8</A> ).
+
+<P>
+Other initialization methods compute seeds that are not
+selected from the vectors to be clustered. A robust method
+that works well for a large variety of document
+distributions is to select <IMG
+ WIDTH="8" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="$i$"> (e.g., <IMG
+ WIDTH="46" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1456.png"
+ ALT="$i =10$">) random vectors
+for each cluster and use their centroid as the seed for this
+cluster. See Section <A HREF="references-and-further-reading-16.html#sec:flatclustref">16.6</A>  for 
+more sophisticated initializations.
+
+<P>
+What is the time complexity of  <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means? Most of
+the time is spent on computing vector distances.  One such
+operation costs <IMG
+ WIDTH="47" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1251.png"
+ ALT="$\Theta(M)$">. The reassignment step computes
+<IMG
+ WIDTH="29" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1457.png"
+ ALT="$KN$"> distances, so its overall complexity is
+<IMG
+ WIDTH="72" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1458.png"
+ ALT="$\Theta(KNM)$">. In the recomputation step, each vector gets
+added to a centroid once, so the complexity of this step is
+<IMG
+ WIDTH="61" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1459.png"
+ ALT="$\Theta(NM)$">. For a fixed number of iterations <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1399.png"
+ ALT="$I$">, the
+overall complexity is therefore
+<A NAME="p:kmeanscomplexity"></A> <IMG
+ WIDTH="79" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1460.png"
+ ALT="$\Theta(IKNM)$">. Thus,  <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means
+is linear in all relevant factors: iterations, number of
+clusters, number of vectors and dimensionality of the
+space. This means that  <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means is more efficient than the
+hierarchical algorithms in Chapter <A HREF="hierarchical-clustering-1.html#ch:hierclust">17</A> .  We had to
+fix the number of iterations <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1399.png"
+ ALT="$I$">, which can be tricky
+in practice.  But in most cases,  <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means 
+quickly reaches either complete convergence or a clustering that is
+close to convergence. In the latter case, 
+a few documents would switch membership if further
+iterations were computed, but this has a small effect on the
+overall quality of the clustering.
+
+<P>
+There is one subtlety in the preceding argument. Even a linear
+algorithm can be quite slow if one of the arguments of <!-- MATH
+ $\Theta(\ldots)$
+ -->
+<IMG
+ WIDTH="49" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1461.png"
+ ALT="$\Theta(\ldots)$"> is
+large, and <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img186.png"
+ ALT="$M$"> usually is large. 
+High
+dimensionality is not a problem for computing the distance
+between
+two documents. Their vectors are sparse, so
+that only a small fraction of the theoretically
+possible <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img186.png"
+ ALT="$M$"> componentwise differences need to be
+computed. 
+Centroids, however, are dense since they pool all
+terms that occur in any of the documents of their
+clusters. As a result, distance computations are time consuming in a
+naive implementation of  <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means. 
+However,
+there are simple and
+effective heuristics for making centroid-document
+similarities as fast to compute as document-document
+similarities. Truncating
+centroids to the most significant <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> terms (e.g., <IMG
+ WIDTH="65" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1462.png"
+ ALT="$k=1000$">)
+hardly  decreases cluster quality while achieving a
+significant speedup of the reassignment step (see references
+in Section <A HREF="references-and-further-reading-16.html#sec:flatclustref">16.6</A> ).
+
+<P>
+<A NAME="p:kmedoid"></A> 
+The same efficiency problem is addressed by <A NAME="24801"></A> <I>K-medoids</I> , a variant
+of  <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means that computes medoids instead of centroids as
+cluster centers. We define the <A NAME="24804"></A> <I>medoid</I>  of a cluster as
+the
+document vector that is
+closest to the centroid. Since medoids are sparse document
+vectors, distance computations are fast.
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:clustercard"></A><A NAME="p:clustercard"></A></P><IMG
+ WIDTH="338" HEIGHT="307" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1465.png"
+ ALT="\includegraphics[width=8cm]{kmeansknee.eps}">
+
+Estimated minimal residual sum of squares as a function of the number
+of clusters in  <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means.
+In this clustering of 1203 Reuters-RCV1 documents, there are two
+points where the 
+<!-- MATH
+ $\widehat{\mbox{RSS}}_{min}$
+ -->
+<IMG
+ WIDTH="53" HEIGHT="39" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1463.png"
+ ALT="$\widehat{\mbox{RSS}}_{min}$"> curve flattens: at 4 clusters and at
+9 clusters. The documents were
+selected from the categories China,
+Germany, Russia and Sports, so
+the  <IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1464.png"
+ ALT="$K=4$"> clustering is closest to the
+Reuters classification.
+
+</DIV>
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html4227"
+  HREF="cluster-cardinality-in-k-means-1.html">Cluster cardinality in K-means</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4225"
+  HREF="cluster-cardinality-in-k-means-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4219"
+  HREF="flat-clustering-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4213"
+  HREF="evaluation-of-clustering-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4221"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4223"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4226"
+  HREF="cluster-cardinality-in-k-means-1.html">Cluster cardinality in K-means</A>
+<B> Up:</B> <A NAME="tex2html4220"
+  HREF="flat-clustering-1.html">Flat clustering</A>
+<B> Previous:</B> <A NAME="tex2html4214"
+  HREF="evaluation-of-clustering-1.html">Evaluation of clustering</A>
+ &nbsp; <B>  <A NAME="tex2html4222"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4224"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/k-means-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:35:18 GMT -->
+</HTML>

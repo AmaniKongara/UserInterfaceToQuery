@@ -1,0 +1,246 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/weighted-zone-scoring-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:25:04 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Weighted zone scoring</TITLE>
+<META NAME="description" CONTENT="Weighted zone scoring">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="learning-weights-1.html">
+<LINK REL="previous" HREF="parametric-and-zone-indexes-1.html">
+<LINK REL="up" HREF="parametric-and-zone-indexes-1.html">
+<LINK REL="next" HREF="learning-weights-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1867"
+  HREF="learning-weights-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1861"
+  HREF="parametric-and-zone-indexes-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1855"
+  HREF="parametric-and-zone-indexes-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1863"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1865"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1868"
+  HREF="learning-weights-1.html">Learning weights</A>
+<B> Up:</B> <A NAME="tex2html1862"
+  HREF="parametric-and-zone-indexes-1.html">Parametric and zone indexes</A>
+<B> Previous:</B> <A NAME="tex2html1856"
+  HREF="parametric-and-zone-indexes-1.html">Parametric and zone indexes</A>
+ &nbsp; <B>  <A NAME="tex2html1864"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1866"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001111000000000000000">
+Weighted zone scoring</A>
+</H2>
+Thus far in Section <A HREF="parametric-and-zone-indexes-1.html#sec:parametricsection">6.1</A>  we have focused on retrieving documents based on Boolean queries on fields and zones.  We now turn to a second application of zones and fields.
+
+<P>
+Given a Boolean query <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$"> and a document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">, weighted zone scoring assigns to the pair <IMG
+ WIDTH="40" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img355.png"
+ ALT="$(q,d)$"> a score in the interval <IMG
+ WIDTH="36" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img356.png"
+ ALT="$[0,1]$">, by computing a linear combination of <EM>zone scores</EM>, where each zone of the document contributes a Boolean value. More specifically, consider a set of documents each of which has <IMG
+ WIDTH="11" HEIGHT="18" ALIGN="BOTTOM" BORDER="0"
+ SRC="img164.png"
+ ALT="$\ell$"> zones. Let
+<A NAME="p:zoneweights"></A> <!-- MATH
+ $g_1, \ldots, g_\ell\in [0,1]$
+ -->
+<IMG
+ WIDTH="121" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img357.png"
+ ALT="$g_1, \ldots, g_\ell\in [0,1]$"><A NAME="g-notation"></A> such that <!-- MATH
+ $\sum_{i=1}^\ell g_i = 1$
+ -->
+<IMG
+ WIDTH="83" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img358.png"
+ ALT="$\sum_{i=1}^\ell g_i = 1$">. For <!-- MATH
+ $1\leq i\leq \ell$
+ -->
+<IMG
+ WIDTH="68" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img359.png"
+ ALT="$1\leq i\leq \ell$">, let <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img151.png"
+ ALT="$s_i$"><A NAME="s-notation-zones"></A> be the Boolean score denoting a match (or absence thereof) between <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$"> and the <IMG
+ WIDTH="8" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="$i$">th zone. For instance, the Boolean score from a zone could be 1 if all the query term(s) occur in that zone, and zero otherwise; indeed, it could be any Boolean function that maps the presence of query terms in a zone to <IMG
+ WIDTH="26" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img360.png"
+ ALT="${0,1}$">. Then, the weighted zone score is defined to be
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\sum_{i=1}^\ell g_i s_i.
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eqn:weightedzone"></A><IMG
+ WIDTH="50" HEIGHT="53" BORDER="0"
+ SRC="img361.png"
+ ALT="\begin{displaymath}
+\sum_{i=1}^\ell g_i s_i.
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(13)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+Weighted zone scoring is sometimes referred to also as <A NAME="7742"></A> <I>ranked Boolean retrieval</I> .
+
+<P>
+<B>Worked example.</B>
+<A NAME="example:235"></A>Consider  the query shakespeare in a collection in which each document has three zones: <I>author, title</I> and <I>body</I>. The Boolean score function for a zone takes on the value 1 if the query term shakespeare is present in the zone, and zero otherwise.  Weighted zone scoring in such a collection would require three weights <IMG
+ WIDTH="41" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img362.png"
+ ALT="$g_1, g_2$"> and <IMG
+ WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img363.png"
+ ALT="$g_3$">, respectively corresponding to the <I>author, title</I> and <I>body</I> zones. Suppose we set <!-- MATH
+ $g_1=0.2, g_2=0.3$
+ -->
+<IMG
+ WIDTH="125" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img364.png"
+ ALT="$g_1=0.2, g_2=0.3$"> and <IMG
+ WIDTH="61" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img365.png"
+ ALT="$g_3=0.5$"> (so that the three weights add up to 1); this corresponds to an application in which a match in the <I>author</I> zone is least important to the overall score, the <I>title</I> zone somewhat more, and the <I>body</I> contributes even more.
+
+<P>
+Thus if the term shakespeare were to appear in the <I>title</I> and <I>body</I> zones but not the <I>author</I> zone of a document, the score of this document would be 0.8.
+<B>End worked example.</B>
+
+<P>
+How do we implement the computation of weighted zone scores?  A simple approach would be to compute the score for each document in turn, adding in all the contributions from the various zones.  However, we now show how we may compute weighted zone scores directly from inverted indexes.  The algorithm of Figure <A HREF="#fig:weighted-merge-algorithm">6.4</A>  treats the case when the query <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$"> is a two-term query consisting of query terms <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img366.png"
+ ALT="$q_1$"> and <IMG
+ WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img367.png"
+ ALT="$q_2$">, and the Boolean function is AND: 1 if both query terms are present in a zone and 0 otherwise.  Following the description of the algorithm, we describe the extension to more complex queries and Boolean functions.
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:weighted-merge-algorithm"></A><A NAME="p:weighted-merge-algorithm"></A></P><IMG
+ WIDTH="598" HEIGHT="409" BORDER="0"
+ SRC="img368.png"
+ ALT="\begin{figure}
+% latex2html id marker 7761
+\begin{algorithm}{ZoneScore}{q_1,q_2}...
+...umed to compute the inner loop of Equation~\ref{eqn:weightedzone}.}
+\end{figure}">
+</DIV>
+
+<P>
+The reader may have noticed the close similarity between
+this algorithm and that in
+Figure <A HREF="processing-boolean-queries-1.html#fig:postings-merge-algorithm">1.6</A> .  Indeed, they represent
+the same postings traversal, except that instead of merely
+adding a document to the set of results for a Boolean AND
+query, we now compute a score for each such document.  Some
+literature refers to the array scores[] above as a set of
+<A NAME="7789"></A> <I>accumulators</I> .  The reason for this will be clear as we
+consider more complex Boolean functions than the AND; thus
+we may assign a non-zero score to a document even if it does
+not contain all query terms.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1867"
+  HREF="learning-weights-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1861"
+  HREF="parametric-and-zone-indexes-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1855"
+  HREF="parametric-and-zone-indexes-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1863"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1865"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1868"
+  HREF="learning-weights-1.html">Learning weights</A>
+<B> Up:</B> <A NAME="tex2html1862"
+  HREF="parametric-and-zone-indexes-1.html">Parametric and zone indexes</A>
+<B> Previous:</B> <A NAME="tex2html1856"
+  HREF="parametric-and-zone-indexes-1.html">Parametric and zone indexes</A>
+ &nbsp; <B>  <A NAME="tex2html1864"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1866"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/weighted-zone-scoring-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:25:12 GMT -->
+</HTML>

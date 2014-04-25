@@ -1,0 +1,483 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/evaluation-of-xml-retrieval-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:27:52 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Evaluation of XML retrieval</TITLE>
+<META NAME="description" CONTENT="Evaluation of XML retrieval">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="text-centric-vs-data-centric-xml-retrieval-1.html">
+<LINK REL="previous" HREF="a-vector-space-model-for-xml-retrieval-1.html">
+<LINK REL="up" HREF="xml-retrieval-1.html">
+<LINK REL="next" HREF="text-centric-vs-data-centric-xml-retrieval-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2911"
+  HREF="text-centric-vs-data-centric-xml-retrieval-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2905"
+  HREF="xml-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2899"
+  HREF="a-vector-space-model-for-xml-retrieval-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2907"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2909"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2912"
+  HREF="text-centric-vs-data-centric-xml-retrieval-1.html">Text-centric vs. data-centric XML</A>
+<B> Up:</B> <A NAME="tex2html2906"
+  HREF="xml-retrieval-1.html">XML retrieval</A>
+<B> Previous:</B> <A NAME="tex2html2900"
+  HREF="a-vector-space-model-for-xml-retrieval-1.html">A vector space model</A>
+ &nbsp; <B>  <A NAME="tex2html2908"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2910"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001540000000000000000"></A>
+<A NAME="sec:inex"></A> <A NAME="p:inex"></A>
+<BR>
+Evaluation of XML retrieval
+</H1> 
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="12760"></A>
+<TABLE>
+<CAPTION><STRONG>Table 10.2:</STRONG>
+INEX 2002 collection statistics.</CAPTION>
+<TR><TD><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">12,107</TD>
+<TD ALIGN="LEFT">number of documents</TD>
+</TR>
+<TR><TD ALIGN="LEFT">494 MB</TD>
+<TD ALIGN="LEFT">size</TD>
+</TR>
+<TR><TD ALIGN="LEFT">1995-2002</TD>
+<TD ALIGN="LEFT">time of publication of articles</TD>
+</TR>
+<TR><TD ALIGN="LEFT">1,532</TD>
+<TD ALIGN="LEFT">average number of XML nodes per document</TD>
+</TR>
+<TR><TD ALIGN="LEFT">6.9</TD>
+<TD ALIGN="LEFT">average depth of a node</TD>
+</TR>
+<TR><TD ALIGN="LEFT">30</TD>
+<TD ALIGN="LEFT">number of CAS topics</TD>
+</TR>
+<TR><TD ALIGN="LEFT">30</TD>
+<TD ALIGN="LEFT">number of CO topics</TD>
+</TR>
+</TABLE>
+
+<A NAME="tab:inexstats"></A> <A NAME="p:inexstats"></A> 
+</TD></TR>
+</TABLE>
+</DIV><P></P>
+<BR>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:inexex"></A><A NAME="p:inexex"></A><A NAME="12795"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 10.11:</STRONG>
+Simplified schema of the documents in the
+INEX collection.</CAPTION>
+<TR><TD><IMG
+ WIDTH="377" HEIGHT="314" BORDER="0"
+ SRC="img665.png"
+ ALT="\begin{figure}\psset{unit=0.75cm}
+\begin{pspicture}(2.6,-0.4)(14.4,9.5)
+\par
+\ps...
+...5,8.5)(5.5,5.5)
+\psline{-&gt;}(8.5,8.5)(11.5,7.5)
+\par
+\end{pspicture}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+The premier venue
+for research on XML retrieval
+is the <A NAME="12799"></A> <I>INEX</I>  (<I><B>IN</B>itiative
+for the <B>E</B>valuation of <B>X</B>ML retrieval</I>) program, a
+collaborative effort that has produced reference collections,
+sets of queries, and relevance judgments. A yearly INEX
+meeting is held to
+present and discuss research results.
+The INEX 2002 collection consisted of about 12,000 articles from
+IEEE journals. We give collection statistics  in
+Table <A HREF="#tab:inexstats">10.2</A>  and show
+part of the schema of the collection in
+Figure <A HREF="#fig:inexex">10.11</A> . The IEEE journal collection was expanded
+in 2005. Since 2006 INEX uses the much larger English
+<A NAME="12806"></A> <I>Wikipedia</I>  as a test collection. The relevance of
+documents is judged by human assessors using the methodology introduced in
+Section&nbsp;<A HREF="information-retrieval-system-evaluation-1.html#sec:ir-eval">8.1</A> (page&nbsp;<A HREF="information-retrieval-system-evaluation-1.html#p:ir-eval"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>), appropriately modified for structured documents
+as we will discuss shortly.
+
+<P>
+Two types of information needs or
+<A NAME="12810"></A>  
+in
+INEX are content-only or CO topics and content-and-structure
+(CAS) topics. <A NAME="12812"></A> <I>CO topics</I>  are regular
+keyword queries as in unstructured information retrieval. <A NAME="12814"></A> <I>CAS topics</I> 
+have structural constraints in addition to keywords.
+We already encountered an example of a CAS
+topic in
+Figure <A HREF="basic-xml-concepts-1.html#fig:nexitopic">10.3</A> . The keywords in this case are
+summer and holidays and the structural
+constraints specify that the keywords occur in a section
+that in turn is part of an article and that this article has
+an embedded year attribute with value
+2001 or 2002.
+
+<P>
+Since CAS queries have both structural and content criteria,
+relevance assessments are more complicated than in
+unstructured retrieval. INEX 2002 defined component
+coverage and topical relevance as orthogonal
+dimensions of relevance. The <A NAME="12819"></A> <I>component coverage</I>  dimension
+evaluates whether the element retrieved is ``structurally''
+correct, i.e., neither too low nor too high in the tree. We
+distinguish four cases:
+
+<UL>
+<LI>Exact coverage (E). The information sought is
+the main topic of the component and the component is a meaningful unit of information.
+</LI>
+<LI>Too small (S). The information sought is the main
+topic of the component, but the component is not a
+meaningful (self-contained) unit of information.
+</LI>
+<LI>Too large (L). The information sought is present in
+the component, but is not the main topic.
+</LI>
+<LI>No coverage (N). The information sought is not a topic
+of the component.
+</LI>
+</UL>
+
+<P>
+The <A NAME="12823"></A> <I>topical relevance</I>  dimension also has four levels: highly
+relevant (3), fairly relevant (2), marginally relevant (1)
+and nonrelevant (0).
+Components are judged on both
+dimensions and the judgments are then combined into a
+digit-letter code.  2S is a fairly relevant component that
+is too small and 3E is a highly relevant component that has
+exact coverage.  In theory, there are 16 combinations of
+coverage and relevance, but many cannot occur. For example,
+a nonrelevant component cannot have exact coverage, so the
+combination 3N is not possible.
+
+<P>
+The relevance-coverage combinations are quantized
+as follows:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\mbox{\bf Q} (rel,cov) =
+\left\{ \begin{array}{ll}
+1.00 & \mbox{if} \quad (rel,cov) = \mbox{3E}\\
+0.75 & \mbox{if} \quad (rel,cov) \in \{ \mbox{2E}, \mbox{3L} \}\\
+0.50 & \mbox{if} \quad (rel,cov) \in \{ \mbox{1E}, \mbox{2L}, \mbox{2S} \}\\
+0.25 & \mbox{if} \quad (rel,cov) \in \{ \mbox{1S}, \mbox{1L} \}\\
+0.00 & \mbox{if} \quad (rel,cov) = \mbox{0N}
+\end{array}
+\right.
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="351" HEIGHT="102" BORDER="0"
+ SRC="img666.png"
+ ALT="\begin{displaymath}
+\mbox{\bf Q} (rel,cov) =
+\left\{ \begin{array}{ll}
+1.00 &amp; \m...
+....00 &amp; \mbox{if} \quad (rel,cov) = \mbox{0N}
+\end{array}\right.
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(54)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+This evaluation scheme takes account of the fact that binary
+relevance judgments, which are standard in unstructured
+information retrieval (Section <A HREF="critiques-and-justifications-of-the-concept-of-relevance-1.html#sec:relevance">8.5.1</A> , page <A HREF="critiques-and-justifications-of-the-concept-of-relevance-1.html#p:relevance">8.5.1</A> ), are not appropriate for XML
+retrieval. A 2S component
+provides incomplete information and may be difficult to
+interpret without more context,
+but it does answer the query partially. The quantization
+function <B>Q</B> does not impose a binary choice
+relevantnonrelevant and
+instead allows us to grade the component as partially relevant.
+
+<P>
+The number of relevant components in a retrieved set <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img167.png"
+ ALT="$A$"> of
+components can
+then be computed as:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\#(\mbox{relevant items retrieved}) = \sum_{c \in 
+A} \mbox{\bf
+Q}(rel(c),cov(c))
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="351" HEIGHT="43" BORDER="0"
+ SRC="img667.png"
+ ALT="\begin{displaymath}
+\char93 (\mbox{relevant items retrieved}) = \sum_{c \in
+A} \mbox{\bf
+Q}(rel(c),cov(c))
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(55)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+As an approximation, the standard definitions of precision,
+recall and F from Chapter <A HREF="evaluation-in-information-retrieval-1.html#ch:evaluation">8</A> 
+can be applied to this modified definition of
+relevant items retrieved, with some subtleties
+because we sum
+graded as opposed to binary relevance assessments. See the
+references on focused retrieval in Section <A HREF="references-and-further-reading-10.html#sec:xmlfurther">10.6</A>  for further discussion.
+
+<P>
+One flaw of measuring relevance this way is that overlap is
+not accounted for. We discussed the concept of marginal
+relevance in the context of unstructured retrieval in
+Section&nbsp;<A HREF="critiques-and-justifications-of-the-concept-of-relevance-1.html#sec:relevance">8.5.1</A> (page&nbsp;<A HREF="critiques-and-justifications-of-the-concept-of-relevance-1.html#p:relevance"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>).  This problem is worse in XML retrieval
+because of the problem of multiple nested elements occurring
+in a search result as we discussed on
+page <A HREF="challenges-in-xml-retrieval-1.html#p:nested">10.2</A> .
+Much of the recent focus at
+INEX has been on developing algorithms and evaluation
+measures that return non-redundant results lists and evaluate
+them properly. See the references in Section <A HREF="references-and-further-reading-10.html#sec:xmlfurther">10.6</A> .
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="13074"></A>
+<TABLE>
+<CAPTION><STRONG>Table 10.3:</STRONG>
+INEX 2002 results of the vector space model in Section <A HREF="a-vector-space-model-for-xml-retrieval-1.html#sec:xmlvector">10.3</A>  for
+content-and-structure (CAS) queries and the quantization function <B>Q</B>.</CAPTION>
+<TR><TD><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">algorithm</TD>
+<TD ALIGN="LEFT">average precision</TD>
+</TR>
+<TR><TD ALIGN="LEFT">S<SMALL>IM</SMALL>N<SMALL>O</SMALL>M<SMALL>ERGE</SMALL></TD>
+<TD ALIGN="LEFT">0.242</TD>
+</TR>
+<TR><TD ALIGN="LEFT">S<SMALL>IM</SMALL>M<SMALL>ERGE</SMALL></TD>
+<TD ALIGN="LEFT">0.271</TD>
+</TR>
+</TABLE>
+
+<A NAME="tab:inexresults"></A> <A NAME="p:inexresults"></A> 
+</TD></TR>
+</TABLE>
+</DIV><P></P>
+<BR>
+
+<P>
+Table <A HREF="#tab:inexresults">10.3</A>  shows two INEX 2002 runs of
+the vector space system we described in Section <A HREF="a-vector-space-model-for-xml-retrieval-1.html#sec:xmlvector">10.3</A> .
+The better run is the S<SMALL>IM</SMALL>M<SMALL>ERGE</SMALL> run, which incorporates few
+structural constraints and mostly relies on keyword
+matching.  S<SMALL>IM</SMALL>M<SMALL>ERGE</SMALL>'s median average precision (where the
+median is with respect to average precision numbers over
+topics) is only 0.147.  Effectiveness in XML retrieval is often
+lower than in unstructured retrieval since XML retrieval is
+harder. Instead of just finding a document,
+we have to find the subpart of a document that is most
+relevant to the query.  Also, XML retrieval effectiveness -
+when evaluated as described here - can be lower than
+unstructured retrieval effectiveness on a standard
+evaluation because graded judgments lower measured
+performance.  Consider a system that returns a document with
+graded relevance 0.6 and binary relevance 1 at the top of
+the retrieved list. Then, interpolated precision at 0.00
+recall (cf. page <A HREF="evaluation-of-ranked-retrieval-results-1.html#p:interpolatedprecision">8.4</A> ) is 1.0 on a binary evaluation, but can be as low as
+0.6 on a graded evaluation.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER"><A NAME="12879"></A>
+<TABLE>
+<CAPTION><STRONG>Table 10.4:</STRONG>
+A comparison of content-only and full-structure
+search in INEX 2003/2004.</CAPTION>
+<TR><TD><TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">content only</TD>
+<TD ALIGN="LEFT">full structure</TD>
+<TD ALIGN="RIGHT">improvement</TD>
+</TR>
+<TR><TD ALIGN="LEFT">precision at 5</TD>
+<TD ALIGN="LEFT">0.2000</TD>
+<TD ALIGN="LEFT">0.3265</TD>
+<TD ALIGN="RIGHT">63.3%</TD>
+</TR>
+<TR><TD ALIGN="LEFT">precision at 10</TD>
+<TD ALIGN="LEFT">0.1820</TD>
+<TD ALIGN="LEFT">0.2531</TD>
+<TD ALIGN="RIGHT">39.1%</TD>
+</TR>
+<TR><TD ALIGN="LEFT">precision at 20</TD>
+<TD ALIGN="LEFT">0.1700</TD>
+<TD ALIGN="LEFT">0.1796</TD>
+<TD ALIGN="RIGHT">5.6%</TD>
+</TR>
+<TR><TD ALIGN="LEFT">precision at 30</TD>
+<TD ALIGN="LEFT">0.1527</TD>
+<TD ALIGN="LEFT">0.1531</TD>
+<TD ALIGN="RIGHT">0.3%</TD>
+</TR>
+</TABLE>
+
+<A NAME="tab:kamps"></A> <A NAME="p:kamps"></A> 
+</TD></TR>
+</TABLE>
+</DIV><P></P>
+<BR>
+
+<P>
+Table <A HREF="#tab:inexresults">10.3</A>  gives us a sense of the typical
+performance of XML retrieval, but it does not
+compare structured with unstructured retrieval.
+Table <A HREF="#tab:kamps">10.4</A>  directly shows the effect of using
+structure in retrieval. The results are for a
+language-model-based system (cf. Chapter <A HREF="language-models-for-information-retrieval-1.html#ch:lmodels">12</A> ) that is
+evaluated on a subset of CAS topics from INEX 2003 and
+2004. The evaluation metric is precision at <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> as defined
+in Chapter <A HREF="evaluation-in-information-retrieval-1.html#ch:evaluation">8</A>  (page <A HREF="evaluation-of-ranked-retrieval-results-1.html#p:precisionatk">8.4</A> ). The
+discretization function used for the evaluation maps 
+highly relevant elements
+(roughly corresponding to the 3E elements defined for
+<B>Q</B>) to 1
+and all other elements to 0. The content-only
+system treats queries and documents as unstructured bags of
+words.  The full-structure model ranks elements that satisfy
+structural constraints higher than elements that do not. For
+instance, for the query in Figure <A HREF="basic-xml-concepts-1.html#fig:nexitopic">10.3</A>  an element
+that contains the phrase summer holidays in a section
+will be rated higher than one that contains it in an
+abstract.
+
+<P>
+The table shows that structure helps increase precision at
+the top of the results list. There is a large increase of
+precision at <IMG
+ WIDTH="41" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img668.png"
+ ALT="$k=5$"> and at <IMG
+ WIDTH="50" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img669.png"
+ ALT="$k=10$">. There is almost no improvement
+at <IMG
+ WIDTH="49" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img670.png"
+ ALT="$k=30$">. 
+These results demonstrate the benefits of structured retrieval.
+Structured retrieval imposes
+additional constraints on what to return and documents that
+pass the structural filter are more likely to be relevant. 
+Recall may suffer because some
+relevant documents will be filtered out, but for
+precision-oriented tasks structured retrieval is superior.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2911"
+  HREF="text-centric-vs-data-centric-xml-retrieval-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2905"
+  HREF="xml-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2899"
+  HREF="a-vector-space-model-for-xml-retrieval-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2907"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2909"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2912"
+  HREF="text-centric-vs-data-centric-xml-retrieval-1.html">Text-centric vs. data-centric XML</A>
+<B> Up:</B> <A NAME="tex2html2906"
+  HREF="xml-retrieval-1.html">XML retrieval</A>
+<B> Previous:</B> <A NAME="tex2html2900"
+  HREF="a-vector-space-model-for-xml-retrieval-1.html">A vector space model</A>
+ &nbsp; <B>  <A NAME="tex2html2908"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2910"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/evaluation-of-xml-retrieval-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:27:56 GMT -->
+</HTML>

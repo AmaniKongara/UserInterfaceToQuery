@@ -1,0 +1,215 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/hierarchical-clustering-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:21:44 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Hierarchical clustering</TITLE>
+<META NAME="description" CONTENT="Hierarchical clustering">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="matrix-decompositions-and-latent-semantic-indexing-1.html">
+<LINK REL="previous" HREF="flat-clustering-1.html">
+<LINK REL="up" HREF="irbook.html">
+<LINK REL="next" HREF="hierarchical-agglomerative-clustering-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4313"
+  HREF="hierarchical-agglomerative-clustering-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4307"
+  HREF="irbook.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4301"
+  HREF="exercises-3.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4309"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4311"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4314"
+  HREF="hierarchical-agglomerative-clustering-1.html">Hierarchical agglomerative clustering</A>
+<B> Up:</B> <A NAME="tex2html4308"
+  HREF="irbook.html">irbook</A>
+<B> Previous:</B> <A NAME="tex2html4302"
+  HREF="exercises-3.html">Exercises</A>
+ &nbsp; <B>  <A NAME="tex2html4310"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4312"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION002200000000000000000"></A><A NAME="ch:hierclust"></A>
+<BR>
+Hierarchical clustering
+</H1> 
+
+<P>
+Flat clustering is efficient and conceptually simple, but as
+we saw in Chapter <A HREF="flat-clustering-1.html#ch:flatclust">16</A>  it has a number of
+drawbacks. 
+The algorithms introduced in Chapter <A HREF="flat-clustering-1.html#ch:flatclust">16</A> 
+return a flat unstructured set of clusters,
+require a prespecified number of clusters as input and are
+nondeterministic.  
+<A NAME="26350"></A> <I>Hierarchical clustering</I>  (or
+<A NAME="26352"></A> <I>hierarchic clustering</I> ) outputs a hierarchy, a structure that is more
+informative than the unstructured set of clusters returned by flat
+clustering.<A NAME="tex2html187"
+  HREF="footnode.html#foot27283"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A>Hierarchical clustering does not require us to prespecify
+the number of clusters and most hierarchical algorithms that
+have been used in IR are
+deterministic.  These advantages of hierarchical clustering
+come at the cost of lower efficiency. The most common
+hierarchical clustering algorithms have a complexity that is
+at least quadratic in the number of documents compared to
+the linear complexity of  <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means and EM (cf. Section <A HREF="k-means-1.html#sec:kmeans">16.4</A> , page <A HREF="k-means-1.html#p:kmeanscomplexity">16.4</A> ).
+
+<P>
+This chapter first introduces <I>agglomerative</I>
+hierarchical clustering (Section <A HREF="hierarchical-agglomerative-clustering-1.html#sec:hac">17.1</A> ) and presents
+four different agglomerative algorithms, in
+Sections <A HREF="single-link-and-complete-link-clustering-1.html#sec:singlecomplete">17.2</A> -<A HREF="centroid-clustering-1.html#sec:centroidsec">17.4</A> , which differ in the
+similarity measures they employ: single-link, complete-link,
+group-average, and centroid similarity.  We then discuss the
+optimality conditions of hierarchical clustering in
+Section <A HREF="optimality-of-hac-1.html#sec:optimality">17.5</A> .  
+Section <A HREF="divisive-clustering-1.html#sec:divisive">17.6</A>  introduces
+top-down (or <I>divisive</I>) hierarchical
+clustering.
+Section <A HREF="cluster-labeling-1.html#sec:clusterlabeling">17.7</A>  looks at
+labeling clusters automatically, a problem that must be solved whenever
+humans interact with the output of clustering. We
+discuss 
+implementation issues in
+Section <A HREF="implementation-notes-1.html#sec:implnotes">17.8</A> .  Section <A HREF="references-and-further-reading-17.html#sec:hclstfurther">17.9</A>  provides
+pointers to further reading, including references to
+<A NAME="26370"></A>soft
+hierarchical clustering, which we do
+not cover in this book. 
+
+<P>
+There are few differences between the
+applications of flat and hierarchical clustering in
+information retrieval. In particular, 
+hierarchical clustering is appropriate for any of
+the applications shown in
+Table <A HREF="clustering-in-information-retrieval-1.html#tab:clusttb1">16.1</A>  (page <A HREF="clustering-in-information-retrieval-1.html#p:clusttb1">16.1</A> ; see also
+Section <A HREF="references-and-further-reading-16.html#sec:flatclustref">16.6</A> , page <A HREF="references-and-further-reading-16.html#p:flatclustref">16.6</A> ). In fact, the
+example we gave for
+collection clustering is hierarchical. In general, we
+select flat
+clustering when 
+efficiency is important and hierarchical clustering when one
+of the potential problems of flat clustering (not enough
+structure, predetermined number of clusters, non-determinism)
+is a concern. In addition, many researchers
+believe that hierarchical clustering produces better
+clusters than flat clustering. However, there is no
+consensus on this issue (see references in Section <A HREF="references-and-further-reading-17.html#sec:hclstfurther">17.9</A> ).
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html4315"
+  HREF="hierarchical-agglomerative-clustering-1.html">Hierarchical agglomerative clustering</A>
+<LI><A NAME="tex2html4316"
+  HREF="single-link-and-complete-link-clustering-1.html">Single-link and complete-link clustering</A>
+<UL>
+<LI><A NAME="tex2html4317"
+  HREF="time-complexity-of-hac-1.html">Time complexity of HAC</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html4318"
+  HREF="group-average-agglomerative-clustering-1.html">Group-average agglomerative clustering</A>
+<LI><A NAME="tex2html4319"
+  HREF="centroid-clustering-1.html">Centroid clustering</A>
+<LI><A NAME="tex2html4320"
+  HREF="optimality-of-hac-1.html">Optimality of HAC</A>
+<LI><A NAME="tex2html4321"
+  HREF="divisive-clustering-1.html">Divisive clustering</A>
+<LI><A NAME="tex2html4322"
+  HREF="cluster-labeling-1.html">Cluster labeling</A>
+<LI><A NAME="tex2html4323"
+  HREF="implementation-notes-1.html">Implementation notes</A>
+<LI><A NAME="tex2html4324"
+  HREF="references-and-further-reading-17.html">References and further reading</A>
+<LI><A NAME="tex2html4325"
+  HREF="exercises-4.html">Exercises</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4313"
+  HREF="hierarchical-agglomerative-clustering-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4307"
+  HREF="irbook.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4301"
+  HREF="exercises-3.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4309"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4311"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4314"
+  HREF="hierarchical-agglomerative-clustering-1.html">Hierarchical agglomerative clustering</A>
+<B> Up:</B> <A NAME="tex2html4308"
+  HREF="irbook.html">irbook</A>
+<B> Previous:</B> <A NAME="tex2html4302"
+  HREF="exercises-3.html">Exercises</A>
+ &nbsp; <B>  <A NAME="tex2html4310"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4312"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/hierarchical-clustering-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:21:44 GMT -->
+</HTML>

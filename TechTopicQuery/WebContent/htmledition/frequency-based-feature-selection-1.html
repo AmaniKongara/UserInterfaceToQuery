@@ -1,0 +1,158 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/frequency-based-feature-selection-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:31:36 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Frequency-based feature selection</TITLE>
+<META NAME="description" CONTENT="Frequency-based feature selection">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="feature-selection-for-multiple-classifiers-1.html">
+<LINK REL="previous" HREF="feature-selectionchi2-feature-selection-1.html">
+<LINK REL="up" HREF="feature-selection-1.html">
+<LINK REL="next" HREF="feature-selection-for-multiple-classifiers-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3590"
+  HREF="feature-selection-for-multiple-classifiers-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3584"
+  HREF="feature-selection-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3578"
+  HREF="assessing-as-a-feature-selection-methodassessing-chi-square-as-a-feature-selection-method-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3586"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3588"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3591"
+  HREF="feature-selection-for-multiple-classifiers-1.html">Feature selection for multiple</A>
+<B> Up:</B> <A NAME="tex2html3585"
+  HREF="feature-selection-1.html">Feature selection</A>
+<B> Previous:</B> <A NAME="tex2html3579"
+  HREF="assessing-as-a-feature-selection-methodassessing-chi-square-as-a-feature-selection-method-1.html">Assessing as a feature</A>
+ &nbsp; <B>  <A NAME="tex2html3587"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3589"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001853000000000000000"></A><A NAME="17356"></A>
+<BR>
+Frequency-based feature
+  selection
+</H2>
+A third feature selection method is
+<A NAME="17357"></A> <I>frequency-based
+feature selection</I> , that is, selecting the terms that are
+most common in the class. 
+Frequency can be either defined as <A NAME="17359"></A>document frequency (the number of documents
+in the class <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img252.png"
+ ALT="$c$"> that contain the term <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img891.png"
+ ALT="$\tcword$">) or as
+<A NAME="17360"></A>collection frequency (the number of
+tokens of <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img891.png"
+ ALT="$\tcword$"> that occur in documents in
+<IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img252.png"
+ ALT="$c$">). Document frequency is
+more appropriate for the Bernoulli model, collection frequency for the
+multinomial model.
+
+<P>
+Frequency-based feature selection
+selects some
+frequent terms that have no specific information about the
+class, for example, the days of the week (Monday,
+Tuesday, ...), which are frequent across classes
+in newswire text. When many thousands of features are selected,
+then frequency-based feature selection often does
+well.
+Thus, if somewhat suboptimal accuracy is acceptable, then
+frequency-based feature selection can be a good alternative to
+more complex methods. However, Figure <A HREF="mutual-information-1.html#fig:mccallum">13.8</A>  is a case where
+frequency-based feature selection performs a lot worse than
+MI and <IMG
+ WIDTH="21" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$\chi ^2$"> and should not be
+used<A NAME="17364"></A>.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3590"
+  HREF="feature-selection-for-multiple-classifiers-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3584"
+  HREF="feature-selection-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3578"
+  HREF="assessing-as-a-feature-selection-methodassessing-chi-square-as-a-feature-selection-method-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3586"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3588"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3591"
+  HREF="feature-selection-for-multiple-classifiers-1.html">Feature selection for multiple</A>
+<B> Up:</B> <A NAME="tex2html3585"
+  HREF="feature-selection-1.html">Feature selection</A>
+<B> Previous:</B> <A NAME="tex2html3579"
+  HREF="assessing-as-a-feature-selection-methodassessing-chi-square-as-a-feature-selection-method-1.html">Assessing as a feature</A>
+ &nbsp; <B>  <A NAME="tex2html3587"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3589"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/frequency-based-feature-selection-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:31:36 GMT -->
+</HTML>

@@ -1,0 +1,336 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/learning-weights-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:25:12 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Learning weights</TITLE>
+<META NAME="description" CONTENT="Learning weights">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="the-optimal-weight-g-1.html">
+<LINK REL="previous" HREF="weighted-zone-scoring-1.html">
+<LINK REL="up" HREF="parametric-and-zone-indexes-1.html">
+<LINK REL="next" HREF="the-optimal-weight-g-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1881"
+  HREF="the-optimal-weight-g-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1875"
+  HREF="parametric-and-zone-indexes-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1869"
+  HREF="weighted-zone-scoring-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1877"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1879"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1882"
+  HREF="the-optimal-weight-g-1.html">The optimal weight g</A>
+<B> Up:</B> <A NAME="tex2html1876"
+  HREF="parametric-and-zone-indexes-1.html">Parametric and zone indexes</A>
+<B> Previous:</B> <A NAME="tex2html1870"
+  HREF="weighted-zone-scoring-1.html">Weighted zone scoring</A>
+ &nbsp; <B>  <A NAME="tex2html1878"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1880"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001112000000000000000"></A>
+<A NAME="sec:mlr"></A> <A NAME="p:mlr"></A>
+<BR>
+Learning weights
+</H2> 
+How do we determine the weights <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img369.png"
+ ALT="$g_i$"> for weighted zone scoring?  These weights could be specified by an expert (or, in principle, the user); but increasingly, these weights are ``learned'' using training examples that have been judged editorially.  This latter methodology falls under a general class of approaches to scoring and ranking in information retrieval, known as <A NAME="7794"></A> <I>machine-learned relevance</I> .  We provide a brief introduction to this topic here because weighted zone scoring presents a clean setting for introducing it; a complete development demands an understanding of machine learning and is deferred to Chapter <A HREF="support-vector-machines-and-machine-learning-on-documents-1.html#ch:svm">15</A> .
+
+<P>
+
+<OL>
+<LI>We are provided with a set of <EM>training examples</EM>, each of which is a tuple consisting of a query <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$"> and a document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">, together with a relevance judgment for <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$"> on <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$">.  In the simplest form, each relevance judgments is either <I>Relevant</I> or <I>Non-relevant</I>.  More sophisticated implementations of the methodology make use of more nuanced judgments.
+</LI>
+<LI>The weights <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img369.png"
+ ALT="$g_i$"> are then ``learned'' from these examples, in order that the learned scores approximate the relevance judgments in the training examples.
+</LI>
+</OL>
+
+<P>
+For weighted zone scoring, the process may be viewed as learning a linear function of the Boolean match scores contributed by the various zones. The expensive component of this methodology is the labor-intensive assembly of user-generated relevance judgments from which to learn the weights, especially in a collection that changes frequently (such as the Web). We now detail a simple example that illustrates how we can reduce the problem of learning the weights <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img369.png"
+ ALT="$g_i$"> to a simple optimization problem.
+
+<P>
+We now consider a simple case of weighted zone scoring, where each document has a <I>title</I> zone and a <I>body</I> zone.  Given a query <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$"> and a document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">, we use the given Boolean match function to compute Boolean variables <IMG
+ WIDTH="56" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img370.png"
+ ALT="$s_T(d,q)$"> and <IMG
+ WIDTH="56" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img371.png"
+ ALT="$s_B(d,q)$">, depending on whether the title (respectively, body) zone of <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$"> matches query <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$">.  For instance, the algorithm in Figure <A HREF="weighted-zone-scoring-1.html#fig:weighted-merge-algorithm">6.4</A>  uses an AND of the query terms for this Boolean function.  We will compute a score between 0 and 1 for each (document, query) pair using <IMG
+ WIDTH="56" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img370.png"
+ ALT="$s_T(d,q)$"> and <IMG
+ WIDTH="56" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img371.png"
+ ALT="$s_B(d,q)$"> by using a constant <IMG
+ WIDTH="65" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img372.png"
+ ALT="$g\in[0,1]$">, as follows:
+
+<P>
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+score(d,q)=g\cdot s_T(d,q) + (1-g)\cdot s_B(d,q).
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eqn:1varmlr"></A><IMG
+ WIDTH="300" HEIGHT="28" BORDER="0"
+ SRC="img373.png"
+ ALT="\begin{displaymath}
+score(d,q)=g\cdot s_T(d,q) + (1-g)\cdot s_B(d,q).
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(14)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+We now describe how to determine the constant <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img374.png"
+ ALT="$g$"> from a set of <I>training examples</I>, each of which is a triple of the form <!-- MATH
+ $\Phi_j=(d_j, q_j, r(d_j, q_j))$
+ -->
+<IMG
+ WIDTH="149" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img375.png"
+ ALT="$\Phi_j=(d_j, q_j, r(d_j, q_j))$"><A NAME="example-notation"></A>.  In each training example, a given training document <IMG
+ WIDTH="17" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img376.png"
+ ALT="$d_j$"> and a given training query <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img377.png"
+ ALT="$q_j$"> are assessed by a human editor who delivers a relevance judgment <IMG
+ WIDTH="56" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img378.png"
+ ALT="$r(d_j, q_j)$"> that is either <I>Relevant</I> or <I>Non-relevant</I>.  This is illustrated in Figure <A HREF="#fig:weightexamples">6.5</A> , where seven training examples are shown.
+
+<DIV ALIGN="CENTER"><A NAME="fig:weightexamples"></A><A NAME="p:weightexamples"></A><A NAME="7824"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 6.5:</STRONG>
+An illustration of training examples.</CAPTION>
+<TR><TD><IMG
+ WIDTH="401" HEIGHT="155" BORDER="0"
+ SRC="img379.png"
+ ALT="\begin{figure}\begin{tabular}{\vert c\vert r\vert l\vert r\vert r\vert\vert l\ve...
+...91 &amp; \query{driver} &amp; 1 &amp; 0 &amp; Non-relevant\\
+\hline
+\end{tabular}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+For each training example <IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img380.png"
+ ALT="$\Phi_j$"> we have Boolean values <IMG
+ WIDTH="66" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img381.png"
+ ALT="$s_T(d_j,q_j)$"> and <IMG
+ WIDTH="65" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img382.png"
+ ALT="$s_B(d_j,q_j)$"> that we use to compute a score from (<A HREF="#eqn:1varmlr">14</A>)
+
+<P>
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+score(d_j,q_j)=g\cdot s_T(d_j,q_j) + (1-g)\cdot s_B(d_j,q_j).
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eqn:1varmlrscore"></A><IMG
+ WIDTH="329" HEIGHT="30" BORDER="0"
+ SRC="img383.png"
+ ALT="\begin{displaymath}
+score(d_j,q_j)=g\cdot s_T(d_j,q_j) + (1-g)\cdot s_B(d_j,q_j).
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(15)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+We now compare this computed score to the human relevance judgment for the same document-query pair <IMG
+ WIDTH="50" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img384.png"
+ ALT="$(d_j,q_j)$">; to this end, we will quantize each <I>Relevant</I> judgment as a 1 and each <I>Non-relevant</I> judgment as a 0. Suppose that we define the error of the scoring function with weight <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img374.png"
+ ALT="$g$"> as
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\varepsilon(g,\Phi_j)=(r(d_j, q_j)-score(d_j,q_j))^2,
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="252" HEIGHT="30" BORDER="0"
+ SRC="img385.png"
+ ALT="\begin{displaymath}
+\varepsilon(g,\Phi_j)=(r(d_j, q_j)-score(d_j,q_j))^2,
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(16)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P><A NAME="error-notation"></A>where we have quantized the editorial relevance judgment <IMG
+ WIDTH="56" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img378.png"
+ ALT="$r(d_j, q_j)$"><A NAME="rdq-notation"></A> to 0 or 1.
+Then, the total error of a set of training examples is given by
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\sum_{j}\varepsilon(g,\Phi_j).
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eqn:mlroerror"></A><IMG
+ WIDTH="76" HEIGHT="46" BORDER="0"
+ SRC="img386.png"
+ ALT="\begin{displaymath}
+\sum_{j}\varepsilon(g,\Phi_j).
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(17)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+The problem of learning the constant <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img374.png"
+ ALT="$g$"> from the given training examples then reduces to picking the value of <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img374.png"
+ ALT="$g$"> that minimizes the total error in (<A HREF="#eqn:mlroerror">17</A>).
+
+<P>
+Picking the best value of <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img374.png"
+ ALT="$g$"> in (<A HREF="#eqn:mlroerror">17</A>) in the formulation of Section <A HREF="the-optimal-weight-g-1.html#sec:1varmlr">6.1.3</A>  reduces to the problem of minimizing a quadratic function of <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img374.png"
+ ALT="$g$"> over the interval <IMG
+ WIDTH="36" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img356.png"
+ ALT="$[0,1]$">.  This reduction is detailed in Section <A HREF="the-optimal-weight-g-1.html#sec:1varmlr">6.1.3</A> .
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1881"
+  HREF="the-optimal-weight-g-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1875"
+  HREF="parametric-and-zone-indexes-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1869"
+  HREF="weighted-zone-scoring-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1877"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1879"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1882"
+  HREF="the-optimal-weight-g-1.html">The optimal weight g</A>
+<B> Up:</B> <A NAME="tex2html1876"
+  HREF="parametric-and-zone-indexes-1.html">Parametric and zone indexes</A>
+<B> Previous:</B> <A NAME="tex2html1870"
+  HREF="weighted-zone-scoring-1.html">Weighted zone scoring</A>
+ &nbsp; <B>  <A NAME="tex2html1878"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1880"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/learning-weights-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:25:22 GMT -->
+</HTML>

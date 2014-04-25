@@ -1,0 +1,250 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/multinomial-distributions-over-words-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:29:13 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Multinomial distributions over words</TITLE>
+<META NAME="description" CONTENT="Multinomial distributions over words">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="types-of-language-models-1.html">
+<LINK REL="up" HREF="language-models-1.html">
+<LINK REL="next" HREF="the-query-likelihood-model-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3297"
+  HREF="the-query-likelihood-model-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3291"
+  HREF="language-models-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3287"
+  HREF="types-of-language-models-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3293"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3295"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3298"
+  HREF="the-query-likelihood-model-1.html">The query likelihood model</A>
+<B> Up:</B> <A NAME="tex2html3292"
+  HREF="language-models-1.html">Language models</A>
+<B> Previous:</B> <A NAME="tex2html3288"
+  HREF="types-of-language-models-1.html">Types of language models</A>
+ &nbsp; <B>  <A NAME="tex2html3294"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3296"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001713000000000000000">
+Multinomial distributions over words</A>
+</H2>
+
+<P>
+Under the unigram language model the order of words is irrelevant, and
+so such models are often called ``bag of words'' models, as discussed in
+Chapter <A HREF="scoring-term-weighting-and-the-vector-space-model-1.html#ch:tfidf">6</A>  (page <A HREF="term-frequency-and-weighting-1.html#p:bagofwords">6.2</A> ).  Even though there is no
+conditioning on preceding context, this model nevertheless
+still gives the probability of a particular ordering of terms.
+However, any other ordering of this bag
+of terms will have the same probability.  So, really, we have
+a <A NAME="15297"></A> <I>multinomial distribution</I>  over words.  So long as we
+stick to unigram models, the language model name and motivation could
+be viewed as historical rather than necessary. We could instead just
+refer to the model as a multinomial model.  From this perspective, the
+equations presented above do not present the multinomial probability
+of a bag of words, since they do not sum over all possible orderings
+of those words, as is done by the multinomial coefficient (the first
+term on the right-hand side) in the
+standard presentation of a multinomial model:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+P(d) = \frac{L_d!}{\termf_{t_1,d}!\termf_{t_2,d}!\cdots \termf_{t_M,d}!}
+P(t_1)^{\termf_{t_1,d}}P(t_2)^{\termf_{t_2,d}}\cdots P(t_M)^{\termf_{t_M,d}}
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="417" HEIGHT="45" BORDER="0"
+ SRC="img810.png"
+ ALT="\begin{displaymath}
+P(d) = \frac{L_d!}{\termf_{t_1,d}!\termf_{t_2,d}!\cdots \ter...
+..._{t_1,d}}P(t_2)^{\termf_{t_2,d}}\cdots P(t_M)^{\termf_{t_M,d}}
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(97)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+Here, <!-- MATH
+ $L_d =\sum_{1 \leq i \leq M} \termf_{t_i,d}$
+ -->
+<IMG
+ WIDTH="130" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img811.png"
+ ALT="$L_d =\sum_{1 \leq i \leq M} \termf_{t_i,d}$"> is the length of
+document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">, <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img186.png"
+ ALT="$M$"> is the size of the term
+vocabulary, and the products are now over the 
+terms in the vocabulary, not the positions in the document.
+However, just as with <SMALL>STOP</SMALL> probabilities, in practice we can
+also leave out the multinomial coefficient in our calculations,
+since, for a particular bag of words, it will be a constant, and so it
+has no effect on the likelihood ratio of two different models
+generating a particular bag of words.  Multinomial distributions
+also appear in Section&nbsp;<A HREF="naive-bayes-text-classification-1.html#sec:naivebayes">13.2</A> (page&nbsp;<A HREF="naive-bayes-text-classification-1.html#p:naivebayes"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>).
+
+<P>
+The fundamental problem in designing language models is that we do
+not know what exactly we should use as the model <IMG
+ WIDTH="27" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img789.png"
+ ALT="$M_d$">.  However, we do
+generally have a sample of text that is representative of that model.
+This problem makes a lot of sense in the original, primary uses of
+language models.  For example, in speech recognition, we have a training
+sample of (spoken) text.  But we have to expect that, in the future,
+users will use 
+different words and in different sequences, which we have never observed
+before, and so the model has to generalize beyond the observed data to
+allow unknown words and sequences.  This interpretation is not so clear
+in the IR case, where a document is finite and usually fixed.  
+The strategy we adopt in IR is as follows.
+We pretend that the
+document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$"> is only a representative sample of text drawn from a model
+distribution, treating it like a fine-grained topic.
+We then estimate a language model from this sample, and use that
+model to calculate the probability of observing any word sequence, and,
+finally, we rank documents according to their probability of generating
+the query.
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI>Including stop probabilities in the calculation,
+what will the sum of the probability estimates of all strings in the
+language of length 1 be?  Assume that you generate a word and then
+decide whether to stop or not (i.e., the null string is not part of
+the language).
+
+<P>
+</LI>
+<LI>If the stop probability is omitted from
+calculations, what will the sum of the scores assigned to strings in
+the language of length 1 be?
+
+<P>
+</LI>
+<LI>What is the likelihood ratio of
+the document according to <IMG
+ WIDTH="27" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img803.png"
+ ALT="$M_1$"> and <IMG
+ WIDTH="26" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img804.png"
+ ALT="$M_2$"> in
+m1m2compare?  
+
+<P>
+</LI>
+<LI><A NAME="ex:nostop-lr"></A> No explicit <SMALL>STOP</SMALL> 
+probability appeared in
+m1m2compare.  Assuming that the <SMALL>STOP</SMALL>
+probability of each model is 0.1, does this change the likelihood
+ratio of a document according to the two models?
+
+<P>
+</LI>
+<LI>How might a language model be used in a <A NAME="15320"></A> <I>spelling correction</I>  system?
+In particular, consider the case of context-sensitive spelling
+correction, and correcting incorrect usages of words, such as
+<I>their</I> in <I>Are you their?</I>  (See Section&nbsp;<A HREF="references-and-further-reading-3.html#sec:wildcardrefs">3.5</A> (page&nbsp;<A HREF="references-and-further-reading-3.html#p:wildcardrefs"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>)
+for pointers to some literature on this topic.)
+
+<P>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3297"
+  HREF="the-query-likelihood-model-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3291"
+  HREF="language-models-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3287"
+  HREF="types-of-language-models-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3293"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3295"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3298"
+  HREF="the-query-likelihood-model-1.html">The query likelihood model</A>
+<B> Up:</B> <A NAME="tex2html3292"
+  HREF="language-models-1.html">Language models</A>
+<B> Previous:</B> <A NAME="tex2html3288"
+  HREF="types-of-language-models-1.html">Types of language models</A>
+ &nbsp; <B>  <A NAME="tex2html3294"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3296"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/multinomial-distributions-over-words-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:29:14 GMT -->
+</HTML>

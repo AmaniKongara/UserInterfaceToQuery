@@ -1,0 +1,181 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/search-structures-for-dictionaries-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:22:59 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Search structures for dictionaries</TITLE>
+<META NAME="description" CONTENT="Search structures for dictionaries">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="wildcard-queries-1.html">
+<LINK REL="previous" HREF="dictionaries-and-tolerant-retrieval-1.html">
+<LINK REL="up" HREF="dictionaries-and-tolerant-retrieval-1.html">
+<LINK REL="next" HREF="wildcard-queries-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1353"
+  HREF="wildcard-queries-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1347"
+  HREF="dictionaries-and-tolerant-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1341"
+  HREF="dictionaries-and-tolerant-retrieval-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1349"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1351"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1354"
+  HREF="wildcard-queries-1.html">Wildcard queries</A>
+<B> Up:</B> <A NAME="tex2html1348"
+  HREF="dictionaries-and-tolerant-retrieval-1.html">Dictionaries and tolerant retrieval</A>
+<B> Previous:</B> <A NAME="tex2html1342"
+  HREF="dictionaries-and-tolerant-retrieval-1.html">Dictionaries and tolerant retrieval</A>
+ &nbsp; <B>  <A NAME="tex2html1350"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1352"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00810000000000000000"></A>
+<A NAME="sec:searchstructures"></A> <A NAME="p:searchstructures"></A>
+<BR>
+Search structures for dictionaries
+</H1> 
+
+<P>
+Given an inverted index and a query, our first task is to determine whether each query term exists in the vocabulary and if so, identify the pointer to the corresponding postings.  This vocabulary lookup operation uses a classical data structure called the dictionary and has two broad classes of solutions: hashing, and search trees.  In the literature of data structures, the entries in the vocabulary (in our case, terms) are often referred to as <I>keys</I>.  The choice of solution (hashing, or search trees) is governed by a number of questions: (1) How many keys are we likely to have? (2) Is the number likely to remain static, or change a lot - and in the case of changes, are we likely to only have new keys inserted, or to also have some keys in the dictionary be deleted?  (3) What are the relative frequencies with which various keys will be accessed?
+
+<P>
+Hashing has been used for dictionary lookup in some search engines.  Each vocabulary term (key) is hashed into an integer over a large enough space that hash collisions are unlikely; collisions if any are resolved by auxiliary structures that can demand care to maintain.<A NAME="tex2html30"
+  HREF="footnode.html#foot3634"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A>  At query time, we hash each query term separately and following a pointer to the corresponding postings, taking into account any logic for resolving hash collisions.  There is no easy way to find minor variants of a query term (such as the accented and non-accented versions of a word like resume), since these could be hashed to very different integers.  In particular, we cannot seek (for instance) all terms beginning with the prefix automat, an operation that we will require below in Section <A HREF="wildcard-queries-1.html#sec:wildcard">3.2</A> .  Finally, in a setting (such as the Web) where the size of the vocabulary keeps growing, a hash function designed for current needs may not suffice in a few years' time.
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:bst"></A><A NAME="p:bst"></A></P><IMG
+ WIDTH="543" HEIGHT="338" ALIGN="BOTTOM" BORDER="0"
+ SRC="img133.png"
+ ALT="\includegraphics[width=12cm]{bst.eps}">
+A binary search tree.In this example the branch at the root partitions vocabulary terms into two subtrees, those whose first letter is between a and m, and the rest.
+
+</DIV>
+
+<P>
+Search trees overcome many of these issues - for instance, they permit us to enumerate all vocabulary terms beginning with automat.  The best-known search tree is the <A NAME="3647"></A> <I>binary tree</I> , in which each internal node has two children.  The search for a term begins at the root of the tree. Each internal node (including the root) represents a binary test, based on whose outcome the search proceeds to one of the two sub-trees below that node. Figure <A HREF="#fig:bst">3.1</A>  gives an example of a binary search tree used for a dictionary.  Efficient search (with a number of comparisons that is <IMG
+ WIDTH="71" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img134.png"
+ ALT="$O(\log M)$">) hinges on the tree being balanced: the numbers of terms under the two sub-trees of any node are either equal or differ by one.  The principal issue here is that of rebalancing: as terms are inserted into or deleted from the binary search tree, it needs to be rebalanced so that the balance property is maintained.
+
+<P>
+To mitigate rebalancing, one approach is to allow the number of sub-trees under an internal node to vary in a fixed interval.  A search tree commonly used for a dictionary is the <A NAME="3650"></A> <I>B-tree</I>  - a search tree in which every internal node has a number of children in the interval <IMG
+ WIDTH="36" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img135.png"
+ ALT="$[a,b]$">, where <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img136.png"
+ ALT="$a$"> and <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img137.png"
+ ALT="$b$"> are appropriate positive integers; Figure <A HREF="#fig:btree">3.2</A>  shows an example with <IMG
+ WIDTH="41" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img138.png"
+ ALT="$a=2$"> and <IMG
+ WIDTH="42" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img139.png"
+ ALT="$b=4$">.  Each branch under an internal node again represents a test for a range of character sequences, as in the binary tree example of Figure <A HREF="#fig:bst">3.1</A> .  A B-tree may be viewed as ``collapsing'' multiple levels of the binary tree into one; this is especially advantageous when some of the dictionary is disk-resident, in which case this collapsing serves the function of pre-fetching imminent binary tests.  In such cases, the integers <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img136.png"
+ ALT="$a$"> and <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img137.png"
+ ALT="$b$"> are determined by the sizes of disk blocks. Section <A HREF="references-and-further-reading-3.html#sec:wildcardrefs">3.5</A>  contains pointers to further background on search trees and B-trees.
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:btree"></A><A NAME="p:btree"></A></P><IMG
+ WIDTH="588" HEIGHT="207" ALIGN="BOTTOM" BORDER="0"
+ SRC="img140.png"
+ ALT="\includegraphics[width=13cm]{btree.eps}">
+A B-tree.In this example every internal node has between 2 and 4 children.
+
+</DIV>
+
+<P>
+It should be noted that unlike hashing, search trees demand that the characters used in the document collection have a prescribed ordering; for instance, the 26 letters of the English alphabet are always listed in the specific order A through Z.  Some Asian languages such as Chinese do not always have a unique ordering, although by now all languages (including Chinese and Japanese) have adopted a standard ordering system for their character sets.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1353"
+  HREF="wildcard-queries-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1347"
+  HREF="dictionaries-and-tolerant-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1341"
+  HREF="dictionaries-and-tolerant-retrieval-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1349"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1351"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1354"
+  HREF="wildcard-queries-1.html">Wildcard queries</A>
+<B> Up:</B> <A NAME="tex2html1348"
+  HREF="dictionaries-and-tolerant-retrieval-1.html">Dictionaries and tolerant retrieval</A>
+<B> Previous:</B> <A NAME="tex2html1342"
+  HREF="dictionaries-and-tolerant-retrieval-1.html">Dictionaries and tolerant retrieval</A>
+ &nbsp; <B>  <A NAME="tex2html1350"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1352"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/search-structures-for-dictionaries-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:23:03 GMT -->
+</HTML>

@@ -1,0 +1,197 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/the-10-loss-case-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:28:03 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>The 1/0 loss case</TITLE>
+<META NAME="description" CONTENT="The 1/0 loss case">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="the-prp-with-retrieval-costs-1.html">
+<LINK REL="previous" HREF="the-probability-ranking-principle-1.html">
+<LINK REL="up" HREF="the-probability-ranking-principle-1.html">
+<LINK REL="next" HREF="the-prp-with-retrieval-costs-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3042"
+  HREF="the-prp-with-retrieval-costs-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3036"
+  HREF="the-probability-ranking-principle-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3030"
+  HREF="the-probability-ranking-principle-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3038"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3040"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3043"
+  HREF="the-prp-with-retrieval-costs-1.html">The PRP with retrieval</A>
+<B> Up:</B> <A NAME="tex2html3037"
+  HREF="the-probability-ranking-principle-1.html">The Probability Ranking Principle</A>
+<B> Previous:</B> <A NAME="tex2html3031"
+  HREF="the-probability-ranking-principle-1.html">The Probability Ranking Principle</A>
+ &nbsp; <B>  <A NAME="tex2html3039"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3041"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001621000000000000000">
+The 1/0 loss case</A>
+</H2>
+
+<P>
+We assume a ranked retrieval setup as in Section <A HREF="the-vector-space-model-for-scoring-1.html#sec:vsm">6.3</A> , where there is a collection of documents, the user issues a query, and an ordered list of documents is returned. We also assume a binary notion of relevance as in Chapter <A HREF="evaluation-in-information-retrieval-1.html#ch:evaluation">8</A> .  For a query <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$"> and a document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$"> in the collection, let <IMG
+ WIDTH="31" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img684.png"
+ ALT="$R_{d,q}$"> be an indicator random variable that says whether <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$"> is relevant with respect to a given query <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$">.  That is, it takes on a value of 1 when the document is relevant and 0 otherwise.  In context we will often write just <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img143.png"
+ ALT="$R$"> for <IMG
+ WIDTH="31" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img684.png"
+ ALT="$R_{d,q}$">.
+
+<P>
+Using a probabilistic model, the obvious order in which to present documents to the user is to rank documents by their estimated probability of relevance with respect to the information need: <IMG
+ WIDTH="97" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img685.png"
+ ALT="$P(R=1\vert d,q)$">.
+This is the basis of the <A NAME="13954"></A> <I>Probability Ranking Principle</I>  (PRP) (<A
+ HREF="bibliography-1.html#rij79">van&nbsp;Rijsbergen, 1979</A>, 113-114):
+<BLOCKQUOTE>
+``If a reference retrieval system's response to each request is a ranking of the documents in the collection in order of decreasing probability of relevance to the user who submitted the request, where the probabilities are estimated as accurately as possible on the basis of whatever data have been made available to the system for this purpose, the overall effectiveness of the system to its user will be the best that is obtainable on the basis of those data.''
+
+</BLOCKQUOTE>
+In the simplest case of the PRP, there are no retrieval costs or other
+utility concerns that would differentially weight actions or errors.
+You lose a point for either returning a nonrelevant document or failing
+to return a relevant document (such a binary situation where you are evaluated on your <I>accuracy</I> is called
+<A NAME="13960"></A> <I>1/0 loss</I> ). The goal is to return the best possible results as the top <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> documents, for any value of <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> the user chooses to examine.  The PRP then says to simply rank all documents in decreasing order of <IMG
+ WIDTH="97" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img685.png"
+ ALT="$P(R=1\vert d,q)$">.
+If a set of retrieval results is to be returned, rather than an
+ordering, the <A NAME="13962"></A> <I>Bayes Optimal Decision Rule</I> , the decision which
+minimizes the risk of loss, is to simply return documents that are more
+likely relevant than nonrelevant:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+d\mbox{ is relevant iff } P(R=1|d,q) > P(R=0|d,q)
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="314" HEIGHT="28" BORDER="0"
+ SRC="img686.png"
+ ALT="\begin{displaymath}
+d\mbox{ is relevant iff } P(R=1\vert d,q) &gt; P(R=0\vert d,q)
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(61)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+
+<P>
+<B>Theorem.</B>
+The PRP is optimal, in the sense that it minimizes the expected
+loss (also known as the <A NAME="13968"></A> <I>Bayes risk</I> ) under 1/0 loss. 
+<BR><B>End theorem.</B>
+
+<P>
+The proof can be found in <A
+ HREF="bibliography-1.html#ripley96">Ripley (1996)</A>. However, it requires that all probabilities are known correctly.  This is never the case in practice. Nevertheless, the PRP still provides a very useful foundation for developing models of IR.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3042"
+  HREF="the-prp-with-retrieval-costs-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3036"
+  HREF="the-probability-ranking-principle-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3030"
+  HREF="the-probability-ranking-principle-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3038"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3040"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3043"
+  HREF="the-prp-with-retrieval-costs-1.html">The PRP with retrieval</A>
+<B> Up:</B> <A NAME="tex2html3037"
+  HREF="the-probability-ranking-principle-1.html">The Probability Ranking Principle</A>
+<B> Previous:</B> <A NAME="tex2html3031"
+  HREF="the-probability-ranking-principle-1.html">The Probability Ranking Principle</A>
+ &nbsp; <B>  <A NAME="tex2html3039"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3041"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/the-10-loss-case-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:28:04 GMT -->
+</HTML>

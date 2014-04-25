@@ -1,0 +1,357 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/cluster-labeling-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:37:09 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Cluster labeling</TITLE>
+<META NAME="description" CONTENT="Cluster labeling">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="implementation-notes-1.html">
+<LINK REL="previous" HREF="divisive-clustering-1.html">
+<LINK REL="up" HREF="hierarchical-clustering-1.html">
+<LINK REL="next" HREF="implementation-notes-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4435"
+  HREF="implementation-notes-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4429"
+  HREF="hierarchical-clustering-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4423"
+  HREF="divisive-clustering-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4431"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4433"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4436"
+  HREF="implementation-notes-1.html">Implementation notes</A>
+<B> Up:</B> <A NAME="tex2html4430"
+  HREF="hierarchical-clustering-1.html">Hierarchical clustering</A>
+<B> Previous:</B> <A NAME="tex2html4424"
+  HREF="divisive-clustering-1.html">Divisive clustering</A>
+ &nbsp; <B>  <A NAME="tex2html4432"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4434"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION002270000000000000000"></A>
+<A NAME="sec:clusterlabeling"></A> <A NAME="p:clusterlabeling"></A>
+<BR>
+Cluster labeling
+</H1> 
+
+<P>
+In many applications of flat clustering and hierarchical
+clustering, particularly in analysis tasks and in user
+interfaces (see applications in Table <A HREF="clustering-in-information-retrieval-1.html#tab:clusttb1">16.1</A> ,
+page <A HREF="clustering-in-information-retrieval-1.html#p:clusttb1">16.1</A> ), human users interact with
+clusters. In such settings, we must label clusters, so that
+users can see what a cluster is about.
+
+<P>
+<A NAME="27082"></A> <I>Differential cluster labeling</I> 
+selects cluster labels by comparing the distribution of terms in one cluster with that
+of other clusters. The feature selection methods 
+we
+introduced in Section&nbsp;<A HREF="feature-selection-1.html#sec:feature">13.5</A> (page&nbsp;<A HREF="feature-selection-1.html#p:feature"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>) can all
+be used for differential cluster
+labeling.<A NAME="tex2html193"
+  HREF="footnode.html#foot27317"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A> In particular, mutual information (MI)
+(Section <A HREF="mutual-information-1.html#sec:mutualinfo">13.5.1</A> , page <A HREF="mutual-information-1.html#p:mutualinfo">13.5.1</A> )
+or, equivalently, information gain and the <IMG
+ WIDTH="21" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$\chi ^2$">-test
+(Section <A HREF="feature-selectionchi2-feature-selection-1.html#sec:chisquare">13.5.2</A> , page <A HREF="feature-selectionchi2-feature-selection-1.html#p:chisquare">13.5.2</A> )
+will identify cluster labels that characterize one cluster
+in contrast to other clusters.
+A combination of a
+differential test with a penalty for rare terms
+often gives the best labeling results because rare terms are
+not necessarily representative of the cluster as a whole.
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="CENTER" COLSPAN=3>labeling method</TD>
+</TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT"># docs</TD>
+<TD ALIGN="LEFT">centroid</TD>
+<TD ALIGN="LEFT">mutual information</TD>
+<TD ALIGN="LEFT">title</TD>
+</TR>
+<TR><TD ALIGN="LEFT">4</TD>
+<TD ALIGN="LEFT">622</TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="159">
+<TR><TD>
+oil
+plant
+mexico
+production
+crude
+<B>power</B>
+<B>000</B>
+<B>refinery</B>
+<B>gas</B>
+bpd
+</TD></TR>
+</TABLE></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="159">
+<TR><TD>
+plant oil production 
+<B>barrels </B>
+crude bpd mexico 
+<B>dolly </B>
+<B>capacity</B>
+<B>petroleum</B>
+
+<P>
+</TD></TR>
+</TABLE></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="159">
+<TR><TD>
+MEXICO: Hurricane Dolly heads for Mexico coast
+</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">9</TD>
+<TD ALIGN="LEFT">1017</TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="159">
+<TR><TD>
+police
+security
+<B>russian</B>
+people
+military
+peace
+killed
+told
+<B>grozny</B>
+<B>court</B>
+</TD></TR>
+</TABLE></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="159">
+<TR><TD>
+police killed military security peace told 
+<B>troops </B>
+<B>forces</B>
+<B>rebels </B>
+people
+</TD></TR>
+</TABLE></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="159">
+<TR><TD>
+RUSSIA: Russia's Lebed meets rebel chief in Chechnya
+</TD></TR>
+</TABLE></TD>
+</TR>
+<TR><TD ALIGN="LEFT">10</TD>
+<TD ALIGN="LEFT">1259</TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="159">
+<TR><TD>
+00
+000
+tonnes
+traders
+futures
+wheat
+prices
+<B>cents</B>
+<B>september</B>
+tonne
+</TD></TR>
+</TABLE></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="159">
+<TR><TD>
+<B>delivery </B>
+traders futures tonne tonnes 
+<B>desk </B>
+wheat prices 000 00
+</TD></TR>
+</TABLE></TD>
+<TD ALIGN="LEFT"><TABLE  WIDTH="159">
+<TR><TD>
+USA: Export Business - Grain/oilseeds complex
+</TD></TR>
+</TABLE>
+
+<P></TD>
+</TR>
+</TABLE>
+
+<P>
+Automatically computed cluster labels.This is
+for three of ten clusters (4, 9, and 10) in a  <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means clustering 
+of the first 10,000 documents in 
+Reuters-RCV1.  The last three columns show cluster summaries
+computed by three
+labeling methods: most highly weighted terms in centroid (centroid),
+mutual information, and the title of the document closest to the centroid of
+the cluster (title). Terms selected by only one of the
+first two
+methods are in bold.
+<A NAME="tab:clabels"></A> <A NAME="p:clabels"></A> 
+
+</DIV>
+<BR>
+
+<P>
+We apply three labeling methods to a  <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means clustering 
+in Table <A HREF="#tab:clabels">17.2</A> . In this example, there is almost
+no difference between MI and <IMG
+ WIDTH="21" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$\chi ^2$">. We therefore omit the
+latter. 
+
+<P>
+<A NAME="27151"></A> <I>Cluster-internal labeling</I>  computes a label that solely
+depends on the cluster itself, not on other clusters.
+Labeling a cluster with the title of the document closest to the
+centroid is one cluster-internal method. Titles
+are easier to read than a list of terms. A full
+title can also contain important context that didn't make it
+into the top 10 terms selected by MI. 
+On the web, anchor text can play a role similar to a title since
+the anchor text pointing to a page can serve as a concise summary of
+its contents.
+
+<P>
+In Table <A HREF="#tab:clabels">17.2</A> ,
+the
+title for cluster&nbsp;9 suggests that many of its documents are
+about the Chechnya conflict, a fact the MI terms do not
+reveal. However, a single document is unlikely to be representative of
+all documents in a cluster. An example is cluster&nbsp;4,
+whose selected title
+is misleading. The main topic of the cluster is
+oil. Articles about hurricane Dolly only ended up in this
+cluster because of its effect on oil prices.
+
+<P>
+We can also use a list of terms with high weights in the
+centroid of the cluster as a label.  Such highly weighted
+terms (or, even better, phrases, especially noun phrases)
+are often more representative of the cluster than a few
+titles can be, even if they are not filtered for
+distinctiveness as in the differential methods. However, a list
+of phrases takes more time to digest for users than a well
+crafted title.
+
+<P>
+Cluster-internal methods are efficient, but they fail to
+distinguish terms that are frequent in the collection as a
+whole from those that are frequent only in the
+cluster. Terms like year or Tuesday may be
+among the most frequent in a cluster, but they are not
+helpful in understanding the contents of a cluster with a
+specific topic like oil.
+
+<P>
+In Table <A HREF="#tab:clabels">17.2</A> , the centroid method selects a few more
+uninformative terms (000, court, cents,
+september) than MI (forces, desk), but
+most of the terms selected by either method are good
+descriptors.  We get a good sense of the documents in a
+cluster from scanning the selected terms.
+
+<P>
+For hierarchical clustering, additional complications arise
+in cluster labeling.  Not only do we need to distinguish an
+internal node in the tree from its siblings, but also from
+its parent and its children.  Documents in child nodes are
+by definition also members of their parent node, so we
+cannot use a naive differential method to find labels that
+distinguish the parent from its children. However, more
+complex criteria, based on a combination of overall
+collection frequency and prevalence in a given cluster, can
+determine whether a term is a more informative label for a
+child node or a parent node (see Section <A HREF="references-and-further-reading-17.html#sec:hclstfurther">17.9</A> ).
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4435"
+  HREF="implementation-notes-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4429"
+  HREF="hierarchical-clustering-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4423"
+  HREF="divisive-clustering-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4431"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4433"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4436"
+  HREF="implementation-notes-1.html">Implementation notes</A>
+<B> Up:</B> <A NAME="tex2html4430"
+  HREF="hierarchical-clustering-1.html">Hierarchical clustering</A>
+<B> Previous:</B> <A NAME="tex2html4424"
+  HREF="divisive-clustering-1.html">Divisive clustering</A>
+ &nbsp; <B>  <A NAME="tex2html4432"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4434"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/cluster-labeling-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:37:09 GMT -->
+</HTML>

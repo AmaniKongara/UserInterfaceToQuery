@@ -1,0 +1,161 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/putting-it-all-together-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:26:31 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Putting it all together</TITLE>
+<META NAME="description" CONTENT="Putting it all together">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="designing-parsing-and-scoring-functions-1.html">
+<LINK REL="up" HREF="components-of-an-information-retrieval-system-1.html">
+<LINK REL="next" HREF="vector-space-scoring-and-query-operator-interaction-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2286"
+  HREF="vector-space-scoring-and-query-operator-interaction-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2280"
+  HREF="components-of-an-information-retrieval-system-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2276"
+  HREF="designing-parsing-and-scoring-functions-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2282"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2284"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2287"
+  HREF="vector-space-scoring-and-query-operator-interaction-1.html">Vector space scoring and</A>
+<B> Up:</B> <A NAME="tex2html2281"
+  HREF="components-of-an-information-retrieval-system-1.html">Components of an information</A>
+<B> Previous:</B> <A NAME="tex2html2277"
+  HREF="designing-parsing-and-scoring-functions-1.html">Designing parsing and scoring</A>
+ &nbsp; <B>  <A NAME="tex2html2283"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2285"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001224000000000000000"></A>
+<A NAME="sec:system"></A> <A NAME="p:system"></A>
+<BR>
+Putting it all together
+</H2> 
+We have now studied all the components necessary for a basic search system that supports free text queries as well as Boolean, zone and field queries.  We briefly review how the various pieces fit together into an overall system; this is depicted in Figure <A HREF="#fig:systemdiagram">7.5</A> .
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:systemdiagram"></A><A NAME="p:systemdiagram"></A></P><IMG
+ WIDTH="633" HEIGHT="303" ALIGN="BOTTOM" BORDER="0"
+ SRC="img508.png"
+ ALT="\includegraphics[width=14cm]{system.eps}">
+A complete search system.Data paths are shown primarily for a free text query.
+
+</DIV>
+
+<P>
+In this figure, documents stream in from the left for
+parsing and linguistic processing (language and format
+detection, tokenization and stemming).  The resulting stream
+of tokens feeds into two modules.  First, we retain a copy
+of each parsed document in a document <A NAME="10050"></A>cache.  This will
+enable us to generate <A NAME="10051"></A> <I>results snippets</I> :
+snippets of text accompanying each document in the results
+list for a query.  This snippet tries to give a succinct
+explanation to the user of why the document matches the
+query.  The automatic generation of such snippets is the
+subject of Section <A HREF="results-snippets-1.html#sec:snippets">8.7</A> .  A second copy of the tokens
+is fed to a bank of indexers that create a bank of indexes
+including zone and field indexes that store the metadata for
+each document, (tiered) positional indexes, indexes for
+<A NAME="10054"></A>spelling correction and other tolerant retrieval, and structures for accelerating inexact top-<IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$"> retrieval.  A free text user query (top center) is sent down to the indexes both directly and through a module for generating spelling-correction candidates.  As noted in Chapter <A HREF="dictionaries-and-tolerant-retrieval-1.html#ch:spell">3</A>  the latter may optionally be invoked only when the original query fails to retrieve enough results.  Retrieved documents (dark arrow) are passed to a scoring module that computes scores based on machine-learned ranking (MLR), a technique that builds on Section <A HREF="learning-weights-1.html#sec:mlr">6.1.2</A>  (to be further developed in Section <A HREF="a-simple-example-of-machine-learned-scoring-1.html#sec:mls">15.4.1</A> ) for scoring and ranking documents.  Finally, these ranked documents are rendered as a results page.
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI>Explain how the postings intersection algorithm first introduced in Section <A HREF="processing-boolean-queries-1.html#sec:boolean-queries">1.3</A>  can be adapted to find the smallest integer <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img507.png"
+ ALT="$\omega$"> that contains all query terms.
+
+<P>
+</LI>
+<LI>Adapt this procedure to work when not all query terms are present in a document.
+
+<P>
+</LI>
+</UL><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2286"
+  HREF="vector-space-scoring-and-query-operator-interaction-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2280"
+  HREF="components-of-an-information-retrieval-system-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2276"
+  HREF="designing-parsing-and-scoring-functions-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2282"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2284"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2287"
+  HREF="vector-space-scoring-and-query-operator-interaction-1.html">Vector space scoring and</A>
+<B> Up:</B> <A NAME="tex2html2281"
+  HREF="components-of-an-information-retrieval-system-1.html">Components of an information</A>
+<B> Previous:</B> <A NAME="tex2html2277"
+  HREF="designing-parsing-and-scoring-functions-1.html">Designing parsing and scoring</A>
+ &nbsp; <B>  <A NAME="tex2html2283"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2285"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/putting-it-all-together-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:26:32 GMT -->
+</HTML>

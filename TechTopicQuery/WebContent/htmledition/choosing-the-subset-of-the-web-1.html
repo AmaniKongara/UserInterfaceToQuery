@@ -1,0 +1,259 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/choosing-the-subset-of-the-web-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:40:09 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Choosing the subset of the Web</TITLE>
+<META NAME="description" CONTENT="Choosing the subset of the Web">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="hubs-and-authorities-1.html">
+<LINK REL="up" HREF="hubs-and-authorities-1.html">
+<LINK REL="next" HREF="references-and-further-reading-21.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html5091"
+  HREF="references-and-further-reading-21.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html5085"
+  HREF="hubs-and-authorities-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html5081"
+  HREF="hubs-and-authorities-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html5087"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html5089"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html5092"
+  HREF="references-and-further-reading-21.html">References and further reading</A>
+<B> Up:</B> <A NAME="tex2html5086"
+  HREF="hubs-and-authorities-1.html">Hubs and Authorities</A>
+<B> Previous:</B> <A NAME="tex2html5082"
+  HREF="hubs-and-authorities-1.html">Hubs and Authorities</A>
+ &nbsp; <B>  <A NAME="tex2html5088"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html5090"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION002631000000000000000"></A>
+<A NAME="sec:hitsgraph"></A> <A NAME="p:hitsgraph"></A>
+<BR>
+Choosing the subset of the Web
+</H2> 
+
+<P>
+In assembling a subset of web pages around a topic such as
+leukemia, we must cope with the fact that good
+authority pages may not contain the specific query term leukemia. This is especially true, as we noted in  Section <A HREF="anchor-text-and-the-web-graph-1.html#sec:anchor">21.1.1</A> , when an authority page uses its web presence to project a certain marketing image. For instance, many pages on the IBM website are authoritative sources of information on computer hardware, even though these pages may not contain the term computer or hardware. However, a hub compiling computer hardware resources is likely to use these terms and also link to the relevant pages on the IBM website.
+
+<P>
+Building on these observations, the following procedure has been suggested for compiling the subset of the Web for which to compute hub and authority scores.
+
+<OL>
+<LI>Given a query (say leukemia), use a text index to get all pages containing leukemia. Call this the <I>root set</I> of pages.
+</LI>
+<LI>Build the <I>base set</I> of pages, to include the root set as well as any page that either links to a page in the root set, or is linked to by a page in the root set.
+</LI>
+</OL>
+
+<P>
+We then use the base set for computing hub and authority scores. The base set is constructed in this manner for three reasons:
+
+<OL>
+<LI>A good authority page may not contain the query text (such as computer hardware).
+</LI>
+<LI>If the text query manages to capture a good hub page <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1977.png"
+ ALT="$v_h$"> in the root set, then the inclusion of all pages linked to by any page in the root set will capture all the good authorities linked to by <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1977.png"
+ ALT="$v_h$"> in the base set.
+</LI>
+<LI>Conversely, if the text query manages to capture a good authority page <IMG
+ WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1978.png"
+ ALT="$v_a$"> in the root set, then the inclusion of pages which point to <IMG
+ WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1978.png"
+ ALT="$v_a$"> will bring other good hubs into the base set. In other words, the ``expansion'' of the root set into the base set enriches the common pool of good hubs and authorities.
+</LI>
+</OL>
+
+<P>
+Running HITS across a variety of queries reveals some interesting insights about link analysis. Frequently, the documents that emerge as top hubs and authorities include languages other than the language of the query. These pages were presumably drawn into the base set, following the assembly of the root set. Thus, some elements of <I>cross-language retrieval</I> (where a query in one language retrieves documents in another) are evident here; interestingly, this cross-language effect resulted purely from link analysis, with no linguistic translation taking place.
+
+<P>
+We conclude this section with some notes on implementing this algorithm. The root set consists of all pages matching the text query; in fact, implementations (see the references in Section <A HREF="references-and-further-reading-21.html#sec:linkcite">21.4</A> ) suggest that it suffices to use 200 or so web pages for the root set, rather than all pages matching the text query. Any algorithm for computing eigenvectors may be used for computing the hub/authority score vector. In fact, we need not compute the exact values of these scores; it suffices to know the relative values of the scores so that we may identify the top hubs and authorities. To this end, it is possible that a small number of iterations of the power iteration method yields the relative ordering of the top hubs and authorities. Experiments have suggested that in practice, about five iterations of Equation&nbsp;<A HREF="hubs-and-authorities-1.html#eqn:hubauth">262</A> yield fairly good results. Moreover, since the link structure of the web graph is fairly sparse (the average web page links to about ten others), we do not perform these as matrix-vector products but rather as additive updates as in Equation&nbsp;<A HREF="hubs-and-authorities-1.html#eqn:hubauth">262</A>.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:hubauth"></A><A NAME="p:hubauth"></A><A NAME="32723"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure:</STRONG>
+A sample run of HITS on the query japan elementary schools.</CAPTION>
+<TR><TD><IMG
+ WIDTH="588" HEIGHT="327" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1979.png"
+ ALT="\includegraphics[width=13cm]{hubauth.eps}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Figure <A HREF="#fig:hubauth">21.6</A>  shows the results of running HITS on the query japan elementary schools.  The figure shows the top hubs and authorities; each row lists the <TT>title</TT> tag from the corresponding HTML page.  Because the resulting string is not necessarily in Latin characters, the resulting print is (in many cases) a string of gibberish.  Each of these corresponds to a web page that does not use Latin characters, in this case very likely pages in Japanese. There also appear to be pages in other non-English languages, which seems surprising given that the query string is in English.  In fact, this result is emblematic of the functioning of HITS - following the assembly of the root set, the (English) query string is ignored.  The base set is likely to contain pages in other languages, for instance if an English-language hub page links to the Japanese-language home pages of Japanese elementary schools.  Because the subsequent computation of the top hubs and authorities is entirely link-based, some of these non-English pages will appear among the top hubs and authorities.
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI>If all the hub and authority scores are
+initialized to 1, what is the hub/authority score of a node
+after one iteration?
+
+<P>
+</LI>
+<LI>How would you interpret the entries of the
+matrices <IMG
+ WIDTH="38" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1968.png"
+ ALT="$AA^T$"> and <IMG
+ WIDTH="38" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1969.png"
+ ALT="$A^TA$">?  What is the connection to the
+co-occurrence matrix <!-- MATH
+ $\lsimatrix\lsimatrix^T$
+ -->
+<IMG
+ WIDTH="35" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1719.png"
+ ALT="$\lsimatrix\lsimatrix^T$"> in
+Chapter <A HREF="matrix-decompositions-and-latent-semantic-indexing-1.html#ch:lsi">18</A> ?
+
+<P>
+</LI>
+<LI>What are the principal eigenvalues of <IMG
+ WIDTH="38" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1968.png"
+ ALT="$AA^T$"> and
+<IMG
+ WIDTH="38" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1969.png"
+ ALT="$A^TA$">?
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:simplewebgraph"></A><A NAME="p:simplewebgraph"></A><A NAME="32726"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure:</STRONG>
+Web graph for Exercise <A HREF="#ex:threelinkmeas">21.3.1</A> .</CAPTION>
+<TR><TD><IMG
+ WIDTH="242" HEIGHT="128" BORDER="0"
+ SRC="img1980.png"
+ ALT="\begin{figure}\vspace{5mm}
+\begin{center}
+\begin{tabular}{c@{\hspace{2cm}}c@{\...
+...]{2}{3}{}
+\eaarc[60]{3}{2}{}
+\eatrans{1}{2}{}
+\eatrans{1}{3}{}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+</LI>
+<LI><A NAME="ex:threelinkmeas"></A>
+<P>
+For the web graph in Figure <A HREF="#fig:simplewebgraph">21.7</A> , compute PageRank, hub and authority scores for each of the three pages. Also give the relative ordering of the 3 nodes for each of these scores, indicating any ties.
+
+<P>
+PageRank: Assume that at each step of the PageRank
+random walk, we teleport to a random page with probability
+0.1, with a uniform distribution over which particular page
+we teleport to.
+
+<P>
+Hubs/Authorities: Normalize the hub (authority) scores
+so that the maximum hub (authority) score is 1.
+
+<P>
+Hint 1:
+Using symmetries to simplify and solving with linear
+equations might be easier than using iterative methods.
+
+<P>
+Hint 2: Provide the relative ordering (indicating any ties) of the three nodes for each
+of the three scoring measures.
+
+<P>
+</LI>
+</UL><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html5091"
+  HREF="references-and-further-reading-21.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html5085"
+  HREF="hubs-and-authorities-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html5081"
+  HREF="hubs-and-authorities-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html5087"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html5089"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html5092"
+  HREF="references-and-further-reading-21.html">References and further reading</A>
+<B> Up:</B> <A NAME="tex2html5086"
+  HREF="hubs-and-authorities-1.html">Hubs and Authorities</A>
+<B> Previous:</B> <A NAME="tex2html5082"
+  HREF="hubs-and-authorities-1.html">Hubs and Authorities</A>
+ &nbsp; <B>  <A NAME="tex2html5088"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html5090"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/choosing-the-subset-of-the-web-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:40:12 GMT -->
+</HTML>

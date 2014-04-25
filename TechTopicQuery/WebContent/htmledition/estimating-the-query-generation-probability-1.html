@@ -1,0 +1,523 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/estimating-the-query-generation-probability-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:29:18 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Estimating the query generation probability</TITLE>
+<META NAME="description" CONTENT="Estimating the query generation probability">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="ponte-and-crofts-experiments-1.html">
+<LINK REL="previous" HREF="using-query-likelihood-language-models-in-ir-1.html">
+<LINK REL="up" HREF="the-query-likelihood-model-1.html">
+<LINK REL="next" HREF="ponte-and-crofts-experiments-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3342"
+  HREF="ponte-and-crofts-experiments-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3336"
+  HREF="the-query-likelihood-model-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3330"
+  HREF="using-query-likelihood-language-models-in-ir-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3338"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3340"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3343"
+  HREF="ponte-and-crofts-experiments-1.html">Ponte and Croft's Experiments</A>
+<B> Up:</B> <A NAME="tex2html3337"
+  HREF="the-query-likelihood-model-1.html">The query likelihood model</A>
+<B> Previous:</B> <A NAME="tex2html3331"
+  HREF="using-query-likelihood-language-models-in-ir-1.html">Using query likelihood language</A>
+ &nbsp; <B>  <A NAME="tex2html3339"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3341"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001722000000000000000"></A><A NAME="sec:querygeneration"></A> <A NAME="p:querygeneration"></A> <A NAME="sec:prob-smoothing"></A> <A NAME="p:prob-smoothing"></A>
+<BR>
+Estimating the query generation probability
+</H2> 
+
+<P>
+In this section we describe how to estimate <IMG
+ WIDTH="64" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img790.png"
+ ALT="$P(q\vert M_d)$">.  The probability
+of producing the query given the LM <IMG
+ WIDTH="27" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img789.png"
+ ALT="$M_d$"> of document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$"> using
+<A NAME="15362"></A> <I>maximum likelihood estimation</I>  (<A NAME="15364"></A> <I>MLE</I> ) and
+the unigram assumption is: 
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\hat{P}(q|M_d) = \prod_{t \in q} \hat{P}_{mle}(t|M_d) =
+\prod_{t \in q} \frac{\termf_{t,d}}{L_d}
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="p:multinomialestimate"></A><A NAME="eqn:multinomialestimate"></A><IMG
+ WIDTH="275" HEIGHT="53" BORDER="0"
+ SRC="img820.png"
+ ALT="\begin{displaymath}\hat{P}(q\vert M_d) = \prod_{t \in q} \hat{P}_{mle}(t\vert M_d) =
+\prod_{t \in q} \frac{\termf_{t,d}}{L_d}
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(100)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+where <IMG
+ WIDTH="27" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img789.png"
+ ALT="$M_d$"> is the language model of document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">, <IMG
+ WIDTH="29" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img821.png"
+ ALT="$\termf_{t,d}$"> is the
+(raw) term frequency of term <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$"> in document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">, and <IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img773.png"
+ ALT="$L_d$"> is the
+number of tokens in document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">.  That is, we just count up how often
+each word occurred, and divide through by the total number of words in
+the document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">.  This is the same method of calculating an MLE as we
+saw in Section&nbsp;<A HREF="probability-estimates-in-theory-1.html#sec:probtheory">11.3.2</A> (page&nbsp;<A HREF="probability-estimates-in-theory-1.html#p:probtheory"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>), but now using a multinomial over word counts.
+
+<P>
+<A NAME="p:nullproblem"></A> 
+The classic problem with using language models is one of estimation
+(the <!-- MATH
+ $\hat{\phantom{x}}$
+ -->
+<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img822.png"
+ ALT="$\hat{\phantom{x}}$"> 
+symbol on the P's is used above to stress that the model is estimated): terms
+appear very <A NAME="15382"></A> <I>sparsely</I>  in documents.  In particular,
+some words will not have appeared in the document at all, but are
+possible words for the information need, which the user may have used in
+the query.  If we estimate <!-- MATH
+ $\hat{P}(t|M_d) = 0$
+ -->
+<IMG
+ WIDTH="92" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img823.png"
+ ALT="$\hat{P}(t\vert M_d) = 0$"> for a term missing from a
+document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">, then we get a strict conjunctive semantics: documents will
+only give a query non-zero probability if all of the query terms appear
+in the document.  Zero probabilities are clearly a problem in other
+uses of language models, such as when predicting the next word in a
+speech recognition application, because many words will be sparsely
+represented in the training data.  It may seem rather less clear
+whether this is problematic in an IR application.  This could be
+thought of as a 
+human-computer interface issue: vector space systems have generally
+preferred more lenient matching, though recent web search developments
+have tended more in the direction of doing searches with such
+conjunctive semantics.  Regardless of the approach here, there is a
+more general problem of estimation: occurring words are also badly
+estimated; in particular, the probability of words occurring once in the
+document is normally overestimated, since their one occurrence was
+partly by chance.  The answer to this (as we saw in
+probtheory) is smoothing.  But as people have come to
+understand the LM approach better, it has become apparent that the
+role of smoothing in this model is not only to avoid zero
+probabilities.  The smoothing of terms actually implements major parts of
+the term weighting component (Exercise <A HREF="ponte-and-crofts-experiments-1.html#ex:smoothing-as-icf">12.2.3</A> ).  It is
+not just that an unsmoothed model 
+has conjunctive semantics; an unsmoothed model works badly because it
+lacks parts of the term weighting component.
+
+<P>
+<A NAME="p:probnormaldef"></A> 
+Thus, we need to smooth
+probabilities in our document language models: to discount non-zero
+probabilities and to give some 
+probability mass to unseen words.
+There's a wide space of approaches to smoothing probability
+distributions to deal with this problem.  In Section&nbsp;<A HREF="probability-estimates-in-theory-1.html#sec:probtheory">11.3.2</A> (page&nbsp;<A HREF="probability-estimates-in-theory-1.html#p:probtheory"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>),
+we already discussed adding a number (1,
+1/2, or a small <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img524.png"
+ ALT="$\alpha$">) to the observed counts and renormalizing to
+give a probability distribution.<A NAME="tex2html118"
+  HREF="footnode.html#foot15599"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A>In this section we will mention a
+couple of other smoothing methods, which involve combining observed counts with a
+more general reference probability distribution.
+The general approach is that a non-occurring term should be
+possible in a query, but its probability should be somewhat close to
+but no more likely than would be expected by
+chance from the whole collection.  That is, if <!-- MATH
+ $\termf_{t,d} = 0$
+ -->
+<IMG
+ WIDTH="59" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img824.png"
+ ALT="$\termf_{t,d} = 0$"> then
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\hat{P}(t|M_d) \le \collf_t/T
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="118" HEIGHT="28" BORDER="0"
+ SRC="img825.png"
+ ALT="\begin{displaymath}
+\hat{P}(t\vert M_d) \le \collf_t/T
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(101)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+where <IMG
+ WIDTH="21" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img826.png"
+ ALT="$\collf_t$"> is the raw count of the term in the collection, and <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img123.png"
+ ALT="$T$"> is
+the raw size (number of tokens) of the entire collection. 
+A simple idea that works
+well in practice is to use a mixture between a document-specific multinomial
+distribution and a multinomial distribution estimated from the entire collection:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\hat{P}(t|d) = \lambda \hat{P}_{mle}(t|M_d) + (1 - \lambda)
+\hat{P}_{mle}(t|M_c)
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="p:lgmodelmix"></A><A NAME="eqn:lgmodelmix"></A><IMG
+ WIDTH="294" HEIGHT="49" BORDER="0"
+ SRC="img827.png"
+ ALT="\begin{displaymath}\hat{P}(t\vert d) = \lambda \hat{P}_{mle}(t\vert M_d) + (1 - \lambda)
+\hat{P}_{mle}(t\vert M_c)
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(102)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+where <!-- MATH
+ $0 < \lambda < 1$
+ -->
+<IMG
+ WIDTH="74" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img828.png"
+ ALT="$0 &lt; \lambda &lt; 1$"> and <IMG
+ WIDTH="26" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img829.png"
+ ALT="$M_c$"> is a language model built from the
+entire document collection. This mixes the probability from the
+document with the general collection frequency of the word.  
+Such a model is referred to as a <A NAME="15405"></A> <I>linear interpolation</I> 
+language model.<A NAME="tex2html119"
+  HREF="footnode.html#foot15407"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A>Correctly
+setting <IMG
+ WIDTH="14" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img830.png"
+ ALT="$\lambda$"> is important to the good performance of this model. 
+
+<P>
+An alternative is to use a language model built from the whole
+collection as a prior distribution
+in a <A NAME="15408"></A> <I>Bayesian updating process</I> 
+(rather than a uniform distribution, as we saw in
+Section <A HREF="probability-estimates-in-theory-1.html#sec:probtheory">11.3.2</A> ).  We then get the following equation:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\hat{P}(t|d) = \frac{\termf_{t,d} + \alpha \hat{P}(t|M_c)}{L_d + \alpha}
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="177" HEIGHT="46" BORDER="0"
+ SRC="img831.png"
+ ALT="\begin{displaymath}
+\hat{P}(t\vert d) = \frac{\termf_{t,d} + \alpha \hat{P}(t\vert M_c)}{L_d + \alpha}
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(103)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+
+<P>
+Both of these smoothing methods have been shown to perform well in IR
+experiments; we will stick with the linear interpolation smoothing
+method for the rest of this section.  While different in detail, they
+are both conceptually similar: in both cases the probability estimate for a word
+present in the document combines a discounted MLE and a fraction of
+the estimate of 
+its prevalence in the whole collection, while for words not present in
+a document, the estimate is just a fraction of the estimate of the
+prevalence of the word in the whole collection.
+
+<P>
+The role of smoothing in LMs for IR is not
+simply or principally to avoid estimation problems.  This was not
+clear when the models were first proposed, but it is now understood that
+smoothing is essential to the good
+properties of the models.  The reason for this is explored in
+Exercise <A HREF="ponte-and-crofts-experiments-1.html#ex:smoothing-as-icf">12.2.3</A> .  The extent of smoothing in these two
+models is controlled by the <IMG
+ WIDTH="14" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img830.png"
+ ALT="$\lambda$"> and <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img524.png"
+ ALT="$\alpha$"> parameters: a small
+value of <IMG
+ WIDTH="14" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img830.png"
+ ALT="$\lambda$"> or a large value of <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img524.png"
+ ALT="$\alpha$"> means more smoothing.
+This parameter can be tuned to optimize performance using
+a line search (or, for the linear interpolation
+model, by other methods, such as the expectation maximimization algorithm; see
+modelclustering).  The value need not be a 
+constant.  One approach is to make the value a function of the query size.
+This is useful because a small amount of smoothing (a
+``conjunctive-like'' search) is more suitable for short queries, while
+a lot of smoothing is more suitable for long queries.
+
+<P>
+To summarize, the retrieval ranking for a query <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$"> under the basic LM
+for IR we have been considering is given by:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+P(d|q) \propto P(d)\prod_{t \in q} ((1-\lambda)P(t|M_c) + \lambda
+P(t|M_d))
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eqn:multinomialformula"></A><A NAME="p:multinomialformula"></A><IMG
+ WIDTH="327" HEIGHT="45" BORDER="0"
+ SRC="img832.png"
+ ALT="\begin{displaymath}
+P(d\vert q) \propto P(d)\prod_{t \in q} ((1-\lambda)P(t\vert M_c) + \lambda
+P(t\vert M_d))\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(104)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+This equation captures the probability that the document that the user
+had in mind was in fact <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">.
+
+<P>
+<B>Worked example.</B>
+Suppose the document collection contains two documents:
+
+<UL>
+<LI><IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img412.png"
+ ALT="$d_1$">: Xyzzy reports a profit but revenue is down
+</LI>
+<LI><IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img413.png"
+ ALT="$d_2$">: Quorus narrows quarter loss but revenue decreases further
+</LI>
+</UL>
+The model will be MLE unigram models from the documents and collection,
+mixed with <IMG
+ WIDTH="62" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img833.png"
+ ALT="$\lambda = 1/2$">.
+
+<P>
+Suppose the query is <I>revenue down</I>.  Then:
+<BR>
+<DIV ALIGN="CENTER">
+
+<!-- MATH
+ \begin{eqnarray}
+P(q|d_1) &=& [(1/8 + 2/16)/2]\times [(1/8 + 1/16)/2] \\
+             &=& 1/8 \times 3/32 = 3/256  \\
+P(q|d_2) &=& [(1/8 + 2/16)/2] \times [(0/8 + 1/16)/2]   \\
+            &=& 1/8 \times 1/32 = 1/256
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="56" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img834.png"
+ ALT="$\displaystyle P(q\vert d_1)$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="265" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img835.png"
+ ALT="$\displaystyle [(1/8 + 2/16)/2]\times [(1/8 + 1/16)/2]$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(105)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT">&nbsp;</TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="147" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img836.png"
+ ALT="$\displaystyle 1/8 \times 3/32 = 3/256$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(106)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="56" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img837.png"
+ ALT="$\displaystyle P(q\vert d_2)$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="265" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img838.png"
+ ALT="$\displaystyle [(1/8 + 2/16)/2] \times [(0/8 + 1/16)/2]$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(107)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT">&nbsp;</TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="147" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img839.png"
+ ALT="$\displaystyle 1/8 \times 1/32 = 1/256$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(108)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+So, the ranking is <IMG
+ WIDTH="56" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img840.png"
+ ALT="$d_1 &gt; d_2$">.
+<B>End worked example.</B>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3342"
+  HREF="ponte-and-crofts-experiments-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3336"
+  HREF="the-query-likelihood-model-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3330"
+  HREF="using-query-likelihood-language-models-in-ir-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3338"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3340"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3343"
+  HREF="ponte-and-crofts-experiments-1.html">Ponte and Croft's Experiments</A>
+<B> Up:</B> <A NAME="tex2html3337"
+  HREF="the-query-likelihood-model-1.html">The query likelihood model</A>
+<B> Previous:</B> <A NAME="tex2html3331"
+  HREF="using-query-likelihood-language-models-in-ir-1.html">Using query likelihood language</A>
+ &nbsp; <B>  <A NAME="tex2html3339"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3341"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/estimating-the-query-generation-probability-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:29:30 GMT -->
+</HTML>

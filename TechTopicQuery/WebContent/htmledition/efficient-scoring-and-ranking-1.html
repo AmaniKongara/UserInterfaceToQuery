@@ -1,0 +1,250 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/efficient-scoring-and-ranking-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:26:17 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Efficient scoring and ranking</TITLE>
+<META NAME="description" CONTENT="Efficient scoring and ranking">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="components-of-an-information-retrieval-system-1.html">
+<LINK REL="previous" HREF="computing-scores-in-a-complete-search-system-1.html">
+<LINK REL="up" HREF="computing-scores-in-a-complete-search-system-1.html">
+<LINK REL="next" HREF="inexact-top-k-document-retrieval-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2126"
+  HREF="inexact-top-k-document-retrieval-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2120"
+  HREF="computing-scores-in-a-complete-search-system-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2114"
+  HREF="computing-scores-in-a-complete-search-system-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2122"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2124"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2127"
+  HREF="inexact-top-k-document-retrieval-1.html">Inexact top K document</A>
+<B> Up:</B> <A NAME="tex2html2121"
+  HREF="computing-scores-in-a-complete-search-system-1.html">Computing scores in a</A>
+<B> Previous:</B> <A NAME="tex2html2115"
+  HREF="computing-scores-in-a-complete-search-system-1.html">Computing scores in a</A>
+ &nbsp; <B>  <A NAME="tex2html2123"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2125"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001210000000000000000"></A>
+<A NAME="sec:heuristics"></A> <A NAME="p:heuristics"></A>
+<BR>
+Efficient scoring and ranking
+</H1> 
+
+<P>
+We begin by recapping the algorithm of Figure <A HREF="computing-vector-scores-1.html#fig:cosinealg">6.14</A> .
+For a query such as <IMG
+ WIDTH="29" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img170.png"
+ ALT="$q=$"> jealous gossip, two observations are immediate:
+
+<OL>
+<LI>The unit vector <IMG
+ WIDTH="34" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img483.png"
+ ALT="$\vec{v}(q)$"> has only two non-zero components.
+</LI>
+<LI>In the absence of any weighting for query terms, these non-zero components are equal - in this case, both equal 0.707.
+</LI>
+</OL>
+
+<P>
+For the purpose of ranking the documents matching this query, we are really interested in the relative (rather than absolute) scores of the documents in the collection. To this end, it suffices to compute the cosine similarity from each document unit vector <IMG
+ WIDTH="34" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img429.png"
+ ALT="$\vec{v}(d)$"> to <IMG
+ WIDTH="38" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img461.png"
+ ALT="$\vec{V}(q)$"> (in which all non-zero components of the query vector are set to 1), rather than to the unit vector <IMG
+ WIDTH="34" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img483.png"
+ ALT="$\vec{v}(q)$">. For any two documents <IMG
+ WIDTH="41" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img484.png"
+ ALT="$d_1,d_2$">
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\vec{V}(q)\cdot \vec{v}(d_1)>\vec{V}(q)\cdot \vec{v}(d_2) \Leftrightarrow \vec{v}(q)\cdot \vec{v}(d_1)>\vec{v}(q)\cdot \vec{v}(d_2).
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eqn:d1d2"></A><IMG
+ WIDTH="393" HEIGHT="28" BORDER="0"
+ SRC="img485.png"
+ ALT="\begin{displaymath}
+\vec{V}(q)\cdot \vec{v}(d_1)&gt;\vec{V}(q)\cdot \vec{v}(d_2) \...
+...row \vec{v}(q)\cdot \vec{v}(d_1)&gt;\vec{v}(q)\cdot \vec{v}(d_2).
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(34)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+For any document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">, the cosine similarity <!-- MATH
+ $\vec{V}(q)\cdot \vec{v}(d)$
+ -->
+<IMG
+ WIDTH="79" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img486.png"
+ ALT="$\vec{V}(q)\cdot \vec{v}(d)$"> is the weighted sum, over all terms in the query <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$">, of the weights of those terms in <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">. This in turn can be computed by a postings intersection exactly as in the algorithm of Figure <A HREF="computing-vector-scores-1.html#fig:cosinealg">6.14</A> , with line 8 altered since we take <IMG
+ WIDTH="30" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img487.png"
+ ALT="$w_{t,q}$"> to be 1 so that the multiply-add in that step becomes just an addition; the result is shown in Figure <A HREF="#fig:fastcosinealg">7.1</A> .  We walk through the postings in the inverted index for the terms in <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$">, accumulating the total score for each document - very much as in processing a Boolean query, except we assign a positive score to each document that appears in any of the postings being traversed. As mentioned in Section <A HREF="computing-vector-scores-1.html#sec:pseudocode">6.3.3</A>  we maintain an idf value for each dictionary term and a tf value for each postings entry.  This scheme computes a score for every document in the postings of any of the query terms; the total number of such documents may be considerably smaller than <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$N$">.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:fastcosinealg"></A><A NAME="p:fastcosinealg"></A><A NAME="9867"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 7.1:</STRONG>
+A faster algorithm for vector space scores.</CAPTION>
+<TR><TD><IMG
+ WIDTH="347" HEIGHT="227" BORDER="0"
+ SRC="img488.png"
+ ALT="\begin{figure}\begin{algorithm}{FastCosineScore}{q}
+\text{float} Scores[N] = 0\\...
+...RETURN{\mbox{Top }K \mbox{ components of }Scores[]}
+\end{algorithm}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Given these scores, the final step before presenting results to a user is to pick out the <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$"> highest-scoring documents. While one could sort the complete set of scores, a better approach is to use a heap to retrieve only the top <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$"> documents in order. Where <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img27.png"
+ ALT="$J$"> is the number of documents with non-zero cosine scores, constructing such a heap can be performed in <IMG
+ WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img489.png"
+ ALT="$2J$"> comparison steps, following which each of the <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$"> highest scoring documents can be ``read off'' the heap with <IMG
+ WIDTH="36" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img490.png"
+ ALT="$\log J$"> comparison steps.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html2128"
+  HREF="inexact-top-k-document-retrieval-1.html">Inexact top K document retrieval</A>
+<LI><A NAME="tex2html2129"
+  HREF="index-elimination-1.html">Index elimination</A>
+<LI><A NAME="tex2html2130"
+  HREF="champion-lists-1.html">Champion lists</A>
+<LI><A NAME="tex2html2131"
+  HREF="static-quality-scores-and-ordering-1.html">Static quality scores and ordering</A>
+<LI><A NAME="tex2html2132"
+  HREF="impact-ordering-1.html">Impact ordering</A>
+<LI><A NAME="tex2html2133"
+  HREF="cluster-pruning-1.html">Cluster pruning</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2126"
+  HREF="inexact-top-k-document-retrieval-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2120"
+  HREF="computing-scores-in-a-complete-search-system-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2114"
+  HREF="computing-scores-in-a-complete-search-system-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2122"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2124"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2127"
+  HREF="inexact-top-k-document-retrieval-1.html">Inexact top K document</A>
+<B> Up:</B> <A NAME="tex2html2121"
+  HREF="computing-scores-in-a-complete-search-system-1.html">Computing scores in a</A>
+<B> Previous:</B> <A NAME="tex2html2115"
+  HREF="computing-scores-in-a-complete-search-system-1.html">Computing scores in a</A>
+ &nbsp; <B>  <A NAME="tex2html2123"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2125"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/efficient-scoring-and-ranking-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:26:21 GMT -->
+</HTML>

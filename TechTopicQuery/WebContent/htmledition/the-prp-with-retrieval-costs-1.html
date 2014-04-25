@@ -1,0 +1,125 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/the-prp-with-retrieval-costs-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:28:04 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>The PRP with retrieval costs</TITLE>
+<META NAME="description" CONTENT="The PRP with retrieval costs">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="the-10-loss-case-1.html">
+<LINK REL="up" HREF="the-probability-ranking-principle-1.html">
+<LINK REL="next" HREF="the-binary-independence-model-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3054"
+  HREF="the-binary-independence-model-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3048"
+  HREF="the-probability-ranking-principle-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3044"
+  HREF="the-10-loss-case-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3050"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3052"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3055"
+  HREF="the-binary-independence-model-1.html">The Binary Independence Model</A>
+<B> Up:</B> <A NAME="tex2html3049"
+  HREF="the-probability-ranking-principle-1.html">The Probability Ranking Principle</A>
+<B> Previous:</B> <A NAME="tex2html3045"
+  HREF="the-10-loss-case-1.html">The 1/0 loss case</A>
+ &nbsp; <B>  <A NAME="tex2html3051"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3053"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001622000000000000000">
+The PRP with retrieval costs</A>
+</H2>
+
+<P>
+Suppose, instead, that we assume a model
+of retrieval costs. Let <IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img687.png"
+ ALT="$C_1$"> be the cost of not retrieving
+a relevant document and <IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img688.png"
+ ALT="$C_0$"> the cost of retrieval of a
+nonrelevant document. Then the Probability Ranking
+Principle says that
+if for a specific document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$"> and
+for all documents <IMG
+ WIDTH="17" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img459.png"
+ ALT="$d'$"> not yet retrieved
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+C_0\cdot P(R=0|d) - C_1\cdot P(R=1|d)  \le C_0\cdot P(R=0|d') - C_1\cdot P(R=1|d')
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="498" HEIGHT="28" BORDER="0"
+ SRC="img689.png"
+ ALT="\begin{displaymath}
+C_0\cdot P(R=0\vert d) - C_1\cdot P(R=1\vert d) \le C_0\cdot P(R=0\vert d') - C_1\cdot P(R=1\vert d')
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(62)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+then <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$"> is the next document to be retrieved. Such a model gives a formal framework where we can model differential costs of false positives and false negatives and even system performance issues at the modeling stage, rather than simply at the evaluation stage, as we did in Section&nbsp;<A HREF="a-broader-perspective-system-quality-and-user-utility-1.html#sec:user-utility">8.6</A> (page&nbsp;<A HREF="a-broader-perspective-system-quality-and-user-utility-1.html#p:user-utility"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>).  However, we will not further consider loss/utility models in this chapter.
+
+<P>
+<BR><HR>
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/the-prp-with-retrieval-costs-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:28:06 GMT -->
+</HTML>

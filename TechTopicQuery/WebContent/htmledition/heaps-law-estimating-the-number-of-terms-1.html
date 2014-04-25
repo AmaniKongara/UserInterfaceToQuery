@@ -1,0 +1,259 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/heaps-law-estimating-the-number-of-terms-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:23:57 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Heaps' law: Estimating the number of terms</TITLE>
+<META NAME="description" CONTENT="Heaps' law: Estimating the number of terms">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="zipfs-law-modeling-the-distribution-of-terms-1.html">
+<LINK REL="previous" HREF="statistical-properties-of-terms-in-information-retrieval-1.html">
+<LINK REL="up" HREF="statistical-properties-of-terms-in-information-retrieval-1.html">
+<LINK REL="next" HREF="zipfs-law-modeling-the-distribution-of-terms-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1695"
+  HREF="zipfs-law-modeling-the-distribution-of-terms-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1689"
+  HREF="statistical-properties-of-terms-in-information-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1683"
+  HREF="statistical-properties-of-terms-in-information-retrieval-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1691"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1693"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1696"
+  HREF="zipfs-law-modeling-the-distribution-of-terms-1.html">Zipf's law: Modeling the</A>
+<B> Up:</B> <A NAME="tex2html1690"
+  HREF="statistical-properties-of-terms-in-information-retrieval-1.html">Statistical properties of terms</A>
+<B> Previous:</B> <A NAME="tex2html1684"
+  HREF="statistical-properties-of-terms-in-information-retrieval-1.html">Statistical properties of terms</A>
+ &nbsp; <B>  <A NAME="tex2html1692"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1694"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001011000000000000000">
+Heaps' law: Estimating the number of terms</A>
+</H2>
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:heaps"></A><A NAME="p:heaps"></A></P><IMG
+ WIDTH="403" HEIGHT="370" ALIGN="BOTTOM" BORDER="0"
+ SRC="img236.png"
+ ALT="\includegraphics[width=9cm]{art/heapsmall.eps}">
+Heaps' law.Vocabulary size <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img186.png"
+ ALT="$M$"> as a function of
+collection size  <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img123.png"
+ ALT="$T$"> (number of tokens) for Reuters-RCV1.
+For these data, the dashed line <!-- MATH
+ $\log_{10} M = 0.49*\log_{10} T + 1.64$
+ -->
+<IMG
+ WIDTH="219" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img233.png"
+ ALT="$\log_{10} M = 0.49*\log_{10} T + 1.64$">
+is the best least-squares fit. Thus, <!-- MATH
+ $k = 10^{1.64} \approx 44$
+ -->
+<IMG
+ WIDTH="109" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img234.png"
+ ALT="$k = 10^{1.64} \approx 44$">
+and <IMG
+ WIDTH="62" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img235.png"
+ ALT="$b= 0.49$">.
+
+</DIV>
+
+<P>
+A better way of getting a handle on <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img186.png"
+ ALT="$M$"> is <A NAME="5939"></A> <I>Heaps'
+law</I> , which
+estimates vocabulary size as a function of collection size:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+M = k T^b
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="62" HEIGHT="24" BORDER="0"
+ SRC="img237.png"
+ ALT="\begin{displaymath}
+M = k T^b
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(1)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+where <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img123.png"
+ ALT="$T$"> is the number of tokens in the collection. Typical
+values for the parameters <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> and <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img137.png"
+ ALT="$b$"> are: <!-- MATH
+ $30 \leq k \leq 100$
+ -->
+<IMG
+ WIDTH="95" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img238.png"
+ ALT="$30 \leq k \leq 100$"> and <IMG
+ WIDTH="54" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img239.png"
+ ALT="$b
+\approx 0.5$">. 
+The motivation for Heaps' law is that the simplest possible
+relationship between collection size and vocabulary size is linear in log-log space
+and the assumption of linearity is usually born out in
+practice as shown in Figure <A HREF="#fig:heaps">5.1</A>  for Reuters-RCV1.
+In this case, the fit is excellent for
+<!-- MATH
+ $T>10^5=100{,}000$
+ -->
+<IMG
+ WIDTH="133" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img240.png"
+ ALT="$T&gt;10^5=100{,}000$">, for the parameter values <IMG
+ WIDTH="62" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img235.png"
+ ALT="$b= 0.49$"> and
+<IMG
+ WIDTH="50" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img241.png"
+ ALT="$k=44$">. For example, for the first 1,000,020 tokens Heaps'
+law predicts 38,323 terms:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+44 \times 1{,}000{,}020^{0.49} \approx 38{,}323.
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="191" HEIGHT="26" BORDER="0"
+ SRC="img242.png"
+ ALT="\begin{displaymath}
+44 \times 1{,}000{,}020^{0.49} \approx 38{,}323.
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(2)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+The actual number is
+38,365 terms, very close to the prediction.
+
+<P>
+The parameter <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> is quite variable because vocabulary
+growth depends a lot on the nature of the collection and how
+it is processed. Case-folding and stemming reduce the growth
+rate of the vocabulary, whereas including numbers and
+spelling errors increase it. Regardless
+of the values of the parameters for a particular collection,
+Heaps' law suggests that (i)&nbsp;the dictionary size 
+continues to increase with more documents in the collection,
+rather than a maximum vocabulary size being reached, and
+(ii)&nbsp;the size of the dictionary is quite large for
+large collections.  These two hypotheses have been
+empirically shown to be true of large text collections
+(Section <A HREF="references-and-further-reading-5.html#sec:icompresssecfurther">5.4</A> ).  So dictionary compression
+is important for an effective information retrieval system.
+
+<P>
+<A NAME="5952"></A> <A NAME="5953"></A> <HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1695"
+  HREF="zipfs-law-modeling-the-distribution-of-terms-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1689"
+  HREF="statistical-properties-of-terms-in-information-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1683"
+  HREF="statistical-properties-of-terms-in-information-retrieval-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1691"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1693"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1696"
+  HREF="zipfs-law-modeling-the-distribution-of-terms-1.html">Zipf's law: Modeling the</A>
+<B> Up:</B> <A NAME="tex2html1690"
+  HREF="statistical-properties-of-terms-in-information-retrieval-1.html">Statistical properties of terms</A>
+<B> Previous:</B> <A NAME="tex2html1684"
+  HREF="statistical-properties-of-terms-in-information-retrieval-1.html">Statistical properties of terms</A>
+ &nbsp; <B>  <A NAME="tex2html1692"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1694"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/heaps-law-estimating-the-number-of-terms-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:24:02 GMT -->
+</HTML>

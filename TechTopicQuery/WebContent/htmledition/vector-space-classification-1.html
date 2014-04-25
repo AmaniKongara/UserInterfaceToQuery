@@ -1,0 +1,295 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/vector-space-classification-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:21:38 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Vector space classification</TITLE>
+<META NAME="description" CONTENT="Vector space classification">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="support-vector-machines-and-machine-learning-on-documents-1.html">
+<LINK REL="previous" HREF="text-classification-and-naive-bayes-1.html">
+<LINK REL="up" HREF="irbook.html">
+<LINK REL="next" HREF="document-representations-and-measures-of-relatedness-in-vector-spaces-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3656"
+  HREF="document-representations-and-measures-of-relatedness-in-vector-spaces-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3650"
+  HREF="irbook.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3644"
+  HREF="references-and-further-reading-13.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3652"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3654"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3657"
+  HREF="document-representations-and-measures-of-relatedness-in-vector-spaces-1.html">Document representations and measures</A>
+<B> Up:</B> <A NAME="tex2html3651"
+  HREF="irbook.html">irbook</A>
+<B> Previous:</B> <A NAME="tex2html3645"
+  HREF="references-and-further-reading-13.html">References and further reading</A>
+ &nbsp; <B>  <A NAME="tex2html3653"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3655"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001900000000000000000"></A><A NAME="ch:vectorclass"></A> <A NAME="ch:vclass"></A> 
+<A NAME="ch:vcat"></A>
+<BR>
+Vector space classification
+</H1> 
+
+<P>
+The document representation in Naive Bayes is a sequence of
+terms or a binary vector <!-- MATH
+ $\langle e_1,\ldots,e_{|V|}\rangle \in
+\{0,1\}^|V|$
+ -->
+<IMG
+ WIDTH="172" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1085.png"
+ ALT="$\langle e_1,\ldots,e_{\vert V\vert}\rangle \in
+\{0,1\}^\vert V\vert$">. In this chapter we adopt a different
+representation for text classification, the vector space
+model, developed in Chapter <A HREF="scoring-term-weighting-and-the-vector-space-model-1.html#ch:termvspace">6</A> . It represents each
+document as a vector with one real-valued component, usually
+a tf-idf weight, for each term.  Thus, the document space
+<IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img854.png"
+ ALT="$\mathbb{X}$">, the domain of the classification function
+<IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img12.png"
+ ALT="$\gamma $">, is <!-- MATH
+ $\mathbb{R}^{|V|}$
+ -->
+<IMG
+ WIDTH="34" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1086.png"
+ ALT="$\mathbb{R}^{\vert V\vert}$">.  This chapter introduces a
+number of classification methods that operate on real-valued
+vectors.
+
+<P>
+The basic hypothesis in using the vector space model for
+classification is the <A NAME="p:contiguity"></A> 
+<A NAME="19642"></A> <I>contiguity hypothesis</I> .
+<BLOCKQUOTE>
+<B>Contiguity hypothesis.</B> Documents in the same
+class form a contiguous region and regions of different
+classes do not overlap.  
+
+</BLOCKQUOTE>
+There are many classification
+tasks, in particular the type of text classification that we
+encountered in Chapter <A HREF="text-classification-and-naive-bayes-1.html#ch:nbayes">13</A> , where classes can be
+distinguished by word patterns.  For example, documents in
+the class China tend to have high values on
+dimensions like Chinese, Beijing, and
+Mao whereas documents in the class UK tend to
+have high values for London, British and
+Queen. Documents of the two classes therefore form
+distinct contiguous regions as shown in
+Figure <A HREF="#fig:classesinvspace">14.1</A>  and we can draw boundaries that
+separate them and classify new documents. How exactly
+this is done is the topic of this chapter.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:classesinvspace"></A><A NAME="p:classesinvspace"></A><A NAME="19683"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 14.1:</STRONG>
+Vector space classification into three classes.</CAPTION>
+<TR><TD><IMG
+ WIDTH="398" HEIGHT="331" BORDER="0"
+ SRC="img1087.png"
+ ALT="\begin{figure}\par
+\psset{unit=0.175cm}
+\par
+\begin{pspicture}(0,2)(55,45)
+\par
+...
+...scurve(29,20)(25,23)(29,33)(25,40)(25,45)
+\par
+\end{pspicture}\par\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Whether or not a set of documents is mapped into a
+contiguous region depends on the particular choices we make
+for the document representation: type of weighting, stop
+list etc. To see that the document representation is
+crucial, consider the two classes written by a group
+vs. written by a single person. Frequent occurrence
+of the first person pronoun I is evidence for the single-person
+class. But that information is likely deleted from the document
+representation if we use a stop list. If the
+document representation chosen is unfavorable, the contiguity hypothesis
+will not hold and successful vector space classification is
+not possible.
+
+<P>
+The same
+considerations that led us to prefer weighted
+representations, in particular length-normalized tf-idf
+representations, in Chapters <A HREF="scoring-term-weighting-and-the-vector-space-model-1.html#ch:tfidf">6</A> <A HREF="computing-scores-in-a-complete-search-system-1.html#ch:cosine">7</A>  also apply
+here. For example, a term with 5 occurrences in a document
+should get a higher weight than a term with one occurrence, but a
+weight 5 times larger would give too much emphasis to the
+term. Unweighted and unnormalized counts should not be used
+in vector space classification.
+
+<P>
+We introduce two vector space classification
+methods in this chapter, Rocchio and kNN. Rocchio classification
+(Section <A HREF="rocchio-classification-1.html#sec:vspacerocchio">14.2</A> ) divides the vector space into
+regions centered on centroids or <A NAME="19693"></A> <I>prototypes</I> , one for each class, computed as
+the center of mass of all documents in the class. Rocchio
+classification is simple and efficient, but inaccurate if
+classes are not approximately spheres with similar radii.
+
+<P>
+kNN or <A NAME="p:kinknn"></A> <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> nearest neighbor
+classification (Section <A HREF="k-nearest-neighbor-1.html#sec:knn">14.3</A> ) assigns the majority class of
+the <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> nearest neighbors to a test document. kNN requires
+no explicit training and can use the unprocessed training set directly
+in classification.
+It is less efficient than other classification
+methods in classifying documents.  If the training set is large,
+then kNN can handle non-spherical and other complex classes
+better than Rocchio.
+
+<P>
+A large number of text classifiers can be viewed as linear
+classifiers - classifiers that classify based on a simple
+linear combination of the features (Section <A HREF="linear-versus-nonlinear-classifiers-1.html#sec:linearvclass">14.4</A> ).  Such classifiers
+partition the space of features into regions separated by
+linear <A NAME="19698"></A> <I>decision
+hyperplanes</I> , in a manner to be detailed below.  Because of
+the bias-variance tradeoff (Section <A HREF="the-bias-variance-tradeoff-1.html#sec:secbiasvariance">14.6</A> ) more
+complex nonlinear models are not systematically better than
+linear models.  Nonlinear models have more parameters to fit
+on a limited amount of training data and are more
+likely to make mistakes for small and noisy data sets.
+
+<P>
+When applying two-class classifiers to problems with more than
+two classes, there are <I>one-of</I> tasks - a
+document must be assigned to exactly one of several mutually
+exclusive classes - and <I>any-of</I> tasks - a document
+can be assigned to any number of classes
+as we will explain in Section <A HREF="classification-with-more-than-two-classes-1.html#sec:morethantwo">14.5</A> . Two-class classifiers solve any-of
+problems and can be combined to solve one-of problems.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html3658"
+  HREF="document-representations-and-measures-of-relatedness-in-vector-spaces-1.html">Document representations and measures of
+  relatedness in vector spaces</A>
+<LI><A NAME="tex2html3659"
+  HREF="rocchio-classification-1.html">Rocchio classification</A>
+<LI><A NAME="tex2html3660"
+  HREF="k-nearest-neighbor-1.html">k nearest neighbor</A>
+<UL>
+<LI><A NAME="tex2html3661"
+  HREF="time-complexity-and-optimality-of-knn-1.html">Time complexity and optimality of kNN</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html3662"
+  HREF="linear-versus-nonlinear-classifiers-1.html">Linear versus nonlinear classifiers</A>
+<LI><A NAME="tex2html3663"
+  HREF="classification-with-more-than-two-classes-1.html">Classification with more than two classes</A>
+<LI><A NAME="tex2html3664"
+  HREF="the-bias-variance-tradeoff-1.html">The bias-variance tradeoff</A>
+<LI><A NAME="tex2html3665"
+  HREF="references-and-further-reading-14.html">References and further reading</A>
+<LI><A NAME="tex2html3666"
+  HREF="exercises-2.html">Exercises</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3656"
+  HREF="document-representations-and-measures-of-relatedness-in-vector-spaces-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3650"
+  HREF="irbook.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3644"
+  HREF="references-and-further-reading-13.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3652"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3654"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3657"
+  HREF="document-representations-and-measures-of-relatedness-in-vector-spaces-1.html">Document representations and measures</A>
+<B> Up:</B> <A NAME="tex2html3651"
+  HREF="irbook.html">irbook</A>
+<B> Previous:</B> <A NAME="tex2html3645"
+  HREF="references-and-further-reading-13.html">References and further reading</A>
+ &nbsp; <B>  <A NAME="tex2html3653"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3655"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/vector-space-classification-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:21:41 GMT -->
+</HTML>

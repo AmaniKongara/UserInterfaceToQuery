@@ -1,0 +1,216 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/parametric-and-zone-indexes-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:25:02 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Parametric and zone indexes</TITLE>
+<META NAME="description" CONTENT="Parametric and zone indexes">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="term-frequency-and-weighting-1.html">
+<LINK REL="previous" HREF="scoring-term-weighting-and-the-vector-space-model-1.html">
+<LINK REL="up" HREF="scoring-term-weighting-and-the-vector-space-model-1.html">
+<LINK REL="next" HREF="weighted-zone-scoring-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1850"
+  HREF="weighted-zone-scoring-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1844"
+  HREF="scoring-term-weighting-and-the-vector-space-model-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1838"
+  HREF="scoring-term-weighting-and-the-vector-space-model-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1846"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1848"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1851"
+  HREF="weighted-zone-scoring-1.html">Weighted zone scoring</A>
+<B> Up:</B> <A NAME="tex2html1845"
+  HREF="scoring-term-weighting-and-the-vector-space-model-1.html">Scoring, term weighting and</A>
+<B> Previous:</B> <A NAME="tex2html1839"
+  HREF="scoring-term-weighting-and-the-vector-space-model-1.html">Scoring, term weighting and</A>
+ &nbsp; <B>  <A NAME="tex2html1847"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1849"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001110000000000000000"></A>
+<A NAME="sec:parametricsection"></A> <A NAME="p:parametricsection"></A>
+<BR>
+Parametric and zone indexes
+</H1> 
+
+<P>
+We have thus far viewed a document as a sequence of terms. In fact, most documents have additional structure. Digital documents generally encode, in machine-recognizable form, certain <A NAME="7653"></A> <I>metadata</I>  associated with each document. By metadata, we mean specific forms of data about a document, such as its author(s), title and date of publication.  This metadata would generally include <A NAME="7655"></A> <I>fields</I>  such as the date of creation and the format of the document, as well the author and possibly the title of the document. The possible values of a field should be thought of as finite - for instance, the set of all dates of authorship.
+
+<P>
+Consider queries of the form ``find documents authored by
+William Shakespeare in 1601, containing the phrase
+alas poor Yorick''. Query processing then consists as
+usual of postings intersections, except that we may merge
+postings from standard inverted as well as
+<A NAME="8601"></A>
+<A NAME="7659"></A> <I>parametric indexes</I> . There is one parametric index for each field (say, date of creation); it allows us to select only the documents matching a date specified in the query. Figure <A HREF="#fig:parametric">6.1</A>  illustrates the user's view of such a parametric search. Some of the fields may assume ordered values, such as dates; in the example query above, the year 1601 is one such field value. The search engine may support querying ranges on such ordered values; to this end, a structure like a B-tree may be used for the field's dictionary.
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:parametric"></A><A NAME="p:parametric"></A></P><IMG
+ WIDTH="589" HEIGHT="306" ALIGN="BOTTOM" BORDER="0"
+ SRC="img351.png"
+ ALT="\includegraphics[width=13cm]{parametric.eps}">
+Parametric search.In this example we have a collection with fields allowing us to select publications by zones such as Author and fields such as Language.
+
+</DIV>
+
+<P>
+<A NAME="7669"></A> <I>Zones</I>  are similar to fields, except the
+contents of a zone can be arbitrary free text. Whereas a
+field may take on a relatively small set of values, a zone
+can be thought of as an arbitrary, unbounded amount of
+text. For instance, document titles and abstracts are
+generally treated as zones. We may build a separate
+<A NAME="7671"></A>inverted
+index for each zone of a document, to support queries such
+as ``find documents with merchant in the title and
+william in the author list and the phrase
+gentle rain in the body''. This has the effect of
+building an index that looks like
+Figure&nbsp;<A HREF="#fig:zoneindex1">6.2</A>.  Whereas the dictionary for a
+parametric index comes from a fixed vocabulary (the set of
+languages, or the set of dates), the dictionary for a zone
+index must structure whatever vocabulary stems from the text
+of that zone.
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:zoneindex1"></A></P><IMG
+ WIDTH="551" HEIGHT="214" BORDER="0"
+ SRC="img352.png"
+ ALT="\begin{figure}
+% latex2html id marker 7676
+\par
+\begin{picture}(700,150)
+\par\...
+...; zones are encoded as extensions of dictionary entries.}
+\par
+\par
+\end{figure}">
+</DIV>
+
+<P>
+In fact, we can reduce the size of the dictionary by encoding the zone in which a term occurs in the postings. In Figure&nbsp;<A HREF="#fig:zoneindex2">6.3</A> for instance, we show how occurrences of william in the title and author zones of various documents are encoded. Such an encoding is useful when the size of the dictionary is a concern (because we require the dictionary to fit in main memory). But there is another important reason why the encoding of Figure&nbsp;<A HREF="#fig:zoneindex2">6.3</A> is useful: the efficient computation of scores using a technique we will call <A NAME="7713"></A> <I>weighted zone scoring</I> .
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:zoneindex2"></A><A NAME="7727"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 6.3:</STRONG>
+Zone index in which the zone is encoded in the postings rather than the dictionary.</CAPTION>
+<TR><TD><IMG
+ WIDTH="594" HEIGHT="27" BORDER="0"
+ SRC="img353.png"
+ ALT="\begin{figure}\par
+\begin{picture}(700,50)
+\par\thicklines
+\par
+\put(0,20){\f...
+...}}
+\par
+\put(280,30){\vector(1,0){20}}
+\end{picture}\par\par
+\par
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html1852"
+  HREF="weighted-zone-scoring-1.html">Weighted zone scoring</A>
+<LI><A NAME="tex2html1853"
+  HREF="learning-weights-1.html">Learning weights</A>
+<LI><A NAME="tex2html1854"
+  HREF="the-optimal-weight-g-1.html">The optimal weight g</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1850"
+  HREF="weighted-zone-scoring-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1844"
+  HREF="scoring-term-weighting-and-the-vector-space-model-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1838"
+  HREF="scoring-term-weighting-and-the-vector-space-model-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1846"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1848"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1851"
+  HREF="weighted-zone-scoring-1.html">Weighted zone scoring</A>
+<B> Up:</B> <A NAME="tex2html1845"
+  HREF="scoring-term-weighting-and-the-vector-space-model-1.html">Scoring, term weighting and</A>
+<B> Previous:</B> <A NAME="tex2html1839"
+  HREF="scoring-term-weighting-and-the-vector-space-model-1.html">Scoring, term weighting and</A>
+ &nbsp; <B>  <A NAME="tex2html1847"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1849"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/parametric-and-zone-indexes-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:25:04 GMT -->
+</HTML>

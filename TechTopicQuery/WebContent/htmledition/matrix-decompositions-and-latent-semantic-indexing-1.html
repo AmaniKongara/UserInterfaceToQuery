@@ -1,0 +1,155 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/matrix-decompositions-and-latent-semantic-indexing-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:21:44 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Matrix decompositions and latent semantic indexing</TITLE>
+<META NAME="description" CONTENT="Matrix decompositions and latent semantic indexing">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="web-search-basics-1.html">
+<LINK REL="previous" HREF="hierarchical-clustering-1.html">
+<LINK REL="up" HREF="irbook.html">
+<LINK REL="next" HREF="linear-algebra-review-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4508"
+  HREF="linear-algebra-review-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4502"
+  HREF="irbook.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4496"
+  HREF="exercises-4.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4504"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4506"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4509"
+  HREF="linear-algebra-review-1.html">Linear algebra review</A>
+<B> Up:</B> <A NAME="tex2html4503"
+  HREF="irbook.html">irbook</A>
+<B> Previous:</B> <A NAME="tex2html4497"
+  HREF="exercises-4.html">Exercises</A>
+ &nbsp; <B>  <A NAME="tex2html4505"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4507"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION002300000000000000000"></A> <A NAME="ch:lsi"></A>
+<BR>
+Matrix decompositions and latent semantic indexing
+</H1> 
+
+<P>
+On page <A HREF="dot-products-1.html#p:termdocumentmatrix">6.3.1</A>  we introduced the notion of a <EM>term-document matrix:</EM> an <!-- MATH
+ $\lsinoterms\times \lsinodocs$
+ -->
+<IMG
+ WIDTH="53" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1664.png"
+ ALT="$\lsinoterms\times \lsinodocs$"> matrix <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$\lsimatrix$">,<A NAME="lsimatrix-notation"></A> each of whose rows represents a term and each of whose columns represents a document in the collection. Even for a collection of modest size, the term-document matrix <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$\lsimatrix$"> is likely to have several tens of thousands of rows and columns. In Section <A HREF="matrix-decompositions-1.html#sec:matdecomp">18.1.1</A>  we first develop a class of operations from linear algebra, known as <I>matrix decomposition</I>. In Section <A HREF="term-document-matrices-and-singular-value-decompositions-1.html#sec:svd">18.2</A>  we use a special form of matrix decomposition to construct a <I>low-rank</I> approximation to the term-document matrix. In Section <A HREF="low-rank-approximations-1.html#sec:lsi">18.3</A>  we examine the application of such low-rank approximations to indexing and retrieving documents, a technique referred to as <EM>latent semantic indexing</EM>. While latent semantic indexing has not been established as a significant force in scoring and ranking for information retrieval, it remains an intriguing approach to clustering in a number of domains including for collections of text documents (Section <A HREF="references-and-further-reading-16.html#sec:flatclustref">16.6</A> , page <A HREF="references-and-further-reading-16.html#p:flatclustref">16.6</A> ). Understanding its full potential remains an area of active research.
+
+<P>
+Readers who do not require a refresher on linear algebra may skip Section <A HREF="linear-algebra-review-1.html#sec:linalg">18.1</A> , although Example&nbsp;<A HREF="linear-algebra-review-1.html#eg:3eigen">18.1</A> is especially recommended as it highlights a property of eigenvalues that we exploit later in the chapter.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html4510"
+  HREF="linear-algebra-review-1.html">Linear algebra review</A>
+<UL>
+<LI><A NAME="tex2html4511"
+  HREF="matrix-decompositions-1.html">Matrix decompositions</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html4512"
+  HREF="term-document-matrices-and-singular-value-decompositions-1.html">Term-document matrices and singular value decompositions</A>
+<LI><A NAME="tex2html4513"
+  HREF="low-rank-approximations-1.html">Low-rank approximations</A>
+<LI><A NAME="tex2html4514"
+  HREF="latent-semantic-indexing-1.html">Latent semantic indexing</A>
+<LI><A NAME="tex2html4515"
+  HREF="references-and-further-reading-18.html">References and further reading</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4508"
+  HREF="linear-algebra-review-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4502"
+  HREF="irbook.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4496"
+  HREF="exercises-4.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4504"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4506"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4509"
+  HREF="linear-algebra-review-1.html">Linear algebra review</A>
+<B> Up:</B> <A NAME="tex2html4503"
+  HREF="irbook.html">irbook</A>
+<B> Previous:</B> <A NAME="tex2html4497"
+  HREF="exercises-4.html">Exercises</A>
+ &nbsp; <B>  <A NAME="tex2html4505"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4507"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/matrix-decompositions-and-latent-semantic-indexing-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:21:45 GMT -->
+</HTML>

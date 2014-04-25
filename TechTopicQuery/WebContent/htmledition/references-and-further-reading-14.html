@@ -1,0 +1,298 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/references-and-further-reading-14.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:33:15 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>References and further reading</TITLE>
+<META NAME="description" CONTENT="References and further reading">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="exercises-2.html">
+<LINK REL="previous" HREF="the-bias-variance-tradeoff-1.html">
+<LINK REL="up" HREF="vector-space-classification-1.html">
+<LINK REL="next" HREF="exercises-2.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3776"
+  HREF="exercises-2.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3770"
+  HREF="vector-space-classification-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3764"
+  HREF="the-bias-variance-tradeoff-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3772"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3774"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3777"
+  HREF="exercises-2.html">Exercises</A>
+<B> Up:</B> <A NAME="tex2html3771"
+  HREF="vector-space-classification-1.html">Vector space classification</A>
+<B> Previous:</B> <A NAME="tex2html3765"
+  HREF="the-bias-variance-tradeoff-1.html">The bias-variance tradeoff</A>
+ &nbsp; <B>  <A NAME="tex2html3773"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3775"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001970000000000000000"></A><A NAME="sec:vclassfurther"></A> <A NAME="p:vclassfurther"></A>
+<BR>
+References and further reading
+</H1> 
+
+<P>
+As discussed in Chapter <A HREF="relevance-feedback-and-query-expansion-1.html#ch:queryexpansion">9</A> , Rocchio relevance
+feedback is due to <A
+ HREF="bibliography-1.html#rocchio71">Rocchio (1971)</A>.
+<A
+ HREF="bibliography-1.html#joachims97probabilistic">Joachims (1997)</A> presents a probabilistic
+analysis of the method.  Rocchio classification was widely used as a
+classification method in <A NAME="20682"></A>   in the
+1990s
+(<A NAME="tex2html3778"
+  HREF="bibliography-1.html#buckley94relevance">Buckley et&nbsp;al., 1994b</A>;<A NAME="tex2html3779"
+  HREF="bibliography-1.html#buckley94automatic">a</A>, <A NAME="tex2html3780"
+  HREF="bibliography-1.html#voorhees05experiment">Voorhees and Harman, 2005</A>).
+Initially, it was used as a form of <A NAME="20685"></A> <I>routing</I> . Routing
+merely ranks documents according to relevance to a class
+without assigning them. Early work on <A NAME="20687"></A> <I>filtering</I> , a
+true classification approach that makes an assignment
+decision on each document, was published by
+<A
+ HREF="bibliography-1.html#ittner95text">Ittner et&nbsp;al. (1995)</A> and <A
+ HREF="bibliography-1.html#schapire98boosting">Schapire et&nbsp;al. (1998)</A>.  The
+definition of routing we use here should not be confused
+with another sense. Routing can also refer to the electronic
+distribution of documents to subscribers, the so-called
+<A NAME="20691"></A> <I>push model</I>  of document distribution.  In a
+<A NAME="20693"></A> <I>pull model</I> , each transfer of a document to the user
+is initiated by the user - for example, by means of search
+or by selecting it from a list of documents on a news
+aggregation website.
+
+<P>
+Some authors restrict the name <I>Roccchio
+  classification</I> to two-class problems and use the terms
+  <A NAME="20696"></A> <I>cluster-based</I> 
+(<A
+ HREF="bibliography-1.html#iwayama95clusterbased">Iwayama and Tokunaga, 1995</A>)
+and  <A NAME="20699"></A> <I>centroid-based classification</I> 
+  (<A NAME="tex2html3781"
+  HREF="bibliography-1.html#han00centroidbased">Han and Karypis, 2000</A>, <A NAME="tex2html3782"
+  HREF="bibliography-1.html#tan07using">Tan and Cheng, 2007</A>) for Rocchio classification with <IMG
+ WIDTH="41" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1127.png"
+ ALT="$J&gt;2$">.
+
+<P>
+A more detailed treatment of kNN can be found in
+(<A
+ HREF="bibliography-1.html#hastie2001elements">Hastie et&nbsp;al., 2001</A>), including methods for
+<A NAME="20703"></A>tuning the
+parameter <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">. An example of an approximate fast kNN
+algorithm is locality-based hashing
+(<A
+ HREF="bibliography-1.html#darrell06locality">Andoni et&nbsp;al., 2006</A>).  <A
+ HREF="bibliography-1.html#kleinberg97two">Kleinberg (1997)</A> presents
+an approximate <!-- MATH
+ $\Theta((M \log^2 M)(M + \log N))$
+ -->
+<IMG
+ WIDTH="199" HEIGHT="40" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1245.png"
+ ALT="$\Theta((M \log^2 M)(M + \log N))$"> kNN
+algorithm (where <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img186.png"
+ ALT="$M$"> is the dimensionality of the space and
+<IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$N$"> the number of data points), but at the cost of
+exponential storage requirements: <!-- MATH
+ $\Theta((N\log M)^{2M})$
+ -->
+<IMG
+ WIDTH="121" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1246.png"
+ ALT="$\Theta((N\log M)^{2M})$">.
+<A
+ HREF="bibliography-1.html#indyk04nearest">Indyk (2004)</A> surveys nearest neighbor methods in
+high-dimensional spaces.
+Early work on kNN in text classification was motivated by
+the availability of massively parallel hardware architectures
+(<A
+ HREF="bibliography-1.html#creecy92trading">Creecy et&nbsp;al., 1992</A>).
+<A
+ HREF="bibliography-1.html#yang94expert">Yang (1994)</A> uses an inverted index to speed up kNN
+classification.  The optimality result for 1NN (twice the
+Bayes error rate asymptotically) is due to
+<A
+ HREF="bibliography-1.html#cover67nearest">Cover and Hart (1967)</A>. 
+
+<P>
+The effectiveness of Rocchio classification and kNN is
+highly dependent on careful <A NAME="20711"></A>parameter tuning (in particular,
+the parameters <IMG
+ WIDTH="16" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1131.png"
+ ALT="$b'$"> for Rocchio on page <A HREF="rocchio-classification-1.html#p:bprime">14.2</A>  and
+<IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> for kNN), feature
+engineering svm-text and feature selection
+feature.
+<A NAME="tex2html3783"
+  HREF="bibliography-1.html#buckley95optimization">Buckley and Salton (1995)</A>, <A NAME="tex2html3784"
+  HREF="bibliography-1.html#yang03marginbased">Yang and Kisiel (2003)</A>, <A NAME="tex2html3785"
+  HREF="bibliography-1.html#schapire98boosting">Schapire et&nbsp;al. (1998)</A>
+and <A
+ HREF="bibliography-1.html#moschitti03optimal">Moschitti (2003)</A>
+address these issues for Rocchio and
+<A
+ HREF="bibliography-1.html#yang01thresholding">Yang (2001)</A> 
+and <A
+ HREF="bibliography-1.html#ault02information">Ault and Yang (2002)</A> 
+for kNN.
+<A
+ HREF="bibliography-1.html#zavrel00information">Zavrel et&nbsp;al. (2000)</A> compare
+feature selection methods for kNN.
+
+<P>
+The bias-variance tradeoff was introduced by
+<A
+ HREF="bibliography-1.html#geman92neural">Geman et&nbsp;al. (1992)</A>.  
+The derivation in Section <A HREF="the-bias-variance-tradeoff-1.html#sec:secbiasvariance">14.6</A>  is for  <!-- MATH
+ $\mbox{MSE}(\gamma)$
+ -->
+<IMG
+ WIDTH="61" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1208.png"
+ ALT="$\mbox{MSE}(\gamma)$">,
+but the
+tradeoff applies to 
+many loss functions
+(cf. <A NAME="tex2html3786"
+  HREF="bibliography-1.html#friedman97bias">Friedman (1997)</A>, <A NAME="tex2html3787"
+  HREF="bibliography-1.html#domingos00unified">Domingos (2000)</A>).
+<A
+ HREF="bibliography-1.html#shp95">Sch&#252;tze et&nbsp;al. (1995)</A> and
+<A
+ HREF="bibliography-1.html#lewis96training">Lewis et&nbsp;al. (1996)</A> discuss linear classifiers for text
+and <A
+ HREF="bibliography-1.html#hastie2001elements">Hastie et&nbsp;al. (2001)</A> linear classifiers in general.
+Readers interested in the algorithms mentioned, but not
+described in this chapter may wish to consult
+<A
+ HREF="bibliography-1.html#bishop06pattern">Bishop (2006)</A> for neural networks,
+<A
+ HREF="bibliography-1.html#hastie2001elements">Hastie et&nbsp;al. (2001)</A> for linear and logistic
+regression, and <A
+ HREF="bibliography-1.html#minskypapert88">Minsky and Papert (1988)</A> for the <A NAME="20730"></A> <I>perceptron
+algorithm</I> .  
+<A
+ HREF="bibliography-1.html#anagnostopoulos06effective">Anagnostopoulos et&nbsp;al. (2006)</A> show that an inverted index
+can be used for highly
+efficient document classification with any linear
+classifier, provided that the
+classifier is still effective when trained on a modest
+number of features via feature
+selection.
+
+<P>
+We have only presented the simplest method for combining
+two-class classifiers into a one-of classifier. Another
+important method is the use of error-correcting codes, where
+a vector of decisions of different two-class classifiers is
+constructed for each document. A test document's decision vector is
+then ``corrected'' based on the distribution of decision
+vectors in the training set, a procedure that incorporates
+information from all two-class classifiers and their
+correlations into the final classification decision
+(<A
+ HREF="bibliography-1.html#dietterich95multiclass">Dietterich and Bakiri, 1995</A>). 
+<A
+ HREF="bibliography-1.html#ghamrawi05collective">Ghamrawi and McCallum (2005)</A>
+also exploit dependencies between classes in any-of classification.
+<A
+ HREF="bibliography-1.html#allwein00reducing">Allwein et&nbsp;al. (2000)</A>
+propose a general framework for combining two-class
+classifiers.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3776"
+  HREF="exercises-2.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3770"
+  HREF="vector-space-classification-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3764"
+  HREF="the-bias-variance-tradeoff-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3772"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3774"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3777"
+  HREF="exercises-2.html">Exercises</A>
+<B> Up:</B> <A NAME="tex2html3771"
+  HREF="vector-space-classification-1.html">Vector space classification</A>
+<B> Previous:</B> <A NAME="tex2html3765"
+  HREF="the-bias-variance-tradeoff-1.html">The bias-variance tradeoff</A>
+ &nbsp; <B>  <A NAME="tex2html3773"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3775"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/references-and-further-reading-14.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:33:16 GMT -->
+</HTML>

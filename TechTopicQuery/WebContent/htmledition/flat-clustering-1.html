@@ -1,0 +1,257 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/flat-clustering-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:21:43 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Flat clustering</TITLE>
+<META NAME="description" CONTENT="Flat clustering">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="hierarchical-clustering-1.html">
+<LINK REL="previous" HREF="support-vector-machines-and-machine-learning-on-documents-1.html">
+<LINK REL="up" HREF="irbook.html">
+<LINK REL="next" HREF="clustering-in-information-retrieval-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4133"
+  HREF="clustering-in-information-retrieval-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4127"
+  HREF="irbook.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4121"
+  HREF="references-and-further-reading-15.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4129"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4131"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4134"
+  HREF="clustering-in-information-retrieval-1.html">Clustering in information retrieval</A>
+<B> Up:</B> <A NAME="tex2html4128"
+  HREF="irbook.html">irbook</A>
+<B> Previous:</B> <A NAME="tex2html4122"
+  HREF="references-and-further-reading-15.html">References and further reading</A>
+ &nbsp; <B>  <A NAME="tex2html4130"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4132"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION002100000000000000000"></A><A NAME="ch:flatclust"></A>
+<BR>
+Flat clustering
+</H1> 
+
+<P>
+Clustering algorithms group a set of documents into
+subsets or <A NAME="24083"></A> <I>clusters</I> . The
+algorithms' goal is to create clusters that are coherent internally, but
+clearly different from each other. In other words, documents
+within a cluster should be as similar as possible; and
+documents in one cluster should be as dissimilar as possible
+from documents in other clusters.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:visualclusters"></A><A NAME="p:visualclusters"></A><A NAME="24087"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 16.1:</STRONG>
+An example of a data set with a clear cluster
+structure.</CAPTION>
+<TR><TD><IMG
+ WIDTH="156" HEIGHT="141" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1387.png"
+ ALT="\includegraphics[width=4cm]{visualclusters.eps}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Clustering is the most common form of <A NAME="24091"></A> <I>unsupervised
+learning</I> .  No supervision means that there is no
+human
+expert who has assigned documents to classes.  In
+clustering, it is the distribution and makeup of the data 
+that will determine cluster membership. A simple example is
+Figure <A HREF="#fig:visualclusters">16.1</A> . It is visually clear that there
+are three distinct clusters of points. This chapter and
+Chapter <A HREF="hierarchical-clustering-1.html#ch:hierclust">17</A>  introduce algorithms that find such clusters
+in an unsupervised fashion.
+
+<P>
+The difference between clustering and classification may not
+seem great at first. After all, in both cases we have a
+partition of a set of documents into groups.  But as we will
+see the two problems are fundamentally different. 
+Classification is a form of supervised learning
+(Chapter <A HREF="text-classification-and-naive-bayes-1.html#ch:nbayes">13</A> ,
+page <A HREF="the-text-classification-problem-1.html#p:supervised">13.1</A> ): our goal is to replicate a
+categorical distinction that a human supervisor imposes on
+the data.  In unsupervised learning, of which clustering is
+the most important example, we have no such teacher to guide us.
+
+<P>
+The key input to a clustering algorithm is the distance
+measure.  In Figure <A HREF="#fig:visualclusters">16.1</A> , the distance measure
+is distance in the 2D plane. This measure suggests three
+different clusters in the figure.  In document clustering,
+the distance measure is often also Euclidean distance.
+Different distance measures give rise to different
+clusterings. Thus, the distance measure is an important
+means by which we can influence the outcome of clustering.
+
+<P>
+<A NAME="24098"></A> <I>Flat clustering</I> 
+creates a flat set of clusters without any explicit
+structure that would relate clusters to each other.
+<A NAME="24100"></A> <I>Hierarchical clustering</I> 
+creates a hierarchy of clusters and will be covered in
+Chapter <A HREF="hierarchical-clustering-1.html#ch:hierclust">17</A> . Chapter <A HREF="hierarchical-clustering-1.html#ch:hierclust">17</A>  also addresses the
+difficult problem of labeling clusters automatically.
+
+<P>
+A second important distinction can be made between
+hard and soft clustering
+algorithms. 
+<A NAME="24104"></A> <I>Hard clustering</I> 
+computes a <A NAME="p:hardassign"></A> 
+<A NAME="24107"></A> <I>hard assignment</I> 
+- each document is a member of exactly one 
+cluster. The assignment of 
+<A NAME="24109"></A> <I>soft clustering algorithms</I> 
+is
+<A NAME="24111"></A> <I>soft</I>  - a document's assignment is a distribution over all
+clusters. In a soft assignment, a document has fractional membership in several
+clusters. Latent semantic indexing, a form of dimensionality
+reduction, is a soft clustering algorithm
+(Chapter <A HREF="matrix-decompositions-and-latent-semantic-indexing-1.html#ch:lsi">18</A> , page <A HREF="latent-semantic-indexing-1.html#p:lsiasclustering">18.4</A> ). 
+
+<P>
+This chapter motivates the use of clustering in information
+retrieval by introducing a number of applications
+(Section <A HREF="clustering-in-information-retrieval-1.html#sec:clusteringinir">16.1</A> ), defines the problem we are trying
+to solve in clustering (Section <A HREF="problem-statement-1.html#sec:probstatement">16.2</A> ) and
+discusses measures for evaluating cluster quality
+(Section <A HREF="evaluation-of-clustering-1.html#sec:clustereval">16.3</A> ).  It then describes two flat
+clustering algorithms,  <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means (Section <A HREF="k-means-1.html#sec:kmeans">16.4</A> ),
+a hard clustering algorithm, and the
+Expectation-Maximization (or EM) algorithm
+(Section <A HREF="model-based-clustering-1.html#sec:modelclustering">16.5</A> ), a soft clustering algorithm.
+ <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means is perhaps the most widely used flat
+clustering algorithm due to its simplicity and
+efficiency. The EM algorithm is a generalization of
+ <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means and can be applied to a large variety of
+document representations and distributions.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html4135"
+  HREF="clustering-in-information-retrieval-1.html">Clustering in information retrieval</A>
+<LI><A NAME="tex2html4136"
+  HREF="problem-statement-1.html">Problem statement</A>
+<UL>
+<LI><A NAME="tex2html4137"
+  HREF="a-note-on-terminology-1.html">A note on terminology.</A>
+<LI><A NAME="tex2html4138"
+  HREF="cardinality---the-number-of-clusters-1.html">Cardinality - the number of clusters</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html4139"
+  HREF="evaluation-of-clustering-1.html">Evaluation of clustering</A>
+<LI><A NAME="tex2html4140"
+  HREF="k-means-1.html">K-means</A>
+<UL>
+<LI><A NAME="tex2html4141"
+  HREF="cluster-cardinality-in-k-means-1.html">Cluster cardinality in K-means</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html4142"
+  HREF="model-based-clustering-1.html">Model-based clustering</A>
+<LI><A NAME="tex2html4143"
+  HREF="references-and-further-reading-16.html">References and further reading</A>
+<LI><A NAME="tex2html4144"
+  HREF="exercises-3.html">Exercises</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4133"
+  HREF="clustering-in-information-retrieval-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4127"
+  HREF="irbook.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4121"
+  HREF="references-and-further-reading-15.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4129"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4131"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4134"
+  HREF="clustering-in-information-retrieval-1.html">Clustering in information retrieval</A>
+<B> Up:</B> <A NAME="tex2html4128"
+  HREF="irbook.html">irbook</A>
+<B> Previous:</B> <A NAME="tex2html4122"
+  HREF="references-and-further-reading-15.html">References and further reading</A>
+ &nbsp; <B>  <A NAME="tex2html4130"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4132"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/flat-clustering-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:21:44 GMT -->
+</HTML>

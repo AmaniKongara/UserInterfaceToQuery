@@ -1,0 +1,344 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/single-link-and-complete-link-clustering-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:36:13 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Single-link and complete-link clustering</TITLE>
+<META NAME="description" CONTENT="Single-link and complete-link clustering">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="group-average-agglomerative-clustering-1.html">
+<LINK REL="previous" HREF="hierarchical-agglomerative-clustering-1.html">
+<LINK REL="up" HREF="hierarchical-clustering-1.html">
+<LINK REL="next" HREF="time-complexity-of-hac-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4352"
+  HREF="time-complexity-of-hac-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4346"
+  HREF="hierarchical-clustering-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4340"
+  HREF="hierarchical-agglomerative-clustering-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4348"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4350"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4353"
+  HREF="time-complexity-of-hac-1.html">Time complexity of HAC</A>
+<B> Up:</B> <A NAME="tex2html4347"
+  HREF="hierarchical-clustering-1.html">Hierarchical clustering</A>
+<B> Previous:</B> <A NAME="tex2html4341"
+  HREF="hierarchical-agglomerative-clustering-1.html">Hierarchical agglomerative clustering</A>
+ &nbsp; <B>  <A NAME="tex2html4349"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4351"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION002220000000000000000"></A>
+<A NAME="sec:singlecomplete"></A> <A NAME="p:singlecomplete"></A>
+<BR>
+Single-link and complete-link clustering
+</H1> 
+
+<P>
+In <A NAME="26523"></A> <I>single-link clustering</I>  or 
+<A NAME="27286"></A> <I>single-linkage clustering</I> , 
+the similarity of two
+clusters is the similarity of their <I>most similar</I>
+members
+(see Figure <A HREF="hierarchical-agglomerative-clustering-1.html#fig:clustersimilarities">17.3</A> , (a))<A NAME="tex2html190"
+  HREF="footnode.html#foot26529"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A>.
+This single-link merge criterion is <I>local</I>. We pay attention
+solely to the area where the two clusters come closest
+to each other. Other, more distant parts of the cluster and
+the clusters' overall structure are not taken into account.
+
+<P>
+In <A NAME="26531"></A> <I>complete-link clustering</I>  or
+<A NAME="27287"></A> <I>complete-linkage
+clustering</I> , the similarity of two clusters is the
+similarity of their <I>most dissimilar</I> members (see
+Figure <A HREF="hierarchical-agglomerative-clustering-1.html#fig:clustersimilarities">17.3</A> , (b)). This is equivalent to
+choosing the cluster pair whose merge has the smallest
+diameter.  This complete-link merge criterion is non-local;
+the entire structure of the clustering can influence merge
+decisions.  This results in a preference for compact clusters with small diameters
+over long, straggly clusters, but also causes
+sensitivity to outliers. A single document far from the center
+can increase diameters of candidate merge clusters
+dramatically and completely change the final clustering.
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:rprojectcomplete"></A><A NAME="p:rprojectcomplete"></A></P><IMG
+ WIDTH="584" HEIGHT="570" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1562.png"
+ ALT="\includegraphics[width=13.5cm]{rprojectcomplete.eps}">
+A dendrogram of a 
+complete-link clustering.The same  30 documents were
+  clustered with single-link clustering in
+Figure <A HREF="hierarchical-agglomerative-clustering-1.html#fig:rprojectsingle">17.1</A> .
+
+</DIV>
+
+<P>
+Figure <A HREF="hierarchical-agglomerative-clustering-1.html#fig:singlecompletelink">17.4</A>  depicts a single-link and
+a complete-link clustering of eight documents. The first
+four steps, each producing a cluster consisting of a pair of two documents, are
+identical. Then single-link clustering joins the upper two
+pairs (and after that the lower two pairs) because
+on the maximum-similarity definition of cluster
+similarity,
+those two clusters are closest. Complete-link clustering
+joins the left two pairs (and then the right two pairs)
+because those are the closest pairs according to the
+minimum-similarity definition of cluster
+similarity.<A NAME="tex2html191"
+  HREF="footnode.html#foot26545"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A>
+<P>
+Figure <A HREF="hierarchical-agglomerative-clustering-1.html#fig:rprojectsingle">17.1</A> 
+is an example of a single-link clustering of a set of
+documents and
+Figure <A HREF="#fig:rprojectcomplete">17.5</A>  is the complete-link clustering of
+the same set.
+When cutting the last merge in Figure <A HREF="#fig:rprojectcomplete">17.5</A> , we
+obtain two clusters of similar size (documents 1-16,
+from NYSE closing averages to
+Lloyd's chief / U.S. grilling, and
+documents 17-30, from Ohio Blue Cross to
+Clinton signs law). There is no cut of the dendrogram in
+Figure <A HREF="hierarchical-agglomerative-clustering-1.html#fig:rprojectsingle">17.1</A>  that would give us an equally
+balanced clustering.
+
+<P>
+Both single-link and complete-link clustering have
+graph-theoretic interpretations. Define <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1564.png"
+ ALT="$s_k$"> to be the
+<A NAME="26554"></A> <I>combination similarity</I>  of the two clusters
+merged in step <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$">, and <IMG
+ WIDTH="43" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1565.png"
+ ALT="$G(s_k)$"> the graph that links all
+data points with a similarity of at least <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1564.png"
+ ALT="$s_k$">. Then the
+clusters after step <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> in single-link clustering are the
+connected components of
+<IMG
+ WIDTH="43" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1565.png"
+ ALT="$G(s_k)$"> and the clusters after step <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> in complete-link
+clustering are maximal cliques of
+<IMG
+ WIDTH="43" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1565.png"
+ ALT="$G(s_k)$">. A <A NAME="26556"></A> <I>connected component</I>  is a maximal set of
+connected points such that there is a path connecting each pair.  A
+<A NAME="26558"></A> <I>clique</I>  is a set of points that are completely linked with
+each other.
+
+<P>
+These graph-theoretic interpretations motivate the
+terms single-link and complete-link clustering. Single-link
+clusters at step <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> are maximal sets of points that are linked via at least one
+link (a single link) of similarity <IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1566.png"
+ ALT="$s \geq s_k$">; complete-link clusters at step
+<IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> are
+maximal sets of points that are completely linked with each other
+via links of similarity <IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1566.png"
+ ALT="$s \geq s_k$">.
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:chaining"></A><A NAME="p:chaining"></A></P><IMG
+ WIDTH="555" HEIGHT="32" BORDER="0"
+ SRC="img1567.png"
+ ALT="\begin{figure}
+% latex2html id marker 26560
+\par
+\psset{unit=0.5cm}
+\par
+\begin{...
+...n single-link clustering can cause undesirable
+elongated clusters.}
+\end{figure}">
+</DIV>
+
+<P>
+Single-link and complete-link clustering reduce the
+assessment of cluster quality to a single similarity between
+a pair of documents: the two most similar documents in
+single-link clustering and the two most dissimilar documents
+in complete-link clustering. A measurement based on one pair
+cannot fully reflect the distribution of documents in a
+cluster. It is therefore not surprising that both algorithms
+often produce undesirable clusters. Single-link clustering can
+produce straggling clusters as shown in
+Figure <A HREF="#fig:chaining">17.6</A> . Since the merge criterion is strictly
+local, a chain of points can be extended for long distances
+without regard to the overall shape of the emerging
+cluster. This effect is called <A NAME="26570"></A> <I>chaining</I> .
+
+<P>
+The chaining effect is also apparent in Figure <A HREF="hierarchical-agglomerative-clustering-1.html#fig:rprojectsingle">17.1</A> . 
+The last eleven merges of the single-link clustering
+(those above the
+<IMG
+ WIDTH="24" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1568.png"
+ ALT="$0.1$"> line)  add on single documents
+or pairs of documents, corresponding to a chain.
+The complete-link clustering in Figure <A HREF="#fig:rprojectcomplete">17.5</A>  avoids this problem.
+Documents are split into two
+groups of roughly equal size when we cut the dendrogram at
+the last merge. In general, this is a more
+useful organization of the data than a clustering with chains.
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:clinkoutlier"></A><A NAME="p:clinkoutlier"></A></P><IMG
+ WIDTH="556" HEIGHT="154" BORDER="0"
+ SRC="img1569.png"
+ ALT="\begin{figure}
+% latex2html id marker 26574
+\par
+\psset{unit=0.5cm}
+\par
+\begin{...
+...tering, the outlier $d_1$\ splits
+$\{d_2,d_3,d_4,d_5\}$\ as shown.}
+\end{figure}">
+</DIV>
+
+<P>
+However, complete-link clustering suffers from a different problem. It pays
+too much attention to outliers,
+points that do not fit well into the
+global structure of the cluster. In the example in
+Figure <A HREF="#fig:clinkoutlier">17.7</A>  the four documents <!-- MATH
+ $d_2, d_3, d_4, d_5$
+ -->
+<IMG
+ WIDTH="84" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1570.png"
+ ALT="$d_2, d_3, d_4, d_5$">
+are split because of the outlier <IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img412.png"
+ ALT="$d_1$"> at the left
+edge (Exercise <A HREF="time-complexity-of-hac-1.html#ex:exclinkoutlier">17.2.1</A> ). Complete-link clustering does not find the most intuitive
+cluster structure in this example.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html4354"
+  HREF="time-complexity-of-hac-1.html">Time complexity of HAC</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4352"
+  HREF="time-complexity-of-hac-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4346"
+  HREF="hierarchical-clustering-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4340"
+  HREF="hierarchical-agglomerative-clustering-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4348"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4350"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4353"
+  HREF="time-complexity-of-hac-1.html">Time complexity of HAC</A>
+<B> Up:</B> <A NAME="tex2html4347"
+  HREF="hierarchical-clustering-1.html">Hierarchical clustering</A>
+<B> Previous:</B> <A NAME="tex2html4341"
+  HREF="hierarchical-agglomerative-clustering-1.html">Hierarchical agglomerative clustering</A>
+ &nbsp; <B>  <A NAME="tex2html4349"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4351"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/single-link-and-complete-link-clustering-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:36:18 GMT -->
+</HTML>

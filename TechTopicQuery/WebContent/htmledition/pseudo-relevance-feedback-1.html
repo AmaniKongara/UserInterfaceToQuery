@@ -1,0 +1,155 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/pseudo-relevance-feedback-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:27:18 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Pseudo relevance feedback</TITLE>
+<META NAME="description" CONTENT="Pseudo relevance feedback">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="indirect-relevance-feedback-1.html">
+<LINK REL="previous" HREF="evaluation-of-relevance-feedback-strategies-1.html">
+<LINK REL="up" HREF="relevance-feedback-and-pseudo-relevance-feedback-1.html">
+<LINK REL="next" HREF="indirect-relevance-feedback-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2736"
+  HREF="indirect-relevance-feedback-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2730"
+  HREF="relevance-feedback-and-pseudo-relevance-feedback-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2724"
+  HREF="evaluation-of-relevance-feedback-strategies-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2732"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2734"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2737"
+  HREF="indirect-relevance-feedback-1.html">Indirect relevance feedback</A>
+<B> Up:</B> <A NAME="tex2html2731"
+  HREF="relevance-feedback-and-pseudo-relevance-feedback-1.html">Relevance feedback and pseudo</A>
+<B> Previous:</B> <A NAME="tex2html2725"
+  HREF="evaluation-of-relevance-feedback-strategies-1.html">Evaluation of relevance feedback</A>
+ &nbsp; <B>  <A NAME="tex2html2733"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2735"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001416000000000000000"></A><A NAME="sec:pseudo-rf"></A> <A NAME="p:pseudo-rf"></A>
+<BR>
+Pseudo relevance feedback
+</H2> 
+
+<P>
+<A NAME="11624"></A> <I>Pseudo relevance feedback</I> , also known
+as <A NAME="11765"></A> <I>blind relevance feedback</I> ,
+provides a method for automatic local analysis. It automates
+the manual part of relevance feedback, so that the user gets improved
+retrieval performance without an extended interaction.
+The method is to do normal retrieval to find an initial set of
+most relevant documents, to then <I>assume</I> that the top <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img20.png"
+ ALT="$k$"> ranked
+documents are relevant, and finally to do relevance feedback as before
+under this assumption.
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:smart-prf"></A><A NAME="p:smart-prf"></A></P><IMG
+ WIDTH="556" HEIGHT="177" BORDER="0"
+ SRC="img604.png"
+ ALT="\begin{figure}
+% latex2html id marker 11629
+\begin{tabular}{lrr}
+&amp; \multicolumn...
+...do relevance
+feedback consisted of adding 20 terms to each query.}\end{figure}">
+</DIV>
+
+<P>
+This automatic technique mostly works. Evidence suggests
+that it tends to work better than global analysis
+(Section <A HREF="global-methods-for-query-reformulation-1.html#sec:global-analysis">9.2</A> ). It has been found to improve
+performance in the TREC ad hoc task. See for example the
+results in Figure <A HREF="#fig:smart-prf">9.5</A> . But it is not without the
+dangers of an automatic process. For example, if the query
+is about copper mines and the top several documents
+are all about mines in Chile, then there may be query drift
+in the direction of documents on Chile.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2736"
+  HREF="indirect-relevance-feedback-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2730"
+  HREF="relevance-feedback-and-pseudo-relevance-feedback-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2724"
+  HREF="evaluation-of-relevance-feedback-strategies-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2732"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2734"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2737"
+  HREF="indirect-relevance-feedback-1.html">Indirect relevance feedback</A>
+<B> Up:</B> <A NAME="tex2html2731"
+  HREF="relevance-feedback-and-pseudo-relevance-feedback-1.html">Relevance feedback and pseudo</A>
+<B> Previous:</B> <A NAME="tex2html2725"
+  HREF="evaluation-of-relevance-feedback-strategies-1.html">Evaluation of relevance feedback</A>
+ &nbsp; <B>  <A NAME="tex2html2733"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2735"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/pseudo-relevance-feedback-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:27:18 GMT -->
+</HTML>

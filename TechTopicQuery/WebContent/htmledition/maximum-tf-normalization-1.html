@@ -1,0 +1,233 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/maximum-tf-normalization-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:25:59 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Maximum tf normalization</TITLE>
+<META NAME="description" CONTENT="Maximum tf normalization">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="document-and-query-weighting-schemes-1.html">
+<LINK REL="previous" HREF="sublinear-tf-scaling-1.html">
+<LINK REL="up" HREF="variant-tf-idf-functions-1.html">
+<LINK REL="next" HREF="document-and-query-weighting-schemes-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2038"
+  HREF="document-and-query-weighting-schemes-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2032"
+  HREF="variant-tf-idf-functions-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2026"
+  HREF="sublinear-tf-scaling-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2034"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2036"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2039"
+  HREF="document-and-query-weighting-schemes-1.html">Document and query weighting</A>
+<B> Up:</B> <A NAME="tex2html2033"
+  HREF="variant-tf-idf-functions-1.html">Variant tf-idf functions</A>
+<B> Previous:</B> <A NAME="tex2html2027"
+  HREF="sublinear-tf-scaling-1.html">Sublinear tf scaling</A>
+ &nbsp; <B>  <A NAME="tex2html2035"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2037"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001142000000000000000"></A>
+<A NAME="sec:maxtf"></A>
+<BR>
+Maximum tf normalization
+</H2>
+One well-studied technique is to normalize the tf weights of all terms occurring in a document by the maximum tf in that document. For each document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">, let <!-- MATH
+ $\mbox{tf}_{\max}(d)=\max_{\tau\in d} \mbox{tf}_{\tau,d}$
+ -->
+<IMG
+ WIDTH="165" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img452.png"
+ ALT="$\mbox{tf}_{\max}(d)=\max_{\tau\in d} \mbox{tf}_{\tau,d}$">, where <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img453.png"
+ ALT="$\tau$"> ranges over all terms in <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">. Then, we compute a normalized term frequency for each term <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$"> in document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$"> by
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\mbox{ntf}_{t,d}=
+a + (1-a)\frac{\mbox{tf}_{t,d}}{\mbox{tf}_{\max}(d)},
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eqn:maxtf"></A><IMG
+ WIDTH="197" HEIGHT="44" BORDER="0"
+ SRC="img454.png"
+ ALT="\begin{displaymath}
+\mbox{ntf}_{t,d}=
+a + (1-a)\frac{\mbox{tf}_{t,d}}{\mbox{tf}_{\max}(d)},
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(30)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+where <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img136.png"
+ ALT="$a$"> is a value between <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img455.png"
+ ALT="$0$"> and <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img291.png"
+ ALT="$1$"> and is generally set to <IMG
+ WIDTH="24" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img456.png"
+ ALT="$0.4$">, although some early work used the value <IMG
+ WIDTH="24" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img457.png"
+ ALT="$0.5$">. The term <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img136.png"
+ ALT="$a$"> in (<A HREF="#eqn:maxtf">30</A>) is a <A NAME="8375"></A> <I>smoothing</I>  term whose role is to damp the contribution of the second term - which may be viewed as a scaling down of tf by the largest tf value in <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">. We will encounter smoothing further in Chapter <A HREF="text-classification-and-naive-bayes-1.html#ch:nbayes">13</A>  when discussing classification; the basic idea is to avoid a large swing in <!-- MATH
+ $\mbox{ntf}_{t,d}$
+ -->
+<IMG
+ WIDTH="38" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img458.png"
+ ALT="$\mbox{ntf}_{t,d}$"> from modest changes in <!-- MATH
+ $\mbox{tf}_{t,d}$
+ -->
+<IMG
+ WIDTH="29" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img400.png"
+ ALT="$\mbox{tf}_{t,d}$"> (say from 1 to 2). The main idea of maximum tf normalization is to mitigate the following anomaly: we observe higher term frequencies in longer documents, merely because longer documents tend to repeat the same words over and over again. To appreciate this, consider the following extreme example: supposed we were to take a document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$"> and create a new document <IMG
+ WIDTH="17" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img459.png"
+ ALT="$d'$"> by simply appending a copy of <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$"> to itself. While <IMG
+ WIDTH="17" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img459.png"
+ ALT="$d'$"> should be no more relevant to any query than <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$"> is, the use of (<A HREF="tf-idf-weighting-1.html#eqn:docscore">23</A>) would assign it twice as high a score as <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">. Replacing <!-- MATH
+ $\mbox{tf-idf}_{t,d}$
+ -->
+<IMG
+ WIDTH="54" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img407.png"
+ ALT="$\mbox{tf-idf}_{t,d}$"> in (<A HREF="tf-idf-weighting-1.html#eqn:docscore">23</A>) by <!-- MATH
+ $\mbox{ntf-idf}_{t,d}$
+ -->
+<IMG
+ WIDTH="63" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img460.png"
+ ALT="$\mbox{ntf-idf}_{t,d}$"> eliminates the anomaly in this example. Maximum tf normalization does suffer from the following issues:
+
+<OL>
+<LI>The method is unstable in the following sense: a
+  change in the <A NAME="8393"></A>stop word list can dramatically alter term weightings (and therefore ranking).  Thus, it is hard to tune.
+</LI>
+<LI>A document may contain an outlier term with an unusually large number of occurrences of that term, not representative of the content of that document.
+</LI>
+<LI>More generally, a document in which the most frequent term appears roughly as often as many other terms should be treated differently from one with a more skewed distribution.
+</LI>
+</OL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2038"
+  HREF="document-and-query-weighting-schemes-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2032"
+  HREF="variant-tf-idf-functions-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2026"
+  HREF="sublinear-tf-scaling-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2034"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2036"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2039"
+  HREF="document-and-query-weighting-schemes-1.html">Document and query weighting</A>
+<B> Up:</B> <A NAME="tex2html2033"
+  HREF="variant-tf-idf-functions-1.html">Variant tf-idf functions</A>
+<B> Previous:</B> <A NAME="tex2html2027"
+  HREF="sublinear-tf-scaling-1.html">Sublinear tf scaling</A>
+ &nbsp; <B>  <A NAME="tex2html2035"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2037"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/maximum-tf-normalization-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:26:04 GMT -->
+</HTML>

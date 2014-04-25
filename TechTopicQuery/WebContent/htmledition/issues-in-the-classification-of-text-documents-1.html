@@ -1,0 +1,168 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/issues-in-the-classification-of-text-documents-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:34:19 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Issues in the classification of text documents</TITLE>
+<META NAME="description" CONTENT="Issues in the classification of text documents">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="machine-learning-methods-in-ad-hoc-information-retrieval-1.html">
+<LINK REL="previous" HREF="extensions-to-the-svm-model-1.html">
+<LINK REL="up" HREF="support-vector-machines-and-machine-learning-on-documents-1.html">
+<LINK REL="next" HREF="choosing-what-kind-of-classifier-to-use-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3931"
+  HREF="choosing-what-kind-of-classifier-to-use-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3925"
+  HREF="support-vector-machines-and-machine-learning-on-documents-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3919"
+  HREF="experimental-results-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3927"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3929"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3932"
+  HREF="choosing-what-kind-of-classifier-to-use-1.html">Choosing what kind of</A>
+<B> Up:</B> <A NAME="tex2html3926"
+  HREF="support-vector-machines-and-machine-learning-on-documents-1.html">Support vector machines and</A>
+<B> Previous:</B> <A NAME="tex2html3920"
+  HREF="experimental-results-1.html">Experimental results</A>
+ &nbsp; <B>  <A NAME="tex2html3928"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3930"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION002030000000000000000"></A><A NAME="sec:svm-text"></A> <A NAME="p:svm-text"></A>
+<BR>
+Issues in the classification of text documents
+</H1> 
+
+<P>
+There are lots of applications of text classification in the
+commercial world; email spam filtering is perhaps now the most
+ubiquitous.  <A
+ HREF="bibliography-1.html#jackson02natural">Jackson and Moulinier (2002)</A> write: ``There is no question
+concerning the commercial value of being able to classify documents
+automatically by content. There are myriad potential applications of
+such a capability for corporate Intranets, government departments, and
+Internet publishers.''
+
+<P>
+Most of our discussion of classification has focused on introducing
+various machine learning methods rather than discussing particular
+features of text documents relevant to classification.  This bias is
+appropriate for a textbook, but is misplaced for an application
+developer.  It is frequently the case that greater performance gains
+can be achieved from exploiting domain-specific text features than
+from changing from one machine learning method to another.
+<A
+ HREF="bibliography-1.html#jackson02natural">Jackson and Moulinier (2002)</A> suggest that ``Understanding the data is one
+of the keys to successful categorization, yet this is an area in which
+most categorization tool vendors are extremely weak. Many of the `one
+size fits all' tools on the market have not been tested on a wide
+range of content types.'' In this section we wish to step back a little
+and consider the applications of text classification, the space of
+possible solutions, and the utility of application-specific
+heuristics.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html3933"
+  HREF="choosing-what-kind-of-classifier-to-use-1.html">Choosing what kind of classifier to use</A>
+<LI><A NAME="tex2html3934"
+  HREF="improving-classifier-performance-1.html">Improving classifier performance</A>
+<UL>
+<LI><A NAME="tex2html3935"
+  HREF="large-and-difficult-category-taxonomies-1.html">Large and difficult category taxonomies</A>
+<LI><A NAME="tex2html3936"
+  HREF="features-for-text-1.html">Features for text</A>
+<LI><A NAME="tex2html3937"
+  HREF="document-zones-in-text-classification-1.html">Document zones in text classification</A>
+<UL>
+<LI><A NAME="tex2html3938"
+  HREF="upweighting-document-zones-1.html">Upweighting document zones.</A>
+<LI><A NAME="tex2html3939"
+  HREF="separate-feature-spaces-for-document-zones-1.html">Separate feature spaces for document zones.</A>
+<LI><A NAME="tex2html3940"
+  HREF="connections-to-text-summarization-1.html">Connections to text summarization.</A>
+</UL></UL></UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3931"
+  HREF="choosing-what-kind-of-classifier-to-use-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3925"
+  HREF="support-vector-machines-and-machine-learning-on-documents-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3919"
+  HREF="experimental-results-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3927"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3929"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3932"
+  HREF="choosing-what-kind-of-classifier-to-use-1.html">Choosing what kind of</A>
+<B> Up:</B> <A NAME="tex2html3926"
+  HREF="support-vector-machines-and-machine-learning-on-documents-1.html">Support vector machines and</A>
+<B> Previous:</B> <A NAME="tex2html3920"
+  HREF="experimental-results-1.html">Experimental results</A>
+ &nbsp; <B>  <A NAME="tex2html3928"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3930"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/issues-in-the-classification-of-text-documents-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:34:19 GMT -->
+</HTML>

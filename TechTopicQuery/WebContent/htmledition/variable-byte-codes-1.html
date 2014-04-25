@@ -1,0 +1,222 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/variable-byte-codes-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:24:24 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Variable byte codes</TITLE>
+<META NAME="description" CONTENT="Variable byte codes">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="gamma-codes-1.html">
+<LINK REL="previous" HREF="postings-file-compression-1.html">
+<LINK REL="up" HREF="postings-file-compression-1.html">
+<LINK REL="next" HREF="gamma-codes-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1779"
+  HREF="gamma-codes-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1773"
+  HREF="postings-file-compression-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1767"
+  HREF="postings-file-compression-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1775"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1777"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1780"
+  HREF="gamma-codes-1.html">Gamma codes</A>
+<B> Up:</B> <A NAME="tex2html1774"
+  HREF="postings-file-compression-1.html">Postings file compression</A>
+<B> Previous:</B> <A NAME="tex2html1768"
+  HREF="postings-file-compression-1.html">Postings file compression</A>
+ &nbsp; <B>  <A NAME="tex2html1776"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1778"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001031000000000000000"></A>
+<A NAME="bytealigned"></A>
+<BR>
+Variable byte codes
+</H2>
+
+<P>
+
+<DIV ALIGN="CENTER">
+
+<P><A NAME="fig:vbalgorithm"></A><A NAME="p:vbalgorithm"></A></P><IMG
+ WIDTH="556" HEIGHT="618" BORDER="0"
+ SRC="img281.png"
+ ALT="\begin{figure}
+% latex2html id marker 6348
+\begin{algorithm}{VBEncodeNumber}{n}
+...
+...\langle 1,2\rangle,\langle 3,4\rangle) = \langle
+1,2,3,4\rangle$.
+}
+\end{figure}">
+</DIV>
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+
+<P>
+VB encoding.
+Gaps are encoded using an integral number of bytes. 
+ The
+first bit, the continuation bit, of each byte indicates whether the
+code ends with this byte (1) or not (0).
+<TABLE CELLPADDING=3>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">docIDs</TD>
+<TD ALIGN="LEFT">824</TD>
+<TD ALIGN="LEFT">829</TD>
+<TD ALIGN="LEFT">215406</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">gaps</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">5</TD>
+<TD ALIGN="LEFT">214577</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">VB code</TD>
+<TD ALIGN="LEFT">00000110 10111000</TD>
+<TD ALIGN="LEFT">10000101</TD>
+<TD ALIGN="LEFT">00001101 00001100 10110001</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+</TABLE>
+<A NAME="tab:varbyte"></A> <A NAME="p:varbyte"></A> 
+
+<P>
+
+</DIV>
+<BR>
+
+<P>
+<A NAME="6407"></A> <I>Variable byte (VB) encoding</I>  uses an integral number of
+bytes to encode a gap. The last 7 bits of a byte are
+``payload'' and encode part of the gap. The first bit of the
+byte is a <A NAME="6409"></A> <I>continuation bit</I> .<A NAME="6411"></A>
+It is set to 1 for the last byte of the encoded gap and to 0
+otherwise. To decode a variable byte code, we read a
+sequence of bytes with continuation bit 0 terminated by a
+byte with continuation bit 1. We then extract and
+concatenate the 7-bit parts.  Figure <A HREF="#fig:vbalgorithm">5.8</A>  gives
+pseudocode for VB encoding and decoding and Table <A HREF="#tab:varbyte">5.4</A> 
+an example of a VB-encoded postings list.
+<A NAME="tex2html54"
+  HREF="footnode.html#foot6414"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A>
+<P>
+With VB compression, the size of the compressed
+index for Reuters-RCV1 is 116 MB as we verified in an
+experiment. This is a more than 50% reduction of the
+size of the uncompressed index (see Table <A HREF="gamma-codes-1.html#tab:summaryicompress">5.6</A> ).
+
+<P>
+The idea of VB encoding can also be applied to larger or
+smaller units than bytes: 32-bit words, 16-bit words, and 4-bit words
+or <A NAME="6416"></A><A NAME="6417"></A> <I>nibbles</I> . Larger words
+further decrease the amount of bit manipulation necessary at
+the cost of less effective (or no) compression.  Word sizes
+smaller than bytes get even better compression ratios at the
+cost of more bit manipulation. In general, bytes offer a
+good compromise between compression ratio and speed of
+decompression.
+
+<P>
+For
+most IR systems variable byte codes
+offer an excellent tradeoff between time and space.
+They are also simple to implement - most of the
+alternatives referred to in Section <A HREF="references-and-further-reading-5.html#sec:icompresssecfurther">5.4</A> 
+are more complex.  But if disk space is
+a scarce resource, we can achieve better compression
+ratios by using bit-level encodings, in particular two
+closely related encodings: <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img12.png"
+ ALT="$\gamma $">
+codes, which we will turn to next, and <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img282.png"
+ ALT="$\delta$"> codes (Exercise <A HREF="gamma-codes-1.html#ex:deltacode">5.3.2</A> ).
+<A NAME="6421"></A> 
+
+<P>
+<A NAME="6422"></A> 
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1779"
+  HREF="gamma-codes-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1773"
+  HREF="postings-file-compression-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1767"
+  HREF="postings-file-compression-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1775"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1777"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1780"
+  HREF="gamma-codes-1.html">Gamma codes</A>
+<B> Up:</B> <A NAME="tex2html1774"
+  HREF="postings-file-compression-1.html">Postings file compression</A>
+<B> Previous:</B> <A NAME="tex2html1768"
+  HREF="postings-file-compression-1.html">Postings file compression</A>
+ &nbsp; <B>  <A NAME="tex2html1776"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1778"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/variable-byte-codes-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:24:25 GMT -->
+</HTML>

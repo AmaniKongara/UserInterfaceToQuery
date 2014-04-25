@@ -1,0 +1,268 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/feature-selection-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:31:00 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Feature selection</TITLE>
+<META NAME="description" CONTENT="Feature selection">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="evaluation-of-text-classification-1.html">
+<LINK REL="previous" HREF="properties-of-naive-bayes-1.html">
+<LINK REL="up" HREF="text-classification-and-naive-bayes-1.html">
+<LINK REL="next" HREF="mutual-information-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3529"
+  HREF="mutual-information-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3523"
+  HREF="text-classification-and-naive-bayes-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3517"
+  HREF="a-variant-of-the-multinomial-model-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3525"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3527"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3530"
+  HREF="mutual-information-1.html">Mutual information</A>
+<B> Up:</B> <A NAME="tex2html3524"
+  HREF="text-classification-and-naive-bayes-1.html">Text classification and Naive</A>
+<B> Previous:</B> <A NAME="tex2html3518"
+  HREF="a-variant-of-the-multinomial-model-1.html">A variant of the</A>
+ &nbsp; <B>  <A NAME="tex2html3526"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3528"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001850000000000000000"></A>
+<A NAME="sec:feature"></A> <A NAME="p:feature"></A> 
+<A NAME="16947"></A> <A NAME="16948"></A>
+<A NAME="16949"></A>
+<BR>
+Feature selection
+</H1> <I>Feature selection</I> 
+is the process of selecting a subset of the terms
+occurring in
+the training set and using only this subset as features
+in text classification. Feature selection
+serves two main purposes. First, it makes training and
+applying a classifier more efficient by decreasing the size
+of the effective vocabulary. This is of particular
+importance for classifiers that, unlike NB, are
+expensive to train. Second, feature selection often
+increases classification accuracy by eliminating noise
+features. A <A NAME="16951"></A> <A NAME="p:noisefeature"></A> <A NAME="16953"></A> <I>noise feature</I> 
+is one that, when added to the document representation,
+increases the classification error on new data. Suppose a
+rare term, say arachnocentric, has no information
+about a class, say China, but all instances of
+arachnocentric happen to occur in
+China documents in our training set. Then the learning method might
+produce a classifier that misassigns test documents containing
+arachnocentric to China. Such an incorrect
+generalization from an accidental property of the training
+set is called <A NAME="16961"></A> <A NAME="16962"></A> <I>overfitting</I> . 
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:featselalg"></A><A NAME="p:featselalg"></A><A NAME="16976"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure:</STRONG>
+Basic feature selection algorithm for selecting the
+<IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1002.png"
+ ALT="$\ktopk$"> best features.</CAPTION>
+<TR><TD><IMG
+ WIDTH="369" HEIGHT="131" BORDER="0"
+ SRC="img1003.png"
+ ALT="\begin{figure}\par
+\begin{algorithm}{SelectFeatures}{\docsetlabeled,c,\ktopk}
+V ...
+...eaturesWithLargestValues}(L,\ktopk)}
+\end{algorithm}\par\par
+\par
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+We can view feature selection as a method for replacing a
+complex classifier (using all features) with a
+simpler one (using a subset of the
+features). It may appear counterintuitive at first that a
+seemingly weaker classifier is advantageous in statistical text
+classification,
+but when discussing 
+<A NAME="16980"></A>the bias-variance tradeoff in
+Section&nbsp;<A HREF="the-bias-variance-tradeoff-1.html#sec:secbiasvariance">14.6</A> (page&nbsp;<A HREF="the-bias-variance-tradeoff-1.html#p:secbiasvariance"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>), we will see
+that weaker models are often preferable when limited
+training data are available.
+
+<P>
+The basic feature selection algorithm is shown in
+Figure <A HREF="#fig:featselalg">13.6</A> . 
+For a given class <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img252.png"
+ ALT="$c$">,
+we compute a utility measure <IMG
+ WIDTH="49" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1004.png"
+ ALT="$A(\tcword,c)$"> for each
+term of the vocabulary and select the <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1002.png"
+ ALT="$\ktopk$"> terms that have the highest values of <IMG
+ WIDTH="49" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1004.png"
+ ALT="$A(\tcword,c)$">. All
+other terms are discarded and not used in classification. We will
+introduce three different utility measures in this section: mutual information,
+<!-- MATH
+ $A(\tcword,c) = I(\wvar_\tcword;C_c)$
+ -->
+<IMG
+ WIDTH="133" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1005.png"
+ ALT="$A(\tcword,c) = I(\wvar_\tcword;C_c)$">; the <IMG
+ WIDTH="21" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$\chi ^2$"> test,
+<!-- MATH
+ $A(\tcword,c) = X^2(t,c)$
+ -->
+<IMG
+ WIDTH="123" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1006.png"
+ ALT="$A(\tcword,c) = X^2(t,c)$">; and frequency,
+<!-- MATH
+ $A(\tcword,c) = N(\tcword,c)$
+ -->
+<IMG
+ WIDTH="118" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1007.png"
+ ALT="$A(\tcword,c) = N(\tcword,c)$">.
+
+<P>
+Of the two NB models, the Bernoulli model is particularly
+sensitive to noise features. A Bernoulli NB classifier
+requires some form of feature selection or else its accuracy will
+be low.
+
+<P>
+This section mainly addresses feature selection for two-class
+classification tasks like
+China versus
+not-China. Section <A HREF="comparison-of-feature-selection-methods-1.html#sec:featurecomparison">13.5.5</A>  briefly discusses
+optimizations for systems with more than two
+classes<A NAME="16987"></A>.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html3531"
+  HREF="mutual-information-1.html">Mutual
+  information</A>
+<LI><A NAME="tex2html3532"
+  HREF="feature-selectionchi2-feature-selection-1.html"><IMG
+ WIDTH="21" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$\chi ^2$"> Feature selectionChi2 Feature selection</A>
+<UL>
+<LI><A NAME="tex2html3533"
+  HREF="assessing-as-a-feature-selection-methodassessing-chi-square-as-a-feature-selection-method-1.html">Assessing
+    <IMG
+ WIDTH="21" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$\chi ^2$"> as a feature selection
+    methodAssessing chi-square as a feature
+    selection method</A>
+</UL>
+<BR>
+<LI><A NAME="tex2html3534"
+  HREF="frequency-based-feature-selection-1.html">Frequency-based feature
+  selection</A>
+<LI><A NAME="tex2html3535"
+  HREF="feature-selection-for-multiple-classifiers-1.html">Feature selection for multiple classifiers</A>
+<LI><A NAME="tex2html3536"
+  HREF="comparison-of-feature-selection-methods-1.html">Comparison of feature selection methods</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3529"
+  HREF="mutual-information-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3523"
+  HREF="text-classification-and-naive-bayes-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3517"
+  HREF="a-variant-of-the-multinomial-model-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3525"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3527"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3530"
+  HREF="mutual-information-1.html">Mutual information</A>
+<B> Up:</B> <A NAME="tex2html3524"
+  HREF="text-classification-and-naive-bayes-1.html">Text classification and Naive</A>
+<B> Previous:</B> <A NAME="tex2html3518"
+  HREF="a-variant-of-the-multinomial-model-1.html">A variant of the</A>
+ &nbsp; <B>  <A NAME="tex2html3526"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3528"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/feature-selection-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:31:03 GMT -->
+</HTML>

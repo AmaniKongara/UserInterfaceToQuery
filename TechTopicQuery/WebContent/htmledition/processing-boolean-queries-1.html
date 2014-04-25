@@ -1,0 +1,507 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/processing-boolean-queries-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:22:17 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Processing Boolean queries</TITLE>
+<META NAME="description" CONTENT="Processing Boolean queries">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="the-extended-boolean-model-versus-ranked-retrieval-1.html">
+<LINK REL="previous" HREF="a-first-take-at-building-an-inverted-index-1.html">
+<LINK REL="up" HREF="boolean-retrieval-1.html">
+<LINK REL="next" HREF="the-extended-boolean-model-versus-ranked-retrieval-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html964"
+  HREF="the-extended-boolean-model-versus-ranked-retrieval-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html958"
+  HREF="boolean-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html952"
+  HREF="a-first-take-at-building-an-inverted-index-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html960"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html962"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html965"
+  HREF="the-extended-boolean-model-versus-ranked-retrieval-1.html">The extended Boolean model</A>
+<B> Up:</B> <A NAME="tex2html959"
+  HREF="boolean-retrieval-1.html">Boolean retrieval</A>
+<B> Previous:</B> <A NAME="tex2html953"
+  HREF="a-first-take-at-building-an-inverted-index-1.html">A first take at</A>
+ &nbsp; <B>  <A NAME="tex2html961"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html963"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00630000000000000000"></A><A NAME="sec:boolean-queries"></A> <A NAME="p:boolean-queries"></A> 
+<A NAME="sec:postingsintersection"></A> <A NAME="p:postingsintersection"></A>
+<BR>
+Processing Boolean queries
+</H1> 
+
+<P>
+How do we process a query using an inverted index and the basic
+Boolean retrieval model?
+Consider processing the
+<A NAME="1549"></A><A NAME="1244"></A> <I>simple conjunctive query</I> :
+<BR>
+<IMG
+ WIDTH="189" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img55.png"
+ ALT="\begin{example}
+\term{Brutus} \oper{AND} \term{Calpurnia}
+\end{example}">
+<BR>
+over the inverted index partially shown in
+Figure&nbsp;<A HREF="an-example-information-retrieval-problem-1.html#fig:invertedindex-picture">1.3</A> (page&nbsp;<A HREF="an-example-information-retrieval-problem-1.html#p:invertedindex-picture"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>).  We:
+
+<OL>
+<LI>Locate Brutus in the Dictionary
+</LI>
+<LI>Retrieve its postings
+</LI>
+<LI>Locate Calpurnia in the Dictionary
+</LI>
+<LI>Retrieve its postings
+</LI>
+<LI>Intersect the two postings lists, as shown in Figure <A HREF="#fig:postingsmerge">1.5</A> .
+</LI>
+</OL>
+The <A NAME="1258"></A> <I>intersection </I>  is the
+crucial one: we
+need to efficiently
+intersect postings lists so as to be able to quickly find documents that
+contain both terms.  (This operation is sometimes referred to as
+<A NAME="1260"></A> <I>merging</I>  postings lists: this
+slightly counterintuitive name reflects using the term <A NAME="1262"></A> <I>merge algorithm</I>  for a general family of algorithms that
+combine multiple sorted lists by interleaved advancing of pointers through
+each; here we are merging the lists with a
+logical AND operation.)
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:postingsmerge"></A><A NAME="p:postingsmerge"></A><A NAME="1550"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure:</STRONG>
+Intersecting the postings lists for Brutus and
+  Calpurnia from Figure <A HREF="an-example-information-retrieval-problem-1.html#fig:invertedindex-picture">1.3</A> .</CAPTION>
+<TR><TD><IMG
+ WIDTH="474" HEIGHT="89" BORDER="0"
+ SRC="img56.png"
+ ALT="\begin{figure}\begin{tabular}{lll}
+Brutus &amp; $\longrightarrow$\ &amp;
+\framebox{1}$\r...
+...rightarrow$\ &amp; \framebox{2}$\rightarrow$\framebox{31}
+\end{tabular}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:postings-merge-algorithm"></A><A NAME="p:postings-merge-algorithm"></A><A NAME="1305"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 1.6:</STRONG>
+Algorithm for the intersection of two postings lists <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1.png"
+ ALT="$p_1$"> and <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img2.png"
+ ALT="$p_2$">.</CAPTION>
+<TR><TD><IMG
+ WIDTH="292" HEIGHT="203" BORDER="0"
+ SRC="img57.png"
+ ALT="\begin{figure}\begin{algorithm}{Intersect}{p_1, p_2}
+answer \= \langle\;\rangle ...
+..._2)
+\end{IF}\end{IF}\end{WHILE} \\
+\RETURN{answer}
+\end{algorithm}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+There is a simple and effective method of intersecting postings lists
+using the merge algorithm (see Figure <A HREF="#fig:postings-merge-algorithm">1.6</A> ): we maintain
+pointers into both lists and walk through the two postings lists
+simultaneously, in time linear in the total number of postings entries.
+At each step, we compare the docID pointed to by both pointers.  If they
+are the same, we put that docID in the results list, and advance both
+pointers.  Otherwise we
+advance the pointer pointing to the smaller docID.  If the lengths of
+the postings lists are <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img58.png"
+ ALT="$x$"> and <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img59.png"
+ ALT="$y$">, the intersection takes <IMG
+ WIDTH="66" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img60.png"
+ ALT="$O(x+y)$">
+operations.
+Formally, the complexity of querying is <IMG
+ WIDTH="44" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img61.png"
+ ALT="$\Theta(N)$">,<A NAME="Theta-notation"></A>where <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$N$"> is the number of documents in the collection.<A NAME="tex2html12"
+  HREF="footnode.html#foot1552"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A>Our indexing methods gain us just a constant, not a
+difference in <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img65.png"
+ ALT="$\Theta$"> time complexity compared to a linear
+scan, but in practice the constant is huge.
+To use this algorithm, it is crucial that
+postings be sorted by a single global ordering.  Using a numeric sort by
+docID is one simple way to achieve this.
+
+<P>
+We can extend the intersection operation to process more complicated queries
+like:
+<BR>
+<IMG
+ WIDTH="306" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img66.png"
+ ALT="\begin{example}
+{(\term{Brutus} \oper{OR} \term{Caesar})} \oper{AND} \oper{NOT} \term{Calpurnia}
+\end{example}">
+<BR>
+<A NAME="1320"></A> <I>Query optimization</I>  is the process of
+selecting how to organize the work
+of answering a query so that the least total amount of work needs to be
+done by the system.  A major element of this for Boolean queries is the
+order in which postings lists are accessed.  What is the best order for
+query processing?
+Consider a query that is an AND of <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$"> terms, for instance:
+<BR>
+<IMG
+ WIDTH="274" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img68.png"
+ ALT="\begin{example}
+\term{Brutus} \oper{AND} \term{Caesar} \oper{AND} \term{Calpurnia}
+\end{example}">
+<BR>
+For each of the <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$"> terms, we need to get its postings, then AND them
+together.  The standard heuristic is to process terms in order of
+increasing document frequency:
+if we start by intersecting the two smallest postings lists, then all
+intermediate results must be no bigger than the smallest postings list,
+and we are therefore likely to do the least amount of
+total work. So, for the postings lists in Figure&nbsp;<A HREF="an-example-information-retrieval-problem-1.html#fig:invertedindex-picture">1.3</A> (page&nbsp;<A HREF="an-example-information-retrieval-problem-1.html#p:invertedindex-picture"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>),
+we execute the above query as:
+<BR>
+<IMG
+ WIDTH="286" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img69.png"
+ ALT="\begin{example}
+{(\term{Calpurnia} \oper{AND} \term{Brutus})} \oper{AND} \term{Caesar}
+\end{example}">
+<BR>
+This is a first justification for keeping
+the frequency of terms in the dictionary: it allows us to make this
+ordering decision
+based on in-memory data before accessing any postings list.
+
+<P>
+Consider now the optimization of more general queries, such as:
+<BR>
+<IMG
+ WIDTH="469" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img70.png"
+ ALT="\begin{example}
+{(\term{madding} \oper{OR} \term{crowd})} \oper{AND} (\term{igno...
+...} \term{strife}) \oper{AND} (\term{killed} \oper{OR} \term{slain})
+\end{example}">
+<BR>
+As before, we will get the frequencies for all terms, and we can then
+(conservatively) estimate the size of each OR by the sum of the
+frequencies of its disjuncts.  We can then process the query in
+increasing order of the size of each disjunctive term.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:asymmetric-merge-algorithm"></A><A NAME="p:asymmetric-merge-algorithm"></A><A NAME="1365"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 1.7:</STRONG>
+Algorithm for conjunctive queries that returns the set of documents containing each term in the input list of terms.</CAPTION>
+<TR><TD><IMG
+ WIDTH="413" HEIGHT="146" BORDER="0"
+ SRC="img71.png"
+ ALT="\begin{figure}\begin{algorithm}{Intersect}{\langle t_1, \ldots, t_n \rangle}
+ter...
+...erms \= rest(terms)
+\end{WHILE} \\
+\RETURN{result}
+\end{algorithm}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+For arbitrary Boolean queries, we have to evaluate and temporarily store
+the answers
+for intermediate expressions in a complex expression.  However, in many
+circumstances, either because of the nature of the query language, or
+just because this is the most common type of query that users submit, a
+query is purely conjunctive.  In this case, rather than viewing
+merging postings lists as a function with two inputs and a distinct
+output, it is more efficient
+to intersect each retrieved postings list with the current
+intermediate result in memory, where we initialize the intermediate
+result by loading the postings
+list of the
+least frequent term.  This algorithm is shown in
+Figure <A HREF="#fig:asymmetric-merge-algorithm">1.7</A> . The intersection operation is then
+asymmetric: the intermediate results list is in memory while the list it
+is being intersected with is being read from disk.  Moreover the
+intermediate results list is always at least as
+short as the other list, and in many cases it is orders of
+magnitude shorter.
+The postings intersection can still be done by the algorithm in
+Figure <A HREF="#fig:postings-merge-algorithm">1.6</A> , but when the difference between the list
+lengths is very large, opportunities to use
+alternative techniques open up.  The intersection can be
+calculated in place by destructively modifying or marking invalid items
+in the intermediate
+results list.  Or the intersection can be done as
+a sequence of binary searches in the long
+postings lists for each posting
+in the intermediate results list.  Another possibility is to store the
+long postings list as a hashtable, so that membership of an intermediate
+result item can
+be calculated in constant rather than linear or log time.
+However, such alternative techniques are difficult to combine with
+postings list compression of the sort discussed in Chapter <A HREF="index-compression-1.html#ch:icompress">5</A> .
+Moreover, standard postings list intersection operations remain
+necessary when both terms of a query are very common.
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI>For the queries below, can we still run through the
+intersection in time <IMG
+ WIDTH="66" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img60.png"
+ ALT="$O(x+y)$">, where <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img58.png"
+ ALT="$x$"> and <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img59.png"
+ ALT="$y$"> are the lengths of the
+postings lists for Brutus and Caesar?
+If not, what can we achieve?
+
+<OL>
+<LI>Brutus and not Caesar
+</LI>
+<LI>Brutus or not Caesar
+</LI>
+</OL>
+
+<P>
+</LI>
+<LI><A NAME="ex:arbitrary-merge"></A>Extend the postings merge algorithm to arbitrary Boolean
+query formulas.
+What is its time complexity?  For instance, consider:
+<DL COMPACT>
+<DT>c.</DT>
+<DD>(Brutus OR Caesar) AND NOT
+   (Antony OR Cleopatra)
+</DD>
+</DL>
+Can we always merge in linear time? Linear in what?
+Can we do better than this?
+
+<P>
+</LI>
+<LI>We can use distributive laws for and and
+or to rewrite queries.
+
+<OL>
+<LI>Show how to rewrite the query in Exercise <A HREF="#ex:arbitrary-merge">1.3</A>  into
+disjunctive normal form using the
+distributive laws.
+</LI>
+<LI>Would the resulting query be more or less efficiently
+evaluated than the original form of this query?
+</LI>
+<LI>Is this result true in
+general or does it depend on the words and the contents of the document
+collection?
+</LI>
+</OL>
+
+<P>
+</LI>
+<LI>Recommend a query processing order for
+<DL COMPACT>
+<DT>d.</DT>
+<DD>(tangerine OR trees) AND (marmalade
+   OR skies) AND
+   (kaleidoscope OR eyes)
+</DD>
+</DL>
+given the following postings list sizes:
+<BLOCKQUOTE>
+<TABLE CELLPADDING=3>
+<TR><TH ALIGN="LEFT"><B>Term</B></TH>
+<TH ALIGN="RIGHT"><B>Postings size</B></TH>
+</TR>
+<TR><TD ALIGN="LEFT">eyes</TD>
+<TD ALIGN="RIGHT">213312</TD>
+</TR>
+<TR><TD ALIGN="LEFT">kaleidoscope</TD>
+<TD ALIGN="RIGHT">87009</TD>
+</TR>
+<TR><TD ALIGN="LEFT">marmalade</TD>
+<TD ALIGN="RIGHT">107913</TD>
+</TR>
+<TR><TD ALIGN="LEFT">skies</TD>
+<TD ALIGN="RIGHT">271658</TD>
+</TR>
+<TR><TD ALIGN="LEFT">tangerine</TD>
+<TD ALIGN="RIGHT">46653</TD>
+</TR>
+<TR><TD ALIGN="LEFT">trees</TD>
+<TD ALIGN="RIGHT">316812</TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+
+<P>
+</LI>
+<LI>If the query is:
+<DL COMPACT>
+<DT>e.</DT>
+<DD>friends AND romans AND (NOT
+   countrymen)
+</DD>
+</DL>
+how could we use the frequency of countrymen in evaluating the
+best query evaluation order?  In particular, propose a way of handling
+negation in determining the order of query processing.
+
+<P>
+</LI>
+<LI>For a conjunctive query, is processing postings lists in order
+of size guaranteed to be optimal? Explain why it is, or give an example
+where it isn't.
+
+<P>
+</LI>
+<LI>Write out a postings merge algorithm, in the style of
+Figure&nbsp;<A HREF="#fig:postings-merge-algorithm">1.6</A> (page&nbsp;<A HREF="processing-boolean-queries-1.html#p:postings-merge-algorithm"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>), for
+an <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img58.png"
+ ALT="$x$"> OR <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img59.png"
+ ALT="$y$"> query.
+
+<P>
+</LI>
+<LI>How should the Boolean query <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img58.png"
+ ALT="$x$"> AND NOT <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img59.png"
+ ALT="$y$"> be handled?
+Why is naive evaluation of this query normally very expensive?  Write
+out a postings merge algorithm that evaluates this query efficiently.
+
+<P>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html964"
+  HREF="the-extended-boolean-model-versus-ranked-retrieval-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html958"
+  HREF="boolean-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html952"
+  HREF="a-first-take-at-building-an-inverted-index-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html960"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html962"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html965"
+  HREF="the-extended-boolean-model-versus-ranked-retrieval-1.html">The extended Boolean model</A>
+<B> Up:</B> <A NAME="tex2html959"
+  HREF="boolean-retrieval-1.html">Boolean retrieval</A>
+<B> Previous:</B> <A NAME="tex2html953"
+  HREF="a-first-take-at-building-an-inverted-index-1.html">A first take at</A>
+ &nbsp; <B>  <A NAME="tex2html961"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html963"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/processing-boolean-queries-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:22:25 GMT -->
+</HTML>

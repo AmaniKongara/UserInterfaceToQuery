@@ -1,0 +1,353 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/book-organization-and-course-development-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:22:06 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Book organization and course development</TITLE>
+<META NAME="description" CONTENT="Book organization and course development">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="prerequisites-1.html">
+<LINK REL="previous" HREF="preface-1.html">
+<LINK REL="up" HREF="preface-1.html">
+<LINK REL="next" HREF="prerequisites-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html849"
+  HREF="prerequisites-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html843"
+  HREF="preface-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html837"
+  HREF="preface-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html845"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html847"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html850"
+  HREF="prerequisites-1.html">Prerequisites</A>
+<B> Up:</B> <A NAME="tex2html844"
+  HREF="preface-1.html">Preface</A>
+<B> Previous:</B> <A NAME="tex2html838"
+  HREF="preface-1.html">Preface</A>
+ &nbsp; <B>  <A NAME="tex2html846"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html848"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00510000000000000000">
+Book organization and course development</A>
+</H1>
+
+<P>
+This book is the result of a series of courses we have
+taught at Stanford University and at the University of
+Stuttgart, in a range of durations including a single
+quarter, one semester and two quarters.  These courses were
+aimed at early-stage graduate students in computer science,
+but we have also had enrollment from upper-class computer
+science undergraduates, as well as students from law,
+medical informatics, statistics, linguistics and various
+engineering disciplines.  The key design principle for this
+book, therefore, was to cover what we believe to be
+important in a one-term graduate course on information
+retrieval.  An additional principle is to build each chapter
+around material that we believe can be covered in a single
+lecture of 75 to 90 minutes.
+
+<P>
+The first eight chapters of the book are devoted to the
+basics of information retrieval, and in particular the heart
+of search engines; we consider this material to be core to
+any course on information retrieval.  Chapter <A HREF="boolean-retrieval-1.html#ch:intro">1</A> 
+introduces inverted indexes, and shows how simple Boolean
+queries can be processed using such indexes.
+Chapter <A HREF="the-term-vocabulary-and-postings-lists-1.html#ch:dictionary">2</A>  builds on this introduction by
+detailing the manner in which documents are preprocessed
+before indexing and by discussing how inverted indexes are
+augmented in various ways for functionality and
+speed. Chapter <A HREF="dictionaries-and-tolerant-retrieval-1.html#ch:spell">3</A>  discusses search structures for
+dictionaries and how to process queries that have spelling
+errors and other imprecise matches to the vocabulary in the
+document collection being searched.
+Chapter <A HREF="index-construction-1.html#ch:iconst">4</A>  describes a number of algorithms for
+constructing the inverted index from a text collection with
+particular attention to highly scalable and distributed
+algorithms that can be applied to very large collections.
+Chapter <A HREF="index-compression-1.html#ch:icompress">5</A>  covers techniques for compressing
+dictionaries and inverted indexes.
+These techniques are critical
+for achieving subsecond response times to user queries in
+large search engines.
+The indexes and queries considered in
+introicompress only deal with <I>Boolean
+retrieval</I>, in which a document either matches a query, or does
+not. A desire to measure the <I>extent</I> to which a document
+matches a query, or the score of a document for a query, motivates the development of term weighting and the
+computation of scores in Chapters <A HREF="scoring-term-weighting-and-the-vector-space-model-1.html#ch:tfidf">6</A> <A HREF="computing-scores-in-a-complete-search-system-1.html#ch:cosine">7</A> , leading
+to the idea of a list of documents that are rank-ordered for
+a query.  Chapter <A HREF="evaluation-in-information-retrieval-1.html#ch:evaluation">8</A>  focuses on the evaluation of
+an information retrieval system based on the relevance of
+the documents it retrieves, allowing us to compare the
+relative performances of different systems on benchmark
+document collections and queries.
+
+<P>
+queryexpansionlink
+build on the foundation of the first eight chapters to cover
+a variety of more advanced topics.
+  Chapter <A HREF="relevance-feedback-and-query-expansion-1.html#ch:queryexpansion">9</A> 
+discusses methods by which retrieval can be enhanced through
+the use of techniques like relevance feedback and query
+expansion, which aim at increasing the likelihood of
+retrieving relevant documents. Chapter <A HREF="xml-retrieval-1.html#ch:xml">10</A>  considers
+information retrieval from documents that are structured
+with markup languages like XML and HTML. We treat structured
+retrieval by
+reducing it to the vector space scoring methods developed in
+Chapter <A HREF="scoring-term-weighting-and-the-vector-space-model-1.html#ch:tfidf">6</A> .  Chapters <A HREF="probabilistic-information-retrieval-1.html#ch:probir">11</A> <A HREF="language-models-for-information-retrieval-1.html#ch:lmodels">12</A>  invoke
+probability theory to compute scores for documents on
+queries.  Chapter <A HREF="probabilistic-information-retrieval-1.html#ch:probir">11</A>  develops traditional
+probabilistic information retrieval, which provides a
+framework for computing the probability of relevance of a
+document, given a set of query terms. This probability may
+then be used as a score in ranking.  Chapter <A HREF="language-models-for-information-retrieval-1.html#ch:lmodels">12</A> 
+illustrates an alternative, wherein for each document in a
+collection, we build a language model from which one can
+estimate a probability that the language model generates a
+given query.
+
+<P>
+This probability is another quantity with which we can rank-order
+documents.
+
+<P>
+nbayeshierclust
+give a treatment of various forms of machine learning and
+numerical methods in
+information retrieval.  nbayessvm treat the
+problem of classifying documents into a set of known
+categories, given a set of documents along with the classes
+they belong to.
+Chapter <A HREF="text-classification-and-naive-bayes-1.html#ch:nbayes">13</A>  motivates statistical classification as one
+of the key technologies needed for a successful search
+engine, introduces Naive Bayes, a conceptually simple and
+efficient text classification method, and outlines the
+standard methodology for evaluating text classifiers.
+Chapter <A HREF="vector-space-classification-1.html#ch:vcat">14</A>  employs
+the vector space model from Chapter <A HREF="scoring-term-weighting-and-the-vector-space-model-1.html#ch:tfidf">6</A>  and introduces
+two classification methods, Rocchio and kNN, that operate on document vectors.
+It also presents the bias-variance tradeoff as an important
+characterization of learning problems that provides criteria
+for
+selecting
+an appropriate method for a text classification problem.
+Chapter <A HREF="support-vector-machines-and-machine-learning-on-documents-1.html#ch:svm">15</A>  introduces support vector machines, which many
+researchers currently view as the most effective text
+classification method.
+We also develop connections
+in this chapter between the problem of classification and seemingly disparate
+topics such as the induction of scoring functions from a set
+of training examples.
+
+<P>
+flatclust
+lsi
+consider the problem of
+inducing clusters of related documents from a collection.
+In Chapter <A HREF="flat-clustering-1.html#ch:flatclust">16</A> , we first give an overview of a number of
+important applications of clustering in information
+retrieval. We then describe two flat clustering algorithms: the  <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means
+algorithm, an efficient and widely used document clustering
+method; and the
+Expectation-Maximization algorithm, which is computationally
+more expensive, but
+also more flexible.
+Chapter <A HREF="hierarchical-clustering-1.html#ch:hierclust">17</A> 
+motivates the need for hierarchically structured clusterings
+(instead of flat clusterings) in many applications in
+information retrieval and
+introduces a number of clustering
+algorithms that produce a hierarchy of clusters. The chapter
+also addresses the difficult problem of automatically
+computing labels for clusters.
+  Chapter <A HREF="matrix-decompositions-and-latent-semantic-indexing-1.html#ch:lsi">18</A>  develops
+methods from linear algebra that constitute an extension of
+clustering, and also offer intriguing prospects for
+algebraic methods in information retrieval, which have been
+pursued in the approach of latent semantic indexing.
+
+<P>
+webcharlink treat the problem of web search.  We give in Chapter <A HREF="web-search-basics-1.html#ch:webchar">19</A>  a summary of the basic challenges in web search, together with a set of techniques that are pervasive in web information retrieval.  Next, Chapter <A HREF="web-crawling-and-indexes-1.html#ch:crawling">20</A>  describes the architecture and requirements of a basic web crawler.  Finally, Chapter <A HREF="link-analysis-1.html#ch:link">21</A>  considers the power of link analysis in web search, using in the process several methods from linear algebra and advanced probability theory.
+
+<P>
+This book is not comprehensive in covering all topics
+related to information retrieval.  We have put aside a
+number of topics, which we deemed outside the scope of what
+we wished to cover in an introduction to information
+retrieval class.  Nevertheless, for people interested in
+these topics, we provide a few pointers to mainly textbook
+coverage here.
+
+<P>
+<DL>
+<DT><STRONG>Cross-language IR</STRONG></DT>
+<DD>(<A
+ HREF="bibliography-1.html#grossman04information">Grossman and Frieder, 2004</A>, ch.&nbsp;4) and (<A
+ HREF="bibliography-1.html#oard96survey">Oard and Dorr, 1996</A>).
+
+<P>
+</DD>
+<DT><STRONG>Image and Multimedia IR</STRONG></DT>
+<DD>(<A
+ HREF="bibliography-1.html#grossman04information">Grossman and Frieder, 2004</A>, ch.&nbsp;4),
+(<A
+ HREF="bibliography-1.html#baezayates99">Baeza-Yates and Ribeiro-Neto, 1999</A>, ch.&nbsp;6),
+(<A
+ HREF="bibliography-1.html#baezayates99">Baeza-Yates and Ribeiro-Neto, 1999</A>, ch.&nbsp;11),
+(<A
+ HREF="bibliography-1.html#baezayates99">Baeza-Yates and Ribeiro-Neto, 1999</A>, ch.&nbsp;12),
+(<A
+ HREF="bibliography-1.html#bimbo99visual">del Bimbo, 1999</A>),
+(<A
+ HREF="bibliography-1.html#lew01principles">Lew, 2001</A>), and
+(<A
+ HREF="bibliography-1.html#smeulders00contentbased">Smeulders et&nbsp;al., 2000</A>).
+
+<P>
+</DD>
+<DT><STRONG>Speech retrieval</STRONG></DT>
+<DD>(<A
+ HREF="bibliography-1.html#coden02speech">Coden et&nbsp;al., 2002</A>).
+
+<P>
+</DD>
+<DT><STRONG>Music Retrieval</STRONG></DT>
+<DD>(<A
+ HREF="bibliography-1.html#downie06music">Downie, 2006</A>) and <TT><A NAME="tex2html1"
+  HREF="http://www.ismir.net/">http://www.ismir.net/</A></TT>.
+
+<P>
+</DD>
+<DT><STRONG>User interfaces for IR</STRONG></DT>
+<DD>(<A
+ HREF="bibliography-1.html#baezayates99">Baeza-Yates and Ribeiro-Neto, 1999</A>, ch.&nbsp;10).
+
+<P>
+</DD>
+<DT><STRONG>Parallel and Peer-to-Peer IR</STRONG></DT>
+<DD>(<A
+ HREF="bibliography-1.html#grossman04information">Grossman and Frieder, 2004</A>, ch.&nbsp;7),
+(<A
+ HREF="bibliography-1.html#baezayates99">Baeza-Yates and Ribeiro-Neto, 1999</A>, ch.&nbsp;9), and (<A
+ HREF="bibliography-1.html#aberer01pgrid">Aberer, 2001</A>).
+
+<P>
+</DD>
+<DT><STRONG>Digital libraries</STRONG></DT>
+<DD>(<A
+ HREF="bibliography-1.html#baezayates99">Baeza-Yates and Ribeiro-Neto, 1999</A>, ch.&nbsp;15) and (<A
+ HREF="bibliography-1.html#lesk04understanding">Lesk, 2004</A>).
+
+<P>
+</DD>
+<DT><STRONG>Information science perspective</STRONG></DT>
+<DD>(<A
+ HREF="bibliography-1.html#korfhage97">Korfhage, 1997</A>), (<A
+ HREF="bibliography-1.html#meadow99text">Meadow et&nbsp;al., 1999</A>), and (<A
+ HREF="bibliography-1.html#ingwersen05turn">Ingwersen and J&#228;rvelin, 2005</A>).
+
+<P>
+</DD>
+<DT><STRONG>Logic-based approaches to IR</STRONG></DT>
+<DD>(<A
+ HREF="bibliography-1.html#vanrijsbergen89towards">van&nbsp;Rijsbergen, 1989</A>).
+
+<P>
+</DD>
+<DT><STRONG>Natural Language Processing techniques</STRONG></DT>
+<DD><A NAME="333"></A>(<A
+ HREF="bibliography-1.html#manning99foundations">Manning and Sch&#252;tze, 1999</A>), (<A
+ HREF="bibliography-1.html#jurafsky08slp">Jurafsky and Martin, 2008</A>), and (<A
+ HREF="bibliography-1.html#lewis96natural">Lewis and Jones, 1996</A>).
+
+<P>
+</DD>
+</DL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html849"
+  HREF="prerequisites-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html843"
+  HREF="preface-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html837"
+  HREF="preface-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html845"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html847"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html850"
+  HREF="prerequisites-1.html">Prerequisites</A>
+<B> Up:</B> <A NAME="tex2html844"
+  HREF="preface-1.html">Preface</A>
+<B> Previous:</B> <A NAME="tex2html838"
+  HREF="preface-1.html">Preface</A>
+ &nbsp; <B>  <A NAME="tex2html846"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html848"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/book-organization-and-course-development-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:22:06 GMT -->
+</HTML>

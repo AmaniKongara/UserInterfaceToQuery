@@ -1,0 +1,174 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/phonetic-correction-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:23:22 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Phonetic correction</TITLE>
+<META NAME="description" CONTENT="Phonetic correction">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="references-and-further-reading-3.html">
+<LINK REL="previous" HREF="spelling-correction-1.html">
+<LINK REL="up" HREF="dictionaries-and-tolerant-retrieval-1.html">
+<LINK REL="next" HREF="references-and-further-reading-3.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1510"
+  HREF="references-and-further-reading-3.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1504"
+  HREF="dictionaries-and-tolerant-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1498"
+  HREF="context-sensitive-spelling-correction-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1506"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1508"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1511"
+  HREF="references-and-further-reading-3.html">References and further reading</A>
+<B> Up:</B> <A NAME="tex2html1505"
+  HREF="dictionaries-and-tolerant-retrieval-1.html">Dictionaries and tolerant retrieval</A>
+<B> Previous:</B> <A NAME="tex2html1499"
+  HREF="context-sensitive-spelling-correction-1.html">Context sensitive spelling correction</A>
+ &nbsp; <B>  <A NAME="tex2html1507"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1509"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00840000000000000000"></A>
+<A NAME="sec:soundex"></A> <A NAME="p:soundex"></A>
+<BR>
+Phonetic correction
+</H1> 
+Our final technique for tolerant retrieval has to do with <I>phonetic</I> correction: misspellings that arise because the user types a query that sounds like the target term. Such algorithms are especially applicable to searches on the names of people. The main idea here is to generate, for each term, a ``phonetic hash'' so that similar-sounding terms hash to the same value. The idea owes its origins to work in international police departments from the early 20th century, seeking to match names for wanted criminals despite the names being spelled differently in different countries. It is mainly used to correct phonetic misspellings in proper nouns.
+
+<P>
+Algorithms for such phonetic hashing are commonly collectively known as <A NAME="4162"></A> <I>soundex</I>  algorithms. However, there is an original soundex algorithm, with various variants, built on the following scheme:
+
+<OL>
+<LI>Turn every term to be indexed into a 4-character reduced form. Build an inverted index from these reduced forms to the original terms; call this the soundex index.
+</LI>
+<LI>Do the same with query terms.
+</LI>
+<LI>When the query calls for a soundex match, search this soundex index.
+</LI>
+</OL>
+The variations in different soundex algorithms have to do with the conversion of terms to 4-character forms. A commonly used conversion results in a 4-character code, with the first character being a letter of the alphabet and the other three being digits between 0 and 9.
+
+<OL>
+<LI>Retain the first letter of the term.
+</LI>
+<LI>Change all occurrences of the following letters to '0'
+(zero): 'A', E', 'I', 'O', 'U', 'H', 'W', 'Y'.
+</LI>
+<LI>Change letters to digits as follows:
+
+B, F, P, V to 1.
+
+C, G, J, K, Q, S, X, Z to 2.
+
+D,T to 3.
+
+L to 4.
+
+M, N to 5.
+
+R to 6.
+</LI>
+<LI>Repeatedly remove one out of each pair of consecutive
+identical digits.
+</LI>
+<LI>Remove all zeros from the resulting string.
+Pad the resulting string with trailing zeros and return the first four positions, which will consist of a letter followed by three digits.
+</LI>
+</OL>
+
+<P>
+For an example of a soundex map, Hermann maps to H655. Given a query (say herman), we compute its soundex code and then retrieve all vocabulary terms matching this soundex code from the soundex index, before running the resulting query on the standard inverted index.
+
+<P>
+This algorithm rests on a few observations: (1) vowels are viewed as interchangeable, in transcribing names; (2) consonants with similar sounds (e.g., D and T) are put in equivalence classes. This leads to related names often having the same soundex codes.  While these rules work for many cases, especially European languages, such rules tend to be writing system dependent. For example, Chinese names can be written in Wade-Giles or Pinyin transcription.  While soundex works for some of the differences in the two transcriptions, for instance mapping both Wade-Giles hs and Pinyin x to 2, it fails in other cases, for example Wade-Giles j and Pinyin r are mapped differently.
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI>Find two differently spelled proper nouns whose soundex codes are the same.
+
+<P>
+</LI>
+<LI>Find two phonetically similar proper nouns whose soundex codes are different.
+
+<P>
+</LI>
+</UL><HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1510"
+  HREF="references-and-further-reading-3.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1504"
+  HREF="dictionaries-and-tolerant-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1498"
+  HREF="context-sensitive-spelling-correction-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1506"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1508"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1511"
+  HREF="references-and-further-reading-3.html">References and further reading</A>
+<B> Up:</B> <A NAME="tex2html1505"
+  HREF="dictionaries-and-tolerant-retrieval-1.html">Dictionaries and tolerant retrieval</A>
+<B> Previous:</B> <A NAME="tex2html1499"
+  HREF="context-sensitive-spelling-correction-1.html">Context sensitive spelling correction</A>
+ &nbsp; <B>  <A NAME="tex2html1507"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1509"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/phonetic-correction-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:23:22 GMT -->
+</HTML>

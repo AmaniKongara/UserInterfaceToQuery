@@ -1,0 +1,317 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/the-binary-independence-model-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:28:06 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>The Binary Independence Model</TITLE>
+<META NAME="description" CONTENT="The Binary Independence Model">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="an-appraisal-and-some-extensions-1.html">
+<LINK REL="previous" HREF="the-probability-ranking-principle-1.html">
+<LINK REL="up" HREF="probabilistic-information-retrieval-1.html">
+<LINK REL="next" HREF="deriving-a-ranking-function-for-query-terms-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3068"
+  HREF="deriving-a-ranking-function-for-query-terms-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3062"
+  HREF="probabilistic-information-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3056"
+  HREF="the-prp-with-retrieval-costs-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3064"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3066"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3069"
+  HREF="deriving-a-ranking-function-for-query-terms-1.html">Deriving a ranking function</A>
+<B> Up:</B> <A NAME="tex2html3063"
+  HREF="probabilistic-information-retrieval-1.html">Probabilistic information retrieval</A>
+<B> Previous:</B> <A NAME="tex2html3057"
+  HREF="the-prp-with-retrieval-costs-1.html">The PRP with retrieval</A>
+ &nbsp; <B>  <A NAME="tex2html3065"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3067"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001630000000000000000"></A>
+<A NAME="sec:bim"></A> <A NAME="p:bim"></A>
+<BR>
+The Binary Independence Model
+</H1> 
+
+<P>
+The <A NAME="13980"></A> <I>Binary Independence Model</I>  (BIM)
+we present in this section is the model that has
+traditionally been used with the PRP.
+It introduces some simple assumptions, which make estimating the probability function <IMG
+ WIDTH="67" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img690.png"
+ ALT="$P(R\vert d,q)$"> practical.
+Here, ``binary''
+is equivalent to Boolean: documents and queries are both represented as binary term incidence vectors.
+That is, a document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$"> is represented by the vector
+<A NAME="p:xnotation"></A> <!-- MATH
+ $\vec{x} = (x_1, \ldots, x_M)$
+ -->
+<IMG
+ WIDTH="120" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img691.png"
+ ALT="$\vec{x} = (x_1, \ldots, x_M)$"> where
+<IMG
+ WIDTH="47" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img692.png"
+ ALT="$x_t = 1$"> if term <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$"> is present in document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">
+and <IMG
+ WIDTH="48" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img693.png"
+ ALT="$x_t = 0$"> if <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$"> is not present in <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">.
+With this representation, many possible documents have
+the same vector representation.
+Similarly, we represent <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$"> by the incidence vector <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img572.png"
+ ALT="$\vec{q}$"> (the distinction between <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$"> and <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img572.png"
+ ALT="$\vec{q}$"> is less central since commonly <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img161.png"
+ ALT="$q$"> is in the form of a set of words).  ``Independence'' means that
+terms are modeled as occurring in documents
+independently. The model recognizes no association between
+terms. This assumption is far from correct, but it nevertheless often gives satisfactory results in practice; it is the ``naive'' assumption of Naive Bayes models, discussed further in Section&nbsp;<A HREF="properties-of-naive-bayes-1.html#sec:generativemodel2">13.4</A> (page&nbsp;<A HREF="properties-of-naive-bayes-1.html#p:generativemodel2"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>). Indeed, the Binary Independence Model is exactly the same as the multivariate Bernoulli Naive Bayes model presented in Section&nbsp;<A HREF="the-bernoulli-model-1.html#sec:twomodels">13.3</A> (page&nbsp;<A HREF="the-bernoulli-model-1.html#p:twomodels"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>). In a sense this assumption is equivalent to an assumption of the vector space model, where each term is a dimension that is orthogonal to all other terms.
+
+<P>
+We will first present a model which assumes that the user has a single step information need. As discussed in Chapter <A HREF="relevance-feedback-and-query-expansion-1.html#ch:queryexpansion">9</A> , seeing a range of results might let the user refine their information need. Fortunately, as mentioned there, it is straightforward to extend the Binary Independence Model so as to provide a framework for relevance feedback, and we present this model in Section <A HREF="probabilistic-approaches-to-relevance-feedback-1.html#sec:probrf">11.3.4</A> .
+
+<P>
+To make a probabilistic retrieval strategy precise, we need to estimate how terms in documents contribute to relevance, specifically, we wish to know how term frequency, document frequency, document length, and other statistics that we can compute influence judgments about document relevance, and how they can be reasonably combined to estimate the probability of document relevance. We then order documents by decreasing estimated probability of relevance.
+
+<P>
+We assume here that the relevance of each document is independent of the relevance of other documents. As we noted in Section&nbsp;<A HREF="critiques-and-justifications-of-the-concept-of-relevance-1.html#sec:relevance">8.5.1</A> (page&nbsp;<A HREF="critiques-and-justifications-of-the-concept-of-relevance-1.html#p:relevance"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>), this is incorrect: the assumption is especially harmful in practice if it allows a system to return duplicate or near duplicate documents. Under the BIM, we model the probability <IMG
+ WIDTH="67" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img690.png"
+ ALT="$P(R\vert d,q)$"> that a document is relevant via the probability in terms of term incidence vectors <!-- MATH
+ $P(R|\vec{x}, \vec{q})$
+ -->
+<IMG
+ WIDTH="67" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img694.png"
+ ALT="$P(R\vert\vec{x}, \vec{q})$">.
+Then, using Bayes rule, we have:
+<BR>
+<DIV ALIGN="CENTER"><A NAME="Rxq-bayes"></A>
+<!-- MATH
+ \begin{eqnarray}
+P(R=1|\vec{x}, \vec{q}) &=& \frac{P(\vec{x}|R=1, \vec{q})P(R=1|\vec{q})}{P(\vec{x}|\vec{q})}\\
+P(R=0|\vec{x}, \vec{q}) &=& \frac{P(\vec{x}|R=0, \vec{q})P(R=0|\vec{q})}{P(\vec{x}|\vec{q})}
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="98" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img695.png"
+ ALT="$\displaystyle P(R=1\vert\vec{x}, \vec{q})$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="179" HEIGHT="56" ALIGN="MIDDLE" BORDER="0"
+ SRC="img696.png"
+ ALT="$\displaystyle \frac{P(\vec{x}\vert R=1, \vec{q})P(R=1\vert\vec{q})}{P(\vec{x}\vert\vec{q})}$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(63)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="98" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img697.png"
+ ALT="$\displaystyle P(R=0\vert\vec{x}, \vec{q})$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="179" HEIGHT="56" ALIGN="MIDDLE" BORDER="0"
+ SRC="img698.png"
+ ALT="$\displaystyle \frac{P(\vec{x}\vert R=0, \vec{q})P(R=0\vert\vec{q})}{P(\vec{x}\vert\vec{q})}$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(64)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+Here, <!-- MATH
+ $P(\vec{x}|R=1,\vec{q})$
+ -->
+<IMG
+ WIDTH="98" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img699.png"
+ ALT="$P(\vec{x}\vert R=1,\vec{q})$"> and <!-- MATH
+ $P(\vec{x}|R=0,\vec{q})$
+ -->
+<IMG
+ WIDTH="97" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img700.png"
+ ALT="$P(\vec{x}\vert R=0,\vec{q})$"> are the probability that if a relevant or nonrelevant, respectively, document is retrieved, then that document's representation is <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img701.png"
+ ALT="$\vec{x}$">. You should think of this quantity as defined with respect to a space of possible documents in a domain.  How do we compute all these probabilities? We never know the exact probabilities, and so we have to use estimates: Statistics about the actual document collection are used to estimate these probabilities.  <!-- MATH
+ $P(R=1|\vec{q})$
+ -->
+<IMG
+ WIDTH="82" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img702.png"
+ ALT="$P(R=1\vert\vec{q})$"> and <!-- MATH
+ $P(R=0|\vec{q})$
+ -->
+<IMG
+ WIDTH="82" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img703.png"
+ ALT="$P(R=0\vert\vec{q})$"> indicate the prior probability of retrieving a relevant or nonrelevant document respectively for a query <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img572.png"
+ ALT="$\vec{q}$">. Again, if we knew the percentage of relevant documents in the collection, then we could use this number to estimate <!-- MATH
+ $P(R=1|\vec{q})$
+ -->
+<IMG
+ WIDTH="82" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img702.png"
+ ALT="$P(R=1\vert\vec{q})$"> and <!-- MATH
+ $P(R=0|\vec{q})$
+ -->
+<IMG
+ WIDTH="82" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img703.png"
+ ALT="$P(R=0\vert\vec{q})$">. Since a document is either relevant or nonrelevant to a query, we must have that:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+P(R=1|\vec{x}, \vec{q}) + P(R=0|\vec{x},\vec{q}) = 1
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="236" HEIGHT="28" BORDER="0"
+ SRC="img704.png"
+ ALT="\begin{displaymath}
+P(R=1\vert\vec{x}, \vec{q}) + P(R=0\vert\vec{x},\vec{q}) = 1
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(65)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html3070"
+  HREF="deriving-a-ranking-function-for-query-terms-1.html">Deriving a ranking function for query terms</A>
+<LI><A NAME="tex2html3071"
+  HREF="probability-estimates-in-theory-1.html">Probability estimates in theory</A>
+<LI><A NAME="tex2html3072"
+  HREF="probability-estimates-in-practice-1.html">Probability estimates in practice</A>
+<LI><A NAME="tex2html3073"
+  HREF="probabilistic-approaches-to-relevance-feedback-1.html">Probabilistic approaches to relevance feedback</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3068"
+  HREF="deriving-a-ranking-function-for-query-terms-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3062"
+  HREF="probabilistic-information-retrieval-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3056"
+  HREF="the-prp-with-retrieval-costs-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3064"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3066"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3069"
+  HREF="deriving-a-ranking-function-for-query-terms-1.html">Deriving a ranking function</A>
+<B> Up:</B> <A NAME="tex2html3063"
+  HREF="probabilistic-information-retrieval-1.html">Probabilistic information retrieval</A>
+<B> Previous:</B> <A NAME="tex2html3057"
+  HREF="the-prp-with-retrieval-costs-1.html">The PRP with retrieval</A>
+ &nbsp; <B>  <A NAME="tex2html3065"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3067"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/the-binary-independence-model-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:28:15 GMT -->
+</HTML>

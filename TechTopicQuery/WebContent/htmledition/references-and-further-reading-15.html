@@ -1,0 +1,305 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/references-and-further-reading-15.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:34:33 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>References and further reading</TITLE>
+<META NAME="description" CONTENT="References and further reading">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="machine-learning-methods-in-ad-hoc-information-retrieval-1.html">
+<LINK REL="up" HREF="support-vector-machines-and-machine-learning-on-documents-1.html">
+<LINK REL="next" HREF="flat-clustering-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4110"
+  HREF="flat-clustering-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4104"
+  HREF="support-vector-machines-and-machine-learning-on-documents-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4100"
+  HREF="result-ranking-by-machine-learning-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4106"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4108"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4111"
+  HREF="flat-clustering-1.html">Flat clustering</A>
+<B> Up:</B> <A NAME="tex2html4105"
+  HREF="support-vector-machines-and-machine-learning-on-documents-1.html">Support vector machines and</A>
+<B> Previous:</B> <A NAME="tex2html4101"
+  HREF="result-ranking-by-machine-learning-1.html">Result ranking by machine</A>
+ &nbsp; <B>  <A NAME="tex2html4107"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4109"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION002050000000000000000"></A><A NAME="sec:svm-refs"></A> <A NAME="p:svm-refs"></A>
+<BR>
+References and further reading
+</H1> 
+
+<P>
+The somewhat quirky name <A NAME="23145"></A> <I>support vector machine</I>  originates in the
+neural networks literature, where learning algorithms were thought of
+as architectures, and often referred to as ``machines''.  The
+distinctive element of this model is that the decision boundary to
+use is completely decided (``supported'') by a few training data
+points, the support vectors.
+
+<P>
+For a more detailed presentation of SVMs, a good, well-known
+article-length introduction is (<A
+ HREF="bibliography-1.html#burges98svm">Burges, 1998</A>).
+<A
+ HREF="bibliography-1.html#chen05nusvm">Chen et&nbsp;al. (2005)</A> introduce the more recent
+<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1386.png"
+ ALT="$\nu$">-SVM, which provides an alternative parameterization for dealing
+with inseparable problems, whereby rather than specifying a penalty <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img616.png"
+ ALT="$C$">,
+you specify a parameter <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1386.png"
+ ALT="$\nu$"> which bounds the number of examples
+which can appear on the wrong side of the decision surface.
+There are now also several books dedicated to SVMs, large margin
+learning, and kernels: (<A
+ HREF="bibliography-1.html#cristianini00svm">Cristianini and Shawe-Taylor, 2000</A>) and 
+(<A
+ HREF="bibliography-1.html#schoelkopf01kernels">Sch&#246;lkopf and Smola, 2001</A>) are more mathematically oriented, while
+(<A
+ HREF="bibliography-1.html#shawe-taylor04kernel">Shawe-Taylor and Cristianini, 2004</A>) aims to be more practical.    For the
+foundations by 
+their originator, see (<A
+ HREF="bibliography-1.html#vapnik98statistical">Vapnik, 1998</A>).  Some recent, more general
+books on statistical learning, such as (<A
+ HREF="bibliography-1.html#hastie2001elements">Hastie et&nbsp;al., 2001</A>) also
+give thorough coverage of SVMs.
+
+<P>
+The construction of 
+<A NAME="23154"></A> <I>multiclass SVMs</I> 
+is discussed in 
+(<A
+ HREF="bibliography-1.html#weston99svms">Weston and Watkins, 1999</A>), (<A
+ HREF="bibliography-1.html#crammer01algorithmic">Crammer and Singer, 2001</A>), and
+(<A
+ HREF="bibliography-1.html#tsochantaridis05large">Tsochantaridis et&nbsp;al., 2005</A>).  The last reference provides an
+introduction to the general framework of structural SVMs.
+
+<P>
+The kernel trick was first presented in (<A
+ HREF="bibliography-1.html#aizerman64theoretical">Aizerman et&nbsp;al., 1964</A>).
+For more about string kernels and other kernels for structured data, see
+(<A
+ HREF="bibliography-1.html#lodhi02text">Lodhi et&nbsp;al., 2002</A>) and (<A
+ HREF="bibliography-1.html#gaertner02kernels">Gaertner et&nbsp;al., 2002</A>).  The Advances in Neural
+Information Processing (NIPS) conferences have become the premier venue
+for theoretical machine learning work, such as on SVMs.  Other venues
+such as SIGIR are much stronger on experimental methodology and using
+text-specific features to improve classifier effectiveness.
+
+<P>
+A recent comparison of most current machine learning classifiers (though
+on problems rather different from typical text problems) can be found in
+(<A
+ HREF="bibliography-1.html#caruana06empirical">Caruana and Niculescu-Mizil, 2006</A>).  (<A
+ HREF="bibliography-1.html#li03loss">Li and Yang, 2003</A>), discussed in
+Section <A HREF="evaluation-of-text-classification-1.html#sec:textcat-eval">13.6</A> , is the most recent comparative evaluation of
+machine learning classifiers on text classification.  
+Older examinations of classifiers on text problems can be found in
+(<A NAME="tex2html4112"
+  HREF="bibliography-1.html#yang99re-examination">Yang and Liu, 1999</A>, <A NAME="tex2html4113"
+  HREF="bibliography-1.html#dumais98inductive">Dumais et&nbsp;al., 1998</A>, <A NAME="tex2html4114"
+  HREF="bibliography-1.html#yang99evaluation">Yang, 1999</A>).
+<A
+ HREF="bibliography-1.html#joachims2002classify">Joachims (2002a)</A>
+presents his work on SVMs applied to text problems in detail.
+<A
+ HREF="bibliography-1.html#zhang01text">Zhang and Oles (2001)</A> present an insightful comparison of Naive Bayes,
+regularized logistic regression and SVM classifiers.
+
+<P>
+<A
+ HREF="bibliography-1.html#joachims99making">Joachims (1999)</A> discusses methods of making SVM learning
+practical over large text data sets.  <A
+ HREF="bibliography-1.html#joachims06training">Joachims (2006a)</A>
+improves on this work.
+
+<P>
+A number of approaches to <A NAME="23170"></A> <I>hierarchical
+classification</I>  have been developed in order to deal with
+the common situation where the classes to be assigned have a
+natural hierarchical organization
+(<A NAME="tex2html4115"
+  HREF="bibliography-1.html#weigend99hierarchy">Weigend et&nbsp;al., 1999</A>, <A NAME="tex2html4116"
+  HREF="bibliography-1.html#dumais00hierarchical">Dumais and Chen, 2000</A>, <A NAME="tex2html4117"
+  HREF="bibliography-1.html#koller97hierarchy">Koller and Sahami, 1997</A>, <A NAME="tex2html4118"
+  HREF="bibliography-1.html#mccallum98improving">McCallum et&nbsp;al., 1998</A>).
+In a recent large study on scaling SVMs to the entire Yahoo! directory,
+<A
+ HREF="bibliography-1.html#liu05svms">Liu et&nbsp;al. (2005)</A> conclude that hierarchical classification
+noticeably if still modestly outperforms flat
+classification. 
+Classifier effectiveness remains
+limited by the very small number of training documents for many classes.
+For a more general approach that can be
+applied to modeling relations between classes, which may be arbitrary
+rather than simply the case of a hierarchy, see <A
+ HREF="bibliography-1.html#tsochantaridis05large">Tsochantaridis et&nbsp;al. (2005)</A>.
+
+<P>
+<A
+ HREF="bibliography-1.html#moschitti04complex">Moschitti and Basili (2004)</A> investigate the use of complex
+nominals, proper nouns and word senses as features in text classification.
+
+<P>
+<A
+ HREF="bibliography-1.html#dietterich02ensemble">Dietterich (2002)</A> overviews ensemble methods for classifier
+combination, while <A
+ HREF="bibliography-1.html#schapire03boosting">Schapire (2003)</A> focuses particularly on
+boosting, which is applied to text classification in (<A
+ HREF="bibliography-1.html#schapire00boostexter">Schapire and Singer, 2000</A>).
+
+<P>
+<A
+ HREF="bibliography-1.html#chapelle06semi-supervised">Chapelle et&nbsp;al. (2006)</A> present an introduction to work in
+semi-supervised methods, including in particular chapters on using EM
+for semi-supervised text classification (<A
+ HREF="bibliography-1.html#nigam06semi-supervised">Nigam et&nbsp;al., 2006</A>)
+and on transductive SVMs (<A
+ HREF="bibliography-1.html#joachims06transductive">Joachims, 2006b</A>).
+<A
+ HREF="bibliography-1.html#sindhwani06large">Sindhwani and Keerthi (2006)</A> present a more efficient implementation of a
+transductive SVM for large data sets.
+
+<P>
+<A
+ HREF="bibliography-1.html#tong01svm">Tong and Koller (2001)</A> explore active learning with SVMs for text
+classification; <A
+ HREF="bibliography-1.html#baldridge04active">Baldridge and Osborne (2004)</A> point out that examples
+selected for annotation with one classifier in an active learning
+context may be no better than random examples when used with another
+classifier.
+
+<P>
+Machine learning approaches to ranking for ad hoc retrieval were
+pioneered in (<A
+ HREF="bibliography-1.html#wong88linear">Wong et&nbsp;al., 1988</A>), (<A
+ HREF="bibliography-1.html#fuhr92probabilistic">Fuhr, 1992</A>), and 
+(<A
+ HREF="bibliography-1.html#gey94inferring">Gey, 1994</A>). But limited training
+data and poor machine learning techniques meant that these pieces of
+work achieved only middling results, and hence they only had limited
+impact at the time.
+
+<P>
+<A
+ HREF="bibliography-1.html#taylor06optimisation">Taylor et&nbsp;al. (2006)</A> study using machine learning
+to <A NAME="23189"></A>tune the parameters of
+the BM25 family of ranking functions okapi-bm25 so as to
+maximize NDCG (Section <A HREF="evaluation-of-ranked-retrieval-results-1.html#sec:ranked-evaluation">8.4</A> , page <A HREF="evaluation-of-ranked-retrieval-results-1.html#p:ndcg">8.4</A> ).
+Machine learning approaches to ordinal regression appear in
+(<A
+ HREF="bibliography-1.html#herbrich00large">Herbrich et&nbsp;al., 2000</A>) and (<A
+ HREF="bibliography-1.html#burges05learning">Burges et&nbsp;al., 2005</A>), and are applied
+to clickstream data in (<A
+ HREF="bibliography-1.html#joachims02clickthrough">Joachims, 2002b</A>).
+<A
+ HREF="bibliography-1.html#cao06adapting">Cao et&nbsp;al. (2006)</A> study how to make this approach effective in 
+IR, and <A
+ HREF="bibliography-1.html#qin07ranking">Qin et&nbsp;al. (2007)</A> suggest an extension involving using
+multiple hyperplanes.
+<A
+ HREF="bibliography-1.html#yue07svm">Yue et&nbsp;al. (2007)</A> study how to do ranking with a structural SVM
+approach, and in particular show how this construction can be
+effectively used to directly optimize for MAP
+ranked-evaluation, 
+rather than using surrogate measures like accuracy or area under the
+ROC curve.
+<A
+ HREF="bibliography-1.html#geng07feature">Geng et&nbsp;al. (2007)</A> study feature selection for the ranking problem.
+
+<P>
+Other approaches to learning to rank have also been shown to be
+effective for web search, such as (<A NAME="tex2html4119"
+  HREF="bibliography-1.html#richardson06beyond">Richardson et&nbsp;al., 2006</A>, <A NAME="tex2html4120"
+  HREF="bibliography-1.html#burges05learning">Burges et&nbsp;al., 2005</A>).
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4110"
+  HREF="flat-clustering-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4104"
+  HREF="support-vector-machines-and-machine-learning-on-documents-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4100"
+  HREF="result-ranking-by-machine-learning-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4106"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4108"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4111"
+  HREF="flat-clustering-1.html">Flat clustering</A>
+<B> Up:</B> <A NAME="tex2html4105"
+  HREF="support-vector-machines-and-machine-learning-on-documents-1.html">Support vector machines and</A>
+<B> Previous:</B> <A NAME="tex2html4101"
+  HREF="result-ranking-by-machine-learning-1.html">Result ranking by machine</A>
+ &nbsp; <B>  <A NAME="tex2html4107"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4109"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/references-and-further-reading-15.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:34:33 GMT -->
+</HTML>

@@ -1,0 +1,508 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/group-average-agglomerative-clustering-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:36:32 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Group-average agglomerative clustering</TITLE>
+<META NAME="description" CONTENT="Group-average agglomerative clustering">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="centroid-clustering-1.html">
+<LINK REL="previous" HREF="single-link-and-complete-link-clustering-1.html">
+<LINK REL="up" HREF="hierarchical-clustering-1.html">
+<LINK REL="next" HREF="centroid-clustering-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4379"
+  HREF="centroid-clustering-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4373"
+  HREF="hierarchical-clustering-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4367"
+  HREF="time-complexity-of-hac-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4375"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4377"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4380"
+  HREF="centroid-clustering-1.html">Centroid clustering</A>
+<B> Up:</B> <A NAME="tex2html4374"
+  HREF="hierarchical-clustering-1.html">Hierarchical clustering</A>
+<B> Previous:</B> <A NAME="tex2html4368"
+  HREF="time-complexity-of-hac-1.html">Time complexity of HAC</A>
+ &nbsp; <B>  <A NAME="tex2html4376"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4378"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION002230000000000000000"></A>
+<A NAME="sec:groupaverage"></A> <A NAME="p:groupaverage"></A> 
+<A NAME="26774"></A>
+<BR>
+Group-average agglomerative clustering
+</H1> <I>Group-average agglomerative clustering</I>  or 
+<A NAME="26776"></A> <I>GAAC</I> 
+(see Figure <A HREF="hierarchical-agglomerative-clustering-1.html#fig:clustersimilarities">17.3</A> , (d))
+evaluates cluster quality based on
+<I>all</I> similarities between documents, thus avoiding the
+pitfalls of the single-link and complete-link criteria,
+which equate cluster similarity with the similarity of a
+single pair of documents.
+GAAC is also called
+<A NAME="26780"></A> <I>group-average
+clustering</I> 
+and
+<A NAME="26782"></A> <I>average-link clustering</I> .
+GAAC computes the average 
+similarity <SMALL>SIM-GA</SMALL> of all pairs of documents, including pairs from
+the same cluster. But self-similarities are not included in the average:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\mbox{{\sc sim-ga}}(\omega_i,\omega_j) =
+\frac{1}{(N_i+N_j)(N_i+N_j-1)} \sum_{d_\mthatwask \in \omega_i \cup
+  \omega_j} \ \ \ \ \sum_{d_\nthatwasell
+\in \omega_i \cup \omega_j, d_\nthatwasell \neq d_\mthatwask}
+\vec{d}_\mthatwask \cdot \vec{d}_\nthatwasell
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="520" HEIGHT="53" BORDER="0"
+ SRC="img1593.png"
+ ALT="\begin{displaymath}
+\mbox{{\sc sim-ga}}(\omega_i,\omega_j) =
+\frac{1}{(N_i+N_j)(...
+...eq d_\mthatwask}
+\vec{d}_\mthatwask \cdot \vec{d}_\nthatwasell
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(203)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+where <IMG
+ WIDTH="13" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1594.png"
+ ALT="$\vec{d}$"> is the length-normalized vector of document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">,
+<IMG
+ WIDTH="9" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1595.png"
+ ALT="$\cdot$"> denotes the dot product, and <IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1596.png"
+ ALT="$N_i$"> and <IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1597.png"
+ ALT="$N_j$">
+are the number of documents in <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1590.png"
+ ALT="$\omega_i$"> and <IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1588.png"
+ ALT="$\omega_j$">, respectively.
+
+<P>
+The motivation for GAAC is that our goal in selecting two
+clusters <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1590.png"
+ ALT="$\omega_i$"> and <IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1588.png"
+ ALT="$\omega_j$"> as the next merge in HAC
+is that the resulting merge cluster <!-- MATH
+ $\omega_k = \omega_i
+\cup \omega_j$
+ -->
+<IMG
+ WIDTH="96" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1598.png"
+ ALT="$\omega_k = \omega_i
+\cup \omega_j$"> should be
+coherent. To judge the coherence of  <IMG
+ WIDTH="22" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1396.png"
+ ALT="$\omega_k$">,
+we need to look at all document-document similarities within <IMG
+ WIDTH="22" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1396.png"
+ ALT="$\omega_k$">,
+including those that occur within <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1590.png"
+ ALT="$\omega_i$"> and those that
+occur within <IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1588.png"
+ ALT="$\omega_j$">.
+
+<P>
+We can compute
+the measure <SMALL>SIM-GA</SMALL>
+efficiently because the
+sum of individual vector similarities is equal to the
+similarities of their sums:
+<BR>
+<DIV ALIGN="CENTER"><A NAME="gatrick"></A>
+<!-- MATH
+ \begin{eqnarray}
+\sum_{d_\mthatwask \in \omega_i} \sum_{d_\nthatwasell \in \omega_j} (\vec{d}_\mthatwask \cdot \vec{d}_\nthatwasell)
+= 
+(\sum_{d_\mthatwask \in \omega_i} \vec{d}_\mthatwask) \cdot
+(\sum_{d_\nthatwasell \in \omega_j} \vec{d}_\nthatwasell)
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="310" HEIGHT="57" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1599.png"
+ ALT="$\displaystyle \sum_{d_\mthatwask \in \omega_i} \sum_{d_\nthatwasell \in \omega_...
+...{d}_\mthatwask) \cdot
+(\sum_{d_\nthatwasell \in \omega_j} \vec{d}_\nthatwasell)$"></TD>
+<TD>&nbsp;</TD>
+<TD>&nbsp;</TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(204)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+With gatrick,
+we have:
+<BR>
+<DIV ALIGN="CENTER"><A NAME="gaacsim"></A>
+<!-- MATH
+ \begin{eqnarray}
+\mbox{{\sc sim-ga}}(\omega_i,\omega_j) &= &\frac{1}{(N_i+N_j)(N_i+N_j-1)}[ (\sum_{d_\mthatwask \in
+\omega_i \cup \omega_j} \vec{d}_\mthatwask)^2 
+- (N_i+N_j)]
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="110" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1600.png"
+ ALT="$\displaystyle \mbox{{\sc sim-ga}}(\omega_i,\omega_j)$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="368" HEIGHT="57" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1601.png"
+ ALT="$\displaystyle \frac{1}{(N_i+N_j)(N_i+N_j-1)}[ (\sum_{d_\mthatwask \in
+\omega_i \cup \omega_j} \vec{d}_\mthatwask)^2
+- (N_i+N_j)]$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(205)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+The term <IMG
+ WIDTH="71" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1602.png"
+ ALT="$(N_i+N_j)$"> on the right is the sum of 
+<IMG
+ WIDTH="58" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1603.png"
+ ALT="$N_i+N_j$">
+self-similarities of value <IMG
+ WIDTH="24" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img644.png"
+ ALT="$1.0$">. With this trick we can
+compute cluster similarity in constant time (assuming we
+have available the two vector sums
+<!-- MATH
+ $\sum_{d_\mthatwask \in
+\omega_i} \vec{d}_\mthatwask$
+ -->
+<IMG
+ WIDTH="75" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1604.png"
+ ALT="$\sum_{d_\mthatwask \in
+\omega_i} \vec{d}_\mthatwask$"> and
+<!-- MATH
+ $\sum_{d_\mthatwask \in
+\omega_j} \vec{d}_\mthatwask)$
+ -->
+<IMG
+ WIDTH="83" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1605.png"
+ ALT="$\sum_{d_\mthatwask \in
+\omega_j} \vec{d}_\mthatwask)$">
+instead of in <!-- MATH
+ $\Theta(N_iN_j)$
+ -->
+<IMG
+ WIDTH="65" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1606.png"
+ ALT="$\Theta(N_iN_j)$">.
+This is important because we need to be able to compute the
+function 
+<SMALL>SIM</SMALL>
+on lines 18 and 20
+in
+E<SMALL>FFICIENT</SMALL>HAC
+(Figure <A HREF="time-complexity-of-hac-1.html#fig:completecomplexity">17.8</A> )
+in constant time for efficient implementations of GAAC.
+Note that for
+two singleton clusters, 
+Equation&nbsp;<A HREF="#gaacsim">205</A> is
+equivalent to the dot product.
+
+<P>
+<A NAME="p:similarityinhierclust"></A> 
+Equation <A HREF="#gatrick">204</A>  relies on the distributivity of the dot product
+with respect to vector addition.
+Since this is crucial for the efficient computation of a
+GAAC clustering, the method cannot be easily applied
+to 
+representations of documents that are not real-valued vectors.
+Also, Equation&nbsp;<A HREF="#gatrick">204</A> only holds for the dot
+product. While many algorithms introduced in this book have near-equivalent
+descriptions in terms of dot product, cosine similarity and
+Euclidean distance (cf. simdisfigs),  Equation&nbsp;<A HREF="#gatrick">204</A> can only be expressed using
+the dot product. This is a fundamental difference between
+single-link/complete-link clustering and GAAC. The first two
+only require a square matrix of similarities as input and
+do not care how these similarities were computed. 
+
+<P>
+To
+summarize, GAAC
+requires (i) documents represented as vectors, (ii) length
+normalization of vectors, so that self-similarities are 1.0,
+and (iii) 
+the dot product as the measure of similarity between
+vectors and sums of vectors.
+
+<P>
+The merge algorithms for GAAC
+and complete-link clustering are the same except that we
+use 
+Equation&nbsp;<A HREF="#gaacsim">205</A>
+as
+similarity function 
+in
+Figure <A HREF="time-complexity-of-hac-1.html#fig:completecomplexity">17.8</A> . Therefore, the overall time complexity of
+GAAC is the same as for complete-link
+clustering: <!-- MATH
+ $\Theta(N^2\log N)$
+ -->
+<IMG
+ WIDTH="93" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1573.png"
+ ALT="$
+\Theta(N^2 \log N)$">.
+Like complete-link clustering, GAAC is
+not best-merge persistent
+(Exercise <A HREF="exercises-4.html#ex:singlelinkbestmerge">17.10</A> ).
+This means that
+there
+is no <IMG
+ WIDTH="51" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1579.png"
+ ALT="$\Theta(N^2)$"> algorithm for GAAC
+that would be analogous to the <IMG
+ WIDTH="51" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1579.png"
+ ALT="$\Theta(N^2)$"> algorithm
+for single-link in Figure <A HREF="time-complexity-of-hac-1.html#fig:singlecomplexity">17.9</A> .
+
+<P>
+We can also define group-average similarity
+as including self-similarities:
+<BR>
+<DIV ALIGN="CENTER"><A NAME="gaacsimprime"></A>
+<!-- MATH
+ \begin{eqnarray}
+\mbox{{\sc sim-ga}}^{\prime}(\omega_i,\omega_j) = \frac{1}{(N_i \!\! + \!\! N_j)^2} (\sum_{d_\mthatwask \in
+\omega_i   \cup   \omega_j} \vec{d}_\mthatwask)^2
+=\!\!
+\frac{1}{N_i \!\! + \!\! N_j} \sum_{d_\mthatwask \in
+\omega_i   \cup   \omega_j} \!\!\![\vec{d}_\mthatwask \cdot \vec{\mu} (   \omega_i  \! \cup \!  \omega_j )]
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="532" HEIGHT="57" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1607.png"
+ ALT="$\displaystyle \mbox{{\sc sim-ga}}^{\prime}(\omega_i,\omega_j) = \frac{1}{(N_i \...
+..._j} \!\!\![\vec{d}_\mthatwask \cdot \vec{\mu} ( \omega_i \! \cup \! \omega_j )]$"></TD>
+<TD>&nbsp;</TD>
+<TD>&nbsp;</TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(206)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+where the centroid <!-- MATH
+ $\vec{\mu}(\omega)$
+ -->
+<IMG
+ WIDTH="40" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1608.png"
+ ALT="$\vec{\mu}(\omega)$"> is defined as in 
+Equation&nbsp;<A HREF="rocchio-classification-1.html#centroiddef">139</A> (page <A HREF="rocchio-classification-1.html#p:centroiddef">139</A> ).
+This definition is equivalent to the intuitive definition of
+cluster quality as average similarity of documents <!-- MATH
+ $\vec{d}_\mthatwask$
+ -->
+<IMG
+ WIDTH="23" HEIGHT="41" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1609.png"
+ ALT="$\vec{d}_\mthatwask$"> to
+the cluster's centroid <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1436.png"
+ ALT="$\vec{\mu}$">.
+
+<P>
+Self-similarities are always
+equal to 1.0, the maximum possible value for length-normalized vectors.
+The
+proportion of self-similarities in
+Equation&nbsp;<A HREF="#gaacsimprime">206</A> is <IMG
+ WIDTH="75" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1610.png"
+ ALT="$i/i^2 = 1/i$"> for a cluster of size <IMG
+ WIDTH="8" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="$i$">. 
+This gives an unfair advantage to small clusters since they
+will have proportionally more self-similarities. 
+For two documents <IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img412.png"
+ ALT="$d_1$">, <IMG
+ WIDTH="19" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img413.png"
+ ALT="$d_2$"> with a similarity <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img175.png"
+ ALT="$s$">, 
+we have <!-- MATH
+ $\mbox{{\sc sim-ga}}^{\prime}(d_1,d_2) = 
+(1+s)/2$
+ -->
+<IMG
+ WIDTH="200" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1611.png"
+ ALT="$\mbox{{\sc sim-ga}}^{\prime}(d_1,d_2) =
+(1+s)/2$">. In contrast, 
+<!-- MATH
+ $\mbox{{\sc sim-ga}}(d_1,d_2)= s \leq (1+s)/2$
+ -->
+<IMG
+ WIDTH="223" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1612.png"
+ ALT="$\mbox{{\sc sim-ga}}(d_1,d_2)= s \leq (1+s)/2$">. This
+similarity 
+<!-- MATH
+ $\mbox{{\sc sim-ga}}(d_1,d_2)$
+ -->
+<IMG
+ WIDTH="107" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1613.png"
+ ALT="$\mbox{{\sc sim-ga}}(d_1,d_2)$"> of two documents
+is 
+the same as in single-link,
+complete-link and centroid
+clustering. We prefer the definition in
+Equation&nbsp;<A HREF="#gaacsim">205</A>, which excludes self-similarities
+from the average, because we do not want to penalize large
+clusters for their smaller proportion of self-similarities
+and because we want a consistent similarity value <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img175.png"
+ ALT="$s$"> for
+document pairs in all four HAC algorithms.
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI>Apply group-average clustering to the points in
+ and <A HREF="single-link-and-complete-link-clustering-1.html#fig:clinkoutlier">17.7</A> . Map them onto the surface of the unit sphere in 
+a three-dimensional space to get length-normalized vectors.
+Is the group-average clustering different from the single-link and
+complete-link clusterings?
+
+<P>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4379"
+  HREF="centroid-clustering-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4373"
+  HREF="hierarchical-clustering-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4367"
+  HREF="time-complexity-of-hac-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4375"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4377"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4380"
+  HREF="centroid-clustering-1.html">Centroid clustering</A>
+<B> Up:</B> <A NAME="tex2html4374"
+  HREF="hierarchical-clustering-1.html">Hierarchical clustering</A>
+<B> Previous:</B> <A NAME="tex2html4368"
+  HREF="time-complexity-of-hac-1.html">Time complexity of HAC</A>
+ &nbsp; <B>  <A NAME="tex2html4376"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4378"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/group-average-agglomerative-clustering-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:36:44 GMT -->
+</HTML>

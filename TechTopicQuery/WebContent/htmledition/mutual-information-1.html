@@ -1,0 +1,595 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/mutual-information-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:31:03 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Mutual information</TITLE>
+<META NAME="description" CONTENT="Mutual information">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="feature-selectionchi2-feature-selection-1.html">
+<LINK REL="previous" HREF="feature-selection-1.html">
+<LINK REL="up" HREF="feature-selection-1.html">
+<LINK REL="next" HREF="feature-selectionchi2-feature-selection-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3549"
+  HREF="feature-selectionchi2-feature-selection-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3543"
+  HREF="feature-selection-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3537"
+  HREF="feature-selection-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3545"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3547"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3550"
+  HREF="feature-selectionchi2-feature-selection-1.html">Feature selectionChi2 Feature selection</A>
+<B> Up:</B> <A NAME="tex2html3544"
+  HREF="feature-selection-1.html">Feature selection</A>
+<B> Previous:</B> <A NAME="tex2html3538"
+  HREF="feature-selection-1.html">Feature selection</A>
+ &nbsp; <B>  <A NAME="tex2html3546"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3548"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001851000000000000000"></A><A NAME="16989"></A>
+<A NAME="sec:mutualinfo"></A> <A NAME="p:mutualinfo"></A>
+<BR>
+Mutual
+  information
+</H2> 
+
+<P>
+A common feature selection method is to compute <IMG
+ WIDTH="49" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1004.png"
+ ALT="$A(\tcword,c)$"> as
+the expected <A NAME="16992"></A> <I>mutual information</I>  (MI) of term <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img891.png"
+ ALT="$\tcword$"> and
+class <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img252.png"
+ ALT="$c$">.<A NAME="tex2html136"
+  HREF="footnode.html#foot17821"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A> MI measures how much information the
+presence/absence of a term contributes to making the correct
+classification decision on <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img252.png"
+ ALT="$c$">. Formally:
+<BR>
+<DIV ALIGN="CENTER"><A NAME="mifeatsel"></A>
+<!-- MATH
+ \begin{eqnarray}
+I(\wvar;C) &=&
+\sum_{e_\tcword \in \{ 1,0 \} }
+\sum_{e_c \in \{ 1,0 \} }
+P(\wvar=e_\tcword,C=e_c)
+\log_2 \frac
+{P(\wvar=e_\tcword,C=e_c)}
+{P(\wvar=e_\tcword)P(C=e_c)},
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="56" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1011.png"
+ ALT="$\displaystyle I(\wvar;C)$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="408" HEIGHT="56" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1012.png"
+ ALT="$\displaystyle \sum_{e_\tcword \in \{ 1,0 \} }
+\sum_{e_c \in \{ 1,0 \} }
+P(\wvar...
+...rd,C=e_c)
+\log_2 \frac
+{P(\wvar=e_\tcword,C=e_c)}
+{P(\wvar=e_\tcword)P(C=e_c)},$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(130)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+where <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img957.png"
+ ALT="$\wvar$"> is a random variable that
+takes values <IMG
+ WIDTH="46" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1013.png"
+ ALT="$e_\tcword=1$"> (the document contains term <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img891.png"
+ ALT="$\tcword$">) and
+<IMG
+ WIDTH="45" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1014.png"
+ ALT="$e_\tcword=0$"> (the document does not contain <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img891.png"
+ ALT="$\tcword$">),
+as defined on page <A HREF="properties-of-naive-bayes-1.html#p:wvar">13.4</A> , and <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img616.png"
+ ALT="$C$"> is a random variable
+that takes values <IMG
+ WIDTH="47" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1015.png"
+ ALT="$e_c=1$">
+(the document is in class <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img252.png"
+ ALT="$c$">) and <IMG
+ WIDTH="46" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1016.png"
+ ALT="$e_c=0$"> (the document is not in
+class <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img252.png"
+ ALT="$c$">).
+We write <IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1017.png"
+ ALT="$\wvar_\tcword$"> 
+and <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1018.png"
+ ALT="$C_c$"> 
+if it is not clear from context which term <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img891.png"
+ ALT="$\tcword$"> and class <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img252.png"
+ ALT="$c$">
+we are referring to.
+
+<P>
+For<A NAME="17010"></A>
+MLEs of the probabilities,
+Equation <A HREF="#mifeatsel">130</A>  is equivalent to Equation&nbsp;<A HREF="#mifeatsel2">131</A>:
+<BR>
+<DIV ALIGN="CENTER"><A NAME="mifeatsel2"></A>
+<!-- MATH
+ \begin{eqnarray}
+I(\wvar;C) &=&
+\frac{\observationo_{11}}{N}\log_2 \frac{N
+\observationo_{11}}{\observationo_{1.}\observationo_{.1}}
++\frac{\observationo_{01}}{N}\log_2 \frac{N
+\observationo_{01}}{\observationo_{0.}\observationo_{.1}}\\
+&&+\, \frac{\observationo_{10}}{N}\log_2 \frac{N
+\observationo_{10}}{\observationo_{1.}\observationo_{.0}}
++\frac{\observationo_{00}}{N}\log_2 \frac{N
+\observationo_{00}}{\observationo_{0.}\observationo_{.0}}
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="56" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1011.png"
+ ALT="$\displaystyle I(\wvar;C)$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="248" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1019.png"
+ ALT="$\displaystyle \frac{\observationo_{11}}{N}\log_2 \frac{N
+\observationo_{11}}{\o...
+...01}}{N}\log_2 \frac{N
+\observationo_{01}}{\observationo_{0.}\observationo_{.1}}$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(131)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT">&nbsp;</TD>
+<TD>&nbsp;</TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="263" HEIGHT="53" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1020.png"
+ ALT="$\displaystyle +\, \frac{\observationo_{10}}{N}\log_2 \frac{N
+\observationo_{10}...
+...00}}{N}\log_2 \frac{N
+\observationo_{00}}{\observationo_{0.}\observationo_{.0}}$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(132)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+where the <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1021.png"
+ ALT="$\observationo$">s are
+counts of documents that have the values of
+<IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1022.png"
+ ALT="$e_\tcword$"> and <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1023.png"
+ ALT="$e_c$"> that are indicated by the two subscripts.
+For example,
+<!-- MATH
+ $\observationo_{10}$
+ -->
+<IMG
+ WIDTH="29" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1024.png"
+ ALT="$\observationo_{10}$">
+is the number of documents that contain <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img891.png"
+ ALT="$\tcword$"> (<IMG
+ WIDTH="46" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1013.png"
+ ALT="$e_\tcword=1$">) and
+are not in <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img252.png"
+ ALT="$c$"> (<IMG
+ WIDTH="46" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1016.png"
+ ALT="$e_c=0$">).
+<!-- MATH
+ $\observationo_{1.} = \observationo_{10}+\observationo_{11}$
+ -->
+<IMG
+ WIDTH="119" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1025.png"
+ ALT="$\observationo_{1.} = \observationo_{10}+\observationo_{11}$"> is the number of documents that
+contain <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img891.png"
+ ALT="$\tcword$"> (<IMG
+ WIDTH="46" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1013.png"
+ ALT="$e_\tcword=1$">) and we count documents independent
+of class membership (<!-- MATH
+ $e_c \in \{ 0, 1\}$
+ -->
+<IMG
+ WIDTH="76" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1026.png"
+ ALT="$e_c \in \{ 0, 1\}$">).
+<!-- MATH
+ $N=\observationo_{00}+\observationo_{01}+\observationo_{10}+\observationo_{11}$
+ -->
+<IMG
+ WIDTH="200" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1027.png"
+ ALT="$N=\observationo_{00}+\observationo_{01}+\observationo_{10}+\observationo_{11}$">
+is the total number of documents. An example of one of the MLE
+estimates that transform Equation&nbsp;<A HREF="#mifeatsel">130</A> into Equation&nbsp;<A HREF="#mifeatsel2">131</A> is
+<!-- MATH
+ $P(\wvar=1,C=1)=\observationo_{11}/N$
+ -->
+<IMG
+ WIDTH="190" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1028.png"
+ ALT="$P(\wvar=1,C=1)=\observationo_{11}/N$">.
+
+<P>
+<B>Worked example.</B>
+<A NAME="miworkedeg"></A>Consider the class poultry and the
+term export in Reuters-RCV1. The counts of the
+number of documents with the four possible combinations of
+indicator values are as follows:
+<BLOCKQUOTE>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="CENTER" COLSPAN=1>&nbsp;</TD>
+<TD ALIGN="CENTER" COLSPAN=1><!-- MATH
+ $e_c=e_{\class{poultry}}=1$
+ -->
+<IMG
+ WIDTH="124" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1029.png"
+ ALT="$e_c=e_{\class{poultry}}=1$"></TD>
+<TD ALIGN="CENTER" COLSPAN=1><!-- MATH
+ $e_c = e_{\class{poultry}}=0$
+ -->
+<IMG
+ WIDTH="123" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1030.png"
+ ALT="$e_c = e_{\class{poultry}}=0$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><!-- MATH
+ $e_\tcword=e_{\term{export}} = 1$
+ -->
+<IMG
+ WIDTH="115" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1031.png"
+ ALT="$e_\tcword=e_{\term{export}} = 1$"></TD>
+<TD ALIGN="RIGHT"><!-- MATH
+ $\observationo_{11}=49$
+ -->
+<IMG
+ WIDTH="67" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1032.png"
+ ALT="$ \observationo_{11}=49$"></TD>
+<TD ALIGN="RIGHT"><!-- MATH
+ $\observationo_{10} = 27{,}652$
+ -->
+<IMG
+ WIDTH="95" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1033.png"
+ ALT="$\observationo_{10} = 27{,}652$"></TD>
+</TR>
+<TR><TD ALIGN="LEFT"><!-- MATH
+ $e_\tcword=e_{\term{export}} = 0$
+ -->
+<IMG
+ WIDTH="114" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1034.png"
+ ALT="$e_\tcword=e_{\term{export}} = 0$"></TD>
+<TD ALIGN="RIGHT"><!-- MATH
+ $\observationo_{01} = 141$
+ -->
+<IMG
+ WIDTH="75" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1035.png"
+ ALT="$ \observationo_{01} = 141$"></TD>
+<TD ALIGN="RIGHT"><!-- MATH
+ $\observationo_{00}=774{,}106$
+ -->
+<IMG
+ WIDTH="103" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1036.png"
+ ALT="$ \observationo_{00}=774{,}106$"></TD>
+</TR>
+</TABLE>
+</BLOCKQUOTE>
+After plugging these values into Equation&nbsp;<A HREF="#mifeatsel2">131</A>
+we get:
+<P></P>
+<DIV ALIGN="CENTER">
+<!-- MATH
+ \begin{eqnarray*}
+I(\wvar;C) &= &\frac{49}{801{,}948}
+\log_2\frac{
+801{,}948 \cdot 49
+}
+{(49\! + \!27{,}652)
+(49\! + \!141)} \\
+& & +\,
+\frac{141}{801{,}948}
+\log_2 \frac{801{,}948 \cdot 141}
+{(141\! + \!774{,}106)(49\! + \!141)}\\
+& & +\,
+\frac{27{,}652}{801{,}948}
+\log_2\frac{
+801{,}948 \cdot 27{,}652
+}
+{(49\! + \!27{,}652)
+(27{,}652\! + \!774{,}106)} \\
+&& +\,
+\frac{774{,}106}{801{,}948}
+\log_2\frac{
+801{,}948 \cdot 774{,}106
+}
+{(141\! + \!774{,}106)
+(27{,}652\! + \!774{,}106)}\\
+&\approx& 0.0001105
+\end{eqnarray*}
+ -->
+<IMG
+ WIDTH="431" HEIGHT="191" BORDER="0"
+ SRC="img1037.png"
+ ALT="\begin{eqnarray*}
+I(\wvar;C) &amp;= &amp;\frac{49}{801{,}948}
+\log_2\frac{
+801{,}948 \cd...
+... \!774{,}106)
+(27{,}652\! + \!774{,}106)}\\
+&amp;\approx&amp; 0.0001105
+\end{eqnarray*}"></DIV>
+<BR CLEAR="ALL"><P></P>
+
+<P>
+<B>End worked example.</B>
+
+<P>
+To select <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1002.png"
+ ALT="$\ktopk$"> terms <!-- MATH
+ $\tcword_1,\ldots,\tcword_\ktopk$
+ -->
+<IMG
+ WIDTH="63" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1038.png"
+ ALT="$\tcword_1,\ldots,\tcword_\ktopk$"> for a given class, we
+use the feature selection algorithm in
+Figure <A HREF="feature-selection-1.html#fig:featselalg">13.6</A> : We compute the utility measure as
+<!-- MATH
+ $A(\tcword,c)=I(U_\tcword,C_c)$
+ -->
+<IMG
+ WIDTH="133" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1039.png"
+ ALT="$A(\tcword,c)=I(U_\tcword,C_c)$"> and select the <IMG
+ WIDTH="11" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1002.png"
+ ALT="$\ktopk$"> terms with the
+largest values.
+
+<P>
+Mutual information measures how much information - in the
+information-theoretic sense - a term contains about the
+class. If a term's distribution is the same in the class as
+it is in the collection as a whole, then <!-- MATH
+ $I(\wvar;C) = 0$
+ -->
+<IMG
+ WIDTH="85" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1040.png"
+ ALT="$I(\wvar;C) = 0$">. MI
+reaches its maximum value if the term is a perfect indicator
+for class membership, that is, if the term is present in a document if
+and only if the document is in the class.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:mifeatures"></A><A NAME="p:mifeatures"></A><A NAME="17203"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 13.7:</STRONG>
+Features with high
+mutual information scores for six Reuters-RCV1 classes.</CAPTION>
+<TR><TD><IMG
+ WIDTH="406" HEIGHT="422" BORDER="0"
+ SRC="img1041.png"
+ ALT="\begin{figure}\begin{tabular}{lll}
+\par
+\begin{tabular}{\vert l\vert l\vert}
+\mu...
+...84\\
+\term{team} &amp; 0.0264\\ \hline
+\end{tabular}\par
+\end{tabular}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Figure <A HREF="#fig:mifeatures">13.7</A>  shows terms with high
+mutual information scores for the six classes
+in Figure <A HREF="the-text-classification-problem-1.html#fig:setupstatclass">13.1</A> .<A NAME="tex2html138"
+  HREF="footnode.html#foot17858"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A> The selected terms (e.g.,
+london, uk, british for the class UK)
+are of
+obvious utility for making classification decisions for their respective classes.
+At the bottom of the list for UK we find terms like peripherals and
+tonight (not shown in the figure) that are clearly not helpful in deciding whether the
+document is in the class. As you might expect, keeping the
+informative terms and eliminating the non-informative ones
+tends to reduce noise and improve the classifier's accuracy.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:mccallum"></A><A NAME="p:mccallum"></A><A NAME="17219"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 13.8:</STRONG>
+Effect of feature set size on accuracy for
+multinomial and Bernoulli models.</CAPTION>
+<TR><TD><IMG
+ WIDTH="380" HEIGHT="343" ALIGN="BOTTOM" BORDER="0"
+ SRC="img1042.png"
+ ALT="\includegraphics[totalheight=3in]{art/irnbayes7.eps}"></TD></TR>
+</TABLE>
+</DIV>
+Such an accuracy increase can be observed in
+Figure <A HREF="#fig:mccallum">13.8</A> , which shows <IMG
+ WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img522.png"
+ ALT="$F_1$"> as a function of
+vocabulary size after feature selection for
+Reuters-RCV1.<A NAME="tex2html140"
+  HREF="footnode.html#foot17224"><SUP><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/footnote.png"></SUP></A>  Comparing
+<IMG
+ WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img522.png"
+ ALT="$F_1$"> at 132,776 features (corresponding to selection of all
+features) and at 10-100 features, we see that MI feature
+selection increases <IMG
+ WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img522.png"
+ ALT="$F_1$"> by about 0.1 for the multinomial
+model and by more than 0.2 for the Bernoulli model.  For the
+Bernoulli model, <IMG
+ WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img522.png"
+ ALT="$F_1$"> peaks early, at ten features selected.
+At that point, the Bernoulli model is better than the
+multinomial model.  When basing a classification decision on
+only a few features, it is more robust to consider binary
+occurrence only.  For the multinomial model (MI feature selection), the peak occurs
+later, at 100 features, and its effectiveness recovers somewhat
+at the end when we use all features.  The reason is that the
+multinomial takes the number of occurrences into account in
+parameter estimation and classification and therefore better
+exploits a larger number of features than the Bernoulli
+model. Regardless of the differences between the two
+methods, using a carefully selected subset of the features
+results in better effectiveness than using all
+features<A NAME="17225"></A>.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3549"
+  HREF="feature-selectionchi2-feature-selection-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3543"
+  HREF="feature-selection-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3537"
+  HREF="feature-selection-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3545"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3547"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3550"
+  HREF="feature-selectionchi2-feature-selection-1.html">Feature selectionChi2 Feature selection</A>
+<B> Up:</B> <A NAME="tex2html3544"
+  HREF="feature-selection-1.html">Feature selection</A>
+<B> Previous:</B> <A NAME="tex2html3538"
+  HREF="feature-selection-1.html">Feature selection</A>
+ &nbsp; <B>  <A NAME="tex2html3546"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3548"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/mutual-information-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:31:22 GMT -->
+</HTML>

@@ -1,0 +1,166 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/impact-ordering-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:26:24 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Impact ordering</TITLE>
+<META NAME="description" CONTENT="Impact ordering">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="cluster-pruning-1.html">
+<LINK REL="previous" HREF="static-quality-scores-and-ordering-1.html">
+<LINK REL="up" HREF="efficient-scoring-and-ranking-1.html">
+<LINK REL="next" HREF="cluster-pruning-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html2202"
+  HREF="cluster-pruning-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2196"
+  HREF="efficient-scoring-and-ranking-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2190"
+  HREF="static-quality-scores-and-ordering-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2198"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2200"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2203"
+  HREF="cluster-pruning-1.html">Cluster pruning</A>
+<B> Up:</B> <A NAME="tex2html2197"
+  HREF="efficient-scoring-and-ranking-1.html">Efficient scoring and ranking</A>
+<B> Previous:</B> <A NAME="tex2html2191"
+  HREF="static-quality-scores-and-ordering-1.html">Static quality scores and</A>
+ &nbsp; <B>  <A NAME="tex2html2199"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2201"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001215000000000000000"></A>
+<A NAME="sec:impactordered"></A> <A NAME="p:impactordered"></A>
+<BR>
+Impact ordering
+</H2> 
+In all the postings lists described thus far, we order the documents consistently by some common ordering: typically by document ID but in Section <A HREF="static-quality-scores-and-ordering-1.html#sec:static">7.1.4</A>  by static quality scores.  As noted at the end of Section <A HREF="computing-vector-scores-1.html#sec:pseudocode">6.3.3</A> , such a common ordering supports the concurrent traversal of all of the query terms' postings lists, computing the score for each document as we encounter it.  Computing scores in this manner is sometimes referred to as <A NAME="9939"></A> <I>document-at-a-time</I>  scoring.  We will now introduce a technique for inexact top-<IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$"> retrieval in which the postings are not all ordered by a common ordering, thereby precluding such a concurrent traversal.  We will therefore require scores to be ``accumulated'' one term at a time as in the scheme of Figure <A HREF="computing-vector-scores-1.html#fig:cosinealg">6.14</A> , so that we have <A NAME="9942"></A> <I>term-at-a-time</I>  scoring.
+
+<P>
+The idea is to order the documents <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$"> in the postings list of term <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$"> by decreasing order of <!-- MATH
+ $\mbox{tf}_{t,d}$
+ -->
+<IMG
+ WIDTH="29" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img400.png"
+ ALT="$\mbox{tf}_{t,d}$">.  Thus, the ordering of documents will vary from one postings list to another, and we cannot compute scores by a concurrent traversal of the postings lists of all query terms.  Given postings lists ordered by decreasing order of <!-- MATH
+ $\mbox{tf}_{t,d}$
+ -->
+<IMG
+ WIDTH="29" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img400.png"
+ ALT="$\mbox{tf}_{t,d}$">, two ideas have been found to significantly lower the number of documents for which we accumulate scores: (1) when traversing the postings list for a query term <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$">, we stop after considering a prefix of the postings list - either after a fixed number of documents <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img28.png"
+ ALT="$r$"> have been seen, or after the value of <!-- MATH
+ $\mbox{tf}_{t,d}$
+ -->
+<IMG
+ WIDTH="29" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img400.png"
+ ALT="$\mbox{tf}_{t,d}$"> has dropped below a threshold; (2) when accumulating scores in the outer loop of Figure <A HREF="computing-vector-scores-1.html#fig:cosinealg">6.14</A> , we consider the query terms in decreasing order of idf, so that the query terms likely to contribute the most to the final scores are considered first.  This latter idea too can be adaptive at the time of processing a query: as we get to query terms with lower idf, we can determine whether to proceed based on the changes in document scores from processing the previous query term.  If these changes are minimal, we may omit accumulation from the remaining query terms, or alternatively process shorter prefixes of their postings lists.
+
+<P>
+These ideas form a common generalization of the
+methods introduced in Sections <A HREF="index-elimination-1.html#sec:indelim">7.1.2</A> -<A HREF="static-quality-scores-and-ordering-1.html#sec:static">7.1.4</A> .  We may also implement a version of static ordering
+in which each postings list is ordered by an additive
+combination of static and query-dependent scores.  We would
+again lose the consistency of ordering across postings,
+thereby having to process query terms one at time
+accumulating scores for all documents as we go along.
+Depending on the particular scoring function, the postings
+list for a document may be ordered by other quantities than
+term frequency; under this more general setting, this idea
+is known as impact ordering.
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html2202"
+  HREF="cluster-pruning-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html2196"
+  HREF="efficient-scoring-and-ranking-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html2190"
+  HREF="static-quality-scores-and-ordering-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html2198"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html2200"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html2203"
+  HREF="cluster-pruning-1.html">Cluster pruning</A>
+<B> Up:</B> <A NAME="tex2html2197"
+  HREF="efficient-scoring-and-ranking-1.html">Efficient scoring and ranking</A>
+<B> Previous:</B> <A NAME="tex2html2191"
+  HREF="static-quality-scores-and-ordering-1.html">Static quality scores and</A>
+ &nbsp; <B>  <A NAME="tex2html2199"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html2201"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/impact-ordering-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:26:24 GMT -->
+</HTML>

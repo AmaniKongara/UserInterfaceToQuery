@@ -1,0 +1,676 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/linear-algebra-review-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:37:12 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Linear algebra review</TITLE>
+<META NAME="description" CONTENT="Linear algebra review">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="term-document-matrices-and-singular-value-decompositions-1.html">
+<LINK REL="previous" HREF="matrix-decompositions-and-latent-semantic-indexing-1.html">
+<LINK REL="up" HREF="matrix-decompositions-and-latent-semantic-indexing-1.html">
+<LINK REL="next" HREF="matrix-decompositions-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4528"
+  HREF="matrix-decompositions-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4522"
+  HREF="matrix-decompositions-and-latent-semantic-indexing-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4516"
+  HREF="matrix-decompositions-and-latent-semantic-indexing-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4524"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4526"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4529"
+  HREF="matrix-decompositions-1.html">Matrix decompositions</A>
+<B> Up:</B> <A NAME="tex2html4523"
+  HREF="matrix-decompositions-and-latent-semantic-indexing-1.html">Matrix decompositions and latent</A>
+<B> Previous:</B> <A NAME="tex2html4517"
+  HREF="matrix-decompositions-and-latent-semantic-indexing-1.html">Matrix decompositions and latent</A>
+ &nbsp; <B>  <A NAME="tex2html4525"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4527"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION002310000000000000000"></A>
+<A NAME="sec:linalg"></A> <A NAME="p:linalg"></A>
+<BR>
+Linear algebra review
+</H1> 
+We briefly review some necessary background in linear algebra. Let <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$\lsimatrix$"> be an <!-- MATH
+ $\lsinoterms \times
+\lsinodocs$
+ -->
+<IMG
+ WIDTH="53" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1664.png"
+ ALT="$\lsinoterms\times \lsinodocs$"> matrix with real-valued entries; for a term-document matrix, all entries are in fact non-negative.
+
+<P>
+The <A NAME="28495"></A> <I>rank</I>  of a matrix is the number of linearly independent rows (or columns) in it; thus, <!-- MATH
+ ${\mbox rank}(\lsimatrix)\leq \min\{\lsinoterms,\lsinodocs\}$
+ -->
+<IMG
+ WIDTH="163" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1666.png"
+ ALT="${\mbox rank}(\lsimatrix)\leq \min\{\lsinoterms,\lsinodocs\}$">. A square <IMG
+ WIDTH="37" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1667.png"
+ ALT="$r\times r$"> matrix all of whose off-diagonal entries are zero is called a <EM>diagonal matrix</EM>; its rank is equal to the number of non-zero diagonal entries. If all <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img28.png"
+ ALT="$r$"> diagonal entries of such a diagonal matrix are <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img291.png"
+ ALT="$1$">, it is called the identity matrix of dimension <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img28.png"
+ ALT="$r$"> and represented by <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1668.png"
+ ALT="$I_r$">.
+
+<P>
+For a square <!-- MATH
+ $\lsinoterms\times \lsinoterms$
+ -->
+<IMG
+ WIDTH="56" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1669.png"
+ ALT="$\lsinoterms\times \lsinoterms$"> matrix <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$\lsimatrix$"> and a vector <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img701.png"
+ ALT="$\vec{x}$"> that is not all zeros, the values of <IMG
+ WIDTH="14" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img830.png"
+ ALT="$\lambda$"><A NAME="eigenvalue-notation"></A> satisfying
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\matrix{\lsimatrix}\vec{x} = \lambda \vec{x}
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eqn:right-eigen"></A><IMG
+ WIDTH="64" HEIGHT="28" BORDER="0"
+ SRC="img1670.png"
+ ALT="\begin{displaymath}
+\matrix{\lsimatrix}\vec{x} = \lambda \vec{x}
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(213)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+are called the 
+<A NAME="28507"></A> <I>eigenvalues</I> 
+of
+<!-- MATH
+ $\matrix{\lsimatrix}$
+ -->
+<IMG
+ WIDTH="20" HEIGHT="34" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1671.png"
+ ALT="$\matrix{\lsimatrix}$">. The <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1672.png"
+ ALT="$\lsinodocs$">-vector <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img701.png"
+ ALT="$\vec{x}$"> satisfying Equation&nbsp;<A HREF="#eqn:right-eigen">213</A> for an eigenvalue <IMG
+ WIDTH="14" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img830.png"
+ ALT="$\lambda$"> is the corresponding <EM>right eigenvector</EM>. The eigenvector corresponding to the eigenvalue of largest magnitude is called the <EM>principal eigenvector.</EM> In a similar fashion, the <EM>left eigenvectors</EM> of <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$\lsimatrix$"> are the <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1673.png"
+ ALT="$\lsinoterms$">-vectors <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img59.png"
+ ALT="$y$"> such that
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\vec{y}^T\matrix{\lsimatrix} = \lambda \vec{y}^T.
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eqn:left-eigen"></A><IMG
+ WIDTH="87" HEIGHT="28" BORDER="0"
+ SRC="img1674.png"
+ ALT="\begin{displaymath}
+\vec{y}^T\matrix{\lsimatrix} = \lambda \vec{y}^T.
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(214)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+The number of non-zero eigenvalues of <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$\lsimatrix$"> is at most <!-- MATH
+ $\mbox{rank}(\lsimatrix)$
+ -->
+<IMG
+ WIDTH="61" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1675.png"
+ ALT="$\mbox{rank}(\lsimatrix)$">.
+
+<P>
+The eigenvalues of a matrix are found by solving the
+<I>characteristic equation</I>, which is obtained by
+rewriting Equation&nbsp;<A HREF="#eqn:right-eigen">213</A> in the form <!-- MATH
+ $(\lsimatrix-\lambda
+I_\lsinoterms)\vec{x}=0$
+ -->
+<IMG
+ WIDTH="116" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1676.png"
+ ALT="$(\lsimatrix-\lambda
+I_\lsinoterms)\vec{x}=0$">. The eigenvalues of <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$\lsimatrix$"> are then the solutions of
+<!-- MATH
+ $|(\lsimatrix-\lambda I_\lsinoterms)|=0$
+ -->
+<IMG
+ WIDTH="118" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1677.png"
+ ALT="$\vert(\lsimatrix-\lambda I_\lsinoterms)\vert=0$">, where <IMG
+ WIDTH="23" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1678.png"
+ ALT="$\vert S\vert$"> denotes the <A NAME="p:determinant-def"></A> determinant of a square matrix <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1679.png"
+ ALT="$S$">.
+The equation <!-- MATH
+ $|(\lsimatrix-\lambda I_\lsinoterms)|=0$
+ -->
+<IMG
+ WIDTH="118" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1677.png"
+ ALT="$\vert(\lsimatrix-\lambda I_\lsinoterms)\vert=0$"> is an <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1673.png"
+ ALT="$\lsinoterms$">th order polynomial equation in <IMG
+ WIDTH="14" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img830.png"
+ ALT="$\lambda$"> and can have at most <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1673.png"
+ ALT="$\lsinoterms$"> roots, which are the
+eigenvalues of <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$\lsimatrix$">. These eigenvalues can in general be complex, even if all entries of <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1665.png"
+ ALT="$\lsimatrix$"> are real.
+
+<P>
+We now examine some further properties of eigenvalues and eigenvectors, to set up the central idea of singular value decompositions in Section <A HREF="term-document-matrices-and-singular-value-decompositions-1.html#sec:svd">18.2</A>  below. First, we look at the relationship between matrix-vector multiplication and eigenvalues.
+
+<P>
+<B>Worked example.</B>
+<A NAME="eg:3eigen"></A>Consider the matrix
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+S=\left(
+      \begin{array}{ccc}
+        30 & 0 & 0 \\
+        0 & 20 & 0 \\
+        0 & 0 & 1\\
+      \end{array}
+    \right).
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="153" HEIGHT="64" BORDER="0"
+ SRC="img1680.png"
+ ALT="\begin{displaymath}
+S=\left(
+\begin{array}{ccc}
+30 &amp; 0 &amp; 0 \\
+0 &amp; 20 &amp; 0 \\
+0 &amp; 0 &amp; 1\\
+\end{array} \right).
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(215)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+Clearly the matrix has rank 3, and has 3 non-zero eigenvalues <IMG
+ WIDTH="63" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1681.png"
+ ALT="$\lambda_1=30,$"> <IMG
+ WIDTH="59" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1682.png"
+ ALT="$ \lambda_2=20$"> and <IMG
+ WIDTH="51" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1683.png"
+ ALT="$\lambda_3=1$">, with the three corresponding eigenvectors
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\vec{x_1}=\left(
+      \begin{array}{c}
+        1 \\0 \\0 \\
+      \end{array}
+    \right),
+    \vec{x_2}=\left(
+      \begin{array}{c}
+        0 \\1 \\0 \\
+      \end{array}
+    \right)\mbox{ and }
+    \vec{x_3}=\left(
+      \begin{array}{c}
+        0 \\0 \\1 \\
+      \end{array}
+    \right).
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="323" HEIGHT="64" BORDER="0"
+ SRC="img1684.png"
+ ALT="\begin{displaymath}
+\vec{x_1}=\left(
+\begin{array}{c}
+1 \\ 0 \\ 0 \\
+\end{a...
+...left(
+\begin{array}{c}
+0 \\ 0 \\ 1 \\
+\end{array} \right).
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(216)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+For each of the eigenvectors, multiplication by <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1679.png"
+ ALT="$S$"> acts as if we were multiplying the eigenvector by a multiple of the identity matrix; the multiple is different for each eigenvector. Now, consider an arbitrary vector, such as <!-- MATH
+ $\vec{v}=\left(
+                             \begin{array}{c}
+                               2 \\
+                               4 \\
+                               6 \\
+                             \end{array}
+                           \right).$
+ -->
+<IMG
+ WIDTH="94" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1685.png"
+ ALT="$\vec{v}=\left(
+\begin{array}{c}
+2 \\
+4 \\
+6 \\
+\end{array} \right).
+$"> We can always express <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img433.png"
+ ALT="$\vec{v}$"> as a linear combination of the three eigenvectors of <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1679.png"
+ ALT="$S$">; in the current example we have
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\vec{v}=\left(
+       \begin{array}{c}
+         2 \\
+         4 \\
+         6 \\
+       \end{array}
+     \right)=2\vec{x_1}+4\vec{x_2}+6\vec{x_3}.
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="218" HEIGHT="64" BORDER="0"
+ SRC="img1686.png"
+ ALT="\begin{displaymath}
+\vec{v}=\left(
+\begin{array}{c}
+2 \\
+4 \\
+6 \\
+\end{array} \right)=2\vec{x_1}+4\vec{x_2}+6\vec{x_3}.
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(217)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+Suppose we multiply <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img433.png"
+ ALT="$\vec{v}$"> by <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1679.png"
+ ALT="$S$">:
+<BR>
+<DIV ALIGN="CENTER"><A NAME="eqn:superpose"></A>
+<!-- MATH
+ \begin{eqnarray}
+S\vec{v} &=& S(2\vec{x_1}+4\vec{x_2}+6\vec{x_3}) \\
+  &=& 2S\vec{x_1}+4S\vec{x_2}+6S\vec{x_3}  \\
+  &=& 2\lambda_1 \vec{x_1}+4\lambda_2\vec{x_2}+6\lambda_3\vec{x_3}\\
+  &=& 60\vec{x_1}+80\vec{x_2}+6\vec{x_3}.
+\end{eqnarray}
+ -->
+<TABLE ALIGN="CENTER" CELLPADDING="0" WIDTH="100%">
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT"><IMG
+ WIDTH="22" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1687.png"
+ ALT="$\displaystyle S\vec{v}$"></TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="136" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1688.png"
+ ALT="$\displaystyle S(2\vec{x_1}+4\vec{x_2}+6\vec{x_3})$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(218)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT">&nbsp;</TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="141" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1689.png"
+ ALT="$\displaystyle 2S\vec{x_1}+4S\vec{x_2}+6S\vec{x_3}$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(219)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT">&nbsp;</TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="163" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1690.png"
+ ALT="$\displaystyle 2\lambda_1 \vec{x_1}+4\lambda_2\vec{x_2}+6\lambda_3\vec{x_3}$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(220)</TD></TR>
+<TR VALIGN="MIDDLE"><TD NOWRAP ALIGN="RIGHT">&nbsp;</TD>
+<TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img313.png"
+ ALT="$\textstyle =$"></TD>
+<TD ALIGN="LEFT" NOWRAP><IMG
+ WIDTH="133" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1691.png"
+ ALT="$\displaystyle 60\vec{x_1}+80\vec{x_2}+6\vec{x_3}.$"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(221)</TD></TR>
+</TABLE></DIV>
+<BR CLEAR="ALL"><P></P>
+<B>End worked example.</B>
+
+<P>
+Example&nbsp;<A HREF="#eg:3eigen">18.1</A> shows that even though <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img433.png"
+ ALT="$\vec{v}$"> is an arbitrary vector, the effect of multiplication by <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1679.png"
+ ALT="$S$"> is determined by the eigenvalues and eigenvectors of <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1679.png"
+ ALT="$S$">. Furthermore, it is intuitively apparent from Equation&nbsp;<A HREF="#eqn:superpose">221</A> that the product <IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1692.png"
+ ALT="$S\vec{v}$"> is relatively unaffected by terms arising from the small eigenvalues of <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1679.png"
+ ALT="$S$">; in our example, since <IMG
+ WIDTH="51" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1683.png"
+ ALT="$\lambda_3=1$">, the contribution of the third term on the right hand side of Equation&nbsp;<A HREF="#eqn:superpose">221</A> is small.  In fact, if we were to completely ignore the contribution in Equation&nbsp;<A HREF="#eqn:superpose">221</A> from the third eigenvector corresponding to <IMG
+ WIDTH="51" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1683.png"
+ ALT="$\lambda_3=1$">, then the product <IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1692.png"
+ ALT="$S\vec{v}$"> would be computed to be <!-- MATH
+ $\left(
+       \begin{array}{c}
+         60 \\
+         80 \\
+         0 \\
+       \end{array}
+     \right)$
+ -->
+<IMG
+ WIDTH="64" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1693.png"
+ ALT="$ \left(
+\begin{array}{c}
+60 \\
+80 \\
+0 \\
+\end{array} \right)$"> rather than the correct product which is <!-- MATH
+ $\left(
+       \begin{array}{c}
+         60 \\
+         80 \\
+         6 \\
+       \end{array}
+     \right)$
+ -->
+<IMG
+ WIDTH="64" HEIGHT="75" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1694.png"
+ ALT="$ \left(
+\begin{array}{c}
+60 \\
+80 \\
+6 \\
+\end{array} \right)$">; these two vectors are relatively close to each other by any of various metrics one could apply (such as the length of their vector difference).
+
+<P>
+This suggests that the effect of small eigenvalues (and their eigenvectors) on a matrix-vector product is small. We will carry forward this intuition when studying matrix decompositions and low-rank approximations in Section <A HREF="term-document-matrices-and-singular-value-decompositions-1.html#sec:svd">18.2</A> . Before doing so, we examine the eigenvectors and eigenvalues of special forms of matrices that will be of particular interest to us.
+
+<P>
+For a <I>symmetric</I> matrix <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1679.png"
+ ALT="$S$">, the eigenvectors corresponding to distinct eigenvalues are <I>orthogonal</I>. Further, if <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1679.png"
+ ALT="$S$"> is both real and symmetric, the eigenvalues are all real.
+
+<P>
+<B>Worked example.</B>
+Consider the real, symmetric matrix
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+S=\left(
+      \begin{array}{cc}
+        2 & 1 \\
+        1 & 2 \\
+      \end{array}
+    \right).
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="eqn:examplematrix"></A><IMG
+ WIDTH="109" HEIGHT="45" BORDER="0"
+ SRC="img1695.png"
+ ALT="\begin{displaymath}
+S=\left(
+\begin{array}{cc}
+2 &amp; 1 \\
+1 &amp; 2 \\
+\end{array} \right).
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(222)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+From the characteristic equation <!-- MATH
+ $|S-\lambda I|=0$
+ -->
+<IMG
+ WIDTH="90" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1696.png"
+ ALT="$\vert S-\lambda I\vert=0$">, we have the quadratic <!-- MATH
+ $(2-\lambda)^2-1=0$
+ -->
+<IMG
+ WIDTH="119" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1697.png"
+ ALT="$(2-\lambda)^2-1=0$">, whose solutions yield the eigenvalues <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1698.png"
+ ALT="$3$"> and <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img291.png"
+ ALT="$1$">. The corresponding eigenvectors <!-- MATH
+ $\left(
+                                                \begin{array}{c}
+                                                  1 \\
+                                                  -1 \\
+                                                \end{array}
+                                              \right)$
+ -->
+<IMG
+ WIDTH="65" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1699.png"
+ ALT="$\left(
+\begin{array}{c}
+1 \\
+-1 \\
+\end{array} \right)
+$"> and <!-- MATH
+ $\left(
+         \begin{array}{c}
+           1 \\
+           1 \\
+         \end{array}
+       \right)$
+ -->
+<IMG
+ WIDTH="52" HEIGHT="54" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1700.png"
+ ALT="$\left(
+\begin{array}{c}
+1 \\
+1 \\
+\end{array} \right)
+$"> are orthogonal.
+<B>End worked example.</B>
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html4530"
+  HREF="matrix-decompositions-1.html">Matrix decompositions</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4528"
+  HREF="matrix-decompositions-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4522"
+  HREF="matrix-decompositions-and-latent-semantic-indexing-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4516"
+  HREF="matrix-decompositions-and-latent-semantic-indexing-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4524"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4526"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4529"
+  HREF="matrix-decompositions-1.html">Matrix decompositions</A>
+<B> Up:</B> <A NAME="tex2html4523"
+  HREF="matrix-decompositions-and-latent-semantic-indexing-1.html">Matrix decompositions and latent</A>
+<B> Previous:</B> <A NAME="tex2html4517"
+  HREF="matrix-decompositions-and-latent-semantic-indexing-1.html">Matrix decompositions and latent</A>
+ &nbsp; <B>  <A NAME="tex2html4525"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4527"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/linear-algebra-review-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:37:32 GMT -->
+</HTML>

@@ -1,0 +1,398 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/other-types-of-indexes-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:23:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Other types of indexes</TITLE>
+<META NAME="description" CONTENT="Other types of indexes">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="references-and-further-reading-4.html">
+<LINK REL="previous" HREF="dynamic-indexing-1.html">
+<LINK REL="up" HREF="index-construction-1.html">
+<LINK REL="next" HREF="references-and-further-reading-4.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1627"
+  HREF="references-and-further-reading-4.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1621"
+  HREF="index-construction-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1615"
+  HREF="dynamic-indexing-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1623"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1625"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1628"
+  HREF="references-and-further-reading-4.html">References and further reading</A>
+<B> Up:</B> <A NAME="tex2html1622"
+  HREF="index-construction-1.html">Index construction</A>
+<B> Previous:</B> <A NAME="tex2html1616"
+  HREF="dynamic-indexing-1.html">Dynamic indexing</A>
+ &nbsp; <B>  <A NAME="tex2html1624"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1626"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00960000000000000000"></A>
+<A NAME="sec:otherindexing"></A> <A NAME="p:otherindexing"></A>
+<BR>
+Other types of indexes
+</H1>  This chapter only describes
+construction of nonpositional indexes. Except for the much
+larger data volume we need to accommodate, the 
+main
+difference for positional indexes is that (termID, docID,
+(position1, position2, ...)) triples, instead of (termID,
+docID) pairs have to be processed 
+and that tokens and postings
+contain positional information in addition to  docIDs. With this
+change, the algorithms discussed here can all be applied to
+positional indexes.
+
+<P>
+<A NAME="p:weightedretrieval"></A>  In the indexes we have
+considered so far, postings lists are ordered with respect
+to docID. As we
+see in Chapter 5, this is advantageous for
+compression - instead of docIDs we can compress smaller
+<I>gaps</I> between IDs, thus reducing space requirements
+for the index. However, this structure for the index is not
+optimal when we build <A NAME="5232"></A><A NAME="5233"></A> <I>ranked</I>  (Chapters <A HREF="scoring-term-weighting-and-the-vector-space-model-1.html#ch:tfidf">6</A> <A HREF="computing-scores-in-a-complete-search-system-1.html#ch:cosine">7</A> ) - as
+opposed to Boolean - <A NAME="5237"></A> <I>retrieval systems</I> .  In ranked
+retrieval, postings are often ordered according to weight or
+<A NAME="5239"></A> <I>impact</I> , with the highest-weighted postings
+occurring first.  With this organization, scanning of long
+postings lists during query processing can usually be
+terminated early when weights have become so small that any
+further documents can be predicted to be of low similarity
+to the query (see Chapter <A HREF="scoring-term-weighting-and-the-vector-space-model-1.html#ch:tfidf">6</A> ). In a docID-sorted index,
+new documents are always inserted at the end of postings
+lists. In an impact-sorted index impactordered, the
+insertion can occur anywhere, thus complicating the update of the inverted
+index.
+
+<P>
+<A NAME="5243"></A> <I>Security</I> <A NAME="5245"></A> is an important consideration for retrieval
+systems in corporations. 
+A low-level employee should not be able to find
+the salary roster of the
+corporation, but authorized managers need to be able to
+search for it.
+Users' results lists must not contain documents they
+are barred from opening; the very existence of a
+document can be sensitive information.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:aclmatrix"></A><A NAME="p:aclmatrix"></A><A NAME="5363"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure:</STRONG>
+A user-document matrix for 
+access control lists.<A NAME="5248"></A> Element <IMG
+ WIDTH="34" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img7.png"
+ ALT="$(i,j)$">
+is 1 if user <IMG
+ WIDTH="8" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="$i$"> has access to document <IMG
+ WIDTH="9" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img9.png"
+ ALT="$j$"> and 0
+otherwise. During query processing, a user's access postings list is intersected with
+the results list returned by the text part of the index.
+</CAPTION>
+<TR><TD><IMG
+ WIDTH="452" HEIGHT="125" ALIGN="BOTTOM" BORDER="0"
+ SRC="img226.png"
+ ALT="\includegraphics[width=10cm]{art/aclmatrix.eps}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+User authorization is often mediated through <A NAME="5252"></A><A NAME="5253"></A> <I>access
+control lists</I>  or ACLs. ACLs can be dealt with in an
+information retrieval system
+by representing each document
+as the set
+of users that can access them (Figure <A HREF="#fig:aclmatrix">4.8</A> ) and then
+inverting the resulting user-document matrix. The inverted
+ACL index has, for each user, a ``postings list'' of
+documents they can access&nbsp;- the user's access list. Search
+results are then intersected with this list. However, such
+an index is difficult to maintain when access permissions
+change - we discussed these difficulties in the context of
+incremental indexing for regular postings lists in
+Section 4.5. It also requires the processing of very long postings
+lists for users with access to large document subsets. User
+membership is therefore often verified by retrieving access
+information directly
+from the file system at query time -
+even though this slows down retrieval.
+
+<P>
+We discussed 
+indexes for storing and retrieving terms (as opposed to
+documents) in Chapter <A HREF="dictionaries-and-tolerant-retrieval-1.html#ch:spell">3</A> .
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI>Can spelling correction compromise document-level
+security? Consider the case where a spelling correction is
+based on documents to which the user does not have access.
+
+<P>
+</LI>
+</UL>
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI>Total index construction time in
+blocked sort-based indexing is broken down in Table&nbsp;<A HREF="#iconsttb2">4.3</A>.
+Fill out the time column of the table for Reuters-RCV1
+assuming a system with the parameters given in Table <A HREF="hardware-basics-1.html#tab:perfchar">4.1</A> .
+<A NAME="ex:totalconsttime"></A> <A NAME="p:totalconsttime"></A> 
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+<A NAME="5267"></A>
+
+<A NAME="5364"></A>
+<TABLE CELLPADDING=3 BORDER="1">
+<CAPTION><STRONG>Table:</STRONG>
+ The five steps in constructing an
+index for Reuters-RCV1 in blocked sort-based indexing. Line numbers refer to Figure <A HREF="blocked-sort-based-indexing-1.html#fig:blockmerge">4.2</A> .</CAPTION>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">Step</TD>
+<TD ALIGN="LEFT">Time</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">reading of collection (line 4)</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">2</TD>
+<TD ALIGN="LEFT">10 initial sorts of <IMG
+ WIDTH="27" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img227.png"
+ ALT="$10^7$"> records each (line 5)</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">3</TD>
+<TD ALIGN="LEFT">writing of 10 blocks (line 6)</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">4</TD>
+<TD ALIGN="LEFT">total disk transfer time for merging (line 7)</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">5</TD>
+<TD ALIGN="LEFT">time of actual merging (line 7)</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">total</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+</TABLE>
+</DIV>
+<BR>
+
+<P>
+<A NAME="5275"></A>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+
+<A NAME="5277"></A>
+<TABLE CELLPADDING=3 BORDER="1">
+<CAPTION><STRONG>Table 4.4:</STRONG>
+Collection statistics for a large collection.</CAPTION>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">Symbol</TD>
+<TD ALIGN="LEFT">Statistic</TD>
+<TD ALIGN="LEFT">Value</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$N$"></TD>
+<TD ALIGN="LEFT"># documents</TD>
+<TD ALIGN="LEFT">1,000,000,000</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><IMG
+ WIDTH="32" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img185.png"
+ ALT="$ L_{ave}$"></TD>
+<TD ALIGN="LEFT"># tokens per document</TD>
+<TD ALIGN="LEFT">1000</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT"><IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img186.png"
+ ALT="$M$"></TD>
+<TD ALIGN="LEFT"># distinct terms</TD>
+<TD ALIGN="LEFT">44,000,000
+
+<P></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+</TABLE>
+<A NAME="tab:bigcollection"></A> <A NAME="p:bigcollection"></A>  
+
+</DIV>
+<BR>
+
+<P>
+</LI>
+<LI>Repeat Exercise <A HREF="#ex:totalconsttime">4.6</A>  for the larger
+collection in Table <A HREF="#tab:bigcollection">4.4</A> . Choose a block size
+that is realistic for current technology
+(remember that a block
+should easily fit into main memory). 
+How many blocks do you need?
+
+<P>
+</LI>
+<LI>Assume that we have a collection of modest size
+whose index can be constructed with the simple in-memory
+indexing algorithm
+in Figure&nbsp;<A HREF="a-first-take-at-building-an-inverted-index-1.html#fig:indexstart">1.4</A> (page&nbsp;<A HREF="a-first-take-at-building-an-inverted-index-1.html#p:indexstart"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>). For this collection,
+compare memory, disk and time requirements of
+the simple algorithm in Figure <A HREF="a-first-take-at-building-an-inverted-index-1.html#fig:indexstart">1.4</A>  and 
+blocked sort-based indexing.
+
+<P>
+</LI>
+<LI><A NAME="ex:mapreducelong"></A> <A NAME="p:mapreducelong"></A>  
+Assume that machines in MapReduce have 100 GB of disk
+space each. Assume further that the postings list of the
+term the has a size of 200 GB. Then the MapReduce
+algorithm as described cannot be run to construct the index.
+How would you modify
+MapReduce so that it can handle this case?
+
+<P>
+</LI>
+<LI><A NAME="ex:mapreducepartition"></A> <A NAME="p:mapreducepartition"></A>  For optimal load
+balancing, the inverters in MapReduce must get segmented
+postings files of similar sizes. For a new collection, the
+distribution of key-value pairs may not be known in
+advance. How would you solve this problem?
+
+<P>
+</LI>
+<LI>Apply MapReduce to the problem of counting how
+often each term occurs in a set of files. Specify map and
+reduce operations for this task. Write down an example
+along the lines of Figure <A HREF="distributed-indexing-1.html#fig:mapreduceschema">4.6</A> .
+
+<P>
+</LI>
+<LI>We claimed (on page <A HREF="dynamic-indexing-1.html#p:auxstatistics">4.5</A> ) that an
+auxiliary index can impair the quality of collection statistics.
+An example is the
+term weighting method <A NAME="5298"></A> <I>idf</I> ,
+which is defined as <!-- MATH
+ $\log (N/\docf_i)$
+ -->
+<IMG
+ WIDTH="83" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img228.png"
+ ALT="$\log (N/\docf_i)$">
+where <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img62.png"
+ ALT="$N$"> is the total number of documents and <IMG
+ WIDTH="23" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img229.png"
+ ALT="$\docf_i$"> is the
+number of documents that term <IMG
+ WIDTH="8" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img8.png"
+ ALT="$i$"> occurs in
+idf. Show that
+even a small auxiliary index can cause significant error in idf
+when it is computed on the main index only. Consider a
+rare term that suddenly occurs frequently (e.g.,
+Flossie as in Tropical Storm Flossie).
+
+<P>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1627"
+  HREF="references-and-further-reading-4.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1621"
+  HREF="index-construction-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1615"
+  HREF="dynamic-indexing-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1623"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1625"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1628"
+  HREF="references-and-further-reading-4.html">References and further reading</A>
+<B> Up:</B> <A NAME="tex2html1622"
+  HREF="index-construction-1.html">Index construction</A>
+<B> Previous:</B> <A NAME="tex2html1616"
+  HREF="dynamic-indexing-1.html">Dynamic indexing</A>
+ &nbsp; <B>  <A NAME="tex2html1624"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1626"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/other-types-of-indexes-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:23:55 GMT -->
+</HTML>

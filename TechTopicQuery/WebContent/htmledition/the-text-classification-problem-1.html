@@ -1,0 +1,377 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/the-text-classification-problem-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:29:37 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>The text classification problem</TITLE>
+<META NAME="description" CONTENT="The text classification problem">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="naive-bayes-text-classification-1.html">
+<LINK REL="previous" HREF="text-classification-and-naive-bayes-1.html">
+<LINK REL="up" HREF="text-classification-and-naive-bayes-1.html">
+<LINK REL="next" HREF="naive-bayes-text-classification-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3447"
+  HREF="naive-bayes-text-classification-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3441"
+  HREF="text-classification-and-naive-bayes-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3435"
+  HREF="text-classification-and-naive-bayes-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3443"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3445"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3448"
+  HREF="naive-bayes-text-classification-1.html">Naive Bayes text classification</A>
+<B> Up:</B> <A NAME="tex2html3442"
+  HREF="text-classification-and-naive-bayes-1.html">Text classification and Naive</A>
+<B> Previous:</B> <A NAME="tex2html3436"
+  HREF="text-classification-and-naive-bayes-1.html">Text classification and Naive</A>
+ &nbsp; <B>  <A NAME="tex2html3444"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3446"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001810000000000000000"></A>
+<A NAME="sec:classificationproblem"></A> <A NAME="p:classificationproblem"></A>
+<BR>
+The text classification problem
+</H1> 
+
+<P>
+<A NAME="16083"></A>In text classification, we are given a description <!-- MATH
+ $\onedoc
+\in \mathbb{X}$
+ -->
+<IMG
+ WIDTH="46" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img853.png"
+ ALT="$\onedoc
+\in \mathbb{X}$"> of a document, where <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img854.png"
+ ALT="$\mathbb{X}$"> is the
+<A NAME="16086"></A> <A NAME="16087"></A> <I>document space</I> ; and a fixed set of
+<A NAME="16089"></A> <I>classes</I>  <!-- MATH
+ $\mathbb{C} = \{ c_1,c_2,\ldots,c_J \}$
+ -->
+<IMG
+ WIDTH="137" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img855.png"
+ ALT="$\mathbb{C} = \{ c_1,c_2,\ldots,c_J \}$">.
+<A NAME="16092"></A> Classes are also called 
+<A NAME="16093"></A> <I>categories</I> 
+or
+<A NAME="16095"></A> <I>labels</I> .  Typically, the document space 
+<IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img854.png"
+ ALT="$\mathbb{X}$">
+is
+some type of high-dimensional space, and the classes are
+human defined for the needs of an application, as in the
+examples China and documents that talk about multicore computer chips above. We are given a
+<A NAME="16100"></A> <I>training set</I>  <A NAME="p:documentset"></A> <!-- MATH
+ $\docsetlabeled$
+ -->
+<IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img856.png"
+ ALT="$\docsetlabeled$"> of labeled documents
+<!-- MATH
+ $\onedoclabeled$
+ -->
+<IMG
+ WIDTH="40" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img857.png"
+ ALT="$\onedoclabeled$">,
+where
+<!-- MATH
+ $\onedoclabeled \in \mathbb{X} \times \mathbb{C}$
+ -->
+<IMG
+ WIDTH="104" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img858.png"
+ ALT="$\onedoclabeled \in \mathbb{X} \times \mathbb{C}$">. For example:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\onedoclabeled=\langle\mbox{Beijing joins the World Trade Organization},\class{China}\rangle
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="413" HEIGHT="28" BORDER="0"
+ SRC="img859.png"
+ ALT="\begin{displaymath}
+\onedoclabeled=\langle\mbox{Beijing joins the World Trade Organization},\class{China}\rangle
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(111)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+for the one-sentence document
+Beijing joins the World Trade Organization
+and the class (or label) China.
+
+<P>
+Using a <A NAME="16111"></A> <A NAME="16112"></A> <I>learning method</I>  or <A NAME="16114"></A> <I>learning algorithm</I> , we then wish to learn a
+classifier <A NAME="16116"></A> <A NAME="16117"></A>   or <A NAME="16119"></A> <I>classification function</I>  <A NAME="p:gammafunction"></A> <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img12.png"
+ ALT="$\gamma $"> that maps
+documents to classes:
+
+<P>
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+\gamma: \mathbb{X} \rightarrow \mathbb{C}
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="p:gammadef"></A><A NAME="eqn:gammadef"></A><IMG
+ WIDTH="73" HEIGHT="48" BORDER="0"
+ SRC="img860.png"
+ ALT="\begin{displaymath}\gamma: \mathbb{X} \rightarrow \mathbb{C}
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(112)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+
+<P>
+This type of learning is called
+<A NAME="16128"></A> <A NAME="p:supervised"></A> <A NAME="16130"></A> <I>supervised learning</I>  because a
+supervisor (the human who defines the classes and labels
+training documents) serves as a teacher directing the
+learning process. We denote the supervised learning method
+by <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img861.png"
+ ALT="$\Gamma$"> and write <!-- MATH
+ $\Gamma(\docsetlabeled) = \gamma$
+ -->
+<IMG
+ WIDTH="73" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img862.png"
+ ALT="$\Gamma(\docsetlabeled) = \gamma$">. The
+learning method <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img861.png"
+ ALT="$\Gamma$"> takes the training set
+<!-- MATH
+ $\docsetlabeled$
+ -->
+<IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img856.png"
+ ALT="$\docsetlabeled$"> as input and returns the learned
+classification function <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img12.png"
+ ALT="$\gamma $">.
+
+<P>
+Most names for learning methods <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img861.png"
+ ALT="$\Gamma$"> are
+also used for classifiers <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img12.png"
+ ALT="$\gamma $">. We talk about the Naive
+Bayes (NB) <I>learning method</I> <IMG
+ WIDTH="13" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img861.png"
+ ALT="$\Gamma$"> when we say that
+``Naive Bayes is robust,'' meaning that it can be applied to
+many different learning problems and is unlikely to produce
+classifiers that fail catastrophically. But when
+we say that ``Naive Bayes had an error rate of 20%,'' we
+are describing an experiment in which a particular NB
+<I>classifier</I> <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img12.png"
+ ALT="$\gamma $"> (which was produced
+by the NB learning method) had a 20% error
+rate in an application.
+
+<P>
+Figure <A HREF="#fig:setupstatclass">13.1</A>  shows an example of text
+classification from the Reuters-RCV1 collection, introduced
+in Section <A HREF="blocked-sort-based-indexing-1.html#sec:constructlarge">4.2</A> , page <A HREF="blocked-sort-based-indexing-1.html#p:rcv1">4.2</A> . There are six
+classes (UK, China, ..., sports),
+each with three training documents.  We show a few mnemonic
+words for each document's content. The training set provides
+some typical examples for each class, so that we can learn
+the classification function <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img12.png"
+ ALT="$\gamma $">.
+Once we have learned <IMG
+ WIDTH="14" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img12.png"
+ ALT="$\gamma $">, we can apply it to the
+<A NAME="16140"></A> <A NAME="16141"></A> <I>test set</I>  (or <A NAME="16143"></A> <I>test data</I> ),
+for example, the new document first private
+Chinese airline whose class is unknown. In Figure <A HREF="#fig:setupstatclass">13.1</A> ,
+the classification function assigns the new document to
+class <!-- MATH
+ $\gamma(\onedoc) =$
+ -->
+<IMG
+ WIDTH="54" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img863.png"
+ ALT="$\gamma(\onedoc) = $"> China, which is the
+correct assignment.
+
+<P>
+The classes in text classification often have some
+interesting structure such as the hierarchy in
+Figure <A HREF="#fig:setupstatclass">13.1</A> . There are two instances each of
+region categories, industry categories, and subject area
+categories. A hierarchy can be an important aid in solving a
+classification problem; see Section <A HREF="large-and-difficult-category-taxonomies-1.html#sec:difficult-textclassification">15.3.2</A>  for
+further discussion.  Until then, we will make the
+assumption in the text classification chapters
+that the classes form a
+set with no subset relationships between them.
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:setupstatclass"></A><A NAME="p:setupstatclass"></A><A NAME="17760"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 13.1:</STRONG>
+Classes, training set, and test set in text
+classification <A NAME="16242"></A>.</CAPTION>
+<TR><TD><IMG
+ WIDTH="551" HEIGHT="267" BORDER="0"
+ SRC="img864.png"
+ ALT="\begin{figure}\par
+\psset{unit=0.8cm}
+\par
+\begin{pspicture}(-3,-6)(13,3)
+\par
+\...
+...8)(3.05,2.3)(1.75,1.15)
+\rput[c](10.9,0.0)
+\par
+\end{pspicture}\par
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Definition&nbsp;eqn:gammadef stipulates that a
+document is a member of exactly one class. This is not the
+most appropriate model for the hierarchy in
+Figure <A HREF="#fig:setupstatclass">13.1</A> . For instance, a document about the
+2008 Olympics should be a
+member of two classes: the China class and the
+sports class. This type of classification problem is
+referred to as an 
+<A NAME="16250"></A> <I>any-of</I>  
+problem and we will
+return to it in Section&nbsp;<A HREF="classification-with-more-than-two-classes-1.html#sec:more-than-two-classes">14.5</A> (page&nbsp;<A HREF="classification-with-more-than-two-classes-1.html#p:more-than-two-classes"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>). For the
+time being, we only consider
+<A NAME="16254"></A> <I>one-of</I>  
+problems
+where a document is a member of exactly one class.
+
+<P>
+Our goal in text classification is high accuracy on test
+data or <I>new data</I> - for example, the newswire
+articles that we will encounter tomorrow morning in the
+multicore chip example.  It is easy to achieve high accuracy
+on the training set (e.g., we can simply memorize the
+labels). But high accuracy on the training set in general
+does not mean that the classifier will work well on new data
+in an application.
+When we use the training set to learn a classifier for test
+data, we make the assumption that training data and test
+data are similar or from <I>the same distribution</I>. We defer a
+precise definition of this notion to <A NAME="16258"></A> Section&nbsp;<A HREF="the-bias-variance-tradeoff-1.html#sec:secbiasvariance">14.6</A> (page&nbsp;<A HREF="the-bias-variance-tradeoff-1.html#p:secbiasvariance"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>).
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3447"
+  HREF="naive-bayes-text-classification-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3441"
+  HREF="text-classification-and-naive-bayes-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3435"
+  HREF="text-classification-and-naive-bayes-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3443"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3445"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3448"
+  HREF="naive-bayes-text-classification-1.html">Naive Bayes text classification</A>
+<B> Up:</B> <A NAME="tex2html3442"
+  HREF="text-classification-and-naive-bayes-1.html">Text classification and Naive</A>
+<B> Previous:</B> <A NAME="tex2html3436"
+  HREF="text-classification-and-naive-bayes-1.html">Text classification and Naive</A>
+ &nbsp; <B>  <A NAME="tex2html3444"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3446"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/the-text-classification-problem-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:29:44 GMT -->
+</HTML>

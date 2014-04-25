@@ -1,0 +1,279 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/comparison-of-feature-selection-methods-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:31:38 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Comparison of feature selection methods</TITLE>
+<META NAME="description" CONTENT="Comparison of feature selection methods">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="feature-selection-for-multiple-classifiers-1.html">
+<LINK REL="up" HREF="feature-selection-1.html">
+<LINK REL="next" HREF="evaluation-of-text-classification-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3616"
+  HREF="evaluation-of-text-classification-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3610"
+  HREF="feature-selection-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3606"
+  HREF="feature-selection-for-multiple-classifiers-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3612"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3614"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3617"
+  HREF="evaluation-of-text-classification-1.html">Evaluation of text classification</A>
+<B> Up:</B> <A NAME="tex2html3611"
+  HREF="feature-selection-1.html">Feature selection</A>
+<B> Previous:</B> <A NAME="tex2html3607"
+  HREF="feature-selection-for-multiple-classifiers-1.html">Feature selection for multiple</A>
+ &nbsp; <B>  <A NAME="tex2html3613"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3615"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001855000000000000000"></A>
+<A NAME="17370"></A><A NAME="17371"></A><A NAME="sec:featurecomparison"></A> <A NAME="p:featurecomparison"></A>
+<BR>
+Comparison of feature selection methods
+</H2> 
+Mutual information and <IMG
+ WIDTH="21" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$\chi ^2$"> represent rather different feature selection methods.
+The independence of term <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img891.png"
+ ALT="$\tcword$"> and class <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img252.png"
+ ALT="$c$"> can sometimes be
+rejected with high confidence even if <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img891.png"
+ ALT="$\tcword$">
+carries little information about membership of a document in <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img252.png"
+ ALT="$c$">. This
+is particularly true for rare terms. If a term occurs once
+in a large collection and that one occurrence is in the
+poultry class, then this is statistically
+significant. But a single occurrence
+is not very informative
+according to the information-theoretic definition of information.
+Because its criterion is significance, <IMG
+ WIDTH="21" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$\chi ^2$">
+selects more rare terms (which are often less reliable
+indicators) than mutual information.
+But the
+selection criterion of mutual information also does not
+necessarily select the terms that maximize classification accuracy.
+
+<P>
+Despite the differences between the two methods, the
+classification accuracy of feature sets selected with
+<IMG
+ WIDTH="21" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$\chi ^2$"> and MI does not seem to differ systematically.
+In most text classification problems, there are a few strong
+indicators and many weak indicators. As long as all strong
+indicators and a large number of weak indicators are
+selected, accuracy is expected to be good.
+Both methods do this.
+
+<P>
+Figure <A HREF="mutual-information-1.html#fig:mccallum">13.8</A> 
+compares MI and <IMG
+ WIDTH="21" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$\chi ^2$"> feature selection
+for the multinomial model. Peak effectiveness is
+virtually the same for both methods. <IMG
+ WIDTH="21" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$\chi ^2$"> reaches this
+peak later, at 300 features, probably because the rare, but highly
+significant features it selects initially do not cover all
+documents in the class. However, features selected later (in
+the range of 100-300) are of better quality than those
+selected by MI. 
+
+<P>
+All three methods - MI, <IMG
+ WIDTH="21" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$\chi ^2$"> and frequency based - are
+<A NAME="17376"></A> <I>greedy</I>  <A NAME="17378"></A>methods. They may select features that
+contribute no incremental information over previously selected
+features. In Figure <A HREF="mutual-information-1.html#fig:mifeatures">13.7</A> , kong is selected
+as the seventh term even though it is highly correlated with
+previously selected hong and therefore redundant.
+Although such redundancy can negatively impact accuracy,
+non-greedy methods (see Section <A HREF="references-and-further-reading-13.html#sec:further2">13.7</A>  for references)
+are rarely used in text classification due to their
+computational cost<A NAME="17383"></A>.
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI>Consider the following frequencies for the class
+coffee for four terms in the first 100,000 documents
+of Reuters-RCV1:
+<BLOCKQUOTE>
+<TABLE CELLPADDING=3 BORDER="1">
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="CENTER" COLSPAN=2>&nbsp;</TD>
+<TD ALIGN="RIGHT">&nbsp;</TD>
+<TD ALIGN="RIGHT">&nbsp;</TD>
+<TD ALIGN="RIGHT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">term</TD>
+<TD ALIGN="RIGHT"><!-- MATH
+ $\observationo_{00}$
+ -->
+<IMG
+ WIDTH="29" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1071.png"
+ ALT="$\observationo_{00}$"></TD>
+<TD ALIGN="RIGHT"><!-- MATH
+ $\observationo_{01}$
+ -->
+<IMG
+ WIDTH="29" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1072.png"
+ ALT="$\observationo_{01}$"></TD>
+<TD ALIGN="RIGHT"><!-- MATH
+ $\observationo_{10}$
+ -->
+<IMG
+ WIDTH="29" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1024.png"
+ ALT="$\observationo_{10}$"></TD>
+<TD ALIGN="RIGHT"><!-- MATH
+ $\observationo_{11}$
+ -->
+<IMG
+ WIDTH="29" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1009.png"
+ ALT="$\observationo_{11}$"></TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">brazil</TD>
+<TD ALIGN="RIGHT">98,012</TD>
+<TD ALIGN="RIGHT">102</TD>
+<TD ALIGN="RIGHT">1835</TD>
+<TD ALIGN="RIGHT">51</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">council</TD>
+<TD ALIGN="RIGHT">96,322</TD>
+<TD ALIGN="RIGHT">133</TD>
+<TD ALIGN="RIGHT">3525</TD>
+<TD ALIGN="RIGHT">20</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">producers</TD>
+<TD ALIGN="RIGHT">98,524</TD>
+<TD ALIGN="RIGHT">119</TD>
+<TD ALIGN="RIGHT">1118</TD>
+<TD ALIGN="RIGHT">34</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">roasted</TD>
+<TD ALIGN="RIGHT">99,824</TD>
+<TD ALIGN="RIGHT">143</TD>
+<TD ALIGN="RIGHT">23</TD>
+<TD ALIGN="RIGHT">10</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="CENTER" COLSPAN=2>&nbsp;</TD>
+<TD ALIGN="RIGHT">&nbsp;</TD>
+<TD ALIGN="RIGHT">&nbsp;</TD>
+<TD ALIGN="RIGHT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+</TABLE>
+</BLOCKQUOTE>
+Select two of these four terms based on (i) <IMG
+ WIDTH="21" HEIGHT="36" ALIGN="MIDDLE" BORDER="0"
+ SRC="img21.png"
+ ALT="$\chi ^2$">,
+(ii) mutual information, (iii)
+frequency<A NAME="17407"></A> .
+
+<P>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3616"
+  HREF="evaluation-of-text-classification-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3610"
+  HREF="feature-selection-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3606"
+  HREF="feature-selection-for-multiple-classifiers-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3612"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3614"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3617"
+  HREF="evaluation-of-text-classification-1.html">Evaluation of text classification</A>
+<B> Up:</B> <A NAME="tex2html3611"
+  HREF="feature-selection-1.html">Feature selection</A>
+<B> Previous:</B> <A NAME="tex2html3607"
+  HREF="feature-selection-for-multiple-classifiers-1.html">Feature selection for multiple</A>
+ &nbsp; <B>  <A NAME="tex2html3613"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3615"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/comparison-of-feature-selection-methods-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:31:39 GMT -->
+</HTML>

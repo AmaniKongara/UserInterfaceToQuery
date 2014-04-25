@@ -1,0 +1,383 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/stemming-and-lemmatization-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:22:39 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Stemming and lemmatization</TITLE>
+<META NAME="description" CONTENT="Stemming and lemmatization">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="normalization-equivalence-classing-of-terms-1.html">
+<LINK REL="up" HREF="determining-the-vocabulary-of-terms-1.html">
+<LINK REL="next" HREF="faster-postings-list-intersection-via-skip-pointers-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1201"
+  HREF="faster-postings-list-intersection-via-skip-pointers-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1195"
+  HREF="determining-the-vocabulary-of-terms-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1191"
+  HREF="other-languages-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1197"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1199"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1202"
+  HREF="faster-postings-list-intersection-via-skip-pointers-1.html">Faster postings list intersection</A>
+<B> Up:</B> <A NAME="tex2html1196"
+  HREF="determining-the-vocabulary-of-terms-1.html">Determining the vocabulary of</A>
+<B> Previous:</B> <A NAME="tex2html1192"
+  HREF="other-languages-1.html">Other languages.</A>
+ &nbsp; <B>  <A NAME="tex2html1198"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1200"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION00724000000000000000">
+Stemming and lemmatization</A>
+</H2>
+
+<P>
+For grammatical reasons, documents are going to use different forms of a
+word, such as <I>organize</I>, <I>organizes</I>, and <I>organizing</I>.  
+Additionally, there are families of derivationally related words with
+similar meanings, such as <I>democracy</I>, <I>democratic</I>, and
+<I>democratization</I>. In many situations, it seems as if it would be
+useful for a search for one of these words to return documents that
+contain another word in the set.
+
+<P>
+The goal of both stemming and lemmatization is to reduce inflectional
+forms and sometimes derivationally related forms
+of a word to a common base form.  For instance:
+<BLOCKQUOTE>
+am, are, is <IMG
+ WIDTH="21" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img99.png"
+ ALT="$\Rightarrow$"> be 
+<BR>
+car, cars, car's, cars' <IMG
+ WIDTH="21" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img99.png"
+ ALT="$\Rightarrow$"> car
+
+</BLOCKQUOTE>
+The result of this mapping of text will be something like:
+<BLOCKQUOTE>
+the boy's cars are different colors <IMG
+ WIDTH="21" HEIGHT="14" ALIGN="BOTTOM" BORDER="0"
+ SRC="img99.png"
+ ALT="$\Rightarrow$"> 
+<BR>
+the boy car be differ color
+
+</BLOCKQUOTE>
+However, the two words differ in their flavor.
+<A NAME="2374"></A> <I>Stemming</I>  usually refers to a 
+crude heuristic process that chops off the ends of words in the hope of
+achieving this goal correctly most of the time, and often includes the removal 
+of derivational affixes.
+<A NAME="2376"></A> <I>Lemmatization</I>  usually refers to doing things properly
+with the use of a
+vocabulary and morphological analysis of words, normally aiming to
+remove inflectional endings only and to return the base or dictionary form
+of a word, which is known as the <A NAME="2378"></A> <I>lemma</I> .
+If confronted with the
+token <I>saw</I>, stemming might return just <I>s</I>, whereas
+lemmatization would attempt to return either <I>see</I> or <I>saw</I>
+depending on whether the use of the token was as a verb or a noun.
+The two may also differ in that stemming most commonly collapses
+derivationally related words, whereas lemmatization commonly only
+collapses the different inflectional forms of a lemma.
+Linguistic processing for stemming or lemmatization is
+often done by an additional plug-in component to the indexing process,
+and a number of such components exist, both commercial and open-source.
+
+<P>
+<A NAME="p:porter"></A> 
+The most common algorithm for stemming English, and one that has
+repeatedly been shown to be empirically very effective, is
+<A NAME="2385"></A> <I>Porter's
+algorithm</I>  (<A
+ HREF="bibliography-1.html#porter80stripping">Porter, 1980</A>).  The entire algorithm is too long
+and intricate to present here, but we will indicate its general nature.
+Porter's algorithm consists of 5
+phases of word reductions, applied sequentially.  Within each phase
+there are various conventions to select rules, such as selecting the
+rule from each rule group
+that applies to the longest suffix.  In the first phase, this convention
+is used with the following rule group:
+<BR>
+<A NAME="porter-rule-group"></A><IMG
+ WIDTH="428" HEIGHT="89" ALIGN="BOTTOM" BORDER="0"
+ SRC="img100.png"
+ ALT="\begin{example}
+\begin{tabular}[t]{lll@{\hspace{1in}}lll}
+\multicolumn{3}{l}{\te...
+... &amp; $\rightarrow$\ &amp; &amp; cats &amp; $\rightarrow$\ &amp; cat \\
+\end{tabular}\end{example}">
+<BR>
+
+<P>
+Many of the later rules use a concept of the <I>measure</I> of a
+word, which loosely checks the number of syllables to see whether a word
+is long enough that it is
+reasonable to regard the matching portion of a rule as a suffix rather than as 
+part of the stem of a word.  For example, the rule:
+<BLOCKQUOTE>
+(<IMG
+ WIDTH="47" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img101.png"
+ ALT="$m&gt;1$">)&nbsp;&nbsp;&nbsp;&nbsp;EMENT&nbsp;&nbsp;&nbsp;&nbsp;<IMG
+ WIDTH="21" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img97.png"
+ ALT="$\rightarrow$">
+</BLOCKQUOTE>
+would map <I>replacement</I> to <I>replac</I>, but not <I>cement</I> to
+<I>c</I>. The official site for the Porter Stemmer is:
+<BLOCKQUOTE>
+<TT><A NAME="tex2html23"
+  HREF="http://www.tartarus.org/<TT>~</TT>martin/PorterStemmer/">http://www.tartarus.org/<TT>~</TT>martin/PorterStemmer/</A></TT>
+</BLOCKQUOTE>
+
+<P>
+
+<DIV ALIGN="CENTER"><A NAME="fig:stemmers"></A><A NAME="p:stemmers"></A><A NAME="2417"></A>
+<TABLE>
+<CAPTION ALIGN="BOTTOM"><STRONG>Figure 2.8:</STRONG>
+A comparison of three stemming algorithms on a sample text.</CAPTION>
+<TR><TD><IMG
+ WIDTH="552" HEIGHT="284" BORDER="0"
+ SRC="img102.png"
+ ALT="\begin{figure}\raggedright
+\begin{description}
+\item[\emph{Sample text:}]
+Such a...
+...at is mor biolog transp and access to
+interpret
+\end{description}
+\end{figure}"></TD></TR>
+</TABLE>
+</DIV>
+
+<P>
+Other stemmers exist, including the older, one-pass Lovins stemmer 
+(<A
+ HREF="bibliography-1.html#lovins68stemming">Lovins, 1968</A>), and newer
+entrants like the Paice/Husk stemmer (<A
+ HREF="bibliography-1.html#paice90stemmer">Paice, 1990</A>); see:
+<BLOCKQUOTE>
+<TT><A NAME="tex2html25"
+  HREF="http://www.cs.waikato.ac.nz/<TT>~</TT>eibe/stemmers/">http://www.cs.waikato.ac.nz/<TT>~</TT>eibe/stemmers/</A></TT> 
+<BR><TT><A NAME="tex2html26"
+  HREF="http://www.comp.lancs.ac.uk/computing/research/stemming/">http://www.comp.lancs.ac.uk/computing/research/stemming/</A></TT>
+</BLOCKQUOTE>
+Figure <A HREF="#fig:stemmers">2.8</A>  presents an informal comparison of the different
+behaviors of these stemmers.
+Stemmers use language-specific rules, but they require less
+knowledge than a lemmatizer, which needs a complete vocabulary
+and morphological analysis to
+correctly lemmatize words.  Particular domains may also require
+special stemming rules.
+However, the exact stemmed form does not matter, only the
+equivalence classes it forms. 
+
+<P>
+Rather than using a stemmer, you can use a <A NAME="2428"></A> <I>lemmatizer</I> , a tool from
+<A NAME="2430"></A>Natural Language Processing which does full morphological analysis to
+accurately identify the lemma for each word.  Doing full morphological analysis
+produces at most very modest benefits for retrieval.  It is hard to say
+more, because either form of normalization
+tends not to improve English
+information retrieval performance in aggregate - at least not by very much.  While
+it helps a lot for some queries, it equally hurts performance a lot for others.
+Stemming increases recall while harming precision.  As an example of
+what can go wrong, note that the Porter stemmer stems all of the
+following words: 
+<BLOCKQUOTE>
+<I>operate operating operates operation operative operatives operational</I>
+
+</BLOCKQUOTE>
+to oper.  However, since <I>operate</I> in its various forms is a
+common verb, we would expect to lose considerable precision on queries
+such as the following with Porter stemming:
+<BLOCKQUOTE>
+operational and research 
+<BR>
+operating and system 
+<BR>
+operative and dentistry
+
+</BLOCKQUOTE>
+For a case like this, moving to using a lemmatizer would not completely 
+fix the problem because
+particular inflectional forms are used in particular collocations:
+a sentence with the words <I>operate</I> and <I>system</I> is not a good
+match for the query operating and system.  Getting better
+value from term normalization depends more on pragmatic issues
+of word use than on formal issues of linguistic morphology.
+
+<P>
+The situation is different for languages with much more
+morphology (such as Spanish, German, and Finnish).  Results in
+the European CLEF evaluations have repeatedly shown quite large gains
+from the use of stemmers (and compound splitting for languages like
+German); see the references in Section <A HREF="references-and-further-reading-2.html#sec:ch2-references">2.5</A> .
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI>Are the following statements true or false?
+
+<OL>
+<LI>In a Boolean retrieval system, stemming never lowers precision.
+</LI>
+<LI>In a Boolean retrieval system, stemming never lowers recall.
+</LI>
+<LI>Stemming increases the size of the vocabulary.
+</LI>
+<LI>Stemming should be invoked at indexing time but not while processing a
+  query.
+</LI>
+</OL>
+
+<P>
+</LI>
+<LI>Suggest what normalized form should be used for these words (including
+the word itself as a possibility):
+
+<OL>
+<LI>'Cos
+</LI>
+<LI>Shi'ite
+</LI>
+<LI>cont'd
+</LI>
+<LI>Hawai'i
+</LI>
+<LI>O'Rourke
+</LI>
+</OL>
+
+<P>
+</LI>
+<LI>The following pairs of words are stemmed to the same form by the Porter
+stemmer.  Which pairs would you argue shouldn't be conflated.  Give your
+reasoning.
+
+<OL>
+<LI>abandon/abandonment
+</LI>
+<LI>absorbency/absorbent
+</LI>
+<LI>marketing/markets
+</LI>
+<LI>university/universe
+</LI>
+<LI>volume/volumes
+</LI>
+</OL>
+
+<P>
+</LI>
+<LI>For the Porter stemmer rule group shown in porter-rule-group:
+
+<OL>
+<LI>What is the purpose of including an identity rule such as SS&nbsp;<IMG
+ WIDTH="21" HEIGHT="16" ALIGN="BOTTOM" BORDER="0"
+ SRC="img97.png"
+ ALT="$\rightarrow$">&nbsp;SS?
+</LI>
+<LI>Applying just this rule group, what will the following words be
+  stemmed to? 
+<BLOCKQUOTE>
+<I>circus</I> <I>canaries</I> <I>boss</I>
+
+</BLOCKQUOTE>
+</LI>
+<LI>What
+  rule should be added to correctly stem <I>pony</I>?
+</LI>
+<LI>The stemming for <I>ponies</I> and <I>pony</I> might seem
+  strange. Does it have a deleterious effect on retrieval?  Why or why not?
+</LI>
+</OL>
+
+<P>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1201"
+  HREF="faster-postings-list-intersection-via-skip-pointers-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1195"
+  HREF="determining-the-vocabulary-of-terms-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1191"
+  HREF="other-languages-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1197"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1199"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1202"
+  HREF="faster-postings-list-intersection-via-skip-pointers-1.html">Faster postings list intersection</A>
+<B> Up:</B> <A NAME="tex2html1196"
+  HREF="determining-the-vocabulary-of-terms-1.html">Determining the vocabulary of</A>
+<B> Previous:</B> <A NAME="tex2html1192"
+  HREF="other-languages-1.html">Other languages.</A>
+ &nbsp; <B>  <A NAME="tex2html1198"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1200"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/stemming-and-lemmatization-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:22:42 GMT -->
+</HTML>

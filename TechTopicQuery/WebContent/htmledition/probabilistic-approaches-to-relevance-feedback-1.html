@@ -1,0 +1,535 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/probabilistic-approaches-to-relevance-feedback-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:28:36 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Probabilistic approaches to relevance feedback</TITLE>
+<META NAME="description" CONTENT="Probabilistic approaches to relevance feedback">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="probability-estimates-in-practice-1.html">
+<LINK REL="up" HREF="the-binary-independence-model-1.html">
+<LINK REL="next" HREF="an-appraisal-and-some-extensions-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html3126"
+  HREF="an-appraisal-and-some-extensions-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3120"
+  HREF="the-binary-independence-model-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3116"
+  HREF="probability-estimates-in-practice-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3122"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3124"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3127"
+  HREF="an-appraisal-and-some-extensions-1.html">An appraisal and some</A>
+<B> Up:</B> <A NAME="tex2html3121"
+  HREF="the-binary-independence-model-1.html">The Binary Independence Model</A>
+<B> Previous:</B> <A NAME="tex2html3117"
+  HREF="probability-estimates-in-practice-1.html">Probability estimates in practice</A>
+ &nbsp; <B>  <A NAME="tex2html3123"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3125"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H2><A NAME="SECTION001634000000000000000"></A><A NAME="sec:probrf"></A> <A NAME="p:probrf"></A>
+<BR>
+Probabilistic approaches to relevance feedback
+</H2> 
+
+<P>
+We can use (pseudo-)relevance feedback, perhaps in an iterative process of estimation, to get a more accurate estimate of <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img738.png"
+ ALT="$p_t$">.
+The probabilistic approach to relevance feedback works as follows:
+
+<OL>
+<LI>Guess initial estimates of <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img738.png"
+ ALT="$p_t$"> and <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img735.png"
+ ALT="$u_t$">. This
+  can be done using the probability estimates of the previous
+  section.  For instance, we can assume that <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img738.png"
+ ALT="$p_t$"> is constant over all <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img709.png"
+ ALT="$x_t$"> in the query, in particular, perhaps taking <!-- MATH
+ $p_t = \frac{1}{2}$
+ -->
+<IMG
+ WIDTH="50" HEIGHT="39" ALIGN="MIDDLE" BORDER="0"
+ SRC="img742.png"
+ ALT="$p_t = \frac{1}{2}$">.
+</LI>
+<LI>Use the current estimates of <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img738.png"
+ ALT="$p_t$"> and <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img735.png"
+ ALT="$u_t$"> to determine a best guess at the set of relevant documents <!-- MATH
+ $R =\{d: R_{d,q} = 1\}$
+ -->
+<IMG
+ WIDTH="134" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img743.png"
+ ALT="$R =\{d: R_{d,q} = 1\}$">.  Use this model
+to retrieve a set of candidate relevant documents, which we present to the user.
+
+<P>
+</LI>
+<LI>We interact with the user to refine the model of <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img143.png"
+ ALT="$R$">.  We do this by learning from the user relevance judgments for some subset of documents <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img162.png"
+ ALT="$V$">.
+Based on relevance judgments, <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img162.png"
+ ALT="$V$"> is partitioned into two subsets: <!-- MATH
+ $VR = \{d \in V, R_{d,q} = 1\} \subset R$
+ -->
+<IMG
+ WIDTH="205" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img744.png"
+ ALT="$VR = \{d \in V, R_{d,q} = 1\} \subset R$"> and
+  <!-- MATH
+ $VNR = \{ d \in V, R_{d,q} = 0 \}$
+ -->
+<IMG
+ WIDTH="186" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img745.png"
+ ALT="$VNR = \{ d \in V, R_{d,q} = 0 \}$">, which is disjoint from <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img143.png"
+ ALT="$R$">.
+
+<P>
+</LI>
+<LI>We reestimate <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img738.png"
+ ALT="$p_t$"> and <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img735.png"
+ ALT="$u_t$"> on the basis of known relevant and nonrelevant documents. If the sets <IMG
+ WIDTH="27" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img600.png"
+ ALT="$VR$"> and <IMG
+ WIDTH="41" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img746.png"
+ ALT="$VNR$"> are large enough, we may be able to estimate these quantities directly from these documents as maximum likelihood estimates:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+p_t = |VR_t|/|VR|
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="probrf-mle"></A><IMG
+ WIDTH="116" HEIGHT="28" BORDER="0"
+ SRC="img747.png"
+ ALT="\begin{displaymath}
+p_t = \vert VR_t\vert/\vert VR\vert
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(77)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+(where <IMG
+ WIDTH="32" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img748.png"
+ ALT="$VR_t$"> is the set of documents in <IMG
+ WIDTH="27" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img600.png"
+ ALT="$VR$"> containing <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img709.png"
+ ALT="$x_t$">). In practice, we usually need to smooth these estimates.  We can do this by <A NAME="14496"></A> <I>adding <IMG
+ WIDTH="14" HEIGHT="39" ALIGN="MIDDLE" BORDER="0"
+ SRC="img731.png"
+ ALT="$\frac{1}{2}$"></I>  to both the count <IMG
+ WIDTH="43" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img749.png"
+ ALT="$\vert VR_t\vert$"> and to the number of relevant documents not containing the term, giving:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+p_t = \frac{|VR_t| + \frac{1}{2}}{|VR| + 1}
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="probrf-lidstone"></A><IMG
+ WIDTH="107" HEIGHT="48" BORDER="0"
+ SRC="img750.png"
+ ALT="\begin{displaymath}
+p_t = \frac{\vert VR_t\vert + \frac{1}{2}}{\vert VR\vert + 1}
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(78)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+However, the set of documents judged by the user (<IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img162.png"
+ ALT="$V$">) is usually very small, and so the resulting statistical estimate is quite unreliable (noisy), even if the estimate is smoothed.  So it is often better to combine the new information with the original guess in a process of <A NAME="14248"></A> <I>Bayesian updating</I> . In this case we have:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+p_t^{(k+1)} = \frac{|VR_t| + \kappa p_t^{(k)}}{|VR| + \kappa}
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="probrf-bayesian"></A><IMG
+ WIDTH="158" HEIGHT="51" BORDER="0"
+ SRC="img751.png"
+ ALT="\begin{displaymath}
+p_t^{(k+1)} = \frac{\vert VR_t\vert + \kappa p_t^{(k)}}{\vert VR\vert + \kappa}
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(79)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+
+<P>
+Here <IMG
+ WIDTH="30" HEIGHT="44" ALIGN="MIDDLE" BORDER="0"
+ SRC="img752.png"
+ ALT="$p_t^{(k)}$"> is the <IMG
+ WIDTH="23" HEIGHT="37" ALIGN="MIDDLE" BORDER="0"
+ SRC="img753.png"
+ ALT="$k^{th}$"> estimate for <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img738.png"
+ ALT="$p_t$"> in an
+iterative updating process and is used as a Bayesian prior in the next iteration with a weighting of&nbsp;<IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img754.png"
+ ALT="$\kappa$">.  Relating this equation back to Equation&nbsp;<A HREF="review-of-basic-probability-theory-1.html#eqn:bayesrule">59</A> requires a bit more probability theory than we have presented here (we need to use a beta distribution prior, conjugate to the Bernoulli random variable <IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img755.png"
+ ALT="$X_t$">).  But the form of the resulting equation is quite straightforward: rather than uniformly distributing pseudocounts, we now distribute a total of <IMG
+ WIDTH="12" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img754.png"
+ ALT="$\kappa$"> pseudocounts according to the previous estimate, which acts as the prior distribution.
+In the absence of other evidence (and assuming that the user is perhaps indicating roughly 5 relevant or nonrelevant documents) then a value of around <IMG
+ WIDTH="42" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img756.png"
+ ALT="$\kappa =5$"> is perhaps appropriate. That is, the prior is strongly weighted so that the estimate does not change too much from the evidence provided by a very small number of documents.
+
+<P>
+</LI>
+<LI>Repeat the above process from step 2, generating a succession of approximations to <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img143.png"
+ ALT="$R$"> and hence <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img738.png"
+ ALT="$p_t$">, until the user is satisfied.
+</LI>
+</OL>
+
+<P>
+It is also straightforward to derive a pseudo-relevance feedback version of this algorithm, where we simply pretend that <IMG
+ WIDTH="62" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img757.png"
+ ALT="$VR = V$">.  More briefly:
+
+<OL>
+<LI>Assume initial estimates for <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img738.png"
+ ALT="$p_t$"> and <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img735.png"
+ ALT="$u_t$"> as above.
+</LI>
+<LI>Determine a guess for the size of the relevant document set. If unsure, a conservative (too small) guess is likely to be best. This motivates use of a fixed size set <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img162.png"
+ ALT="$V$"> of highest ranked documents.
+
+<P>
+</LI>
+<LI>Improve our guesses for <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img738.png"
+ ALT="$p_t$"> and <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img735.png"
+ ALT="$u_t$">. We choose from the methods of  and <A HREF="#probrf-bayesian">79</A>  for re-estimating <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img738.png"
+ ALT="$p_t$">, except now based on the set <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img162.png"
+ ALT="$V$"> instead of <IMG
+ WIDTH="27" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img600.png"
+ ALT="$VR$">. If we let <IMG
+ WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img758.png"
+ ALT="$V_t$"> be the subset of documents in <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img162.png"
+ ALT="$V$"> containing <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img709.png"
+ ALT="$x_t$"> and use <A NAME="14500"></A> <I>add <IMG
+ WIDTH="14" HEIGHT="39" ALIGN="MIDDLE" BORDER="0"
+ SRC="img731.png"
+ ALT="$\frac{1}{2}$"> smoothing</I> , we get:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+p_t = \frac{|V_t|+\frac{1}{2}}{|V|+1}
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><A NAME="pseudorf-addhalf"></A><IMG
+ WIDTH="92" HEIGHT="48" BORDER="0"
+ SRC="img759.png"
+ ALT="\begin{displaymath}
+p_t = \frac{\vert V_t\vert+\frac{1}{2}}{\vert V\vert+1}
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(80)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+and if we assume that documents that are not retrieved are nonrelevant then we can update our <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img735.png"
+ ALT="$u_t$"> estimates as:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+u_t = \frac{\docf_t - |V_t| + \frac{1}{2}}{N - |V| + 1}
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="133" HEIGHT="48" BORDER="0"
+ SRC="img760.png"
+ ALT="\begin{displaymath}
+u_t = \frac{\docf_t - \vert V_t\vert + \frac{1}{2}}{N - \vert V\vert + 1}
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(81)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+
+<P>
+</LI>
+<LI>Go to step 2 until the ranking of the returned results converges.
+</LI>
+</OL>
+
+<P>
+Once we have a real estimate for <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img738.png"
+ ALT="$p_t$"> then the <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img721.png"
+ ALT="$c_t$"> weights used in the <IMG
+ WIDTH="37" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img720.png"
+ ALT="$RSV$"> value look almost like a tf-idf value. For instance, using Equation&nbsp;<A HREF="deriving-a-ranking-function-for-query-terms-1.html#odds-ratio-ct">73</A>, Equation&nbsp;<A HREF="probability-estimates-in-practice-1.html#prob-idf">76</A>, and Equation&nbsp;<A HREF="#pseudorf-addhalf">80</A>, we have:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+c_t = \log \left[\frac{p_t}{1-p_t}\cdot\frac{1-u_t}{u_t}\right] \approx
+\log \left[\frac{|V_t|+ \frac{1}{2}}{|V| - |V_t| + 1}\cdot\frac{N}{\docf_t}\right]
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="374" HEIGHT="54" BORDER="0"
+ SRC="img761.png"
+ ALT="\begin{displaymath}
+c_t = \log \left[\frac{p_t}{1-p_t}\cdot\frac{1-u_t}{u_t}\rig...
+...vert V\vert - \vert V_t\vert + 1}\cdot\frac{N}{\docf_t}\right]
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(82)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+But things aren't quite the same: <IMG
+ WIDTH="84" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img723.png"
+ ALT="$p_t/(1-p_t)$"> measures the (estimated) proportion of relevant documents that the term <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$"> occurs in, not term frequency.  Moreover, if we apply log identities:
+<BR>
+<DIV ALIGN="RIGHT">
+
+<!-- MATH
+ \begin{equation}
+c_t = \log\frac{|V_t|+\frac{1}{2}}{|V| - |V_t| + 1} + \log\frac{N}{\docf_t}
+\end{equation}
+ -->
+<TABLE WIDTH="100%" ALIGN="CENTER">
+<TR VALIGN="MIDDLE"><TD ALIGN="CENTER" NOWRAP><IMG
+ WIDTH="223" HEIGHT="48" BORDER="0"
+ SRC="img762.png"
+ ALT="\begin{displaymath}
+c_t = \log\frac{\vert V_t\vert+\frac{1}{2}}{\vert V\vert - \vert V_t\vert + 1} + \log\frac{N}{\docf_t}
+\end{displaymath}"></TD>
+<TD WIDTH=10 ALIGN="RIGHT">
+(83)</TD></TR>
+</TABLE>
+<BR CLEAR="ALL"></DIV><P></P>
+we see that we are now <I>adding</I> the two log scaled components rather than multiplying them.
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI>Work through the derivation of Equation&nbsp;<A HREF="probability-estimates-in-theory-1.html#odds-ratio-ct-est">74</A> from  and <A HREF="probability-estimates-in-theory-1.html#odds-ratio-ct-contingency">3()I</A> .
+
+<P>
+</LI>
+<LI>What are the differences between standard
+vector space tf-idf weighting and the BIM probabilistic
+retrieval model (in the case where no document relevance information is available)?
+
+<P>
+</LI>
+<LI>Let <IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img755.png"
+ ALT="$X_t$"> be a random variable indicating whether the term <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$"> appears in a document.  Suppose we have <IMG
+ WIDTH="25" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img763.png"
+ ALT="$\vert R\vert$"> relevant documents in the document collection and that <IMG
+ WIDTH="51" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img764.png"
+ ALT="$X_t = 1$"> in <IMG
+ WIDTH="11" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img175.png"
+ ALT="$s$"> of the documents.  Take the observed data to be just these observations of <IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img755.png"
+ ALT="$X_t$"> for each document in <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img143.png"
+ ALT="$R$">.  Show that the MLE for the parameter <!-- MATH
+ $p_t = P(X_t=1|R=1,\vec{q})$
+ -->
+<IMG
+ WIDTH="173" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img765.png"
+ ALT="$p_t = P(X_t=1\vert R=1,\vec{q})$">, that is, the value for <IMG
+ WIDTH="18" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img738.png"
+ ALT="$p_t$"> which maximizes the probability of the observed data, is <IMG
+ WIDTH="78" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img766.png"
+ ALT="$p_t = s/\vert R\vert$">.
+
+<P>
+</LI>
+<LI>Describe the differences between vector space relevance feedback and probabilistic relevance feedback.
+
+<P>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html3126"
+  HREF="an-appraisal-and-some-extensions-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html3120"
+  HREF="the-binary-independence-model-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html3116"
+  HREF="probability-estimates-in-practice-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html3122"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html3124"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html3127"
+  HREF="an-appraisal-and-some-extensions-1.html">An appraisal and some</A>
+<B> Up:</B> <A NAME="tex2html3121"
+  HREF="the-binary-independence-model-1.html">The Binary Independence Model</A>
+<B> Previous:</B> <A NAME="tex2html3117"
+  HREF="probability-estimates-in-practice-1.html">Probability estimates in practice</A>
+ &nbsp; <B>  <A NAME="tex2html3123"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html3125"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/probabilistic-approaches-to-relevance-feedback-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:28:50 GMT -->
+</HTML>

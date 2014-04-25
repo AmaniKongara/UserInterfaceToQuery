@@ -1,0 +1,305 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/postings-file-compression-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:24:22 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Postings file compression</TITLE>
+<META NAME="description" CONTENT="Postings file compression">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="references-and-further-reading-5.html">
+<LINK REL="previous" HREF="dictionary-compression-1.html">
+<LINK REL="up" HREF="index-compression-1.html">
+<LINK REL="next" HREF="variable-byte-codes-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1763"
+  HREF="variable-byte-codes-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1757"
+  HREF="index-compression-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1751"
+  HREF="blocked-storage-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1759"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1761"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1764"
+  HREF="variable-byte-codes-1.html">Variable byte codes</A>
+<B> Up:</B> <A NAME="tex2html1758"
+  HREF="index-compression-1.html">Index compression</A>
+<B> Previous:</B> <A NAME="tex2html1752"
+  HREF="blocked-storage-1.html">Blocked storage</A>
+ &nbsp; <B>  <A NAME="tex2html1760"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1762"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001030000000000000000"></A>
+<A NAME="sec:postingscompression"></A> <A NAME="p:postingscompression"></A>
+<BR>
+Postings file compression
+</H1> 
+
+<P>
+<BR><P></P>
+<DIV ALIGN="CENTER">
+
+<A NAME="6747"></A>
+<TABLE CELLPADDING=3 BORDER="1">
+<CAPTION><STRONG>Table:</STRONG>
+Encoding gaps instead of document IDs. For example,
+we store 
+gaps 107, 5, 43, ..., instead of
+docIDs 283154, 283159, 283202, ... for
+computer.
+The first docID is left unchanged (only
+shown for arachnocentric).
+</CAPTION>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">encoding</TD>
+<TD ALIGN="LEFT" COLSPAN=3>postings list</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">the</TD>
+<TD ALIGN="LEFT">docIDs</TD>
+<TD ALIGN="LEFT">...</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">283042</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">283043</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">283044</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">283045</TD>
+<TD ALIGN="LEFT">...</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">gaps</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">1</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">...</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">computer</TD>
+<TD ALIGN="LEFT">docIDs</TD>
+<TD ALIGN="LEFT">...</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">283047</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">283154</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">283159</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">283202</TD>
+<TD ALIGN="LEFT">...</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">gaps</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">107</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">5</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">43</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">...</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">arachnocentric</TD>
+<TD ALIGN="LEFT">docIDs</TD>
+<TD ALIGN="LEFT">252000</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">500100</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+<TR><TD ALIGN="LEFT">&nbsp;</TD><TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">gaps</TD>
+<TD ALIGN="LEFT">252000</TD>
+<TD ALIGN="LEFT">248100</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD>
+<TD ALIGN="LEFT">&nbsp;</TD></TR>
+</TABLE>
+<A NAME="tab:icompresstb2"></A> <A NAME="p:icompresstb2"></A>  
+
+</DIV>
+<BR>
+
+<P>
+Recall from Table <A HREF="blocked-sort-based-indexing-1.html#tab:icompresstb1">4.2</A>  (page <A HREF="blocked-sort-based-indexing-1.html#p:icompresstb1">4.2</A> )
+that Reuters-RCV1 has 800,000 documents, 200 tokens per
+document, six characters per token, and 100,000,000
+postings where we define a posting in this chapter as a docID in a
+postings list, that is, excluding frequency and position
+information. 
+These numbers correspond to line 3 (``case
+folding'') in Table <A HREF="statistical-properties-of-terms-in-information-retrieval-1.html#tab:icompresstb5">5.1</A> .  
+Document identifiers are
+<!-- MATH
+ $\log_2 800{,}000 \approx 20$
+ -->
+<IMG
+ WIDTH="125" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img278.png"
+ ALT="$\log_2 800{,}000 \approx 20$"> bits long.  
+Thus, the size of the
+collection is about <!-- MATH
+ $800{,}000 \times 200 \times 6 \
+\mbox{bytes}= 960 \ \mbox{MB}$
+ -->
+<IMG
+ WIDTH="242" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img279.png"
+ ALT="$800{,}000 \times 200 \times 6 \
+\mbox{bytes}= 960 \ \mbox{MB}$"> and
+the size of
+the uncompressed postings file is <!-- MATH
+ $100{,}000{,}000 \times 20
+/ 8 = 250 \ \mbox{MB}$
+ -->
+<IMG
+ WIDTH="211" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img280.png"
+ ALT="$100{,}000{,}000 \times 20
+/ 8 = 250 \ \mbox{MB}$">. 
+
+<P>
+To devise a more efficient representation of the postings
+file, one that uses fewer
+than 20 bits per document, we observe that
+the postings for frequent terms are close together.  Imagine
+going through the documents of a collection one by one and
+looking for a frequent term like computer.  We will
+find a document containing computer, then we skip a
+few documents that do not contain it, then there is again a
+document with the term and so on (see
+Table <A HREF="#tab:icompresstb2">5.3</A> ).  The key idea is that the
+<I>gaps</I> between postings are short, requiring a lot less
+space than 20 bits to store. In fact, gaps for the most
+frequent terms such as the and for are mostly
+equal to 1. But the gaps for a rare term that occurs only
+once or twice in a collection (e.g., arachnocentric
+in Table <A HREF="#tab:icompresstb2">5.3</A> ) have the same order of magnitude
+as the docIDs and need 20 bits.  For an economical
+representation of this distribution of gaps, we need a
+<I>variable encoding</I> method that uses fewer bits for
+short gaps.
+
+<P>
+To encode small
+numbers in less space than large numbers,
+we look at two types of methods: bytewise compression and
+bitwise compression. As the names suggest, these methods
+attempt to encode gaps with the minimum number of bytes and
+bits, respectively.
+
+<P>
+<A NAME="6345"></A> <BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html1765"
+  HREF="variable-byte-codes-1.html">Variable byte codes</A>
+<LI><A NAME="tex2html1766"
+  HREF="gamma-codes-1.html">Gamma codes</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1763"
+  HREF="variable-byte-codes-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1757"
+  HREF="index-compression-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1751"
+  HREF="blocked-storage-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1759"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1761"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1764"
+  HREF="variable-byte-codes-1.html">Variable byte codes</A>
+<B> Up:</B> <A NAME="tex2html1758"
+  HREF="index-compression-1.html">Index compression</A>
+<B> Previous:</B> <A NAME="tex2html1752"
+  HREF="blocked-storage-1.html">Blocked storage</A>
+ &nbsp; <B>  <A NAME="tex2html1760"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1762"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/postings-file-compression-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:24:24 GMT -->
+</HTML>

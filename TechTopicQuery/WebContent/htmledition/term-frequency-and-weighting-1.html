@@ -1,0 +1,178 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/term-frequency-and-weighting-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:25:30 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Term frequency and weighting</TITLE>
+<META NAME="description" CONTENT="Term frequency and weighting">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="next" HREF="the-vector-space-model-for-scoring-1.html">
+<LINK REL="previous" HREF="parametric-and-zone-indexes-1.html">
+<LINK REL="up" HREF="scoring-term-weighting-and-the-vector-space-model-1.html">
+<LINK REL="next" HREF="inverse-document-frequency-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html1907"
+  HREF="inverse-document-frequency-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1901"
+  HREF="scoring-term-weighting-and-the-vector-space-model-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1895"
+  HREF="the-optimal-weight-g-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1903"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1905"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1908"
+  HREF="inverse-document-frequency-1.html">Inverse document frequency</A>
+<B> Up:</B> <A NAME="tex2html1902"
+  HREF="scoring-term-weighting-and-the-vector-space-model-1.html">Scoring, term weighting and</A>
+<B> Previous:</B> <A NAME="tex2html1896"
+  HREF="the-optimal-weight-g-1.html">The optimal weight g</A>
+ &nbsp; <B>  <A NAME="tex2html1904"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1906"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION001120000000000000000"></A>
+<A NAME="sec:tfidf"></A> <A NAME="p:tfidf"></A> 
+<A NAME="sec:secbagofwords"></A> <A NAME="p:secbagofwords"></A>
+<BR>
+Term frequency and weighting
+</H1> 
+Thus far, scoring has hinged on whether or not a query term is present in a zone within a document. We take the next logical step: a document or zone that mentions a query term more often has more to do with that query and therefore should receive a higher score. To motivate this, we recall the notion of a <A NAME="7906"></A> <I>free text query</I>  introduced in Section <A HREF="the-extended-boolean-model-versus-ranked-retrieval-1.html#sec:boolean-querying">1.4</A> : a query in which the terms of the query are typed freeform into the search interface, without any connecting search operators (such as Boolean operators). This query style, which is extremely popular on the web, views the query as simply a set of words. A plausible scoring mechanism then is to compute a score that is the sum, over the query terms, of the match scores between each query term and the document.
+
+<P>
+Towards this end, we assign to each term in a document a <EM>weight</EM> for that term, that depends on the number of occurrences of the term in the document. We would like to compute a score between a query term&nbsp;<IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$"> and a document&nbsp;<IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">, based on the weight of <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$"> in <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">. The simplest approach is to assign the weight to be equal to the number of occurrences of term&nbsp;<IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$"> in document&nbsp;<IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">. This weighting scheme is referred to as <A NAME="7910"></A> <I>term frequency</I>  and is denoted <A NAME="p:tfnotation"></A> <!-- MATH
+ $\mbox{tf}_{t,d}$
+ -->
+<IMG
+ WIDTH="29" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img400.png"
+ ALT="$\mbox{tf}_{t,d}$"><A NAME="8643"></A>, with the subscripts denoting the term and the document in order.
+
+<P>
+<A NAME="p:bagofwords"></A> 
+For a document <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$">, the set of weights determined by the <IMG
+ WIDTH="14" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img401.png"
+ ALT="$\mbox{tf}$"> weights above (or indeed any weighting function that maps the number of occurrences of <IMG
+ WIDTH="10" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img67.png"
+ ALT="$t$"> in <IMG
+ WIDTH="12" HEIGHT="31" ALIGN="MIDDLE" BORDER="0"
+ SRC="img354.png"
+ ALT="$d$"> to a positive real value) may be viewed as a quantitative digest of that document. In this view of a document, known in the literature as the <A NAME="7918"></A> <I>bag of words model</I> , the exact ordering of the terms in a document is ignored but the number of occurrences of each term is material (in contrast to Boolean retrieval). We only retain information on the number of occurrences of each term. Thus, the document ``Mary is quicker than John'' is, in this view, identical to the document ``John is quicker than Mary''. Nevertheless, it seems intuitive that two documents with similar bag of words representations are similar in content. We will develop this intuition further in Section <A HREF="the-vector-space-model-for-scoring-1.html#sec:docvectors">6.3</A> .
+
+<P>
+<A NAME="7921"></A>
+Before doing so we first study the question: are all words
+in a document equally important? Clearly not; in <A NAME="7922"></A>Section&nbsp;<A HREF="dropping-common-terms-stop-words-1.html#sec:stopwords">2.2.2</A> (page&nbsp;<A HREF="dropping-common-terms-stop-words-1.html#p:stopwords"><IMG  ALIGN="BOTTOM" BORDER="1" ALT="[*]"
+ SRC="../icons/crossref.png"></A>) we looked at the idea of <I>stop words</I> - words that we decide not to index at all, and therefore do not contribute in any way to retrieval and scoring.
+
+<P>
+<BR><HR>
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><STRONG>Subsections</STRONG></A>
+
+<UL>
+<LI><A NAME="tex2html1909"
+  HREF="inverse-document-frequency-1.html">Inverse document frequency</A>
+<LI><A NAME="tex2html1910"
+  HREF="tf-idf-weighting-1.html">Tf-idf weighting</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html1907"
+  HREF="inverse-document-frequency-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html1901"
+  HREF="scoring-term-weighting-and-the-vector-space-model-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html1895"
+  HREF="the-optimal-weight-g-1.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html1903"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html1905"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html1908"
+  HREF="inverse-document-frequency-1.html">Inverse document frequency</A>
+<B> Up:</B> <A NAME="tex2html1902"
+  HREF="scoring-term-weighting-and-the-vector-space-model-1.html">Scoring, term weighting and</A>
+<B> Previous:</B> <A NAME="tex2html1896"
+  HREF="the-optimal-weight-g-1.html">The optimal weight g</A>
+ &nbsp; <B>  <A NAME="tex2html1904"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html1906"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/term-frequency-and-weighting-1.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:25:31 GMT -->
+</HTML>

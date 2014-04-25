@@ -1,0 +1,361 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/exercises-3.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:35:57 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<HEAD>
+<TITLE>Exercises</TITLE>
+<META NAME="description" CONTENT="Exercises">
+<META NAME="keywords" CONTENT="irbook">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="irbook-2.html">
+
+<LINK REL="previous" HREF="references-and-further-reading-16.html">
+<LINK REL="up" HREF="flat-clustering-1.html">
+<LINK REL="next" HREF="hierarchical-clustering-1.html">
+</HEAD>
+
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html4299"
+  HREF="hierarchical-clustering-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4293"
+  HREF="flat-clustering-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4289"
+  HREF="references-and-further-reading-16.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4295"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4297"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4300"
+  HREF="hierarchical-clustering-1.html">Hierarchical clustering</A>
+<B> Up:</B> <A NAME="tex2html4294"
+  HREF="flat-clustering-1.html">Flat clustering</A>
+<B> Previous:</B> <A NAME="tex2html4290"
+  HREF="references-and-further-reading-16.html">References and further reading</A>
+ &nbsp; <B>  <A NAME="tex2html4296"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4298"
+  HREF="index-1.html">Index</A></B> 
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION002170000000000000000">
+Exercises</A>
+</H1>
+
+<P>
+<B>Exercises.</B>
+<UL>
+<LI><A NAME="ex:miclustering"></A> <A NAME="p:miclustering"></A>  Let <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1536.png"
+ ALT="$\Omega$"> be a clustering
+that exactly reproduces a class structure <IMG
+ WIDTH="16" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img969.png"
+ ALT="$\mathbb{C}$"> and <IMG
+ WIDTH="22" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1537.png"
+ ALT="$\Omega'$">
+a clustering that further subdivides some clusters in <IMG
+ WIDTH="17" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1536.png"
+ ALT="$\Omega$">. Show
+that  <!-- MATH
+ $I(\Omega;\mathbb{C})=I(\Omega';\mathbb{C})$
+ -->
+<IMG
+ WIDTH="136" HEIGHT="35" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1538.png"
+ ALT="$I(\Omega;\mathbb{C})=I(\Omega';\mathbb{C})$">.
+
+<P>
+</LI>
+<LI><A NAME="ex:nmibound"></A> Show that <!-- MATH
+ $I(\Omega; \mathbb{C}) \leq [H(\Omega)+
+H(\mathbb{C} )]/2$
+ -->
+<IMG
+ WIDTH="207" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1539.png"
+ ALT="$I(\Omega; \mathbb{C}) \leq [H(\Omega)+
+H(\mathbb{C} )]/2$">.
+
+<P>
+</LI>
+<LI>Mutual information is symmetric in the sense that
+its value
+does not change if the roles of clusters and
+classes are switched: 
+<!-- MATH
+ $I(\Omega;\mathbb{C})
+=
+I(
+\mathbb{C}
+;
+\Omega
+)$
+ -->
+<IMG
+ WIDTH="131" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1540.png"
+ ALT="$
+I(\Omega;\mathbb{C})
+=
+I(
+\mathbb{C}
+;
+\Omega
+)
+$">.
+Which of the other three evaluation measures are symmetric
+in this sense?
+
+<P>
+</LI>
+<LI>Compute RSS for the two clusterings in Figure <A HREF="k-means-1.html#fig:clustfg5">16.7</A> .
+
+<P>
+</LI>
+<LI><A NAME="ex:emptyclusters"></A> <A NAME="p:emptyclusters"></A>  (i) Give an example of a
+set of points and three initial centroids (which need not be
+members of the set of points) for which 3-means
+converges to a clustering with an empty cluster. (ii) Can
+a clustering with an empty cluster be the global
+optimum with respect to RSS?
+
+<P>
+</LI>
+<LI>Download 
+Reuters-21578. 
+Discard documents that do not occur in one of the 10 classes
+acquisitions,
+corn,
+crude,
+earn,
+grain,
+interest,
+money-fx,
+ship,
+trade, and
+wheat. Discard documents that occur in two of these
+10 classes.
+(i) Compute a  <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means clustering of this subset
+into 10 clusters. 
+There are a number of software packages that implement
+ <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means, such as WEKA (<A
+ HREF="bibliography-1.html#witten05data">Witten and Frank, 2005</A>) and R
+(<A
+ HREF="bibliography-1.html#r05r">R Development Core Team, 2005</A>).
+(ii) Compute purity, normalized mutual
+information, <IMG
+ WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img522.png"
+ ALT="$F_1$"> and RI for the clustering with respect to
+the 10 classes.
+(iii)
+Compile a confusion matrix
+(Table <A HREF="classification-with-more-than-two-classes-1.html#tab:confusion">14.5</A> , page <A HREF="classification-with-more-than-two-classes-1.html#p:confusion">14.5</A> ) for the 10
+classes and 10 clusters.
+Identify classes that give rise to false
+positives 
+and false negatives.
+
+<P>
+</LI>
+<LI><A NAME="ex:rssmonotonic"></A> <A NAME="p:rssmonotonic"></A>  Prove that
+<!-- MATH
+ $\mbox{RSS}_{min}(K)$
+ -->
+<IMG
+ WIDTH="77" HEIGHT="33" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1466.png"
+ ALT="$\mbox{RSS}_{min}(K)$">
+is monotonically decreasing in <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">.
+
+<P>
+</LI>
+<LI>There is a soft version of  <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means
+that computes the fractional membership of a document in a
+cluster as a monotonically decreasing function of the
+distance <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img345.png"
+ ALT="$ \Delta $"> from its centroid, e.g., as <IMG
+ WIDTH="30" HEIGHT="38" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1541.png"
+ ALT="$e^{-\Delta}$">.
+Modify reassignment and
+recomputation steps of hard  <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means for this soft version.
+
+<P>
+</LI>
+<LI>In the last iteration in Table <A HREF="model-based-clustering-1.html#tab:clusttb4">16.3</A> , document&nbsp;6 is in cluster&nbsp;2 even
+though it was the initial seed for cluster&nbsp;1. Why does the
+document change membership?
+
+<P>
+</LI>
+<LI>The values of the parameters <IMG
+ WIDTH="28" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1497.png"
+ ALT="$q_{mk}$"> in iteration
+25 in Table <A HREF="model-based-clustering-1.html#tab:clusttb4">16.3</A>  are rounded. What are the exact values
+that EM will converge to?
+
+<P>
+</LI>
+<LI>Perform a  <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means clustering for the documents in
+Table <A HREF="model-based-clustering-1.html#tab:clusttb4">16.3</A> . 
+After how many iterations does  <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means converge?
+Compare the result with the EM clustering
+in Table <A HREF="model-based-clustering-1.html#tab:clusttb4">16.3</A>  and discuss the differences.
+
+<P>
+</LI>
+<LI><A NAME="ex:emforgaussian"></A>Modify the expectation and maximization steps of EM
+for a Gaussian mixture. The
+maximization step computes the maximum likelihood parameter
+estimates <IMG
+ WIDTH="19" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1495.png"
+ ALT="$\alpha_k$">, <IMG
+ WIDTH="20" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1442.png"
+ ALT="$\vec{\mu}_k$">, and <IMG
+ WIDTH="21" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1542.png"
+ ALT="$\Sigma_k$"> for each
+of the clusters. The expectation step computes for each
+vector a soft assignment to clusters (Gaussians) based on their current
+parameters.
+Write down the equations for Gaussian mixtures corresponding to
+ and <A HREF="model-based-clustering-1.html#eqn:emexpectation">202</A> .
+
+<P>
+</LI>
+<LI><A NAME="ex:kmeansgaussian"></A>Show that  <IMG
+ WIDTH="15" HEIGHT="32" ALIGN="MIDDLE" BORDER="0"
+ SRC="img30.png"
+ ALT="$K$">-means can be viewed as the limiting case
+of
+EM for Gaussian mixtures if variance is very small and all
+covariances are 0. 
+
+<P>
+</LI>
+<LI>The <A NAME="25210"></A> <I>within-point scatter</I>  of a clustering
+is
+defined as
+<!-- MATH
+ $\sum_k \frac{1}{2} \sum_{\vec{x}_i \in \omega_k} \sum_{\vec{x}_j \in \omega_k}  |\vec{x}_i - \vec{x}_j|^2$
+ -->
+<IMG
+ WIDTH="201" HEIGHT="39" ALIGN="MIDDLE" BORDER="0"
+ SRC="img1543.png"
+ ALT="$
+\sum_k \frac{1}{2} \sum_{\vec{x}_i \in \omega_k} \sum_{\vec{x}_j \in \omega_k} \vert\vec{x}_i - \vec{x}_j\vert^2
+$">.
+Show that minimizing RSS and minimizing within-point scatter
+are equivalent.
+
+<P>
+</LI>
+<LI><A NAME="ex:deriveaic"></A>Derive an AIC criterion
+for the multivariate Bernoulli
+mixture model 
+from Equation&nbsp;<A HREF="cluster-cardinality-in-k-means-1.html#aicbic1">196</A>.
+
+<P>
+</LI>
+</UL>
+
+<P>
+<HR>
+<!--Navigation Panel-->
+<A NAME="tex2html4299"
+  HREF="hierarchical-clustering-1.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="../icons/next.png"></A> 
+<A NAME="tex2html4293"
+  HREF="flat-clustering-1.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="../icons/up.png"></A> 
+<A NAME="tex2html4289"
+  HREF="references-and-further-reading-16.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="../icons/prev.png"></A> 
+<A NAME="tex2html4295"
+  HREF="contents-1.html">
+<IMG WIDTH="65" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="contents"
+ SRC="../icons/contents.png"></A> 
+<A NAME="tex2html4297"
+  HREF="index-1.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="../icons/index.png"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html4300"
+  HREF="hierarchical-clustering-1.html">Hierarchical clustering</A>
+<B> Up:</B> <A NAME="tex2html4294"
+  HREF="flat-clustering-1.html">Flat clustering</A>
+<B> Previous:</B> <A NAME="tex2html4290"
+  HREF="references-and-further-reading-16.html">References and further reading</A>
+ &nbsp; <B>  <A NAME="tex2html4296"
+  HREF="contents-1.html">Contents</A></B> 
+ &nbsp; <B>  <A NAME="tex2html4298"
+  HREF="index-1.html">Index</A></B> 
+<!--End of Navigation Panel-->
+<ADDRESS>
+&copy; 2008 Cambridge University Press<br>This is an automatically generated page. In case of formatting errors you may want to look at the <a href=http://informationretrieval.org/>PDF edition</a> of the book.<br>
+2009-04-07
+</ADDRESS>
+</BODY>
+
+<!-- Mirrored from nlp.stanford.edu/IR-book/html/htmledition/exercises-3.html by HTTrack Website Copier/3.x [XR&CO'2013], Sat, 08 Feb 2014 19:36:02 GMT -->
+</HTML>
